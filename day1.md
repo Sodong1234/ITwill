@@ -27,10 +27,10 @@ https://tomcat.apache.org/ 수업에서는 8버전 사용.
 https://www.eclipse.org/ - eclipse-jee-2021-12-R-win32-x86_64 압축 풀기
   1) 환경설정(UTF-8한글처리)
 세계 어디서 실행을 하든 한글이 깨지지 않도록 설정.
-Window - Preferences - General - Workspace - Text file encoding - Other(UTF8)
-		                 - Web - CSS Files - ISO 10646/Unicode(UTF8)
-                           - HTML Files - ISO 10646/Unicode(UTF8)
-			                     - JSP Files - ISO 10646/Unicode(UTF8)
+		Window - Preferences - General - Workspace - Text file encoding - Other(UTF8)
+		               		       - Web - CSS Files - ISO 10646/Unicode(UTF8)
+                          		       - HTML Files - ISO 10646/Unicode(UTF8)
+			                       - JSP Files - ISO 10646/Unicode(UTF8)
 
   2) 톰캣서버 가져오기&서버환경설정
 File - New - Other - Server - Server - Apache -	 Tomcat v8.5 Server - Next - Browse - C:\Program Files\Apache Software Foundation\Tomcat 8.5 - Next - Finish
