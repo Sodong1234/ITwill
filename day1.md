@@ -26,7 +26,7 @@ https://tomcat.apache.org/ 수업에서는 8버전 사용.
 자바 전문 에디터. 하지만 웹에서도 사용하여 겸으로 이클립스 사용.
 https://www.eclipse.org/ - eclipse-jee-2021-12-R-win32-x86_64 압축 풀기
   1) 환경설정(UTF-8한글처리)
-세계 어디서 실행을 하든 한글이 깨지지 않도록 설정.
+  - 세계 어디서 실행을 하든 한글이 깨지지 않도록 설정.
 		Window - Preferences - General - Workspace - Text file encoding - Other(UTF8)
 		               		       - Web - CSS Files - ISO 10646/Unicode(UTF8)
                           		       - HTML Files - ISO 10646/Unicode(UTF8)
