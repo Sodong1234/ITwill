@@ -27,22 +27,25 @@ ex) Excel, PowerPoint, 한글, 계산기, 포토샵 등
     
     
 ## 3. 기억장치
-  1) 종류
-    ① 주기억장치
-      ex) RAM
-    ② 보조기억장치
-      ex) HDD, CD-R/W,, FDD, SSD(Solid State Drive)
-  2) 전제 - ###모든 프로그램은 주기억장치에서만 실행된다!!!###
+### 1)종류
+-주기억장치
+  ex) RAM
+-보조기억장치
+  ex) HDD, CD-R/W,, FDD, SSD(Solid State Drive)
+### 전제 - ###모든 프로그램은 주기억장치에서만 실행된다!!!###
    
 
 
 
-*진법의 종류*
+*진법의 종류
+
   10진법 (0~9)  2진법 (0,1)  8진법 (0~7)  16진법 (0~15), 16진법은 0~9,A~F까지 셈. 표기는 숫자(진법) ex-10(2) / 30(10) / 1F(16)
   10진법-> 2&8&16진법, 2&8&16진법 -> 10진법 변환법 :  https://m.blog.naver.com/icbanq/221727893563
 
-*크기의 단위*
+*크기의 단위
+
   bit(비트) -> byte(바이트) -> KB(킬로바이트) -> MB(메가바이트) -> GB(기가바이트) -> TB(테라바이트) -> PB(페타) -> EB(엑사) -> ZB(엑사) -> YB(요타)
+  
     bit : 2진수 1승 (0,1)
     byte : 2진수 8승, 8bit
     KB : 2진수 10승 & 10의 3자리, 1024byte 
@@ -58,6 +61,12 @@ ex) Excel, PowerPoint, 한글, 계산기, 포토샵 등
 IDE(Integrated Development Environment, 통합 개발 환경)
 코드 작성, 저장, 컴파일(번역), 실행, 디버깅 등을 별도로 작업하지 않고 하나의 프로그램에서 모든 기능을 제공하는 소프트웨어
   대표적인 IDE : Eclipse, Visual Studio, STS, Intelli J, Android Studio
+  
+  
+  ---
+  
+  
+# [오후수업]
 
 
 
