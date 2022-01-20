@@ -29,13 +29,13 @@ ex) Excel, PowerPoint, 한글, 계산기, 포토샵 등
 ## 3. 기억장치
 ### 1)종류
 -주기억장치
-  ex) RAM
+ex) RAM
 -보조기억장치
-  ex) HDD, CD-R/W,, FDD, SSD(Solid State Drive)
+ex) HDD, CD-R/W,, FDD, SSD(Solid State Drive)
 ### 전제 - ###모든 프로그램은 주기억장치에서만 실행된다!!!###
    
 
-
+---
 
 *진법의 종류
 
@@ -60,7 +60,8 @@ ex) Excel, PowerPoint, 한글, 계산기, 포토샵 등
   
 IDE(Integrated Development Environment, 통합 개발 환경)
 코드 작성, 저장, 컴파일(번역), 실행, 디버깅 등을 별도로 작업하지 않고 하나의 프로그램에서 모든 기능을 제공하는 소프트웨어
-  대표적인 IDE : Eclipse, Visual Studio, STS, Intelli J, Android Studio
+
+-대표적인 IDE : Eclipse, Visual Studio, STS, Intelli J, Android Studio
   
   
   ---
@@ -68,6 +69,80 @@ IDE(Integrated Development Environment, 통합 개발 환경)
   
 # [오후수업]
 
+ ## 자바의 특징
+ - 모든 운영체제에서 실행가능 (JVM: Java Virtual Machine)
+ - 객체 지향 프로그래밍 (OOP: Object-Oriented Programming)
+ - 메모리 자동 정리 (GC: Garbage Collector)
+ - 다양한 API와 풍부한 무료 라이브러리
+ 
+ 
+ JAVA는 항상 
+ ```java
+public class Ex1 {
+
+	public static void main(String[] args) {
+	
+
+	}
+  
+}
+```
+로 시작.
 
 
-            
+### 주석 사용법
+    Ctrl + Shift + C & Ctrl + / 
+    블록지정 가능
+
+1. 라인주석 = 단일주석 = 한줄주석 -> // 기호 사용
+
+'''java        
+public class Ex1 {
+
+	public static void main(String[] args) {
+	
+//		System.out.println(1);
+
+		
+	}
+
+}
+'''
+
+2. 범위주석 = 블록주석 -> /* */ 기호 사용. 주석 기호 사이에 오는 모든 문장들을 주석 처리. 여러 줄에 걸쳐서 모든 범위를 지정 할 수도 있음.
+단축키 : Ctrl + Shift + /
+해제 단축키 : Ctrl + Shift + \
+보통 범위주석은 단축키로 사용 잘 안 함 (줄이 변경되는 경우가 많음)
+
+```java
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+	
+		/*
+		System.out.println(1);
+		System.out.println(2);
+		System.out.println(3);
+		System.out.println(4);
+		System.out.println(5); 
+		System.out.println(6);
+		System.out.println(7);
+		System.out.println(8);
+		System.out.println(9);
+		System.out.println(10);
+		*/
+	}
+
+}
+'''
+
+
+### 작성한 한 줄을 블록지정하여 지우는 것보다 Ctrl+D 로 지우는 것이 편함. 
+
+
+
+ 
+ 
+
+          
