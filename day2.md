@@ -77,6 +77,7 @@ IDE(Integrated Development Environment, 통합 개발 환경)
  
  
  JAVA는 항상 
+ 
  ```java
 public class Ex1 {
 
@@ -86,7 +87,9 @@ public class Ex1 {
 	}
   
 }
+
 ```
+
 로 시작.
 
 
@@ -97,6 +100,7 @@ public class Ex1 {
 1. 라인주석 = 단일주석 = 한줄주석 -> // 기호 사용
 
 '''java        
+
 public class Ex1 {
 
 	public static void main(String[] args) {
@@ -107,12 +111,13 @@ public class Ex1 {
 	}
 
 }
+
 '''
 
 2. 범위주석 = 블록주석 -> /* */ 기호 사용. 주석 기호 사이에 오는 모든 문장들을 주석 처리. 여러 줄에 걸쳐서 모든 범위를 지정 할 수도 있음.
 단축키 : Ctrl + Shift + /
 해제 단축키 : Ctrl + Shift + \
-보통 범위주석은 단축키로 사용 잘 안 함 (줄이 변경되는 경우가 많음)
+	보통 범위주석은 단축키로 사용 잘 안 함 (줄이 변경되는 경우가 많음)
 
 ```java
 
