@@ -1,12 +1,12 @@
 # [오전수업]
 ## 1. 하드웨어 & 소프트웨어 & 펌웨어
-1) 하드웨어(Hardware; H/W) : 물리적인 기계 자체
-2) 소프트웨어(Software; S/W) : 하드웨어 상에서 돌아가는 프로그램
-  ① 운영체제(Operation System; OS) - 하드웨어와 소프트웨어의 다리 역할
+- 하드웨어(Hardware; H/W) : 물리적인 기계 자체
+- 소프트웨어(Software; S/W) : 하드웨어 상에서 돌아가는 프로그램
+	- 운영체제(Operation System; OS) - 하드웨어와 소프트웨어의 다리 역할
 ex) Windows, Linux, Unix, Solaris 등
-② 응용프로그램(Application Program) - 구체적인 작업을 할 수 있도록 해주는 프로그램
+	- 응용프로그램(Application Program) - 구체적인 작업을 할 수 있도록 해주는 프로그램
 ex) Excel, PowerPoint, 한글, 계산기, 포토샵 등
-3) 펌웨어(Firmware) : 하드웨어 + 소프트웨어
+- 펌웨어(Firmware) : 하드웨어 + 소프트웨어
 
 ## 2. 프로그래밍
 1) 시스템 프로그래밍
