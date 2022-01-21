@@ -67,3 +67,17 @@
 ---
 
 # [오후수업]
+- 서버(Server) - 정보를 제공
+- 클라이언트(Client) - 정보를 요청
+
+## 이클립스 서버 설정
+```
+  1. Windows -> Preferences -> Server -> Runtime Environment -> Add -> Apache -> Apache Tomcat v8.5 -> Next -> Browse -> Tomcat 8.5 폴더 지정 -> Finish
+  2. 아랫쪽 Servers -> new server -> Tomcat v8.5 Server 지정 -> Finish
+  3. 설정한 서버 더블클릭 -> Ports -> Tomcat admin port를 8005로 지정
+  4. 왼쪽 빈 공간에 마우스 오른쪽 클릭 -> New -> Dynamic Web Project -> Target runtime을 Apache Tomcat v8.5로 설정 -> Finish
+  5. 방금 만든 Project 마우스 오른쪽 -> New -> JSP File 생성
+  6. <h1>Hello, World!</h1> 작성 및 Run.
+```
+
+- 
