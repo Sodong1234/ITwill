@@ -391,29 +391,46 @@ public class Ex4 {
 
   ex) 정수형 리터럴 1, 실수형 리터럴 3.14 등
   
+ ```
+- 자바에서 사용되는 데이터의 종류
+- --- 기본 데이터타입 ---
+ 1. 정수형 - 소수점이 없는 데이터
+    -> 자바 데이터타입 : byte, short, int, long
+ 2. 실수형 - 소수점이 있는 데이터
+    -> 자바 데이터타입 : float, double
+ 3. 논리형 - 참(true) 과 거짓false)을 나타내는 데이터
+    -> 자바 데이터타입 : boolean(true와 false 두 가지의 특수한 값만 사용)
+ 4. 문자형 - 문자 1개를 표현하는 방식
+    -> 자바 데이터타입 : char
+- --- 참조 데이터타입 ---
+ 5. 기타
+    -> String, 배열 등
+```
+
 ```java
 
 public class Ex5 {
 
 	public static void main(String[] args) {
-		System.out.println(1);		// 정수형(기본형 = int) 리터럴
-		System.out.println(3.14);	// 실수형(기본형 = double) 리터럴
+		System.out.println(100);		// 정수형(기본형 = int) 리터럴
+		System.out.println(100L);		// 정수형(= long) **long는 소문자로 작성시 숫자 1과 헷갈려 반드시 대문자로 표현**
+		System.out.println(3.14);		// 실수형(기본형 = double) 리터럴
+		System.out.println(3.14f);		// 실수형(= float) **float는 소대문자 상관없음**
+		System.out.println(1.5e7);		// 실수형 지수표현법 -> 1.5e7 = 1.5 * 10^7
 		
-		System.out.println('A');	// 문자형 리터럴(작은따옴표로 둘러싼 1개의 문자)
-		System.out.println('AB');	// 오류! 문자형은 1개의 문자만 입력할 수 있음.
+		System.out.println('A');		// 문자형 리터럴(작은따옴표로 둘러싼 1개의 문자) -> 반드시 1개의 문자를 작은따옴표('')로 둘러싸서 표현
+		System.out.println('AB');		// 오류! 문자형은 1개의 문자만 입력할 수 있음.
+		System.out.println("Hello, World");	// 문자열형 리터럴(큰 따옴표로 둘러싼 문자들) -> 0개 이상의 문자를 큰따옴표("")로 둘러싸서 표현
+		System.out.println("");			// 문자가 없어도 인식함 -> 널스트링(Null string) 라고 함.
 		
-		System.out.println(true);	// 논리형(boolean형) 리터럴(true 또는 false)
-		System.out.println(TRUE); 	// 오류! 예약어 true는 무조건 소문자로 써야함!
-						// 대문자 TRUE는 예약어 아님
+		System.out.println(true);		// 논리형(boolean형) 리터럴(true 또는 false)
+		System.out.println(TRUE); 		// 오류! 예약어 true는 무조건 소문자로 써야함!
+							// 대문자 TRUE는 예약어 아님
 		
-		System.out.println(100L); 	// 정수형(long형) 리터럴(접미사 L(구분하기 위함) 붙는다)
-		System.out.println(1.5f); 	// 실수형(float형) 리터럴(접미사 f 또는 F 붙는다)
-		System.out.println("Hello, World"); // 문자열형 리터럴(큰 따옴표로 둘러싼 문자들)
-		System.out.println("");		// 문자가 없어도 인식함
 		
 		final int a;
 		a = 100;
-		System.out.println(a);		// int 앞에 final을 붙일 경우 변경 할 수 없는 고정상수를 만듬.
+		System.out.println(a);			// int 앞에 final을 붙일 경우 변경 할 수 없는 고정상수를 만듬.
 	}
 
 }
