@@ -62,3 +62,8 @@
 
 ### Cent OS 설치
 - http://mirror.kakao.com/centos/7.9.2009/isos/x86_64/ -> CentOS-7-x86_64-Minimal-2009.iso 설치
+
+
+---
+
+# [오후수업]
