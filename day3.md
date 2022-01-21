@@ -36,6 +36,41 @@
       - 터미널의 어느 위치에서건 프로그램에 접근할 수 있도록 해주는 설정값.
       - 시스템 변수 -> Path -> 새로만들기 -> C:\Program Files\MySQL\MySQL Server 8.0\bin 추가 -> 확인
 
+- 접속 성공 화면
+  <center><img src="https://user-images.githubusercontent.com/95197594/150458829-6484c4fc-ac5f-43b4-93c9-71077dafef8b.png" width="60%" height="60%"></center>
+  
+ 
+- 사용가능한 데이터베이스 목록
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.01 sec)
+
+- 사용할 데이터베이스 선택
+mysql> use world;
+Database changed
+
+- 접속한 데이터베이스의 테이블 목록 조회
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.01 sec)
+
+
+
 
 
 
