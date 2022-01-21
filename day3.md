@@ -47,3 +47,18 @@
 ### GUI
 - Workbench로 실행.
 
+- 사용법 예시
+<center><img src="https://user-images.githubusercontent.com/95197594/150460384-9771f3a2-dc2b-47aa-812e-36528d339380.png" width="60%" height="60%"></center>
+
+
+
+
+
+## 리눅스에 설치하기
+- CentOS 7 → VM 환경으로 실습
+
+### Virtual box 설치
+- https://www.virtualbox.org/wiki/Downloads -> VirtualBox 6.1.32 platform packages ->  Windows hosts 클릭하여 설치
+
+### Cent OS 설치
+- http://mirror.kakao.com/centos/7.9.2009/isos/x86_64/ -> CentOS-7-x86_64-Minimal-2009.iso 설치
