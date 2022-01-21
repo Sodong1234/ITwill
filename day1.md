@@ -14,12 +14,12 @@ https://notepad-plus-plus.org/downloads/v8.2/ 에서 설치.
 
 
 ### 3. 웹서버(웹애플리케이션서버) 설치
-아파치톰캣(대표적으로 구글&네이버처럼 페이지를 서비스하는 서버. 내가 만든 사이트를 전세계 사람들에게 보여주기 위해 설치.) 
-https://tomcat.apache.org/ 수업에서는 8버전 사용.
-32-bit/64-bit Windows Service Installer (pgp, sha512) 설치. 
-포트(접속하는 약속된 통로)는 8080. 포트 없으면 전 세계 사람들이 다 들어올 수 있음.
-설치 후 서버 start - 웹브라우저 : http://localhost:8080/ . 현재단계에서는 본인만 볼 수 있음. 추후 조별과제시 이 경로 사용할 예정. 
-        서버 stop 누르면 사이트에 연결 할 수 없다고 뜸. 네이버에서도 자기 서버에서 스탑하면 연결 할 수 없다고 뜰 것!
+- 아파치톰캣(대표적으로 구글&네이버처럼 페이지를 서비스하는 서버. 내가 만든 사이트를 전세계 사람들에게 보여주기 위해 설치.) 
+- https://tomcat.apache.org/ (수업에서는 8버전 사용.) - 32-bit/64-bit Windows Service Installer (pgp, sha512) 설치. 
+- 포트(접속하는 약속된 통로)는 8080. 포트 없으면 전 세계 사람들이 다 들어올 수 있음.
+- 설치 후 
+	- 서버 start - 웹브라우저 : http://localhost:8080/ . 현재단계에서는 본인만 볼 수 있음. 추후 조별과제시 이 경로 사용할 예정. 
+	- 서버 stop 누르면 사이트에 연결 할 수 없다고 뜸. 네이버에서도 자기 서버에서 스탑하면 연결 할 수 없다고 뜰 것!
 
 
 ### 4. 이클립스 (개발도구) 설치 
@@ -27,10 +27,11 @@ https://tomcat.apache.org/ 수업에서는 8버전 사용.
 https://www.eclipse.org/ - eclipse-jee-2021-12-R-win32-x86_64 압축 풀기
   1) 환경설정(UTF-8한글처리)
   - 세계 어디서 실행을 하든 한글이 깨지지 않도록 설정.
-		Window - Preferences - General - Workspace - Text file encoding - Other(UTF8)
-		               		       - Web - CSS Files - ISO 10646/Unicode(UTF8)
-                          		       - HTML Files - ISO 10646/Unicode(UTF8)
-			                       - JSP Files - ISO 10646/Unicode(UTF8)
+  
+		Window - Preferences - General - Workspace - Text file encoding - Other(UTF-8)
+			   	     - Web - CSS Files - ISO 10646/Unicode(UTF-8)
+					   - HTML Files - ISO 10646/Unicode(UTF-8)
+					   - JSP Files - ISO 10646/Unicode(UTF-8)
 
   2) 톰캣서버 가져오기&서버환경설정
 File - New - Other - Server - Server - Apache -	 Tomcat v8.5 Server - Next - Browse - C:\Program Files\Apache Software Foundation\Tomcat 8.5 - Next - Finish
