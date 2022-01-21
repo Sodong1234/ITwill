@@ -106,5 +106,43 @@
         Camel-case 표기법으로 불림. 첫글자도 대문자로 표기하는 방법은 Pascal-case 표기법
 - 길이 제한 없음  
 
+```java
+package variable;
 
+public class Ex2 {
+
+	public static void main(String[] args) {
+		
+		// 식별자 작성 규칙
+//		int 7eleven; // 오류! 첫글자 숫자 사용 불가
+		int sevenEleven;
+		int eleven7;
+		
+		// 특수문자
+//		int channel#5; // 오류! 특수문자 $ 또는 _ 외에 사용 불가
+		int $ystem;
+		int my_name;
+				
+		// 대소문자 구별
+		int NAME;
+		int name;
+		
+		// 예약어(키워드)
+//		int switch;
+//		int if;
+		
+		// 공백
+//		int my name; // 오류! 공백 사용 불가
+		
+		// -------------------------------------
+		// Camel-case 표기법
+		int myScore;
+		int cartProductPrice;
+		
+		// 
+
+	}
+
+}
+```
 
