@@ -75,9 +75,14 @@
   1. Windows -> Preferences -> Server -> Runtime Environment -> Add -> Apache -> Apache Tomcat v8.5 -> Next -> Browse -> Tomcat 8.5 폴더 지정 -> Finish
   2. 아랫쪽 Servers -> new server -> Tomcat v8.5 Server 지정 -> Finish
   3. 설정한 서버 더블클릭 -> Ports -> Tomcat admin port를 8005로 지정
-  4. 왼쪽 빈 공간에 마우스 오른쪽 클릭 -> New -> Dynamic Web Project -> Target runtime을 Apache Tomcat v8.5로 설정 -> Finish
-  5. 방금 만든 Project 마우스 오른쪽 -> New -> JSP File 생성
-  6. <h1>Hello, World!</h1> 작성 및 Run.
+  4. Tomcat v8.5 마우스 오른쪽 - Start로 서버 실행.
+  5. 왼쪽 빈 공간에 마우스 오른쪽 클릭 -> New -> Dynamic Web Project -> Target runtime을 Apache Tomcat v8.5로 설정 -> Finish
+  6. 방금 만든 Project 마우스 오른쪽 -> New -> JSP File 생성
+  7. <h1>Hello, World!</h1> 작성 및 Run.
 ```
 
-- 
+-> <center><img src="https://user-images.githubusercontent.com/95197594/150476387-3b0ad9cb-d684-4b1c-9401-e0bf9ea63d84.JPG" width="60%" height="60%"></center>
+
+
+
+
