@@ -102,7 +102,7 @@
 - 의미가 있는 단어 조합 사용
 - 두 단어 이상을 조합할 경우 두번째 단어부터 첫 글자 대문자 사용
   - myschoolname 보다는 mySchoolName 이 좀 더 식별이 용이함
-    - Camel-case 표기법으로 불림. 첫글자도 대문자로 표기하는 방법은 Pascal-case 표기법
+      - Camel-case 표기법으로 불림. 첫글자도 대문자로 표기하는 방법은 Pascal-case 표기법
 - 길이 제한 없음  
 
 
