@@ -8,9 +8,10 @@
 - 정형(Text)의 데이터를 다루는 DB(관계형 데이터베이스(RDBMS)) → SQL 언어를 통해서 사용
 
 
-<center><img src="https://user-images.githubusercontent.com/95197594/150445471-388f7525-f54b-47b1-a1c5-84c91ff57b9c.JPG" width="50%" height="50%"></center>
+<center><img src="https://user-images.githubusercontent.com/95197594/150445471-388f7525-f54b-47b1-a1c5-84c91ff57b9c.JPG" width="60%" height="60%"></center>
 
 
+-     RDBMS의 종류 : Oracle(빠름, 대규모) / MySQL(중규모)
 
 
 
