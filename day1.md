@@ -137,11 +137,11 @@ test2.html 저장 후 실행시키면 타이틀 html title2, 본문 내용 html 
 3) 이클립스
   WebProject 폴더에서 src - main - webapp 폴더 마우스오른쪽 - New - html File - 파일명 test.html - Next - html5(웹 표준. 학원에서는 웹 표준에 맞춰 사용) - Finish
 
-메모장, 에디터는 마크업을 모두 다 직접 작성했어야 했지만 이클립스는 기본적인 뼈대가 모두 작성이 되어 있음.
-또한 작성 후 저장, 실행을 통하여 결과물을 확인 할 수 있는 메모장&에디터와 달리 이클립스는 편집하면서 바로 실행, 확인이 가능하여 편리함.
- 실행은 파일(여기서는 test.html) - 오른쪽버튼 - run as - run on server - tomcat 8.5 선택 및 아래 Always use .. this project 체크 - next - finish 누르면 브라우저가 자동으로 실행. 주소도 톰캣 서버로 열림.
- or 위에 작업표시줄 화면에서 초록색 화살표 버튼 - run as - run on server 
- or ctrl+F11.
+- 메모장, 에디터는 마크업을 모두 다 직접 작성했어야 했지만 이클립스는 기본적인 뼈대가 모두 작성이 되어 있음.
+- 또한 작성 후 저장, 실행을 통하여 결과물을 확인 할 수 있는 메모장&에디터와 달리 이클립스는 편집하면서 바로 실행, 확인이 가능하여 편리함.
+- 실행은 파일(여기서는 test.html) - 오른쪽버튼 - run as - run on server - tomcat 8.5 선택 및 아래 Always use .. this project 체크 - next - finish 누르면 브라우저가 자동으로 실행. 주소도 톰캣 서버로 열림.
+	- or 위에 작업표시줄 화면에서 초록색 화살표 버튼 - run as - run on server 
+ 	- or ctrl+F11.
  
  
  
@@ -189,5 +189,6 @@ img 태그 하나당 이미지 하나. 여러개 안됨
 </ol>
 
 ```
--주석은 ctrl+shift+c
--html은 기본 뼈대, 좀 더 사이트를 이쁘게 만들고 싶으면 css 활용해야함.
+
+- 주석은 ctrl+shift+c
+- html은 기본 뼈대, 좀 더 사이트를 이쁘게 만들고 싶으면 css 활용해야함.
