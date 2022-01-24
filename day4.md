@@ -299,14 +299,14 @@ JDK(Java Development Kit, 자바 개발 도구)
 - 연산 결과가 담겨질 변수 c의 타입은 double이고 double이 float보다 더 큰 범위를 표현할 수 있으므로 자동형변환이 발생
 
 ```
-int a1 = 128;
+		int a1 = 128;
 		byte a2 = 127;
 		
 		System.out.println("변환 전 a1(int) : " + a1 + ", a2(byte) : " + a2);
 		
 		// 묵시적 형변환 : 작은 데이터타입 -> 큰 데이터타입으로 변환(자동)
 		a1 = a2;
-		a1 = (int)a2; // 형변환 연산자를 사용해도 되지만, 자동으로 수행하기 때문에 생력 가능!
+		a1 = (int)a2; // 형변환 연산자를 사용해도 되지만, 자동으로 수행하기 때문에 생략 가능!
 		System.out.println("변환 후 a1(int) : " + a1 + ", a2(byte) : " + a2);
 ```
 
