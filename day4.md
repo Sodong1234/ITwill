@@ -338,3 +338,260 @@ JDK(Java Development Kit, 자바 개발 도구)
 ## 요약
 - 자동 형변환은 좁은 → 큰 데이터 타입으로 변환되는 것으로 자연스럽게 변환할 수 있기 때문에 자동으로 형변환 가능!
 - 강제 형변환은 큰 → 좁은 데이터 타입으로 변환되는 것으로 데이터 오버플로우(data overflow)가 발생할 수 있기 때문에 강제로 형변환 할것을 명시해야한다.
+
+---
+
+# 연산자
+## 단항 연산자
+1. 선행연산자 (전위연산자)
+- 피연산자의 앞쪽(좌측)에 붙여서 값을 1 증가 또는 감소
+- 먼저 피연산자의 값을 증가 또는 감소시킨 후에 다른 연산에 참여 
+	- ex) ++i, --i
+
+```
+		int x1 = 5;
+		int y1 = ++x1;
+		
+		int x2 = 5;
+		int y2 = x2++;
+		
+		
+		System.out.println("x1 : " + x1 + ", y1 : " + y1);
+		System.out.println("x2 : " + x2 + ", y2 : " + y2);
+		
+		System.out.println("=================================");
+		
+		int i = 3;
+		i++;					
+		System.out.println(i);			//4
+		++i;					
+		System.out.println(i);			//5
+		System.out.println(++i);		//6
+		System.out.println(i++);		//6
+		System.out.println(i);			//7
+```
+
+
+## 산술연산자 (+, -, *, /, %)
+- 일반적인 사칙연산과 동일
+- % 연산자 : 나머지 연산자(퍼센트 연산자) 라고 하며, 나눈 나머지 값을 반환
+
+```
+		System.out.println(10 + 2);
+		System.out.println(10 - 2);
+		System.out.println(10 * 2);
+		System.out.println(10 / 3); // float나 double 연산자였으면 3.3333.. 으로 나왔겠지만 int형이기 때문에 몫인 3만 출력
+		System.out.println(10 % 3); // 10을 3으로 나눈 나머지 1 출력
+```
+
+**산술 연산 시 자동 형변환**
+- 산술 연산전에 데이터 타입이 다르면 산술 연산을 수행하기 전 피연산자 끼리의 데이터타입을 "일치" 시킨 후에 연산 수행
+	- 규칙1. int 타입보다 작은 타입끼리의 연산은 모두 int 타입으로 변환 후 연산 수행 -> 따라서, 결과값은 무조건 int 타입이 됨
+		- ex) byte + byte = (int)byte + (int)byte = 결과가 int 타입
+		- ex) char + int = (int)char + int = 결과가 int 타입
+
+	- 규칙2. int 타입보다 큰 타입과의 연산은 큰 타입으로 변환 후 연산 수행
+		- ex) int + long = (long)int + long = 결과가 long 타입
+		- ex) int + double = (double)int + double = 결과가 double 타입 
+```
+		byte b1 = 10, 
+		     b2 = 20, 
+		     b3;
+				 
+//		b3 = b1 + b2;			// 오류! byte + byte = int 이므로 byte 타입인 b3에 저장 불가!
+		b3 = (byte)(b1 + b2);		// "연산 결과"에 형변환 연산자를 적용해서 byte 타입으로 변환
+		System.out.println(b3);
+		
+		char ch = 'A';
+		System.err.println(ch + 2);
+
+		char ch2 = (char)(ch + 2);
+		System.out.println(ch2);
+		
+		int i = 100;
+		long l = 200;
+//  		int i2 = i + 1; // 오류! int + long => long + long = long
+		int i2 = (int)(i + l);
+		System.out.println(i2);
+
+		float f = 3.14F;
+		System.out.println(l + f);
+		long l2 = (long)(l + f); //  long + float => float + float = float
+		System.out.println("==============================================");
+		
+		System.out.println((double)10 / 3);
+		System.out.println(10 / 3.0); // == 10 / (double)3
+		
+		System.out.println((double)(10 / 3));
+//		10 / 3 				int / int = int
+//		(double)(10 / 3)	int / int = (double)int = (double)3
+//		(double)10 / 3		double 10.0 / int = 10.3 / 3.0 = 3.3333
+//		10 / (double)3		int / double 3.0 = double / double = 3.3333
+		
+		byte b1 = 10,
+		     b2 = 20,
+		     b3;
+		
+		b3 = 10 + 20;   // 상수(리터럴) 끼리의 연산은 형변환이 발생하지 않는다
+		b3 = 100 + 28;  // 오류! 리터럴끼리의 연산이더라도 범위를 초과하면 오류 발생!
+```
+
+## 대입 연산자
+- 우변의 데이터를 좌변의 변수에 대입(저장, 할당)
+	- 연산의 방향이 좌<-우로 진행됨
+		- ex) x = y = 3; y에 3을 대입하고, x에 y를 대입
+
+**확장 대입연산자(=복합 대입연산자) (+=, -=, *=, /=, %=)**
+- 대입연산자와 산술연산자가 조합된 연산자
+- 좌변과 우변의 데이터끼리 산술연산을 먼저 수행한 후, 결과값을 좌변에 대입
+	- ex) a = a + 1; -> a += 1;
+
+```
+		int a = 10, b = 0;
+		b += a;
+		System.out.println(b);
+		// b + a의 결과를 다시 변수 b에 저장 -> b에 a값을(a만큼) "누적" 하는 것과 동일
+		b += a;
+		System.out.println(b);
+		
+		b -= a;
+		System.out.println(b);
+		
+		b *= a;
+		System.out.println(b);
+		
+		b /= a;
+		System.out.println(b);
+		
+		b %= a;
+		System.out.println(b);
+
+		System.out.println("==================================");
+		
+		
+		// 중요 포인트! 확장대입연산자는 "자동형변환이 일어나지 않는다"
+		byte b1 = 10;
+//		b1 = b1 + 10;
+		b1 += 10;
+		System.out.println(b1);
+		
+		
+		char c = 'A';
+//		c = c + 2;
+		c += 2;
+		System.out.println(c);
+```
+
+## 비교 연산자
+- 두 피연산자 간의 대소관계 등을 비교하여 true 또는 false 값 반환 
+
+```
+		int a = 10, b = 5;
+		boolean bool = a > b;
+		System.out.println(bool);
+		System.out.println("a > b 인가? " + bool);
+		System.out.println("a > b 인가? " + (a > b));
+		System.out.println("a < b 인가? " + (a < b));
+		System.out.println("a >= b 인가? " + (a >= b));
+		System.out.println("a <= b 인가? " + (a <= b));
+		System.out.println("a == b 인가? " + (a == b));
+		System.out.println("a != b 인가? " + (a != b));
+		
+		System.out.println("===============================");
+		// char 타입을 비교연산자에 사용시 정수(유니코드) 값을 비교
+		System.out.println('A' > 'B');
+//		System.out.println("A" > "B"); // 문자열형(String) 끼리 대소관계 비교불가!
+		System.out.println('A' == 65);
+		
+		System.out.println(3 == 3.0);
+		System.out.println("===============================");
+		
+		System.out.println(0.1 == 0.1F);
+		System.out.println((float)0.1 == 0.1F);
+```
+
+## 논리연산자(&&, ||, !, ^) (& Ampersend), (| Vertical bar), (^ Caret)
+- 두 피연산자 간의 논리적인 판별을 수행하는 연산자
+- 피연산자는 모두 boolean 타입 데이터만 사용 가능하며, 결과값도 boolean 타입으로 리턴
+
+```
+		 * < AND 연산자 (& 또는 &&) - 논리곱 >
+		 *  - 두 피연산자 모두 true일 경우에만 결과가 true
+		 *  - 하나라도 false일 경우 결과값이 false
+		System.out.println("false && false = " + (a && a));
+		System.out.println("false && true = " + (a && b));
+		System.out.println("true && false = " + (b && a));
+		System.out.println("true && true = " + (b && b));				
+		
+		 * < OR 연산자 (| 또는 ||) - 논리합 >
+		 *  - 두 피연산자 중 하나라도 true일 경우 결과값이 true 이고, 모두 false일 경우에만 false
+		System.out.println("false || false = " + (a || a));			
+		System.out.println("false || true = " + (a || b));
+		System.out.println("true || false = " + (b || a));
+		System.out.println("true || true = " + (b || b));
+
+		 * < NOT 연산자 (!) - 논리부정 >
+		 *  - 단항 연산자로, 현재 값을 반대로 반전
+		 *  - !T = F, !F = T
+		System.out.println("!false = " + (!a));
+		System.out.println("!true = " + (!b));
+		
+		 * < XOR 연산자 (^) - 배타적 논리합 >
+		 *  - 두 피연산자가 서로 다를 때 true, 같으면 false
+		 *  - F XOR F = F
+		 *  - T XOR T = F
+		 *  - T XOR F = T
+		 *  - F XOR T = T
+		System.out.println("false ^ false = " + (a ^ a));
+		System.out.println("false ^ true = " + (a ^ b));
+		System.out.println("true ^ false = " + (b ^ a));
+		System.out.println("true ^ true = " + (b ^ b));
+```
+
+## 삼항 연산자 (조건 연산자)
+- 연산에 참여하는 항이 3개인 연산자
+- if ~ else 문과 동일한 기능을 수행
+- 2가지 경우의 수 (true 또는 false) 에 대한 결과를 수행
+
+		 < 기본 문법 >
+		 연산식 ? 값1 : 값2
+		 밥뭇나 ? 응 : 아니
+		 -> 연산식에는 결과값이 boolean 타입 (true 또는 false)인 식만 올 수 있다.
+		 -> 연산식 판별 결과가 true일 경우 값1, false일 경우 값2
+
+```
+		int a = 10;
+		String result = a%2 == 0 ? "짝수" : "홀수";
+		System.out.println(result);
+		
+		// 문제 1.
+		a = 20;
+		int b = 50;
+		
+		int max = a>b? a : b;
+		int min = a>b? b : a;
+		
+		System.out.println("최대값 : " + max);
+		System.out.println("최소값 : " + min);
+		
+		//문제 2. 반올림한 값을 출력 **카카오 입사문제 1번**
+		double d = 95.7;
+		
+		if(d*10%10 >= 5) {
+			d += 1;
+		} 
+		
+		int result2 = (int)d;
+		
+		System.out.println(result2);
+		
+		-----------------------------------------------------
+		
+		double d = 95.7;
+		
+		int result2 = d*10%10 >= 5 ? (int)d+1 : (int)d;
+		
+		System.out.println(result2);
+		
+		
+```
