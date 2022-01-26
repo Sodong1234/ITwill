@@ -76,7 +76,7 @@ ex)
 		System.out.println("변수 num = " + num);
 ```
 
-문제 2. 문자 ch가 대문자일때, 소문자로 변환하여 출력 (출렉예시) "ch = a")
+문제 2. 문자 ch가 대문자일때, 소문자로 변환하여 출력 (출력예시) "ch = a")
 - ch가 대문자일 때 + 32 -> 소문자
 
 ```
@@ -231,7 +231,7 @@ ex)
 		else if (80 <= score)			 grade += "B";
 		else if (70 <= score)			 grade += "C";
 		else if (60 <= score)			 grade += "D";
-		else 					 grade += "F";
+		else 					 grade += "X";
 ```
 ---
 
