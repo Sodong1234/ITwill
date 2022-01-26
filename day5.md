@@ -493,7 +493,7 @@ JDK, IDE
 ```
 
 ```
-		  int num = 10;
+		int num = 10;
 		
 //		switch (num > 5) {} // if문처럼 결과값이 boolean 타입인 식은 올 수 없다!
 		
@@ -502,11 +502,40 @@ JDK, IDE
 		switch (num) { // 식이 아니라도 변수 타입이 정수거나 문자열이면 사용 가능함
 			// case 문을 사용하여 비교할 값일 직접 기술
 			case 10 : System.out.println("num = 10 이다!");
+			// 주의! num 과 일치하는 값이 10일 경우 case 10 뒤의 문장을 실행하는데
+			// 이 때, case 10 뒤의 문장 실행 후 break 문이 없으므로
+			// 다음 case 문부터 아래쪽 모든 case 문과 default 문까지 조건과 관계 없이 차례대로 실행함
+			// => 단, 도중에 break 문을 만나거나 switch 문이 끝 중괄호를 만나면 종료됨
 			case 9 : System.out.println("num = 9 이다!");
 			case 8 : System.out.println("num = 8 이다!");
 			case 7 : System.out.println("num = 7 이다!");
 			case 6 : System.out.println("num = 6 이다!");
 		}
-	
-
-
+		------------------------------------------------------------------------------------------------------------------------------
+		num = 4;
+		
+		switch (num) {
+			case 10 : 
+				System.out.println("num = 10 이다!");
+				System.out.println("break 문을 만남");
+				break; // switch 문을 종료하고 빠져나감
+			case 9 : 
+				System.out.println("num = 9 이다!");
+				System.out.println("break 문을 만남");
+				break; // switch 문을 종료하고 빠져나감
+			case 8 : 
+				System.out.println("num = 8 이다!");
+				System.out.println("break 문을 만남");
+				break; // switch 문을 종료하고 빠져나감
+			case 7 : 
+				System.out.println("num = 7 이다!");
+				System.out.println("break 문을 만남");
+				break; // switch 문을 종료하고 빠져나감
+			case 6 : 
+				System.out.println("num = 6 이다!");
+				break; // switch 문을 종료하고 빠져나감
+			default :
+				System.out.println("일치하는 case 문이 없을 경우");
+				System.out.println("default 문을 찾아 실행함");
+		}
+```
