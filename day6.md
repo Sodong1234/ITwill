@@ -142,7 +142,7 @@ ex)
     
     -----------------------------------------------------------------------------
     
-// switch-case문인 경우
+    //switch-case문인 경우
 		switch (score) {
 			case 100 : 
 			case 99 :
@@ -266,22 +266,23 @@ ex)
 
 연습문제3) 앞의 과정에서 
 - int pee = 50000; 값 부여받고 
+- 5세 이상 19세 이하일 경우 할인율을 30%로 조정
 - System.out.println("최종 입장료는 " + pee + "원 입니다!"); 출력하기
 
 ```
 		age = 65;
-	  int pee = 50000;
+	  	int pee = 50000;
     
 		if (age<5 || age>=65) {
 			System.out.println("무료입장 대상입니다!");
-      pee = 0;
+      			pee = 0;
 		} else if (age>=5 && age<=19) {
-			System.out.println("50% 할인 대상입니다!");
-      pee = (int)(pee * 0.7); // int * double = double 이므로 int 타입으로 강제 형변환 필수!
+			System.out.println("30% 할인 대상입니다!");
+      			pee = (int)(pee * 0.7); // int * double = double 이므로 int 타입으로 강제 형변환 필수!
 		} else {
 			System.out.println("할인 대상이 아닙니다!");
 		}
 
-      System.out.println("최종 입장료는 " + pee + "원 입니다!");
+      			System.out.println("최종 입장료는 " + pee + "원 입니다!");
 
 ```
