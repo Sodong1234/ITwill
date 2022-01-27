@@ -48,4 +48,17 @@ table를 만들때는 table, tr, td 코드를 사용함
 ```
 ![image](https://user-images.githubusercontent.com/95197594/151272313-3b7aec68-8e1b-4bf4-bac7-371fac784d62.png)
 
+## 3행 3열 표 만든 후 표 합치기
+```html
+
+</table>
+<h2>3행3열 표합치기</h2>
+<table border = "1">
+<tr><td>1행1열</td><td>1행2열</td><td>1행3열</td></tr>
+<tr><td>2행1열</td><td>2행2열</td><td>2행3열</td></tr>
+<tr><td>3행1열</td><td>3행2열</td><td>3행3열</td></tr>
+</table>
+
+
+
 
