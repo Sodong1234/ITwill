@@ -58,7 +58,47 @@ table를 만들때는 table, tr, td 코드를 사용함
 <tr><td>2행1열</td><td>2행2열</td><td>2행3열</td></tr>
 <tr><td>3행1열</td><td>3행2열</td><td>3행3열</td></tr>
 </table>
+```
+![1](https://user-images.githubusercontent.com/95197594/151276364-5c4091f9-d74d-4b47-b575-73ee579a0aa2.PNG)
+
+그냥 합쳐버리면 표에 흔적이 남아있기 때문에 colspan 태그를 추가해주어야 함.
+
+```html
+<h2>3행3열 표합치기</h2>
+<table border = "1">
+<tr><td>1행1열</td><td colspan="2">1행2열1행3열</td></tr>
+<tr><td>2행1열</td><td>2행2열</td><td>2행3열</td></tr>
+<tr><td>3행2열</td><td>3행3열</td></tr>
+```
+
+![2](https://user-images.githubusercontent.com/95197594/151276369-98517a70-418b-41f3-8bd9-6b8591e3f81f.PNG)
 
 
+2행1열과 3행1열을 합치고 싶을때는 rowspan 태그를 추가해주어야 함.
+
+```html
+<table border = "1">
+<tr><td>1행1열</td><td colspan="2">1행2열1행3열</td></tr>
+<tr><td rowspan="2">2행1열<br>3행1열</td><td>2행2열</td><td>2행3열</td></tr>
+<tr><td>3행2열</td><td>3행3열</td></tr>
+```
+
+![3](https://user-images.githubusercontent.com/95197594/151276373-5cb81188-afac-43ff-81ca-978708b9a0b0.PNG)
+![4](https://user-images.githubusercontent.com/95197594/151276375-c7e97aa6-1e82-472c-8748-365a36dc7be9.PNG)
+
+
+## 5행 4열 표 합치기
+```html
+<h2>5행 4열 표 만들기</h2>
+<table border="1">
+<tr><td>용도</td><td colspan="3">중량 개수 가격</td></tr>
+<tr><td rowspan="2">선물용</td><td>3kg</td><td>11-16과</td><td>35000원</td></tr>
+<tr><td>5kg</td><td>18-26과</td><td>52000원</td></tr>
+<tr><td rowspan="2">가정용</td><td>3kg</td><td>11-16과</td><td>30000원</td></tr>
+<tr><td>5kg</td><td>18-26과</td><td>47000원</td></tr>
+</table>
+</body>
+</html>
+```
 
 
