@@ -46,7 +46,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 </body>
 </html>
 ```
-![image](https://user-images.githubusercontent.com/95197594/151272313-3b7aec68-8e1b-4bf4-bac7-371fac784d62.png)
+- ![image](https://user-images.githubusercontent.com/95197594/151272313-3b7aec68-8e1b-4bf4-bac7-371fac784d62.png)
 
 
 ### 3행 3열 표 만든 후 표 합치기
@@ -55,12 +55,12 @@ table를 만들때는 table, tr, td 코드를 사용함
 </table>
 <h2>3행3열 표합치기</h2>
 <table border = "1">
-<tr><td>1행1열</td><td>1행2열</td><td>1행3열</td></tr>
+<tr><td>1행1열</td><td>1행2열1행3열</td></tr>
 <tr><td>2행1열</td><td>2행2열</td><td>2행3열</td></tr>
 <tr><td>3행1열</td><td>3행2열</td><td>3행3열</td></tr>
 </table>
 ```
-![1](https://user-images.githubusercontent.com/95197594/151276364-5c4091f9-d74d-4b47-b575-73ee579a0aa2.PNG)
+- ![1](https://user-images.githubusercontent.com/95197594/151276364-5c4091f9-d74d-4b47-b575-73ee579a0aa2.PNG)
 
 그냥 합쳐버리면 표에 흔적이 남아있기 때문에 colspan 태그를 추가해주어야 함.
 
@@ -72,7 +72,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 <tr><td>3행2열</td><td>3행3열</td></tr>
 ```
 
-![2](https://user-images.githubusercontent.com/95197594/151276369-98517a70-418b-41f3-8bd9-6b8591e3f81f.PNG)
+- ![2](https://user-images.githubusercontent.com/95197594/151276369-98517a70-418b-41f3-8bd9-6b8591e3f81f.PNG)
 
 
 2행1열과 3행1열을 합치고 싶을때는 rowspan 태그를 추가해주어야 함.
@@ -84,8 +84,8 @@ table를 만들때는 table, tr, td 코드를 사용함
 <tr><td>3행2열</td><td>3행3열</td></tr>
 ```
 
-![3](https://user-images.githubusercontent.com/95197594/151276373-5cb81188-afac-43ff-81ca-978708b9a0b0.PNG)
-![4](https://user-images.githubusercontent.com/95197594/151276375-c7e97aa6-1e82-472c-8748-365a36dc7be9.PNG)
+- ![3](https://user-images.githubusercontent.com/95197594/151276373-5cb81188-afac-43ff-81ca-978708b9a0b0.PNG)
+- ![4](https://user-images.githubusercontent.com/95197594/151276375-c7e97aa6-1e82-472c-8748-365a36dc7be9.PNG)
 
 
 ### 5행 4열 표 합치기
@@ -102,7 +102,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 </html>
 ```
 
-![5](https://user-images.githubusercontent.com/95197594/151277438-4c77b1bb-5f4b-40ba-9650-634c17f371d0.PNG)
+- ![5](https://user-images.githubusercontent.com/95197594/151277438-4c77b1bb-5f4b-40ba-9650-634c17f371d0.PNG)
 
 ## 양식(폼)태그
 ```html
@@ -121,7 +121,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 </html>
 ```
 
-![1](https://user-images.githubusercontent.com/95197594/151279302-614ff3ff-6772-4ed1-810d-a2d9668f7593.PNG)
+- ![1](https://user-images.githubusercontent.com/95197594/151279302-614ff3ff-6772-4ed1-810d-a2d9668f7593.PNG)
 - 전송버튼을 누르면 test4.html로 이동
 - form 태그는 이동 / input 태그는 형태생성(텍스트, 버튼 등) 담당
   - form 태그 안에 입력한 데이터를 가지고 서버에 전송하면서 action에 저장된 페이지로 이동
@@ -136,12 +136,15 @@ table를 만들때는 table, tr, td 코드를 사용함
 <form action="test4.html" method="post">
 아이디 : <input type="text" name="id" value="Lee"><br>
 비밀번호 : <input type="password" name="pass"><br>
-자기소게 : <textarea name="intro" rows="5" cols="10">안녕</textarea>
+자기소개 : <textarea name="intro" rows="5" cols="10">안녕</textarea>
+성별 : <input type="radio" name="gender" value="남">남성
+	     <input type="radio" name="gender" value="여">여성<br>
 <input type="submit" value="전송버튼"><br>
 </form>
 </body>
 ```
-![2](https://user-images.githubusercontent.com/95197594/151279935-ee306df4-e8b6-45bb-a1fe-95a262b71f37.PNG)
+- ![3](https://user-images.githubusercontent.com/95197594/151283289-2ffa601d-9cbd-4bc4-a00d-1c97ee476d90.PNG)
 - 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
-
+- textarea 태그는 value 필요 없이 텍스트를 입력해놓으면 텍스트입력값이 형성됨
+- rows, cols는 행/열 간격 설정
 
