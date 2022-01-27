@@ -158,7 +158,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 </form>
 </body>
 ```
-![캡처](https://user-images.githubusercontent.com/95197594/151288869-d19bc9cc-121b-4acd-ad44-181af0d65aef.PNG)
+![캡처](https://user-images.githubusercontent.com/95197594/151293359-72cb1230-f72e-43cf-ae36-8eb037b0efe5.PNG)
 
 
 - 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
