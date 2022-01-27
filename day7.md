@@ -128,7 +128,8 @@ table를 만들때는 table, tr, td 코드를 사용함
 - method는 데이터를 전송하는 방식
   - get 방식은 주소줄에 데이터가 보이면서 서버 전송 (get 방식은 따로 태그를 추가하지 않아도 자동으로 주소줄에 데이터가 보임)
   - post 방식은 주소줄에 데이터가 안 보이면서 서버 전송  
-- value는 입력값
+- value는 서버에 전송되어질 입력값
+- 
 ### 텍스트를 입력 가능한 상자 생성
 ```html
 <body>
@@ -138,8 +139,20 @@ table를 만들때는 table, tr, td 코드를 사용함
 비밀번호 : <input type="password" name="pass"><br>
 자기소개 : <textarea name="intro" rows="5" cols="10">안녕</textarea>
 성별 : <input type="radio" name="gender" value="남">남성
-	     <input type="radio" name="gender" value="여">여성<br>
+       <input type="radio" name="gender" value="여">여성<br>
+취미 : <input type="checkbox" name="hobby" value="여행">여행
+       <input type="checkbox" name="hobby" value="게임">게임
+       <input type="checkbox" name="hobby" value="운동">운동	
 <input type="submit" value="전송버튼"><br>
+목록상자 : <select name="sel">	     // name 뒤에 size 태그 추가시 넓게 보기 가능 ex) size="3". 하지만 많이 사용하지는 않음
+	   <option value="목1">목록1</option>
+	   <option value="목2">목록2</option>
+	   <option value="목3">목록3</option>
+	   </select>	   <br>
+파일첨부 : <input type="file" name="file"><br>
+히든태그 : <input type="hidden" name="hi" value="값"><br>
+<input type="button" value="버튼"><br><br><br>	
+<input type="submit" value="전송버튼"><br>	
 </form>
 </body>
 ```
@@ -147,4 +160,15 @@ table를 만들때는 table, tr, td 코드를 사용함
 - 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
 - textarea 태그는 value 필요 없이 텍스트를 입력해놓으면 텍스트입력값이 형성됨
 - rows, cols는 행/열 간격 설정
+
+** 사용한 input type 정리 **
+- text : 텍스트 입력
+- password : 비밀번호 입력 (문자 입력시 글자가 비공개)
+- intro : 넓은 텍스트입력란
+- radio : 선택지 (하나만 선택)
+- checkbox : 선택지 (다중선택)
+- file : 첨부파일 업로드 가능 버튼
+- hiddle : 본문에는 보이지 않지만 숨겨서 데이터를 넘길 수 있는 태그
+- submit : 기능이 포함되어 있는 버튼
+- button : 기능이 없는 버튼 (자바스크립트와 제이쿼리에서 주로 사용)
 
