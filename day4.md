@@ -72,7 +72,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 1bit = 2진수 1자리이며, 8bit 는 2진수 8자리이므로 2^8 = 256 으로 총 256 가지의 경우의 수 표현 가능함
   - 양수와 음수 표현을 하므로, 256 / 2 = 128 가지의 경우의 수를 나타낼 수 있으며 -128 ~ +127 까지의 범위를 표현 가능함 (0은 양수로 취급)
 
-```
+```java
 //		byte 타입 변수 사용
 		byte bNum = 10; // byte 타입 변수에 정수 10 저장(표현 가능 범위 내에 포함되므로 사용 가능)
 		System.out.println(bNum); // 저장된 정수 10 출력
@@ -89,7 +89,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 16bit = 2^16 = 65536 / 2 = 32768
   - -32768 ~ +32767 까지의 범위를 표현 가능함.
 
-``` 
+```java
 //		short 타입 변수 사용
 		short sNum = 10;
 		System.out.println(sNum);
@@ -106,7 +106,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 2^32 = 약 42억 / 2 = 약 21억 
   - -21억 ~ +21억 까지의 범위를 표현 가능함.
 
-```
+```java
 //		int 타입 변수 사용
 		int iNum = 2147483647;
 		iNum = -2147483648;
@@ -126,7 +126,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 주의! long 타입으로 표현하는 정수는 숫자 뒤에 접미사 L 필수.
 
 
-```
+```java
 //		long 타입 변수 사용
 		long lNum = 2147483648L; // 접미사 L 필수!
 		System.out.println(lNum);    
@@ -139,7 +139,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   2) 8진수 : 0 ~ 7 사이 범위 데이터를 사용하며, 접두사 0(octet의 의미 o는 생략) 
   3) 16진수 : 0 ~15 사이 범위 데이터(10 ~ 15까지 알파벳 A ~ F로 대체됨)를 사용하며, 접미사 0x(Hexadeciaml의 x) 사용
 
-```
+```java
 		int num = 0b1110; // 2진수 1110
 		System.out.println(num); // 10진수 14로 변환되어 출력됨
 			
@@ -160,7 +160,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - float : 소수점 45 자리와 정수부분 38 자리까지 표현 가능. 단, 자바에서 float 타입은 소수점 7자리 정도까지 표현(근사치)
   - float 타입 실수 표현 시 실수 데이터 뒤에 접미사 F 또는 f 사용
 
-```
+```java
 //			float 타입 변수 사용
 //			float fNum = 3.14; // 오류! 3.14는 double 타입이므로 float 타입에 저장 불가.
 			float fNum = 3.14f;
@@ -171,7 +171,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 대략 300 자리 정도의 숫자까지 표현 가능하며, double 타입은 소수점 15자리 정도까지 표현(근사치)
   - double 타입 실수는 일반적인 실수로 표현하거나 접미사 D 또는 d 사용.  
 
-``` 
+```java
 //			double 타입 변수 사용
 			double dNum = 3.14; // 실수 뒤에 접미사 생략 시 double 타입으로 취급됨.
 			System.out.println(dNum);
@@ -182,7 +182,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 
 ## 3. 논리형 : boolean 타입을 사용하며, 특수한 값인true 또는 false 두 가지 값만 사용 가능.
 
-```
+```java
 //		논리형 타입 변수 사용
 		boolean bool = true;
 		System.out.println(bool);
@@ -211,7 +211,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - 7bit 코드(2^7 = 128 가지 문자 표현)
   - 2진수 0000000(0) ~ 1111111(127) 값 사용하여 표현
 
-```		
+```java	
 		System.out.println('A');
 		System.out.println('0');
 		System.out.println('가');
@@ -247,7 +247,7 @@ JDK(Java Development Kit, 자바 개발 도구)
   - "" 사이에 아무런 문자도 포함하지 않는 문자열을 널스트링(Null String) 이라고 함
 - \ 기호를 활용한 이스케이프 문자도 표현 가능
 
-```
+```java
 	System.out.println("Hello, World!");
 		
 //		String 타입 변수도 기본 데이터타입 변수와 선언 방법 동일함
@@ -298,7 +298,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - a와 b를 더하기 위해서 형변환이 일어나야하는데 표현범위가 좁은 int가 float로 변환되어 계산된다. (이때 결과는 float)
 - 연산 결과가 담겨질 변수 c의 타입은 double이고 double이 float보다 더 큰 범위를 표현할 수 있으므로 자동형변환이 발생
 
-```
+```java
 		int a1 = 128;
 		byte a2 = 127;
 		
@@ -316,7 +316,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 		float a = 100.0; -> float a = (float)100.0;
 		int b = 100.0F; -> int b = (int)100.0F;
 		
-```
+```java
 		int b1 = 130;
 		byte b2 = 127;
 		System.out.println("변환 전 b1(int) : " + b1 + ", b2(byte) : " + b2);
@@ -348,7 +348,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - 먼저 피연산자의 값을 증가 또는 감소시킨 후에 다른 연산에 참여 
 	- ex) ++i, --i
 
-```
+```java
 		int x1 = 5;
 		int y1 = ++x1;
 		
@@ -376,7 +376,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - 일반적인 사칙연산과 동일
 - % 연산자 : 나머지 연산자(퍼센트 연산자) 라고 하며, 나눈 나머지 값을 반환
 
-```
+```java
 		System.out.println(10 + 2);
 		System.out.println(10 - 2);
 		System.out.println(10 * 2);
@@ -393,7 +393,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 	- 규칙2. int 타입보다 큰 타입과의 연산은 큰 타입으로 변환 후 연산 수행
 		- ex) int + long = (long)int + long = 결과가 long 타입
 		- ex) int + double = (double)int + double = 결과가 double 타입 
-```
+```java
 		byte b1 = 10, 
 		     b2 = 20, 
 		     b3;
@@ -446,7 +446,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - 좌변과 우변의 데이터끼리 산술연산을 먼저 수행한 후, 결과값을 좌변에 대입
 	- ex) a = a + 1; -> a += 1;
 
-```
+```java
 		int a = 10, b = 0;
 		b += a;
 		System.out.println(b);
@@ -485,7 +485,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 ## 비교 연산자
 - 두 피연산자 간의 대소관계 등을 비교하여 true 또는 false 값 반환 
 
-```
+```java
 		int a = 10, b = 5;
 		boolean bool = a > b;
 		System.out.println(bool);
@@ -514,7 +514,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 - 두 피연산자 간의 논리적인 판별을 수행하는 연산자
 - 피연산자는 모두 boolean 타입 데이터만 사용 가능하며, 결과값도 boolean 타입으로 리턴
 
-```
+```java
 		 * < AND 연산자 (& 또는 &&) - 논리곱 >
 		 *  - 두 피연산자 모두 true일 경우에만 결과가 true
 		 *  - 하나라도 false일 경우 결과값이 false
@@ -559,7 +559,7 @@ JDK(Java Development Kit, 자바 개발 도구)
 		 -> 연산식에는 결과값이 boolean 타입 (true 또는 false)인 식만 올 수 있다.
 		 -> 연산식 판별 결과가 true일 경우 값1, false일 경우 값2
 
-```
+```java
 		int a = 10;
 		String result = a%2 == 0 ? "짝수" : "홀수";
 		System.out.println(result);
