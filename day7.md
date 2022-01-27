@@ -18,8 +18,11 @@
 </body>
 </html>
 ```
+table를 만들때는 table, tr, td 코드를 사용함
 
-** 5행 4열 표 만들기 **
+
+
+### 5행 4열 표 만들기
 ```html
 <!DOCTYPE html>
 <html>
@@ -40,3 +43,6 @@
 </body>
 </html>
 ```
+![image](https://user-images.githubusercontent.com/95197594/151272313-3b7aec68-8e1b-4bf4-bac7-371fac784d62.png)
+
+
