@@ -114,7 +114,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 </head>
 <body>
 <h1>양식(폼)태그</h1>
-<form action="test4.html">
+<form action="test4.html" method="post">
 <input type="submit" value="전송버튼">
 </form>
 </body>
@@ -123,14 +123,25 @@ table를 만들때는 table, tr, td 코드를 사용함
 
 ![1](https://user-images.githubusercontent.com/95197594/151279302-614ff3ff-6772-4ed1-810d-a2d9668f7593.PNG)
 - 전송버튼을 누르면 test4.html로 이동
-
+- form 태그는 이동 / input 태그는 형태생성(텍스트, 버튼 등) 담당
+  - form 태그 안에 입력한 데이터를 가지고 서버에 전송하면서 action에 저장된 페이지로 이동
+- method는 데이터를 전송하는 방식
+  - get 방식은 주소줄에 데이터가 보이면서 서버 전송 (get 방식은 따로 태그를 추가하지 않아도 자동으로 주소줄에 데이터가 보임)
+  - post 방식은 주소줄에 데이터가 안 보이면서 서버 전송  
+- value는 입력값
 ### 텍스트를 입력 가능한 상자 생성
 ```html
 <body>
 <h1>양식(폼)태그</h1>
-<form action="test4.html">
-아이디 : <input type="text" name="id"><br>
-<input type="submit" value="전송버튼">
+<form action="test4.html" method="post">
+아이디 : <input type="text" name="id" value="Lee"><br>
+비밀번호 : <input type="password" name="pass"><br>
+자기소게 : <textarea name="intro" rows="5" cols="10">안녕</textarea>
+<input type="submit" value="전송버튼"><br>
 </form>
 </body>
 ```
+![2](https://user-images.githubusercontent.com/95197594/151279935-ee306df4-e8b6-45bb-a1fe-95a262b71f37.PNG)
+- 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
+
+
