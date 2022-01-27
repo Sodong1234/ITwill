@@ -18,7 +18,10 @@
 </body>
 </html>
 ```
+
 table를 만들때는 table, tr, td 코드를 사용함
+- tr은 행(가로), td는 열(세로)
+- table 옆에 붙이는 border는 선의 크기(개수)를 나타냄.
 
 
 
