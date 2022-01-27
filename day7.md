@@ -145,23 +145,26 @@ table를 만들때는 table, tr, td 코드를 사용함
        <input type="checkbox" name="hobby" value="운동">운동	
 <input type="submit" value="전송버튼"><br>
 목록상자 : <select name="sel">	     // name 뒤에 size 태그 추가시 넓게 보기 가능 ex) size="3". 하지만 많이 사용하지는 않음
-	   <option value="목1">목록1</option>
-	   <option value="목2">목록2</option>
-	   <option value="목3">목록3</option>
-	   </select>	   <br>
+	   				<option value="목1">목록1</option>
+	   				<option value="목2">목록2</option>
+	   				<option value="목3">목록3</option>
+	   			</select>	   <br>
 파일첨부 : <input type="file" name="file"><br>
 히든태그 : <input type="hidden" name="hi" value="값"><br>
 <input type="button" value="버튼"><br><br><br>	
-<input type="submit" value="전송버튼"><br>	
+<input type="submit" value="서버전송버튼"><br>	
+<input type="image" src="1.jpg" width="100" height="100">	
+<input type="reset" value="초기화"><br> 	
 </form>
 </body>
 ```
-- ![3](https://user-images.githubusercontent.com/95197594/151283289-2ffa601d-9cbd-4bc4-a00d-1c97ee476d90.PNG)
+![캡처](https://user-images.githubusercontent.com/95197594/151286799-2afddf46-5c00-4bb5-a622-d9519c2c6fe4.PNG)
+
 - 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
 - textarea 태그는 value 필요 없이 텍스트를 입력해놓으면 텍스트입력값이 형성됨
 - rows, cols는 행/열 간격 설정
 
-** 사용한 input type 정리 **
+**사용한 input type 정리**
 - text : 텍스트 입력
 - password : 비밀번호 입력 (문자 입력시 글자가 비공개)
 - intro : 넓은 텍스트입력란
@@ -169,6 +172,8 @@ table를 만들때는 table, tr, td 코드를 사용함
 - checkbox : 선택지 (다중선택)
 - file : 첨부파일 업로드 가능 버튼
 - hiddle : 본문에는 보이지 않지만 숨겨서 데이터를 넘길 수 있는 태그
-- submit : 기능이 포함되어 있는 버튼
+- submit : 기능이 포함되어 있는 버튼 (form 태그에 있는 데이터들을 서버에 전송)
+	- image : submit 버튼에 이미지 추가
 - button : 기능이 없는 버튼 (자바스크립트와 제이쿼리에서 주로 사용)
+- reset : 리셋버튼
 
