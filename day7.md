@@ -48,7 +48,8 @@ table를 만들때는 table, tr, td 코드를 사용함
 ```
 ![image](https://user-images.githubusercontent.com/95197594/151272313-3b7aec68-8e1b-4bf4-bac7-371fac784d62.png)
 
-## 3행 3열 표 만든 후 표 합치기
+
+### 3행 3열 표 만든 후 표 합치기
 ```html
 
 </table>
@@ -87,7 +88,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 ![4](https://user-images.githubusercontent.com/95197594/151276375-c7e97aa6-1e82-472c-8748-365a36dc7be9.PNG)
 
 
-## 5행 4열 표 합치기
+### 5행 4열 표 합치기
 ```html
 <h2>5행 4열 표 만들기</h2>
 <table border="1">
@@ -101,4 +102,21 @@ table를 만들때는 table, tr, td 코드를 사용함
 </html>
 ```
 
+![5](https://user-images.githubusercontent.com/95197594/151277438-4c77b1bb-5f4b-40ba-9650-634c17f371d0.PNG)
 
+## 양식(폼)태그
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html1/test5.html</title>
+</head>
+<body>
+<h1>양식(폼)태그</h1>
+<form action="test4.html">
+<input type="submit" value="전송버튼">
+</form>
+</body>
+</html>
+```
