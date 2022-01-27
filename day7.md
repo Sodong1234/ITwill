@@ -288,9 +288,9 @@ ex)
 
 			if (i % 2 == 0) {
 				even += i;
-			} else
+			} else {
 				odd += i;
-
+			}
 
 			i++;
 		}
