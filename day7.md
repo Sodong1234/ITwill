@@ -142,7 +142,7 @@ table를 만들때는 table, tr, td 코드를 사용함
        <input type="radio" name="gender" value="여">여성<br>
 취미 : <input type="checkbox" name="hobby" value="여행">여행
        <input type="checkbox" name="game" value="게임">게임
-       <input type="checkbox" name="health" value="운동">운동	
+       <input type="checkbox" name="health" value="운동">운동<br>
 <input type="submit" value="전송버튼"><br>
 목록상자 : <select name="sel">	     // name 뒤에 size 태그 추가시 넓게 보기 가능 ex) size="3". 하지만 많이 사용하지는 않음
 	   <option value="목1">목록1</option>
