@@ -141,14 +141,14 @@ table를 만들때는 table, tr, td 코드를 사용함
 성별 : <input type="radio" name="gender" value="남">남성
        <input type="radio" name="gender" value="여">여성<br>
 취미 : <input type="checkbox" name="hobby" value="여행">여행
-       <input type="checkbox" name="hobby" value="게임">게임
-       <input type="checkbox" name="hobby" value="운동">운동	
+       <input type="checkbox" name="game" value="게임">게임
+       <input type="checkbox" name="health" value="운동">운동	
 <input type="submit" value="전송버튼"><br>
 목록상자 : <select name="sel">	     // name 뒤에 size 태그 추가시 넓게 보기 가능 ex) size="3". 하지만 많이 사용하지는 않음
-	   				<option value="목1">목록1</option>
-	   				<option value="목2">목록2</option>
-	   				<option value="목3">목록3</option>
-	   			</select>	   <br>
+	   <option value="목1">목록1</option>
+	   <option value="목2">목록2</option>
+	   <option value="목3">목록3</option>
+	   </select>	   <br>
 파일첨부 : <input type="file" name="file"><br>
 히든태그 : <input type="hidden" name="hi" value="값"><br>
 <input type="button" value="버튼"><br><br><br>	
@@ -158,7 +158,8 @@ table를 만들때는 table, tr, td 코드를 사용함
 </form>
 </body>
 ```
-![캡처](https://user-images.githubusercontent.com/95197594/151286799-2afddf46-5c00-4bb5-a622-d9519c2c6fe4.PNG)
+![1](https://user-images.githubusercontent.com/95197594/151288025-3699b860-dde5-456f-80fc-385505fc9a0b.jpg)
+
 
 - 이런 식으로 아이디, 비밀번호 입력상자 등등을 생성 가능.
 - textarea 태그는 value 필요 없이 텍스트를 입력해놓으면 텍스트입력값이 형성됨
@@ -176,4 +177,7 @@ table를 만들때는 table, tr, td 코드를 사용함
 	- image : submit 버튼에 이미지 추가
 - button : 기능이 없는 버튼 (자바스크립트와 제이쿼리에서 주로 사용)
 - reset : 리셋버튼
+
+---
+
 
