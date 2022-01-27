@@ -120,3 +120,17 @@ table를 만들때는 table, tr, td 코드를 사용함
 </body>
 </html>
 ```
+
+![1](https://user-images.githubusercontent.com/95197594/151279302-614ff3ff-6772-4ed1-810d-a2d9668f7593.PNG)
+- 전송버튼을 누르면 test4.html로 이동
+
+### 텍스트를 입력 가능한 상자 생성
+```html
+<body>
+<h1>양식(폼)태그</h1>
+<form action="test4.html">
+아이디 : <input type="text" name="id"><br>
+<input type="submit" value="전송버튼">
+</form>
+</body>
+```
