@@ -50,5 +50,18 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'; 입력
   - 생성한 'root'에 모든 권한을 부여하는 명령어 실행
  - flush privileges; 입력
- - SELECT host, user FROM mysql.user; 입력 후 뜨는 창에서 % root가 맨 위에 위치해 있으면 설정 완료
+ - SELECT host, user FROM mysql.user; 입력 후 뜨는 창에서 % root가 맨 위에 위치해 있으면 설정 완료 -> exit 입력
+ ![제목 없음](https://user-images.githubusercontent.com/95197594/151482951-94e39456-f445-46db-ad74-0fbc867acd74.png)
+ 
+ ### 방화벽 설정 (원격 설정을 하기 위함)
+ - firewall-cmd --permanent --add-port=3306/tcp 입력
+  - 시스템에 MySQL의 기본 포트번호 3306의 값을 방화벽에서 영구 예외처리하는 명령어
+ - firewall-cmd --reload 입력
+  - 방화벽 설정 다시 읽어오기
+
+### Workbench 접속
+- 실행 -> MySQL Connection 옆의 + 버튼 클릭 -> Hostname에 본인의 아이피값 입력 Connection name에 Cento_mysql 입력 -> Test Connection 클릭 -> 패스워드에 1234 입력 & 밑에 자동저장 체크 -> 메인 화면으로 돌아와서 설정한 서버 더블클릭 -> 정상 실행
+  - Hostname은 서버의 주소 
+
+
 
