@@ -170,7 +170,7 @@ public class Ex {
 ```
 
 문제출제
-```
+```java
 package method;
 
 public class test {
