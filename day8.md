@@ -14,3 +14,21 @@
 ### 로그인
 - 로그인명 root / 비밀번호 1234(입력해도 아무것도 안 보이는게 정상)
 - 로그인에 성공하면 # ip addr show 입력 -> 본인의 아이피 확인 (2번 항목에서 inet 옆에 있는 아이피가 본인의 아이피)
+- ![캡처](https://user-images.githubusercontent.com/95197594/151470802-c48dc366-c2cf-455d-b119-77e837d55aae.PNG)
+- (윈도우와 원격 연결) 윈도우즈로 돌아와서 cmd 실행 -> ssh root@아이피 입력 -> 메세지 뜨면 yes -> 비밀번호 1234 입력 -> 로그인 완료 
+
+### 설치파일 다운로드
+https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MySQL Yum Repository -> Red Hat Enterprise Linux 7 / Oracle Linux 7 (Architecture) 클릭 -> No thanks, just start my download 주소 복사(https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm) -> cmd 창으로 돌아와서 yum update -y 입력
+  - yum : 플레이스토어같은 역할
+  - yum update -y는 최신버전 업데이트 명령어
+
+### mySQL repository 추가
+- cmd에서 yum install -y 마우스우클릭(https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm 링크 붙여넣기) 
+
+### mySQL community server 설치
+- cmd에서 yum search mysql-community-server 입력 -> yum install -y mysql-community-server 입력
+
+## 실행
+systemctl start mysqld로 실행 -> systemctl status mysqld로 실행됐는지 확인 -> grep 'temporary password' /var/log/mysqld.log 로 비밀번호 확인  
+
+
