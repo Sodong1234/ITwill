@@ -8,4 +8,9 @@
 - 설정 -> 시스템 -> 포인팅 장치를 USB 태블릿으로 설정 & 하드웨어 시각 체크 해제
        -> 저장소 -> 컨트롤러SATA에 호스트 I/O 캐시 사용 체크 -> 컨트롤러 IDE 비어있음 클릭 -> 오른쪽 디스크 모양 누르기 -> 디스크 파일 선택 -> 저번 시간에 받은 CentOS-7-x86_64-Minimal-2009           선택 -> 열기 -> 확인
 ### 가상운영체제 설치 및 설정     
-- 시작버튼 클릭 -> Install CentOS 7 설치 선택 -> 언어는 영어로 설정하고 다음 -> System -> INSTALLATION DESTINATION 클릭 -> 설정 변경 없이 Done 클릭 -> NETWORK & HOST NAME 클릭 -> 아래쪽 Host name을 MySQL로(편의상) -> Apply -> 옆의 Configure... 클릭 -> General 항목 클릭 -> 첫 번째 항목 체크
+- 시작버튼 클릭 -> Install CentOS 7 설치 선택 -> 언어는 영어로 설정하고 다음 -> System -> INSTALLATION DESTINATION 클릭 -> 설정 변경 없이 Done 클릭 -> NETWORK & HOST NAME 클릭 -> 아래쪽 Host name을 MySQL로(편의상) -> Apply -> 옆의 Configure... 클릭 -> General 항목 클릭 -> 첫 번째 항목 체크 -> save -> done -> DATE & TIME 클릭 -> 지역 서울로 클릭 -> done -> Begin installlation 클릭 -> ROOT PASSWORD 클릭 -> 비밀번호 1234로 설정(편의상) -> done -> 설치가 종료되면 reboot 클릭
+- 윗쪽의 머신 -> 설정 -> 네트워크 -> NAT를 어댑터에브리지 -> 확인
+
+### 로그인
+- 로그인명 root / 비밀번호 1234(입력해도 아무것도 안 보이는게 정상)
+- 로그인에 성공하면 # ip addr show 입력 -> 본인의 아이피 확인 (2번 항목에서 inet 옆에 있는 아이피가 본인의 아이피)
