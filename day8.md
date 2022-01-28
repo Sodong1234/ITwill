@@ -94,6 +94,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 4. 매개변수도 있고, 리턴값도 있는 메서드
 ```
 
+정리 **순서주의**
 ```java
 package method;
 
