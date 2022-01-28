@@ -28,9 +28,27 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 ### mySQL community server 설치
 - cmd에서 yum search mysql-community-server 입력 -> yum install -y mysql-community-server 입력
 
-## 실행
-systemctl start mysqld로 실행 -> systemctl status mysqld로 실행됐는지 확인 -> grep 'temporary password' /var/log/mysqld.log 로 비밀번호 확인  
-![캡처](https://user-images.githubusercontent.com/95197594/151477978-944901ac-5c59-4f8f-806e-56ff941815e0.PNG)
+### mySQL server 접속
+- systemctl start mysqld로 실행 -> systemctl status mysqld로 실행됐는지 확인 -> grep 'temporary password' /var/log/mysqld.log 로 비밀번호 확인 및 복사
+![제목 없음](https://user-images.githubusercontent.com/95197594/151478069-0f92cddd-10f5-48d2-9fde-f7e28200d630.png)
   - 위의 하이라이트 된 값은 MySQL 서비스의 관리자 계정인 'root'계정의 랜덤 생성된 패스워드 값으로 첫 접속 시에 입력해줘야한다.
+- mysqp -uroot -p 입력 -> 패스워드 입력 (마우스 오른쪽 클릭) -> 로그인 완료 -> exit
 
+### password 재설정
+- echo 'validate_password.policy=LOW' | sudo tee -a /etc/my.cnf 입력
+  - 패스워드 복잡성 수준을 낮음으로 설정. 패스워드 길이의 조건만 만족하면 된다.
+- echo 'validate_password.length=1' | sudo tee -a /etc/my.cnf 입력
+  - 패스워드의 길이를 1글자만 넘기면 되게끔 설정
+- echo 'default_password_lifetime=0' | sudo tee -a /etc/my.cnf 입력
+  - 패스워드의 유효기간을 무기한으로 변경
+- systemctl restart mysqld 입력
+  - MySQL의 서비스를 재시작해서 위의 설정값을 적용한다.
+- mysql -uroot -p 입력 -> 기존 랜덤 패스워드값 입력 -> 로그인 성공시 ALTER user 'root'@'localhost' IDENTIFIED BY '1234'; 입력
+  - 'root' 계정의 패스워드를 1234로 갱신 
+- CREATE USER 'root'@'%' IDENTIFIED BY '1234'; 입력
+  - 외부에서 접속 가능한 'root' 계정 생성하고 패스워드는 '1234'로 지정
+- GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'; 입력
+  - 생성한 'root'에 모든 권한을 부여하는 명령어 실행
+ - flush privileges; 입력
+ - SELECT host, user FROM mysql.user; 입력 후 뜨는 창에서 % root가 맨 위에 위치해 있으면 설정 완료
 
