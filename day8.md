@@ -30,5 +30,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 
 ## 실행
 systemctl start mysqld로 실행 -> systemctl status mysqld로 실행됐는지 확인 -> grep 'temporary password' /var/log/mysqld.log 로 비밀번호 확인  
+![캡처](https://user-images.githubusercontent.com/95197594/151477978-944901ac-5c59-4f8f-806e-56ff941815e0.PNG)
+  - 위의 하이라이트 된 값은 MySQL 서비스의 관리자 계정인 'root'계정의 랜덤 생성된 패스워드 값으로 첫 접속 시에 입력해줘야한다.
 
 
