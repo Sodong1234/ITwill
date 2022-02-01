@@ -1,3 +1,7 @@
+> 인터넷 강의 "웹 표준에 맞는 HTML5 프로그래밍" 의 내용을 정리함 
+
+
+
 # 웹 프로그래밍 이해하기
 ## 웹 프로그래밍의 개요
 ### 웹 프로그래밍
@@ -82,8 +86,110 @@
 - 입력 양식 작동 원리
   - 브라우저에서 서버로 요청 -> 서버에서 브라우저로 응답  
 - 다양한 양식 (form)태그
-  -  
+```html  
+<body>
+<form action="test.html" method="post">
+<input type="text">
+<input type="password">
+<input type="radio">
+<input type="checkbox">
+<input type="submit">
+<select name="sel">
+<option value="목1">목록1</option>
+</select>	   <br>
+<input type="file">
+<input type="hidden">
+<input type="button">
+<input type="submit">	
+<input type="image" src="1.jpg" width="100" height="100">	
+<input type="reset">
+</form>
+</body>
+```
 - MDN과 Codepen을 활용한 태그 연습
   - MDN : https://developer.mozilla.org/en-US/
   - Codepen : https://codepen.io/
 - html5와 CSS3 태그를 모두 외울 필요 없음. 이해한 후에 궁금한것들은 MDN 또는 w3schools에서 검색하고, 검색 결과를 Codepen과 같은 온라인 에디터사이트에서 확인
+---
+# CSS3를 활용한 시각적 효과 꾸미기 
+## CSS의 개요
+- CSS3의 개념 및 형식
+  - HTML(Hypertext Markup Language) : 문서의 내용
+  - CSS(Cascading Style Sheets) : 문서의 스타일(디자인)
+- 선택자의 종류  
+  - .class
+  - #id
+  - * (전체를 뜻함)
+  - element
+  - element, element, ...
+## CSS3의 표현 방법
+- 외부 스타일 시트 - CSS 문서를 별도로 두고 그 문서를 불러다 사용
+- 내부 스타일 시트 - 직접 CSS 내용을 기술. <style></style> 태그 사용
+- 인라인 스타일 시트 - 태그와 같은 라인에 CSS를 선언
+  - ex)
+```html
+<body>
+  <h1 style="color: blue; text-align: center;"><h1>
+  <p style="colpr: red;"></p>
+</body>
+``` 
+## CSS3의 단위, 색상, 글자 속성
+- CSS3의 단위
+  - 고정 크기 단위 (cm, mm, in, px, pt, pc)
+  - 가변 크기 단위 (em, ex, ch, rem, vw ,vh, vmin, vmax, %)
+- CSS3의 색상
+  - 종류 (Background Color, Text Color, Border Color)
+  - 표현 방법 (RGB, 16진수, HSL, RGBA, HSLA)
+- CSS Text
+  - Color, Alignment, Decoration, Transformation, Spacing
+    - Color : 글자색. blue, #ff0000, rgb (255,0,0) 등
+    - Alignment : 문자정렬방식. center, left, right, justify
+    - Decoration : 문자꾸밈방식. none, overline, line-through, underline
+    - Transformation : 문자변환방식(소문자->대문자, 대문자->소문자). uppercase, capitalize, lowercase 
+    - Spacing : 글자간격. 50px, letter-spacing, ling-height, word-spacing, white-space
+- CSS Font
+  - font-family
+    - 글꼴에 Serif인지 Sans-serif를 표기함
+      - Serif : 꾸며진 글씨체
+      - Sans-serif : 꾸며지지 않은 글씨체 
+  - font-style
+    - normal, italic, oblique 
+  - font-weight
+    - normal, bold 
+  - font-size
+    - px, em, %, rem     
+---
+# CSS3을 활용한 폼 꾸미기
+## CSS BOX모델의 개념과 관련 요소
+- CSS BOX모델 : HTML의 요소는 박스 모양으로 구성되며 마진(Margin), 보더(Border), 패딩(Padding), 콘텐츠(Content)로 구분
+- CSS Padding, Borders, Margins 속성
+  - Padding : Content와 Border와의 간격
+  - Border : 전체 요소의 테두리
+  - Margin : Border로부터 실제 Content가 표시될 수 있는 간격
+- CSS Outline : 요소를 두드러지게 보이게하는 선을 지정
+  - Outline의 종류 : dotted, dashed, solid, double, groove, ridge, inset, outset
+  - 색상 지정도 가능
+- CSS Display
+- block : 박스형태 (div, h1~h6, p, form, header, footer, section)
+- inline : 한 라인에 보여 줄 수 있는 형태 (span, a, img)
+- display : 화면에 콘텐츠가 표현되는 방식 (none, block, inline, inline-block)
+- visibility : 화면에 콘텐츠가 표현되는 방식 (visible, hidden, collapse)
+## CSS 아이콘과 링크
+- CSS Icons(아이콘)
+  - Font awesome : script에 fontawsome JavaScript 불러온 후 아이콘의 이름을 명시하여 적용
+  - Bootstrap : <head>안에 Bootstrap사이트 링크 삽입 후 아이콘의 이름을 명시하여 적용
+  - google : <head>안에 google의 아이콘 사이트링크 삽입 후 아이콘의 이름을 명시하여 적용
+- CSS Link(링크)
+  - default : 파란색과 밑줄
+  - CSS로 스타일변경 가능
+## CSS 리스트, 주석, 이미지 갤러리
+- Lists item Markers(표시자)
+  - 다양한 표시자의 예 : circle, square, upper-roman, lower-alpha, URL로 직접 이미지 삽입 가능
+- CSS Commentes (주석) : 코드의 혼동 방지, 편리한 유지 보수, 실제 코드에 영향을 주지 않음
+  - CSS : //(한 줄), /* */(여러 줄)
+  - HTML : <!-- -->
+  - JavaScript : //(한 줄), /* */(여러 줄)
+- Image Gallery
+  - CSS로 이미지갤러리를 선언하면 각 이미지를 클릭했을 때 특정 이미지를 확대해서 나타나게 하는 것이 특징
+---
+# 다양한 레이아웃의 구성과 기능  
