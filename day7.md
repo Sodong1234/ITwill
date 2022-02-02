@@ -388,9 +388,9 @@ for(초기식(1); 조건식(2); 증감식(4)){
 		for (i = 1; i <= 100; i++) {
 			if (i % 2 == 0) {
 				even += i;
-			} else
+			} else {
 				odd += i;
-
+			}
 		}
 		System.out.println("1 ~ 100 까지 짝수의 합 : " + even);
 		System.out.println("1 ~ 100 까지 홀수의 합 : " + odd);
