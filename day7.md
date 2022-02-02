@@ -425,6 +425,8 @@ for(초기식(1); 조건식(2); 증감식(4)){
 				if (sum >= 50) {
 					System.out.println(i);
 					break;
+				}
+			}
 ```					
 
 
