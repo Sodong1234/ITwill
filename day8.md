@@ -80,7 +80,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
   - 메서드 수행 후 리턴할 것이 없을수도 있는데 이 때는 메서드 선언부 리턴타입 부분에 반드시 void 라는 특수한 타입을 명시해야한다!
   	- 한 번에 리턴 가능한 데이터는 한 개이다! (= 복수개 리턴 불가) 
  
-< 메서드 정의 기본 문법 >
+### < 메서드 정의 기본 문법 >
 ```
 [제한자] 리턴타입 메서드명([매개변수선언...]) < 선언부(header){
     // 메서드가 호출되었을 때 실행할 코드들...
@@ -88,7 +88,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
  } < 구현부(body)
 ```
 
-< 메서드 정의 방법(형태)에 따른 분류 >
+### < 메서드 정의 방법(형태)에 따른 분류 >
 ```
 1. 매개변수가 없고, 리턴값도 없는 메서드
 2. 매개변수는 없고, 리턴값만 있는 메서드
@@ -96,7 +96,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 4. 매개변수도 있고, 리턴값도 있는 메서드
 ```
 
-정리 **<순서주의>**
+### 정리 **<순서주의>**
 ```java
 package method;
 
@@ -158,6 +158,17 @@ public class Ex {
 		System.out.println("동생아! 1000원을 줄테니 나도 새우깡 좀 사다도!");
 		String snack = sister_4(1000); // 메서드 호출 시 1000 전달하고, 리턴값(String 타입)을 snack 변수에 저장
 		System.out.println("동생이 사다준 과자 : "  + snack);
+		
+		System.out.println("======================================");
+		
+		<<추가>>매개변수가 2개 이상인 메서드
+		// => 전달할 데이터가 복수개일 경우 해당 데이터의 타입과 순서에 맞게 메서드 매개변수를 지정해야함
+		// 	  (참고. 리턴값은 2개 이상 지정 불가)
+		// ex) 정수 2개를 전달할 경우 매개변수는 정수형 변수 2개 선언
+		// ex) 정수 1개와 문자열 1개 전달할 경우 매개변수는 정수형 변수, 문자열 변수 순으로 선언해야함
+		System.out.println("동생아! 새우깡과 500원 줄테니 쿠크다스로 바꿔온나!");
+		String snack = sister_5("새우깡", 500);
+		System.out.println("동생이 바꿔다 준 것 : " + snack);
 		
 	} // manin() 메서드 끝
 
@@ -234,10 +245,24 @@ public class Ex {
 		//    현재 "새우깡"(String 타입)만 리턴 가능하고, 잔돈 800원은 리턴 불가능
 		//    (같은 타입의 데이터도 하나만 리턴 가능함)
 	}
+	
+	// ----------------------------------
+	
+	// <<추가>>매개변수가 2개 이상인 메서드
+	// => 전달하는 데이터의 타입과 순서에 맞게 매개변수를 선언해야함
+	public static String sister_5(String snack, int money) { // 문자열, 정수 순으로 선언 필수!
+		System.out.println("동생 : 오빠가 과자 바꿔오라고 준 것 : " + snack + "과 " + money + "원을 줬다!");
+		money -= 500;
+		snack = "쿠크다스";
+		System.out.println("동생 : " + snack + "(으)로 바꿨다!");
+		
+		return snack;
+		
+		
 } // Ex 클래스 끝
 ```
 
-문제출제
+### 문제출제
 ```java
 package method;
 
@@ -280,6 +305,7 @@ public class test {
 		
 		// 3. 매개변수만 있고, 리턴값은 없는 메서드 호출
 		// 3-1) 정수 1개를 전달받아 해당 정수값만큼 "Hello, World" 문자열을 반복 출력하는 hello() 메서드 출력
+		
 		hello(5);
 		
 		// 3-2) 문자열 1개를 전달받아 해당 문자열을 10번 출력하는 pirnt() 메서드 호출 
@@ -300,6 +326,15 @@ public class test {
 		// 4. 매개변수도 있고, 리턴값도 있는 메서드 
 		// 정수 1개(num)를 전달받아 1 ~ num 까지의 합을 계산 후 리턴하는 sum() 메서드 정의
 		// ex) 10 전달할 경우 1 ~ 10 까지의 합 55 를 계산한 후 리턴
+		
+		int result = sum(10);
+		System.out.println("합계 : " + result);
+		
+		// 4-2) 정수 1개(num2)를 전달받아 "홀수" 또는 "짝수" 를 판별하여 리턴하는 checkNum() 메서드 호출
+		// ex) 10 전달할 경우 "짝수" 리턴, 3 전달할 경우 "홀수" 리턴 (0은 짝수에 포함시킬 것)
+		
+		System.out.println("정수 10 : " + checkNum(10));
+		System.out.println("정수 5 : " + checkNum(5));
 		
 	} // main() 메서드 끝
 
@@ -369,7 +404,62 @@ public class test {
 	// 4. 매개변수도 있고, 리턴값도 있는 메서드 정의
 	// 정수 1개(num)를 전달받아 1 ~ num 까지의 합을 계산 후 리턴하는 sum() 메서드 정의
 	// ex) 10 전달할 경우 1 ~ 10 까지의 합 55 를 계산한 후 리턴
+	public static int sum(int num) {
+	int total = 0;
+	for(int i = 1; i <= num; i++) {
+		total += i;
+	}
+		return total;
+	}
+	
+	// 4-2) 정수 1개(num2)를 전달받아 "홀수" 또는 "짝수" 를 판별하여 리턴하는 checkNum() 메서드 호출
+	// ex) 10 전달할 경우 "짝수" 리턴, 3 전달할 경우 "홀수" 리턴 (0은 짝수에 포함시킬 것)
+	public static String checkNum(int num2) {
+	String result = " "; // 결과를 저장할 변수
+
+//		if (num2 % 2 == 0) { // 짝수일 경우
+//			result = "짝수";
+//		} else { // 짝수가 아닐 경우 (= 홀수일 경우)
+//			result = "홀수";
+//		}
+//			return result; // 결과값 리턴
+
+		// ----------------------------------------------------------
+		// if 문 내에서 직접 return 문을 지정하는 경우
+		if (num2 % 2 == 0) {
+			return "짝수";
+		} else {
+			return "홀수";
+		}
+
+	}
 	
 } // Test 클래스 끝
 ```
 
+### return문 사용시 주의사항
+```java
+		// return 문 사용 시 주의사항
+		// - 리턴타입이 void 인 경우에도 return 문은 사용 가능하나, return 문 뒤에 데이터 지정 불가능
+		//	 즉, 현재 메서드를 종료할 목적으로 return 문을 사용 가능
+		// - 리턴문을 조건문과 결합하여 사용할 경우 모든 경우의 수에 return 문이 적용되어야 한다!
+		
+		// ex) 홀수, 짝수를 판별하여 리턴하는 메서드 checkNum() 호출 시
+		System.out.println("판별 결과 : " + checkNum(10));
+
+	}
+
+	public static String checkNum(int num) {
+		// 주의사항! 리턴타입을 명시한 메서드는 어떤 경우라도 반드시 return 문이 실행되어야 함!
+		// => if 문 사용 시 else if 문 등을 사용하는 경우 else 문을 제외하고 사용할 경우 모든 경우의 수를 판별 할 수 없게 되므로
+		// return 문이 실행되지 않는 조건이 생길 수 있다!
+		
+		// 1. if 문과 else if문 조합 시 나머지 경우인 else 문이 없으므로 return 문이 실행되지 못 하는 경우가 발생
+		// => 단, 모든 조건이 만족하는 것처럼 보여도 문법적으로 else 문을 필요로 하게 됨
+		if(num % 2 == 1) { // 홀수 
+			return "홀수"; // if문 결과가 true 일 때 return 문 실행
+		} else if(num % 2 == 0) {
+			return "짝수"; // else if문 결과가 true 일 때 return 문 실행
+		}
+		// => 두 조건이 모두 false 일 때 return 문이 실행되지 않으므로 오류 발생!
+```		
