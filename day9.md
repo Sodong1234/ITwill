@@ -300,19 +300,85 @@ ex)
 
 
 연습문제
-```java
+```
 거스름돈 계산 N이 32850일 경우, 
-50000원 : 0개 
-10000원 : 3개 
-5000원 : 0개 
-1000원 : 2개 
+50000원 : 0개
+10000원 : 3개
+5000원 : 0개
+1000원 : 2개
 500원 : 1개
 100원 : 3개
-50원 : 1개 
+50원 : 1개
 10원 : 0개
+출력하기
+```
 
-// N과 money를 전달받아 money의 갯수 
-// (거스름돈의 갯수)를 리턴하는 메서드 change 를 작성
+```java
+public class test4 {
+
+	public static void main(String[] args) {
+
+
+		//50000원
+		int N = 32850;
+		int money = 50000;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 10000원
+		N %= money;
+		money = 10000;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 5000원
+		N %= money;
+		money = 5000;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 1000원
+		N %= money;
+		money = 1000;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 500원
+		N %= money;
+		money = 500;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 100원
+		N %= money;
+		money = 100;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 50원
+		N %= money;
+		money = 50;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+		// 10원
+		N %= money;
+		money = 10;
+		System.out.println(money + "원 : " + change(N, money) + "개");
+		
+
+
+	} // main 메서드 끝
+
+	// N과 money를 전달받아 money의 갯수
+	// (거스름돈의 갯수)를 리턴하는 메서드 change 를 작성
+		public static int change(int N, int money) {
+			
+		return N/money;
+		
+	}
+		
+		
+		
+} // test4 클래스 끝
+
+```
+
+
+
 
 
 
