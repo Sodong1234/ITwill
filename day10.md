@@ -267,6 +267,10 @@
 - Project Explorer 마우스 오른쪽 -> New -> Dynamic Project 생성
 	- 생성시 Apache Tomcat v8.5 설정 되어 있어야 함.
 
+**서버 실행 안 될 시 day1 커밋 참고하여 **
+
+
+
 
 
 
