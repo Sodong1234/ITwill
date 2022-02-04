@@ -1,4 +1,4 @@
-# [오전수업]
+# [오전수업] JSP 2
 ## 1. 하드웨어 & 소프트웨어 & 펌웨어
 - 하드웨어(Hardware; H/W) : 물리적인 기계 자체
 - 소프트웨어(Software; S/W) : 하드웨어 상에서 돌아가는 프로그램
@@ -69,7 +69,7 @@ IDE(Integrated Development Environment, 통합 개발 환경)
   ---
   
   
-# [오후수업]
+# [오후수업] 자바 1차
 
  ## 자바의 특징
  - 모든 운영체제에서 실행가능 (JVM: Java Virtual Machine)
