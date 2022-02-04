@@ -54,7 +54,7 @@ File - New - Other - Web - Dynamic Web Project - Next - 프로젝트네임 WebPr
 *오전 JSP / 오후 WEB 진행 예정이었으나 첫째 날 오전은 OT로 인하여 메모장으로 Hello World!를 출력하는 작업만 공부.
 
 
-# [오전 수업]
+# [오전 수업] JSP 1차 
 
 명령어는 다음과 같았음.
 ```java
@@ -79,7 +79,7 @@ cmd에서 이것을 javac 명령어를 통하여 컴파일 -> java Hello 명령�
 
 
 
-# [오후 수업]
+# [오후 수업] WEB 1
 프론트엔드 개발(HTML, CSS, Javascript, jQuery). 사용자가 보는 화면에 관련된 작업들.
 백엔드 개발(자바, JSP, MVC, 스프링). 사용자의 눈에 보이지 않는 화면. 
 간단한 예시 - (네이버 로그인창을 예시로) 뼈대는 HTML, 꾸미는 것은 CSS, 아이디입력해라, 비번입력해라 메시지만 띄우고 다음 단계로 진행 시키지 않는 것은 Javascript&jQuery, 서버는 백엔드.
