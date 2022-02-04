@@ -95,15 +95,96 @@
 <div>큰 영역 지정 (웹문서 블록 지정)</div>
 <span>작은 영역(인라인) 블록 지정</span>
 
+<hr>
+<h1>특수문자입력태그</h1>
 공&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;백
 &lt; 태그 특수 문자 &gt;
+&copy; &amp; &quot;
+
+<!-- & ctrl space -->
+
+<!-- ♣ ㅁ 한자키 -->
 
 
 ```
-
+![캡처](https://user-images.githubusercontent.com/95197594/152455620-6387e193-18fa-433e-84dc-8754bcdc0a6b.PNG)
 
 
 ---
+
+## 여러가지 리스트들
+```
+- <ol></ol> 태그 : 순서 있는 항목
+- <ul></ul> 태그 : 순서 없는 항목
+- <dl></dl> 태그 : 설명 목록
+```
+
+```html
+<body>
+<h1>순서있는 목록</h1>
+<ol type = "a">
+	<li>항목1</li>
+	<li>항목2</li>
+	<li>항목3</li>
+</ol>
+
+<h1>순서없는 목록</h1>
+<ul type = "disc">
+	<li>항목1</li>
+	<li>항목2</li>
+	<li>항목3</li>
+</ul>
+	
+<h1>설명 목록</h1>
+<dl>
+	<dt>이름</dt>
+	<dd>값</dd>
+</dl>	
+
+<dl>
+	<dt>선물용 3kg</dt>
+	<dd>소과 13 ~ 16과</dd>
+	<dd>중과 10 ~ 12과</dd>
+</dl>
+
+</body>
+```
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<h3>순서있는 목록</h3>
+<ol type = "a">
+	<li>항목1</li>
+	<li>항목2</li>
+	<li>항목3</li>
+</ol>
+
+<h3>순서없는 목록</h3>
+<ul type = "disc">
+	<li>항목1</li>
+	<li>항목2</li>
+	<li>항목3</li>
+</ul>
+	
+<h3>설명 목록</h3>
+<dl>
+	<dt>이름</dt>
+	<dd>값</dd>
+</dl>	
+
+<dl>
+	<dt>선물용 3kg</dt>
+	<dd>소과 13 ~ 16과</dd>
+	<dd>중과 10 ~ 12과</dd>
+</dl>
+
+</body>
+</html>
+
+---
+
 
 
 
