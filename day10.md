@@ -264,13 +264,199 @@
 
 ---
 **시작 전 기본설정**
-- Project Explorer 마우스 오른쪽 -> New -> Dynamic Project 생성
+- Project Explorer 마우스 오른쪽 -> New -> Dynamic Project 생성 (강의실에서는 편의상 StudyJavascript로 이름 생성)
 	- 생성시 Apache Tomcat v8.5 설정 되어 있어야 함.
+		- 서버 실행 안 될 시 day1 커밋 참고하여 재설정
 
-**서버 실행 안 될 시 day1 커밋 참고하여 **
+- Dynamic Project 새로 생성 -> Next -> Next -> web.xml 생성 체크하고 Finish 후 생성된 곳에서 src -> main -> webapp -> WEB-INF 안에 있는 web.xml을 복사하여 StudyJavascript의 WEB-INF 안에 붙여넣기 -> 방금 만든 Dynamic Project는 삭제
+
+## 자바스크립트 개요
+- 자바와 아무런 관계가 없는 스크립트 언어
+- 별도의 준비나 컴파일(번역)없이 일반적인 문자 형태로 작성한 후 웹브라우저에서 바로 실행이 가능한 언어
+- 개발자로부터 생성된 웹페이지에 사용자가 액션을 취했을 때 해당 액션에 대한 반응을 수행할 수 있도록 해주는 언어
+	- ex) 회원가입 버튼 클릭 시 버튼에 대한 동작 처리 등
+		- HTML 문서 내용 수정, 마우스 또는 키보드 등의 동작에 대한 반응
+- 대부분의 웹브라우저에서 지원
+- 객체 기반(객체 지향) 언어이며 무료로 공개되어 있고, 라이브러리 다양
+- 자바스크립트에서 제공되는 내장객체들과 내장함수들을 사용하여 다양한 작업이 가능함
+	- ex) document 객체, alert() 함수 등
+
+
+> 자바스크립트를 사용하는 이유
+> - JQuery 같은 라이브러리를 활용하여 좀 더 다양한 동작 처리 가능
+> - 서버에 부하가 적게 걸림(= 자바스크립트 코드는 웹브라우저가 처리하므로)
+> - 정적인 웹사이트 -> 동적인 웹사이트로 변환 가능
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+### script 태그
+- 자바스크립트 사용을 위해서는 <script> 태그를 사용하여 내부에 자바스크립트 코드를 기술해야함
+```javascript
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 자바스크립트 사용을 위해서는 <script> 태그를 사용하여 내부에 자바스크립트 코드를 기술해야함-->
+ <script type="text/javascript">
+	 
+ 	// 자바스크립트 코드가 기술되는 위치
+
+ </script>
+</head>
+<body>
+	<h1>test.html</h1>
+	<!-- head 태그 내에서 뿐만 아니라 body 태그 내에서도 script 태그 사용 가능함 -->
+</body>
+</html>
+```	
+
+### 주석
+- 자바스크립트에서는 자바의 주석과 동일한 주석 사용 가능함
+- 범위 주석도 사용 가능
+```javascript
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+ <script type="text/javascript">
+ 	// 자바스크립트에서는 자바의 주석과 동일한 주석 사용 가능함
+ 	/* 범위 주석도 사용 가능하다! */
+ </script>
+</head>
+<body>
+	<h1>test.html</h1>
+	
+</body>
+</html>	
+```
+
+### alert 함수
+- 특정 데이터를 웹브라우저 팝업 창에 출력하는 내장 함수
+	
+```javascript
+html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+ <script type="text/javascript">
+ 
+ 	// alert(데이터); 함수는 특정 데이터를 웹브라우저 팝업 창에 출력하는 내장 함수
+ 	alert("자바스크립트");
+ 	alert("alert 함수 호출됨");
+ </script>
+	
+</head>
+<body>
+	<h1>test.html</h1>
+	<!-- head 태그 내에서 뿐만 아니라 body 태그 내에서도 script 태그 사용 가능함 -->
+	<script type="text/javascript">
+		alert("이 곳은 body 태그 내부입니다");
+	</script>
+</body>
+</html>
+```
+
+### 외부로부터 자바스크립트 파일을 불러오기
+현재 쓰고 있는 html 파일(강의 중 사용하는 파일은 test.html) 과 같은 폴더에 New -> Javascript file 생성 -> 생성한 파일에  
+```
+alert("외부 자바스크립트 확인");
+```
+입력
+
+다시 test..html로 복귀
+
+```javascript
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+ <script type="text/javascript">
+
+ alert("alert 함수 호출됨");
+ 
+ </script>
+ 
+ <!-- 외부로부터 자바스크립트 파일을 불러오기 위해서는 script 태그를 사용하여
+ src 속성을 통해외부 자바스크립트 파일을 지정해야 함 -->
+ <script type="text/javascript" src="./test.js">
+ 
+ 	// src 속성이 포함된 script 태그 내의 자바스크립트 코드는 실행되지 않는다!
+ 	alert("이 코드는 실행이 될까요?"); // 실행되지 않음
+	
+	</script>
+ 
+</head>
+<body>
+	<h1>test.html</h1>
+	<script type="text/javascript">
+		alert("이 곳은 body 태그 내부입니다");
+	</script>
+</body>
+</html>
+```
+
+### 자바스크립트에서의 변수 사용법
+```
+< 기본 문법 >
+데이터타입 변수명 = 값;
+```
+- 기본적인 문법은 자바의 변수 사용과 거의 동일함
+- 자바의 데이터타입과 동일한 데이터타입을 사용하지는 않음(동일한 타입도 존재함)
+	- ex) 문자와 문자열의 구분 없이 string 타입 사용(''와 "" 구분 없이 사용)
+	- 숫자(number), 논리(boolean), 특수값 null 사용 가능
+- 별도로 타입을 정하지 않고 일반적인(공통적인) 타입으로 변수 선언 가능함. 이 때, 저장되는 데이터에 따라 변수의 타입이 자동으로 결정됨
+	- 공통 타입으로 사용되는 키워드는 var 또는 let 또는 const 중 하나 사용
+- 변수명 지정 시 자바의 식별자 작성 규칙과 거의 동일함
+- 특정 데이터 또는 변수의 타입 확인 방법 : typeof 키워드 사용
+
+
+### 공통타입으로 변수 선언 및 초기화
+```javascript
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+	
+	// 공통타입으로 변수 선언 및 초기화
+//	var num; // 데이터 저장하지 않으면 undefined 타입으로 변수 num 선언됨(타입 미정)
+//	alert("num 의 타입 : " + typeof(num));
+	
+	var num = 10;
+	alert("num 의 타입 : " + typeof(num)); // number 타입
+	
+	var str = "자바스크립트";
+	alert("str 의 타입 : " + typeof(str)); // string 타입
+	
+	var b = true;
+	alert("b 의 타입 : " + typeof(b)); // boolean 타입
+	
+	var v = null; // 특수한 값인 null 값도 저장 가능
+	alert("v 의 타입 : " + typeof(v)); // boolean 타입
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>
+```
