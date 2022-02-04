@@ -440,6 +440,8 @@ public class test {
 ### return문 사용시 주의사항
 ```java
 		// return 문 사용 시 주의사항
+		// - return 문이 실행되면 현재 메서드 수행을 종료하고 호출한 곳으로 흐름이 되돌아감
+		//	 따라서, return문 아래쪽(뒤)의 문장은 실행되지 못한다!
 		// - 리턴타입이 void 인 경우에도 return 문은 사용 가능하나, return 문 뒤에 데이터 지정 불가능
 		//	 즉, 현재 메서드를 종료할 목적으로 return 문을 사용 가능
 		// - 리턴문을 조건문과 결합하여 사용할 경우 모든 경우의 수에 return 문이 적용되어야 한다!
@@ -454,7 +456,10 @@ public class test {
 		// => if 문 사용 시 else if 문 등을 사용하는 경우 else 문을 제외하고 사용할 경우 모든 경우의 수를 판별 할 수 없게 되므로
 		// return 문이 실행되지 않는 조건이 생길 수 있다!
 		
-		// 1. if 문과 else if문 조합 시 나머지 경우인 else 문이 없으므로 return 문이 실행되지 못 하는 경우가 발생
+		
+		
+		// <문제점>
+		// if 문과 else if문 조합 시 나머지 경우인 else 문이 없으므로 return 문이 실행되지 못 하는 경우가 발생
 		// => 단, 모든 조건이 만족하는 것처럼 보여도 문법적으로 else 문을 필요로 하게 됨
 		if(num % 2 == 1) { // 홀수 
 			return "홀수"; // if문 결과가 true 일 때 return 문 실행
@@ -462,4 +467,75 @@ public class test {
 			return "짝수"; // else if문 결과가 true 일 때 return 문 실행
 		}
 		// => 두 조건이 모두 false 일 때 return 문이 실행되지 않으므로 오류 발생!
+		
+		
+		
+		//< 해결책 >
+		// 1. else 문을 통해 나머지 경우에 특정 값을 리턴하도록 지정
+		if(num % 2 == 1) { // 홀수 
+			return "홀수"; // if문 결과가 true 일 때 return 문 실행
+		} else { // 짝수
+			return "짝수"; // if문 결과가 false 일 때 return 문 실행
+		}
+		
+		// 2. else if 문 사용 시에도 마찬가지로 else 문을 통해 나머지 경우 return 값 지정
+		if(num % 2 == 1) { // 홀수 
+			return "홀수"; // if문 결과가 true 일 때 return 문 실행
+		} else if(num % 2 == 0) {
+			return "짝수"; // else if문 결과가 true 일 때 return 문 실행
+		} else { // if문과 else if문 결과가 false 일 때 return 문 실행 
+			// 단, 홀수와 짝수 판별의 경우 나머지가 1 또는 0 밖에 없으므로 else 문이 실행될 일은 없음
+			return "그 외";
+		}
+		
+		// 3. else 문 사용 여부와 관계없이 조건문 내에서는 return 할 값을 생성만 하고
+		// 	  조건문이 끝난 후 return 문을 사용하여 생성된 값을 return 하는 경우
+		String result = ""; // 리턴값을 저장할 변수 선언하고 기본값으로 초기화
+		// => 조건문 내에서 result 변수에 리턴값을 저장하는 작업만 수행
+		if(num % 2 == 1) { // 홀수 
+			result = "홀수";
+		} else if(num % 2 == 0) { // 짝수
+			result = "짝수";
+		} 
+		
+		// 저장된 결과값을 사용하여 return 문을 기술
+		// => if문 또는 else if 문 등과 관계없이 항상 실행되는 문장(리턴값만 조건문에서 생성한 것 뿐이다!)
+		return result;
 ```		
+
+### 리턴타입이 void 인 메서드에서의 return 문 사용
+```java
+public class Ex {
+
+	public static void main(String[] args) {
+	
+	int num = 100;
+		voidMethod(num);
+		System.out.println("voidMethond() 메서드 종료!");
+		
+	} // main 메서드 끝
+	
+	
+	// for문을 사용하여 1 ~ num 까지의 합 계산(정수형 변수 total 에 누적)
+	// => 단, 합계가 1000 을 초과할 경우 해당 시점에서의 i값을 출력 후 현재 메서드 종료
+	int total = 0;
+		for(int i = 1; i <= num; i++) {
+			total += i;
+			System.out.println("total = " + total);
+			
+			//합계가 1000 을 초과하는지 판별
+			if(total > 1000) {
+				System.out.println("total 변수 합이 1000을 초과할 때의 i값 = " + i);
+				// 합계가 1000 보다 클 경우 현재 메서드를 종료하려면 return 문 사용 가능
+				// => 단, 현재 voidMethod() 메서드의 리턴타입이 void 이므로 값 지정은 불가능
+//				return; // 현재 메서드 종료 후 호출한 곳으로 돌아감
+
+				// void 타입 메서드에서 return 문에 값 지정 시 오류 발생!
+				return 1; // oid methods cannot return a value
+			}
+		}
+		System.out.println(" 1 ~ " + num + " 까지의 합 = " + total); // 실행 안 됨
+
+} // Ex 클래스 끝
+```
+
