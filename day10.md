@@ -262,9 +262,11 @@
 > - 메서드 및 리턴문 마무리 수업. day8 커밋에 추가하였음
 > - JSP 강사님의 자바 수업은 끝. 오늘부터 본격적 JSP 수업 시작
 
---- 
+---
+**시작 전 기본설정**
 - Project Explorer 마우스 오른쪽 -> New -> Dynamic Project 생성
-	- 생성시 Apache Tomcat 설정 되어 있어야 함.
-- 생성한 Project에 
+	- 생성시 Apache Tomcat v8.5 설정 되어 있어야 함.
+
+
 
 
