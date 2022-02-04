@@ -113,7 +113,7 @@
 ---
 
 ## 여러가지 리스트들
-```
+```html
 - <ol></ol> 태그 : 순서 있는 항목
 - <ul></ul> 태그 : 순서 없는 항목
 - <dl></dl> 태그 : 설명 목록
@@ -185,7 +185,74 @@
 
 ---
 
+## 표 작성 태그
+```html
+<caption></caption> 태그 : 표 제목
+<thead></thead> 태그 : 표 제목 영역 설정
+<th></th> 태그 : 글자 굵게, 가운데 정렬
+```
+```html
+<h2>상품구성</h2>
+<table border="1" width=500>
+<caption>선물용과 가정용 상품 구성</caption>
+
+<thead>
+<tr><th>용도</th><th>중량</th><th>갯수</th><th>가격</th></tr>
+</thead>
+
+<tbody>
+<tr><td>선물용</td><td>3kg</td><td>11-16과</td><td>35000원</td></tr>
+<tr><td>선물용</td><td>5kg</td><td>18-26과</td><td>52000원</td></tr>
+<tr><td>가정용</td><td>3kg</td><td>11-16과</td><td>30000원</td></tr>
+<tr><td>가정용</td><td>5kg</td><td>18-26과</td><td>47000원</td></tr>
+</tbody>
+</table>
+```
+<h2>상품구성</h2>
+<table border="1" width=500>
+<caption>선물용과 가정용 상품 구성</caption>
+
+<thead>
+<tr><th>용도</th><th>중량</th><th>갯수</th><th>가격</th></tr>
+</thead>
+
+<tbody>
+<tr><td>선물용</td><td>3kg</td><td>11-16과</td><td>35000원</td></tr>
+<tr><td>선물용</td><td>5kg</td><td>18-26과</td><td>52000원</td></tr>
+<tr><td>가정용</td><td>3kg</td><td>11-16과</td><td>30000원</td></tr>
+<tr><td>가정용</td><td>5kg</td><td>18-26과</td><td>47000원</td></tr>
+</tbody>
+</table>
+
+---
+
+## 이미지
+- 웹에서 사용하는 이미지 형식 .jpg .gif .png 
+	- jpg : 사진형태, 색상과 명암을 다양하게 표현
+	- gif : 256색상 사용, 작은 아이콘, 작은 이미지 사용
+	- png : 색상 다양하게 표현, 투명한 배경색, 웹에서 많이 사용
+
+- 픽셀 : 화명을 이루는 빛(하나의 점), 해상도 : 빛(점의 개수)
+- px : 이미지의 크기를 픽셀 지정, 고정값
+- % : 이미지의 크기를 브라우저 크기에 따라서 변동
+- alt : 이미지가 안 보일 때 이미지 설명
+```
+<img src="4.jpg" width="500px" height="500px">
+<img src="5.jpg" width="50%" height="50%">
+<img src="1.jpg" alt="이미지설명">
+```
+- 이미지는 현재 작성중인 파일과 같은 폴더에 이미지가 파일이 있어야 함
+	- 다른 폴더에 존재할 경우 ..(상위폴더 표시) 경로를 지정해주어야 함 
+```
+<img src="../html1/2.jpg">
+<img src="../html1/img1/5.jpg">
+<img src="../html1/img1/6.png">
+```
 
 
+---
+
+
+> 그 외 저번 시간에 학습했던 colspan과 rowspan을 이용한 표 합치기
 
 
