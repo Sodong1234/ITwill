@@ -539,3 +539,75 @@ public class Ex {
 } // Ex 클래스 끝
 ```
 
+### 연습문제
+```java
+package method;
+
+public class test5 {
+
+	public static void main(String[] args) {
+		// ----------------Caller 메서드에서 Worker 메서드를 호출하는 곳----------------
+		// print() 메서드 호출
+		// => 파라미터 : 문자열 1개, 정수 1개 	리턴값 : 없음
+		// ex) "Hello, World!" 와 5 전달 시 "Hello, World!" 문자열을 5번 출력
+		// ex) "JAVA" 와 10 전달 시 "JAVA" 문자열을 10번 출력
+		print("Hello, World!", 5);
+		print("JAVA", 10);
+
+	} // main() 메서드 끝
+	
+	
+		// ----------------Worker 메서드를 정의하는 곳----------------
+		// print() 메서드 정의
+		// => 파라미터 : 문자열(data), 정수(count)	리턴값 : 없음
+		// => 해당 문자열(data)을 count 번 반복 출력
+	public static void print(String data, int count) {
+		for(int i = 1; i <= count; i++)
+			System.out.println(data);
+	}
+	
+	
+
+} // Test5 클래스 끝
+```
+### 메서드 내에서 또 다른 메서드 호출
+```java
+package method;
+
+public class Ex7 {
+
+	public static void main(String[] args) {
+		// 하나의 메서드 내에서 또 다른 메서드 호출이 가능하다!
+		// => 메서드 호출 스택에 따라 호출되었다가 종료되면 호출 스택의 역순으로 복귀
+		sister(); // sister() 메서드로 흐름 이동
+		System.out.println("sister() 메서드 호출 끝!");
+	}
+	
+	public static void sister() {
+		System.out.println("sister() 메서드 호출됨!");
+		
+		// sister() 메서드 내에서 또 다른 메서드 cousin() 호출
+		cousin(); // cousin() 메서드로 흐름 이동
+		
+		System.out.println("sister() 메서드 종료됨!");
+	} // main() 메서드 내의 sister() 메서드 호출 코드로 복귀
+
+	public static void cousin() {
+		System.out.println("cousin() 메서드 호출됨!");
+		System.out.println("cousin() 메서드 종료됨!");
+	} // sister() 메서드 내의 cousin() 메서드 호출 코드로 복귀
+	
+	
+	
+	=> sister() 메서드 호출됨!
+	cousin() 메서드 호출됨!
+	cousin() 메서드 종료됨!
+	sister() 메서드 종료됨!
+	sister() 메서드 호출 끝!
+
+	
+}
+```
+
+
+
