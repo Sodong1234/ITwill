@@ -268,7 +268,7 @@
 	- 생성시 Apache Tomcat v8.5 설정 되어 있어야 함.
 		- 서버 실행 안 될 시 day1 커밋 참고하여 재설정
 
-- Dynamic Project 새로 생성 -> Next -> Next -> web.xml 생성 체크하고 Finish 후 생성된 곳에서 src -> main -> webapp -> WEB-INF 안에 있는 web.xml을 복사하여 StudyJavascript의 WEB-INF 안에 붙여넣기 -> 방금 만든 Dynamic Project는 삭제
+- Dynamic Web Project 새로 생성 -> Next -> Next -> web.xml 생성 체크하고 Finish 후 생성된 곳에서 src -> main -> webapp -> WEB-INF 안에 있는 web.xml을 복사하여 StudyJavascript의 WEB-INF 안에 붙여넣기 -> 방금 만든 Dynamic Web Project는 삭제
 
 ## 자바스크립트 개요
 - 자바와 아무런 관계가 없는 스크립트 언어
