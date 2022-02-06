@@ -1,5 +1,7 @@
 # [오전수업] DB 1차
 
+> 강사님 메모장 주소 : https://docs.google.com/document/d/1vg9-LfdOJn-sNS1V6H7R9fosoqfnYprXgGmXAW3oke0/edit
+> 
 # 데이터베이스란?
 - 대량의 데이터를 보관하는 소프트웨어 → 프로그램 / 웹 app에서 사용
 - 데이터의 백업, 관리, 연산, 보안의 기능
