@@ -376,13 +376,13 @@ public class test {
 	}
 	
 	// 3. 매개변수만 있고, 리턴값은 없는 메서드 호출
-	// 3.1) 정수 1개를 전달받아 해당 정수값만큼 "Hello, World" 문자열을 반복 출력하는 hello() 메서드 출력
+	// 3-1) 정수 1개를 전달받아 해당 정수값만큼 "Hello, World" 문자열을 반복 출력하는 hello() 메서드 출력
 	public static void hello(int count) {
 	for (int i = 1; i <= count; i++)
 		System.out.println(i + "Hello, World");
 	}
 	
-	// 3-2) 문자열 1개를 전달받아 해당 문자열을 10번 출력하는 pirnt() 메서드 호출
+	// 3-2) 문자열 1개를 전달받아 해당 문자열을 10번 출력하는 print() 메서드 호출
 	public static void print(String str) {
 		
 	for (int i = 1; i <= 10; i++) {
