@@ -35,8 +35,9 @@ https://www.eclipse.org/ - eclipse-jee-2021-12-R-win32-x86_64 압축 풀기
 
   2) 톰캣서버 가져오기&서버환경설정
 File - New - Other - Server - Server - Apache -	 Tomcat v8.5 Server - Next - Browse - C:\Program Files\Apache Software Foundation\Tomcat 8.5 - Next - Finish
-화면 하단의 Servers - 톰캣 더블클릭 - Ports - Tomcat admin port를 5005로 설정(학원에서만 사용할 포트임) **web은 포트번호 5005, JSP는 8005 사용**
-*만약 하단에 Servers 탭이 보이지 않을 경우 상단 바 Window - Show view - Server를 선택.
+화면 하단의 Servers - 톰캣 더블클릭 - Ports - Tomcat admin port를 아래와 같은 포트번호로 설정 (학원에서만 사용할 포트) 
+> - **web은 포트번호 5005, JSP는 8005 사용**
+> - 만약 하단에 Servers 탭이 보이지 않을 경우 상단 바 Window - Show view - Server를 선택.
 
   3) 프로젝트(작업) 만들기
 File - New - Other - Web - Dynamic Web Project - Next - 프로젝트네임 WebProject - Next - Next - web.xml 체크 (위에 자동 설정 되어있는 Contxt root는 프로젝트 폴더, Content directory는 내용 폴더임) - Finish
