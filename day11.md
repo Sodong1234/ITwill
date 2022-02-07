@@ -157,8 +157,25 @@ RENAME test_itwill; 입력
 | name        | char(10) | YES  |     | NULL    |       |
 +-------------+----------+------+-----+---------+-------+
 ```
+- 테이블 삭제
+```
+-문법
+
+DROP TABLE 테이블명;
+```
+```
+DROP TABLE test_itwill;
 
 
+mysql> show tables;
+Empty set (0.00 sec)
+```
+
+## DDL (Data Definition Language) / 데이터 정의어
+- 데이터 저장 구조를 다루는 문법
+- CREATE : 오브젝트 생성
+- ALTER : 오브젝트 변형
+- DROP : 오브젝트 삭제
 
 
 
