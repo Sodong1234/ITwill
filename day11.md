@@ -171,12 +171,43 @@ mysql> show tables;
 Empty set (0.00 sec)
 ```
 
+### 테이블 생성 연습
+```
+테이블 명 : student
+컬럼명1 : stu_no
+데이터타입1 : INT
+컬럼명2 : last_name
+데이터타입2 : VARCHAR(20)
+컬럼명3 : birth_date
+데이터타입3 : DATE
+
+
+
+CREATE TABLE student (
+stu_no INT,
+last_name VARCHAR(20),
+birth_date DATE
+);
+
+
+
+
+mysql> DESC student;
+
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| stu_no     | int         | YES  |     | NULL    |       |
+| last_name  | varchar(20) | YES  |     | NULL    |       |
+| birth_date | date        | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+```
+
 ## DDL (Data Definition Language) / 데이터 정의어
 - 데이터 저장 구조를 다루는 문법
 - CREATE : 오브젝트 생성
 - ALTER : 오브젝트 변형
 - DROP : 오브젝트 삭제
-
 
 
 
