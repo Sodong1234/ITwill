@@ -582,7 +582,7 @@ class Account2 {
 
 	int withdraw(int amount) {
 
-		int result;
+		int result = 0;
 		if (balance < amount) {
 
 			System.out.println("출금할 금액 : " + amount + "원" + " / 잔액이 부족하여 출금 할 수 없습니다! (현재 잔고 : " + balance + "원)");
