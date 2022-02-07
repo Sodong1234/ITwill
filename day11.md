@@ -259,7 +259,7 @@ public class person {
 ```
 
 ```java
-// 1. Person 타입 변수 p를 선언 (int a)
+//		1. Person 타입 변수 p를 선언 (int a)
 //		Person p; // 참조 데이터타입 변수 p를 선언
 //		System.out.println(p); // 초기화가 되어 있지 않아서 출력 불가
 		
@@ -387,7 +387,7 @@ public class Test1 {
 		
 		System.out.println("계좌번호 : " + acc.accountNo);
 		System.out.println("예금주명 : " + acc.ownerName);
-		System.out.println("현재잔고 : " + acc.balance);
+		System.out.println("현재잔고 : " + acc.balance + "원");
 				
 	}
 
@@ -468,7 +468,7 @@ public class Ex2 {
 /*
  * Student 클래스 정의
  * - 멤버변수 : 이름(name, 문자열), 학번(id, 문자열), 나이(age, 정수)
- * 				국어점수(kor, 정수), 영어점수(eng, 정수), 수학점수(mat, 정수)
+ * 	       국어점수(kor, 정수), 영어점수(eng, 정수), 수학점수(mat, 정수)
  */
 
 class Student {
@@ -534,7 +534,7 @@ class Student {
  * 	3) 현재잔고(balance, XXXXXXX = 정수)
  * 
  * - 메서드 
- * 	1) showAccountInfo(): 계좌정보를 출력
+ * 	1)	showAccountInfo(): 계좌정보를 출력
  * 		- 매개변수 X, 리턴값 X
  * 		- 다음과 같이 출력
  * 		<출력 예시 >
@@ -582,7 +582,7 @@ class Account2 {
 
 	int withdraw(int amount) {
 
-		int result;
+		int result = 0;
 		if (balance < amount) {
 
 			System.out.println("출금할 금액 : " + amount + "원" + " / 잔액이 부족하여 출금 할 수 없습니다! (현재 잔고 : " + balance + "원)");
@@ -611,6 +611,10 @@ public class Test2 {
 		acc.balance = 100000;
 		
 		acc.showAccountInfo();
+		System.out.println("==========================");
+		acc.deposit(50000);
+		System.out.println("==========================");
+		acc.withdraw(800000);
 
 	}
 
