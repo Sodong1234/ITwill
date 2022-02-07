@@ -19,9 +19,10 @@
 - use test; : test 데이터베이스 선택
 - DROP DATABASE test; : test 데이터베이스 삭제
 
-## 테이블 생성
-### 문법
+## 테이블 생성 및 수정
 ```
+-문법
+
 CREATE TABLE 테이블명 (
 컬럼명1      데이터타입1(크기) [DEFAULT] [제약조건] [,
 컬럼명2 …]
@@ -60,14 +61,16 @@ name  VARCHAR(10) 입력
 ### 테이블 수정 (ALTER TABLE)
 - 컬럼 추가
 ```
+-문법
+
 ALTER TABLE 테이블명
 ADD   컬럼명 데이터타입(크기);
 ```
 ```
 ALTER TABLE text_table 입력
 ADD Salary INT(20); 입력
-```
-```
+
+
 +--------+-------------+------+-----+---------+-------+
 | Field  | Type        | Null | Key | Default | Extra |
 +--------+-------------+------+-----+---------+-------+
@@ -76,5 +79,88 @@ ADD Salary INT(20); 입력
 | salary | int         | YES  |     | NULL    |       |
 +--------+-------------+------+-----+---------+-------+
 ```
+- 컬럼 이름 변경
+```
+-문법
+
+ALTER TABLE 테이블명
+CHANGE 기존컬럼명 변경할컬럼명 데이터타입(크기)
+```
+```
+ALTER TABLE test_table 입력
+CHANGE idx test_number INT(10); 입력
+
+
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| test_number | int         | YES  |     | NULL    |       |
+| name        | varchar(10) | YES  |     | NULL    |       |
+| salary      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+```
+- 컬럼 데이터타입 변경
+```
+-문법
+
+ALTER TABLE 테이블명
+MODIFY 컬럼명 변경할데이터타입(크기)
+```
+```
+ALTER TABLE test_table 입력
+MODIFY name CHAR(10); 입력
+
+
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| test_number | int      | YES  |     | NULL    |       |
+| name        | char(10) | YES  |     | NULL    |       |
+| salary      | int      | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+```
+- 컬럼 삭제
+```
+-문법
+
+ALTER TABLE 테이블명
+DROP 컬럼명;
+```
+```
+ALTER TABLE test_table 입력
+DROP salary; 입력
+
+
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| test_number | int      | YES  |     | NULL    |       |
+| name        | char(10) | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+```
+- 테이블명 변경
+```
+-문법
+
+ALTER TABLE 기존테이블명
+RENAME 변경할테이블명;
+```
+```
+ALTER TABLE test_table 입력
+RENAME test_itwill; 입력
+
+
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| test_number | int      | YES  |     | NULL    |       |
+| name        | char(10) | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+```
+
+
+
+
+
 
    
