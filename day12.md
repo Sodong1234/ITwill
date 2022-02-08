@@ -564,7 +564,7 @@ Person2(String, int) 생성자 호출됨!
 1. for문
 	[ 기본 문법 ]
 	for(초기식; 조건식; 증감식) {
-		// 조건식 판별 결과가 true "C:/Users/ITWILL/Desktop/test5.html"일 때 반복 실행할 문장들...
+		// 조건식 판별 결과가 true일 때 반복 실행할 문장들...
 	}
 	*/
 	
