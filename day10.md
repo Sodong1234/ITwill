@@ -451,7 +451,59 @@ alert("외부 자바스크립트 확인");
 	alert("b 의 타입 : " + typeof(b)); // boolean 타입
 	
 	var v = null; // 특수한 값인 null 값도 저장 가능
-	alert("v 의 타입 : " + typeof(v)); // boolean 타입
+	alert("v 의 타입 : " + typeof(v)); // object 타입
+	
+	
+	
+	// --------------------------------변수 사용 연습--------------------------------------
+	// document.write() 함수를 호출하여 웹페이지에 출력할 데이터 전달 시 페이지에 출력
+	// => 파라미터로 출력할 데이터를 전달하여 페이지에 출력 가능
+	// => HTML 태그 등을 문자열로 전달할 경우 태그 그대로 사용 가능
+	var data = 100;
+	document.write("<h3>" + data + "</h3>"); // <h3>Hello, World!</h3> 와 동일한 결과
+	
+	
+	// data2 변수에 "Hello, World!" 문자열 저장 후 document.write() 함수로 출력
+	var data2 = "Hello, World!"
+	document.write("<h3>" + data2 + "</h3>");
+	
+	data2 = "Java, JSP" // "Hello, World!" 문자열을 "Java, JSP" 로 교체됨
+	document.write("<h3>" + data2 + "</h3>");
+	
+	data2 = 999; // 데이터가 변경되면서 변수 타입오 함께 변경됨(string -> number)
+	document.write("<h3>" + data2 + "</h3>");
+	
+	// =============================================================================================
+	// var, let, const 차이점 비교
+	// 1. var : 변수 선언 시 동일한 이름의 변수를 다시 선언하더라도 오류가 없으며
+	//			다른 타입의 데이터로 변경하더라도 문제없이 사용 가능함
+	//			=> 실수로 중복되는 변수 선언 시 덮어쓰므로 안정성이 떨어짐
+	var num1 = 10;
+	document.write(num1 + "<br>")
+	
+	var num1 = "홍길동";
+	document.write(num1 + "<br>");
+	// --------------------
+	// 2. let : 변수 선언 시 동일한 이름의 변수를 다시 선언하면 중복으로 오류 발생
+	// 			=> 오류 발생으로 인해 오류 발생 코드 다음 스크립트들은 실행 불가
+	//			=> 실수로 중복되는 변수 선언이 불가능하므로 안정성이 향상됨
+	//			선언문을 빼고 변수명만 사용하여 다른 데이터로 변경하더라도 문제 없이 사용 가능함
+	let num2 = 10;
+	document.write(num2 + "<br>");
+	
+// 	let num2 = "홍길동"; // 오류 벌생 위치(변수 중복됨)
+	num2 = "홍길동"; // number -> string 타입으로 변경됨
+	document.write(num2 + "<br>");
+	
+	//---------------------
+	// 3. const : constant(상수)의 약자로 선언된 변수를 상수로 취급함
+	//			  => 기존 변수(const 타입)에 저장된 값은 변경 불가능
+	const num3 = 10;
+	document.write(num3 + "<br>");
+	
+	num3 = "홍길동"; // 오류 발생 위치(값 변경 불가)
+	num3 = 99; // 오류 발생 위치(값 변경 불가)
+	document.write(num3 + "<br>");
 	
 </script>
 </head>
