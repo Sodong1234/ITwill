@@ -556,3 +556,147 @@ Person2(String, int) 생성자 호출됨!
  	}
 ```
 
+## 반복문
+- 주어진 조건에 따라 특정 문장을 반복 실행하는 문
+- for문은 주로 반복 횟수가 정해져 있을 때 주로 사용하고, while문은 반복 횟수가 정해져 있지 않을 때 주로 사용
+
+```javascript
+1. for문
+	[ 기본 문법 ]
+	for(초기식; 조건식; 증감식) {
+		// 조건식 판별 결과가 true "C:/Users/ITWILL/Desktop/test5.html"일 때 반복 실행할 문장들...
+	}
+	*/
+	
+	// document.write() 함수를 사용하여 "Hello, World!" 문자열 세 번 출력
+	for(var i = 1; i <= 3; i++) {
+		document.write("Hello, World!<br>");
+	}
+	// i 값이 1 ~ 3 까지 반복 후 i++ 에 의해 4가 되면 i <= 3 조건식이 false 가 되므로
+	document.write("for문 종료 후 i값 : " + i + "<br>"); // 종료 후 i값은 4
+	// => 참고! var 로 선언한 변수는 블록과 상관없이 사용 가능함(범위 제한 없음)
+		
+	
+	----------------------------------------------------------------------------------
+2. while문
+	/*
+	[ 기본 문법]
+	초기식; // 위치 유동적
+	
+	while(조건식) {
+		// 조건식 판별 결과가 true 일 때 반복 실행할 문장들...
+		// 증감식(위치 유동적)
+	}
+	*/
+	
+	//while 문을 사용하여 "ITWILL" 문자열 5번 반복 출력
+	
+	i = 1;
+	while(i <= 5) { // 조건식
+		document.write("ITWILL<br>"); // 실행문
+		i++;
+	}
+```
+## 형변환
+- 함수와 연산자에 사용되는 값은 대부분 적합한 데이터타입으로 자동 형변환이 일어남 
+- 상황에 따라 개발자가 의도한 타입으로 변환하는 것을 명시적 형변환(= 강제 형변환) 이라고 함
+- 자바스크립트의 데이터타입 첫글자를 대문자로 지정하여 형변환 수행해야함
+	- (String, Number, Boolean)
+
+```javascript
+< 명시적 형변호나 기본 문법 >
+	데이터타입(데이터)
+	*/
+	
+	// 1. 문자(string) 타입으로 변환
+	// => 참고. alert() 함수 파라미터는 string 타입이며, 다른 데이터타입 전달 시 자동으로 변환됨
+	// => 변환 방법 : String(데이터);
+	var value1 = 1; // 현재 value1 변수의 데이터타입은 number 타입
+	document.write(value1 + " => 변환 전 타입 : " + typeof(value1) + "<br>")
+	
+	// number 타입인 value1 변수의 타입을 문자 타입(string) 으로 변환할 경우
+	value1 = String(value1) // 첫 글자 대문자 S 필수!
+	document.write(value1 + " => 변환 후 타입 : " + typeof(value1) + "<br>")
+	
+	var value2 = true; // 현재 value2 변수의 데이터타입은 boolean
+	document.write(value2 + " => 변환 전 타입 : " + typeof(value2) + "<br>")
+	
+	// boolean 타입인 value2 변수의 타입을 문자 타입(string) 으로 변환할 경우
+	value2 = String(value2)
+	document.write(value2 + " => 변환 후 타입 : " + typeof(value2) + "<br>")
+	
+	
+	document.write("<hr>")
+	// ===================================================================================
+	// 2. 숫자(number) 타입으로 변환
+	// - 수학 관련 함수나 연산자를 사용한 연산 과정에서는 자동으로 숫자 타입 형변환 일어남
+	//	 ex) 문자형숫자(string) / 문자형숫자(string) = 숫자(number) 타입으로 변환 후 연산됨
+	// - 변환 방법 : Number(데이터);
+	// - 주로, prompt() 함수 등을 사용하여 데이터 입력 시 문자로 취급되므로 변환 시 사용
+	document.write("10"/"5") // string / string => number / number 로 변환 후 연산
+	document.write("<br>")
+	var strNum = prompt("정수를 입력하세요.")
+	document.write(strNum + " => 변환 전 타입 : " + typeof(strNum) + "<br>")
+	var num = Number(strNum)
+	document.write(num + " => 변환 후 타입 : " + typeof(num) + "<br>")
+	
+	// switch-case 문에서 case문 사용 시 문자 데이터일 경우 숫자로 자동 변환이 일어나지 않으므로
+	// 강제 형변환을 통해 number 타입으로 변환해야만 정수 형태로 비교 가능
+	switch(Number(strNum)) { // 변환된 변수를 사용하는 switch(num)과 동일함
+ 		case 1 : 
+ 			document.write("입력된 값은 1 입니다.")
+ 			break;
+ 		case 2 : 
+ 			document.write("입력된 값은 2 입니다.")
+ 			break;
+ 	}
+	
+	// =====================================================================================================
+	// 주의! string -> number 로 변환 시 숫자 데이터 외에 다른 데이터가 섞여 있을 경우 
+	// 변환 과정에서 number 타입으로 변환은 일어나지만 데이터에 NaN 이라는 특수한 값이 저장됨
+	// => NaN : Not a Number 의 약자로 숫자가 아닌 데이터라는 의미
+		
+	strNum = "1234a";
+	document.write(strNum + " => 변환 전 타입 : " + typeof(strNum) + "<br>")
+	
+	num = Number(strNum) // "1234a" 를 숫자로 변환 불가능하므로 NaN 값이 저장됨(타입은 number)
+	document.write(num + " => 변환 후 타입 : " + typeof(num) + "<br>")
+```
+
+## 사용자 정의 함수
+- 자바스크립트에서 제공되는 함수 외에 개발자가 직접 정의하는 함수
+	- 자바의 메서드와 달리 리턴타입을 명시하지 않으며, 파라미터로 변수 지정은 거의 동일함
+	- <script> 태그 내의 자바스크립트 코드는 기본적으로 페이지 로딩 시점에서 바로 실행되지만 함수를 정의할 경우 반드시 호출되어야만 실행 가능함(단, 호출하지 않고도 실행되는 함수도 있음)
+	- 정의된 함수는 <script> 태그 내의 아무 위치에서나 호출 가능
+	
+```javascript
+	< 함수 정의 기본 문법>
+	function 함수이름([매개변수...]) {
+		// 외부로부터 함수가 호출되면 실행할 코드들...
+	}
+	*/
+	
+// 	// showMessage() 함수 호출
+// 	showMessage(); // 함수 선언부보다 윗쪽에서 호출도 가능함
+	
+	// showMessage() 함수 정의 => 파라미터 없음
+	function showMessage() {
+		alert("showMessage() 함수 호출됨!")
+	}
+	
+// 	// showMessage() 함수 호출
+// 	showMessage();
+	
+	// -------------------------------------------------------------------------------------------------
+	// sum() 함수 정의 => 파라미터 없음
+	// => 1 ~ 10 까지 합을 반복문을 통해 계산 후 alert() 함수를 통해 결과(55) 출력
+	
+	var total = 0;
+	function sum() {
+		for(var i = 1; i <= 10; i++) {
+			total += i;
+		}
+		alert(total)
+	}
+		sum();
+```
