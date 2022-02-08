@@ -508,7 +508,16 @@ alert("외부 자바스크립트 확인");
 </script>
 </head>
 <body>
-
+	<!-- 자바스크립트는 복수개의 위치에 지정 가능하며, 순차적으로 수행됨 -->
+	<script type="text/javascript">
+		document.write("이 곳은 body 영역 h1 태그 앞입니다.<br>")
+	</script>
+	
+	<h1>이 곳은 body 영역입니다.</h1>
+	
+		<script type="text/javascript">
+		document.write("이 곳은 body 영역 h1 태그 뒤입니다.<br>")
+	</script>
 </body>
 </html>
 ```
