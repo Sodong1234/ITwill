@@ -155,7 +155,8 @@
 > - method를 get 방식으로 지정해놓으면 전송 시 주소창에 아이디와 비밀번호가 노출되므로 보통 post 방식을 사용함
 > - 서버에 전송 되는 정보는 value값들이기 때문에 value가 필요한 항목들은 반드시 작성
 
-![제목 없음](https://user-images.githubusercontent.com/95197594/153113064-7eaf626a-f82e-4fdb-a493-960d230e3aaa.png)
+![캡처](https://user-images.githubusercontent.com/95197594/153116025-502f55fb-2686-4230-980c-bd39b5d4d3db.PNG)
+
 
 
 
