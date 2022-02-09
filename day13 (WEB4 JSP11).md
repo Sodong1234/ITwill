@@ -117,7 +117,7 @@
 </fieldset>
 <input type="submit" value="전송">
 <!-- 이미지에 전송 기능 포함 -->
-<input type="submit" src="4.jpg">
+<input type="image" src="4.jpg">
 <input type="reset" value="취소(초기화)">
 <input type="button" value="모양버튼">
 </form>
