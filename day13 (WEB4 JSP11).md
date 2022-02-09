@@ -66,6 +66,13 @@
 - time : 시간 설정 기능
 - datetime-Local : 날짜와 시간을 모두 설정 가능
 - checked : radio와 checkbox를 문서를 열 때부터 체크 되어 있게 설정 가능
-**method를 get 방식으로 지정해놓으면 전송 시 주소창에 아이디와 비밀번호가 노출되므로 보통 post 방식을 사용함**
+- textarea : value 옵션이 없으나 꺽쇠로 태그를 닫고 작성한 문자가 value의 기능을 실행 
+- select : selected 태그로 문서를 열 때부터 해당 항목이 체크 되어 있게 설정 가능
+- datalist : 목록이 있는 텍스트 상자 기능
+	- list와 id 태그로 목록 설정 가능
+- button : 아무 기능이 없이 모양만 있는 버튼 
+
+> - method를 get 방식으로 지정해놓으면 전송 시 주소창에 아이디와 비밀번호가 노출되므로 보통 post 방식을 사용함
+> - 서버에 전송 되는 정보는 value값들이기 때문에 value가 필요한 항목들은 반드시 작성
 
 
