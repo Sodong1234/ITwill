@@ -699,4 +699,16 @@ Person2(String, int) 생성자 호출됨!
 		alert(total)
 	}
 		sum();
+				      
+	</script>
+<!-- 외부 자바스크립트파일(test.js)을 불러오기 -->
+	<script type="text/javascript"src="test.js"></script>
+	</head>
+	<body>
+		<h1>사용자 정의 함수 - test.html</h1>
+		<input type="button" value="함수호출" onclick="showMessage()"><br>
+		<input type="button" value="함수호출2" onclick="printName()"><br>
+	
+	</body>
+	</html>			      
 ```
