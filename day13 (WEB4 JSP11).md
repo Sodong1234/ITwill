@@ -237,3 +237,148 @@ HTML, CSS, Javascript에 대한 기술적 이해와 경험이 있는 분을 찾�
 - 외부에서 함수 호출 시 전달할 데이터가 있는 함수
 - 자바의 메서드와 기본적인 형태는 유사하나 매개변수 선언 시 변수명만 기술하면 됨
 - 
+```javascript
+< 기본 문법 >
+	 function 함수명(매개변수선언...) {}
+	 */
+
+	// 출력할 메세지를 파라미터로 전달받아 출력하는 showMessage() 함수 정의
+	// => 파라미터(매개변수) 1개(data)
+	function showMessage(data) {
+		// 변수 1개를 전달받아 data 에 저장(var 명시하지 않도록 주의!)
+		// 외부에서 전달받은 데이터의 타입에 따라 변수 data 의 타입이 결정됨
+		// => 만약, 전달받은 데이터가 없을 경우 undefined 타입으로 undefined 값이 저장됨
+		document.write(data + " : " + typeof (data) + "<br>");
+	}
+
+	// showMessage() 함수 호출 => 각각 다른 데이터 전달
+	showMessage("Hello, World!") //  Hello, World! : string
+	showMessage(500) // 500 : number
+	showMessage(true) // true : boolean
+	showMessage() // undefined : undefined
+
+	document.write("<hr>")
+
+	//--------------------------------------------------------------------------------------------
+	// 전달받은 데이터가 없을 경우 기본값을 설정하는 방법 = 2가지
+	// 1. 함수 선언 시 매개변수에 기본값을 직접 저장하는 방법
+
+	function showMessage2(data = "전달받은 데이터 없음") {
+		document.write(data + " : " + typeof(data) + "<br>");
+	}
+	
+	showMessage2("Hello, World!") // Hello, World! : string
+	showMessage2() // 기본값이 설정되어 "전달받은 데이터 없음 : string" 출력됨
+	
+	// 2. 함수 내에서 if문을 사용하여 전달받은 데이터가 undefined 일 경우 기본값을 저장
+	function showMessage3(data) {
+		if(data == undefined) {
+			data = "전달받은 데이터 없음2222";
+		}
+		document.write(data + " : " + typeof(data) + "<br>");
+	}
+	
+	showMessage3("Hello, World!") // Hello, World! : string
+	showMessage3 // 기본값이 설정되어 "전달받은 데이터 없음 : string" 출력됨
+```
+
+문제출제 1.
+- 파라미터가 복수개인 함수
+- 정수 2개(num1, num2)를 전달받아 합계를 출력하는 함수 sum() 정의
+
+```javascript
+function sum(num1, num2) {
+		var total = num1 + num2
+		document.write(num1 + " + " + num2 + " = " + total + "<br>")
+	}
+	
+	sum(10, 20);
+```
+
+문제출제 2.
+- test2.js 파일의 login() 함수를 호출하여 아이디와 패스워드를 전달했을 때
+	- 아이디가 "admin" 이고, 패스워드가 "1234" 일 경우 "로그인 성공" 을 출력하고
+	- // 아니면 "로그인 실패" 출력하기
+
+```javascript
+	// test2.js 파일의 login() 함수를 호출하여 아이디와 패스워드를 전달했을 때
+	// 아이디가 "admin" 이고, 패스워드가 "1234" 일 경우 "로그인 성공" 을 출력하고
+	// 아니면 "로그인 실패" 출력하기
+//	login("hong", "1234"); // 로그인 실패
+//	login("admin", "1234"); // 로그인 성공
+
+
+-----------------------------------test2.js-----------------------------------
+function login(id, pass) {
+	
+	if(id == "admin" && pass == "1234") {
+		document.write("id = " + id + ", pass = " + pass + " / 로그인 성공")
+	} else {
+		document.write("id = " + id + ", pass = " + pass + " / 로그인 실패")
+	}
+	 
+}
+
+login("admin", "1234");
+-----------------------------------test2.js-----------------------------------
+```
+
+## 리턴값이 있는 함수 정의
+- 함수 실행 후 원래 위치로 돌아갈 때 어떤 값(데이터)을 호출한 위치로 전달하는 함수
+	- 이 때 전달되는 값을 리턴값이라고 함
+- 자바의 메서드와 달리 함수 선언 시 별도의 리턴타입을 지정하지 않고 return 문을 사용하여 리턴하는 데이터의 타입에 따라 데이터타입이 자동으로 결정됨
+- 단, 리턴할 값이 없어도 return 문만 사용하여 함수 종료 가능
+- 함수를 호출한 곳에서는 리턴되는 데이터를 전달받아 사용 가능
+
+```javascript
+< 기본 문법 >
+	function 함수명([매개변수...]) {
+		// 작업 수행
+		// 함수를 호출한 곳으로 값을 리턴하기 위해 return 문 사용
+		return 리턴값;
+	}
+	*/
+	
+	// 함수 호출 시 "Hello, World!" 문자열을 리턴하는 getMessage() 함수 정의
+	function getMessage() {
+		return "Hello, World!" 
+	}
+
+	// getMessage() 함수를 호출하여 리턴되는 값을 result 변수에 저장 후 출력
+// 	var result = getMessage();
+// 	document.write("리턴값 : " + result + "<br>")
+	document.write("리턴값 : " + getMessage() + "<br>")
+
+```
+
+## 매개변수도 있고, 리턴값도 있는 함수 정의
+- 함수 호출 시 값을 전달하고, 함수 종료 시 값을 리턴하는 함수
+- 단, 매개변수는 복수개가 올 수 있지만, 리턴값은 하나만 리턴 가능
+- 
+```javascript
+// 정수 1개를 전달하면 "양수", "음수", "0" 중 하나를 리턴하는 checkNum() 함수 정의
+	// 파라미터 : 정수 1개(num)		리턴값 : 문자 1개
+	function checkNum(num) {
+		// 전달받은 파라미터 확인
+		document.write("전달받은 정수 : " + num + "<br>")
+		
+		
+		
+		var result = ""; // 판별 결과를 저장할 변수
+		
+		// 정수값 num 에 대한 "양수", "음수", "0" 판별
+		// => 판별 결과를 result 변수에 저장
+		if(num > 0) {
+			result = "양수"
+		} else if (num < 0) {
+			result = "음수"
+		} else {
+			result = "0"
+		} 
+		
+		return result;
+	}
+	
+	// 리턴받은 데이터 확인
+	document.write("리턴값 : " + checkNum(-10) + "<br>")
+```
