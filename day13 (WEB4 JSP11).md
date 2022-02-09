@@ -194,6 +194,37 @@
 
 </body>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/153123888-4be08d79-8fbc-4928-9004-3a2979216ba6.PNG)
+```html
+<body>
+
+<h1>프런트엔드 개발자 지원서</h1><br>
+HTML, CSS, Javascript에 대한 기술적 이해와 경험이 있는 분을 찾습니다.
+<hr>
+<form action="aaa.jsp" method="post">
+<h4>개인정보</h4>
+<ul>
+	<li><label>이름</label><input type="text" name="name" size="20" placeholder="공백없이 입력하세요"></li> 
+	<li><label>연락처</label><input type="tel" name="tel" size="20"></li>
+</ul>
+
+<h4>지원 분야</h4>
+<ul>
+	<li><input type="radio" name="rd" value="웹 퍼블리싱"><label>웹 퍼블리싱</label></li>
+ 	<li><input type="radio" name="rd" value="웹 애플리케이션 개발"><label>웹 애플리케이션 개발</label></li>
+ 	<li><input type="radio" name="rd" value="개발 환경 개선"><label>개발 환경 개선</label></li>
+ </ul>
+ 
+<h4>지원동기</h4>
+
+<textarea name="ehdrl" rows="5" cols="30" placeholder="본사 지원 동기를 간략히 써 주세요."></textarea><br>
+<input type="submit" value="접수하기">
+<input type="reset" value="다시 쓰기">
+ </form>
+
+
+</body>
+```
 
 
 **간격 조정 등의 꾸미기는 CSS에서 다룰 예정**
