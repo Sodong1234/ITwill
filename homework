@@ -25,3 +25,46 @@ function startNumberGame() {
 	var correntNum = 10; // 정답
 	
 }
+
+
+```javascript
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+
+function startNumberGame() {
+	
+var correntNum = 10; 
+var num = prompt("숫자를 입력하세요.")		
+
+
+var i = 0;
+while(true) {
+	if(num < correntNum) {
+		num = prompt("오답입니다! 입력받은 숫자보다 큽니다!");
+		i++;
+	} else if(num > correntNum) {
+		num = prompt("오답입니다! 입력받은 숫자보다 작습니다!");
+		i++;
+	} else {
+ 		document.write(i + "번만에 정답!");
+		break;
+	}
+}
+	
+}
+startNumberGame();
+
+
+
+
+</script>
+</head>
+<body>
+</body>
+</html>
+```
