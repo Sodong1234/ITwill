@@ -44,6 +44,86 @@
 ```
 
 ## 폼 양식
+
+```html
+<body>
+<form action="test1.html" method="get">
+<fieldset>
+<legend>그룹이름1</legend>
+<label>아이디 : </label>
+<input type="text" name="id" value="아이디" size="10" maxlength="5"><br>
+<label>비밀번호 : </label>
+<input type="password" name="pass"><br>
+<label>이메일 : (이메일 주소 형태 제어 @)</label>
+<input type="email" name="email"><br>
+</fieldset>
+
+<fieldset>
+<legend>그룹이름2</legend>
+<label>검색 : (검색어 삭제)</label>
+<input type="search" name="search"><br>
+<label>웹주소 : (웹주소 형태 제어 http://)</label>
+<input type="url" name="url"><br>
+<label>연락처 : (모바일 숫자 자판)</label>
+<input type="tel" name="tel"><br>
+</fieldset>
+
+<fieldset>
+<legend>그룹이름3</legend>
+<label>숫자 : (숫자만 입력, 범위 제어)</label>
+<input type="number" name="number" min="10" max="20" step="2" value="10"><br>
+<label>숫자 : </label>
+<input type="range" name="range" min="1" max="5" value="1"><br>
+<label>날짜 : (달력) </label>
+<input type="date" name="date" min="2022-02-01" max="2022-02-27"><br>
+<label>날짜(월) : </label>
+<input type="month" name="month"><br>
+<label>날짜(주) : </label>
+<input type="week" name="week"><br>
+<label>시간 : </label>
+<input type="time" name="time"><br>
+<label>날짜시간 : </label>
+<input type="datetime-Local" name="datetime"><br>
+</fieldset>
+
+<fieldset>
+<legend>기타</legend>
+<label>라디오 박스 : (복수개 중 하나 선택)</label>
+<input type="radio" name="ra" value="남" checked>남성
+<input type="radio" name="ra" value="여">여성<br>
+<label>체크 박스 : (복수개 다중 선택)</label>
+<input type="checkbox" name="ch" value="1">체크1
+<input type="checkbox" name="ch" value="2" checked>체크2
+<input type="checkbox" name="ch" value="3">체크3<br>
+<label>파일 업로드</label>
+<input type="file" name="file"><br>
+<label>숨겨서 데이터를 서버에 전송 : </label>
+<input type="hidden" name="hi" value="값"><br>
+<label>여러줄의 글을 입력 : value옵션 없음</label>
+<textarea name="tx" rows="5" cols="10">값1234</textarea><br>
+<label>목록 상자 (size="3" multiple)</label>
+<select name="se">
+	<option value="1">목록1</option>
+	<option value="2" selected>목록2</option>
+	<option value="3">목록3</option>
+</select><br>
+<label>데이터 목록</label>
+<input type="text" name="p" list="pack">
+<datalist id="pack">
+	<option value="1">옵션1</option>
+	<option value="2">옵션2</option>
+	<option value="3">옵션3</option>
+</datalist>
+</fieldset>
+<input type="submit" value="전송">
+<!-- 이미지에 전송 기능 포함 -->
+<input type="submit" src="4.jpg">
+<input type="reset" value="취소(초기화)">
+<input type="button" value="모양버튼">
+</form>
+</body>
+```
+
 - filedset : 그룹을 상자 모양으로 지정
 - legend : 그룹의 이름 지정
 - size : 텍스트 상자 크기 지정
@@ -74,5 +154,8 @@
 
 > - method를 get 방식으로 지정해놓으면 전송 시 주소창에 아이디와 비밀번호가 노출되므로 보통 post 방식을 사용함
 > - 서버에 전송 되는 정보는 value값들이기 때문에 value가 필요한 항목들은 반드시 작성
+
+![제목 없음](https://user-images.githubusercontent.com/95197594/153113064-7eaf626a-f82e-4fdb-a493-960d230e3aaa.png)
+
 
 
