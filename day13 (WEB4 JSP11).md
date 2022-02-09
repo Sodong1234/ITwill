@@ -51,11 +51,11 @@
 <fieldset>
 <legend>그룹이름1</legend>
 <label>아이디 : </label>
-<input type="text" name="id" value="아이디" size="10" maxlength="5"><br>
+<input type="text" name="id" value="아이디" size="10" maxlength="5" readonly><br>
 <label>비밀번호 : </label>
-<input type="password" name="pass"><br>
+<input type="password" name="pass" autofocus required><br>
 <label>이메일 : (이메일 주소 형태 제어 @)</label>
-<input type="email" name="email"><br>
+<input type="email" name="email" placeholder="이메일형식 입력"><br>
 </fieldset>
 
 <fieldset>
@@ -124,6 +124,11 @@
 </body>
 ```
 
+- readonly : 읽기만 가능, 수정 불가능.
+- autofocus : 문서를 열면 최우선으로 포커스(커서 깜빡임)를 해당 항목에 지정
+- required : 필수 입력 사항 
+	- 입력하지 않으면 입력하라는 메세지를 표시하며 서버에 전송하지 못 하게 하는 기능
+- placeholder : 해당 상자에 설명 붙이기 가능
 - filedset : 그룹을 상자 모양으로 지정
 - legend : 그룹의 이름 지정
 - size : 텍스트 상자 크기 지정
@@ -161,6 +166,34 @@
 ## 실습
 
 
+![캡처](https://user-images.githubusercontent.com/95197594/153116680-a98bd54f-9bfe-45db-9798-40f240443e36.PNG)
+```html
+<body>
 
+<h1>레드향 주문하기</h1>
+<form action="a.jsp" method="post">
+<fieldset>
+<legend><b>배송 정보</b></legend>
+<br>
+<label>이름</label>
+<input type="text" name="name" size="30"><br>
+<label>배송 주소</label>
+<input type="text" name="address" size="30"><br>
+<label>이메일</label>
+<input type="email" name="email" size="30"><br>
+<label>연락처</label>
+<input type="tel" name="tel" size="30"><br>
+<label>배송 지정</label>
+<input type="date" name="date" size="50">(주문일로부터 최소 3일 이후)<br>
+<label>메모</label>
+<textarea name="memo" rows="5" cols="50"></textarea>
+</fieldset>
+<input type="submit" value="주문하기">
+<input type="reset" value="취소하기">
+</form>
+
+</body>
+```
+**간격 조정 등의 꾸미기는 CSS에서 다룰 예정**
 
 
