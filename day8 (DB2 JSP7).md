@@ -13,7 +13,7 @@
 
 ### 로그인
 - 로그인명 root / 비밀번호 1234(입력해도 아무것도 안 보이는게 정상)
-- 로그인에 성공하면 # ip addr show 입력 -> 본인의 아이피 확인 (2번 항목에서 inet 옆에 있는 아이피가 본인의 아이피)
+- 로그인에 성공하면 ip addr show 입력 -> 본인의 아이피 확인 (2번 항목에서 inet 옆에 있는 아이피가 본인의 아이피)
 - ![캡처](https://user-images.githubusercontent.com/95197594/151470802-c48dc366-c2cf-455d-b119-77e837d55aae.PNG)
 - (윈도우와 원격 연결) 윈도우즈로 돌아와서 cmd 실행 -> ssh root@아이피 입력 -> 메세지 뜨면 yes -> 비밀번호 1234 입력 -> 로그인 완료 
 
@@ -32,7 +32,7 @@ https://www.mysql.com/ -> 다운로드 -> MySQL Community (GPL) Downloads -> MyS
 - systemctl start mysqld로 실행 -> systemctl status mysqld로 실행됐는지 확인 -> grep 'temporary password' /var/log/mysqld.log 로 비밀번호 확인 및 복사
 ![제목 없음](https://user-images.githubusercontent.com/95197594/151478069-0f92cddd-10f5-48d2-9fde-f7e28200d630.png)
   - 위의 하이라이트 된 값은 MySQL 서비스의 관리자 계정인 'root'계정의 랜덤 생성된 패스워드 값으로 첫 접속 시에 입력해줘야한다.
-- mysqp -uroot -p 입력 -> 패스워드 입력 (마우스 오른쪽 클릭) -> 로그인 완료 -> exit
+- mysql -uroot -p 입력 -> 패스워드 입력 (마우스 오른쪽 클릭) -> 로그인 완료 -> exit
 
 ### password 재설정
 - echo 'validate_password.policy=LOW' | sudo tee -a /etc/my.cnf 입력
