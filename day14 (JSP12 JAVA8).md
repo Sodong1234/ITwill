@@ -210,3 +210,255 @@ var 객체명 = {
 	document.write("name 이라는 키가 존재합니까? " + ("name" in person) + "<br>"); // true 출력됨
 	document.write("height 이라는 키가 존재합니까? " + ("height" in person) + "<br>"); // false 출력됨
 ```
+
+---
+
+# [오후수업]
+## 배열
+- 같은 타입 데이터 여러개를 하나의 변수명을 사용하여 연속된 공간으로 다루는 것
+1. **같은 데이터타입만 하나의 배열로 저장 가능**
+2. 기본 데이터타입과 참조 데이터타입 모두 배열로 저장 가능
+3. 배열명(변수명)을 사용하여 여러 데이터 관리 가능
+4. **배열 내에 자동으로 부여되는 번호(인덱스 index)를 사용하여 배열의 각 요소 접근 가능**
+	- (인덱스 번호는 0부터 시작하여 배열크기 -1 번까지 자동으로 부여됨)
+	- (ex. 배열크기가 5일 경우 5개의 데이터 저장 가능하며, 인덱스는 0~4번 까지)
+5. 배열 크기는 배열명.length 속성을 통해 얻을 수 있음
+6. 배열은 배열 선언 -> 생성 -> 초기화 과정을 거쳐서 사용함
+7. **한 번 생성된 배열의 크기 변경이 불가능**
+
+```java
+// 배열 선언 : 데이터타입 [] 변수명;
+		int[] score;
+		// 스택(Stack) 공간에 배열 주소를 저장할 참조데티이터타입 변수 score가 생성됨
+		// => 이 때, int형의 의미는 해당 배열에 저장될 데이터타입이 정수(INT) 라는 의미
+		
+//		score = 10;
+		
+		// 배열 생성 : 변수명 = new 데이터타입[배열크기]
+		score = new int[4];
+		
+//		System.out.println(score.length);
+//		System.out.println("0번 인덱스 요소 : " + score[0]);
+//		System.out.println("1번 인덱스 요소 : " + score[1]);
+//		System.out.println("2번 인덱스 요소 : " + score[2]);
+//		System.out.println("3번 인덱스 요소 : " + score[3]);
+//		System.out.println("4번 인덱스 요소 : " + score[4]);
+		
+		// 5개 크기를 갖는 배열의 인덱스는 0 ~ 4 까지 존재함
+		// 이 때, 4보다 큰 인덱스를 사용할 경우 아래와 같이 오류 발생 (런타임 에러)
+//		System.out.println("5번 인덱스 요소 : " + score[5]);
+		
+//		score[0] = 80;
+//		score[1] = 100;
+//		score[2] = 50;
+//		score[3] = 90;
+//		score[4] = 77;
+//		System.out.println("0번 인덱스 요소 : " + score[0]);
+//		System.out.println("1번 인덱스 요소 : " + score[1]);
+//		System.out.println("2번 인덱스 요소 : " + score[2]);
+//		System.out.println("3번 인덱스 요소 : " + score[3]);
+//		System.out.println("4번 인덱스 요소 : " + score[4]);
+		
+		
+		System.out.println("================================================");
+		
+		// 반복문(for문)을 사용하여 배열의 모든 인덱스 접근
+//		for(int i = 0; i < 5; i++) {
+//			System.out.println(i + "번 인덱스 요소 : " + score[i]);
+//		}
+		
+		// 위의 반복문처럼 사용해도 되지만 배열 크기가 변하면 코드도 변경되어야함.
+		// 따라서, 배열의 크기를 동적으로 대응할 수 있도록 작성할 필요가 있음.
+		// 즉, 조건식 부분에 배열 크기를 직접 입력하지 않고 배열명.length를 지정
+//		for(int i = 0; i < score.length; i++) {
+//			System.out.println(i + "번 인덱스 요소 : " + score[i]);
+//		}
+		
+		System.out.println("-------------------------------------------------");
+		
+		// 배열 선언 및 생성을 동시에 수행
+		// 데이터타입[] 변수명 = new 데이터타입[배열크기]
+		int[] arr = new int[10];
+		
+		// 배열 선언, 생성, 초기화를 동시에 수행
+		// 데이터타입[] 변수명 = {데이터1, 데이터2, ..., 데이터n}
+		// 위 표현방식은 무조건 1줄로 표현할때만 가능
+		int[] arr2 = {10, 20, 30};
+		System.out.println(arr2[0]);
+		System.out.println(arr2[1]);
+		System.out.println(arr2[2]);
+		
+		int[] arr3;
+//		arr3 = {10, 20, 30}; // 변수명을 먼저 선언 후에 초기화를 할 때에는 해당 표현방식 X
+//		arr3 = new int[3] {10, 20, 30}; // 배열 크기는 데이터의 갯수로 자동 지정되므로 배열 크기 지정은 생략 해야한다! 
+		arr3 = new int[] {10, 20, 30};
+```
+
+## 배열 사용시 주의사항
+1. 배열 선언시 [] 기호를 데이터타입 뒤 또는 변수명 뒤에 붙일 수 있으나 가급적 데이터타입 뒤에 붙여서 표기하도록 해야함
+	- 데이터타입[] 변수명; 또는 데이터타입 변수명[]
+```java
+int[] a;
+int b[];
+```
+- 만약, 동일한 데이터타입 변수를 한꺼번에 선언하는 경우
+```java
+int[] c, d; // 변수 c와 d 모두 배열 변수로 선언됨
+int e, f[]; // 변수 e는 기본타입변수, 변수 f만 배열 변수로 선언됨
+```
+
+2. 배열 크기는 고정이므로 크기를 확장하려면 새로운 배열을 생성하고, 기존 데이터를 새 배열에 복사 해야함
+```java
+int[] arr = {10, 20, 30};	// 3개의 데이터가 저장된 배열
+		// 만약, 점수 40을 추가할 경우 추가(확장) 불가능
+		// 따라서, 4개의 정수가 저장되는 배열을 새로 생성한 후 갖는 배열 데이터를 복사해야함
+//		int[] arr2 = {10, 20, 30, 40};
+		
+		int[] arr2 = new int[4];
+		for(int i = 0; i < arr.length; i++) {
+			arr2[i] = arr[i];
+		}
+		arr2[3] = 40;
+		
+		for(int i = 0; i < arr2.length; i++) {
+			System.out.println(arr2[i]);
+		}
+		
+		System.out.println("------------------------------------------------");
+		
+		int aNum = 10;
+		int bNum = 20;
+		bNum = aNum;		//aNum의 데이터를 bNum에 저장(기존에 있던 20은 제거됨)
+		
+		int[] aArr = {1, 2, 3};
+		int[] bArr = {4, 5, 6};
+		int[] cArr = {7, 8, 9};
+		
+		aArr = bArr; // bArr이 가리키는 4, 5, 6 공간의 주소값을 aArr 변수에 저장
+		aArr[0] = 10;
+		System.out.println(bArr[0]);
+		// 이 때, aArr이 가리키는 1, 2, 3 공간은 더 이상 아무도 참조하지 않는 상태가 됨!
+		// 따라서, 더 이상 참조되지 않는 힙 공간의 영역은 가비지 컬렉터(G.C)에 의한 정리 대상이 됨!
+		// 즉, 쓸모없는 공간은 메모리 확보를 위해 자동으로 제거됨
+		
+		bArr = cArr;
+```		
+
+연습문제 1.
+학생 5명의 점수를 배열 score에 저장하고 각 학생 점수의 총점과 평균을 계산하여 출력
+```java
+ < 출력 예시 >
+ 1번 학생: 80점
+ 2번 학생: 100점
+ 3번 학생: 50점
+ 4번 학생: 90점
+ 5번 학생: 77점
+ --------------
+ 총점: 397점
+ 평균: 79.4점
+ ========================
+ < 추가 항목 >
+ 1. 학생 이름을 저장하는 배열 names를 생성하여
+    이순신, 홍길동, 강감찬, 김태희, 전지현 문자열 5개를 저장한 후
+    학생 번호 대신 이름을 출력
+ 2. 학생 점수 중 최고점수와 최저점수를 찾아 출력
+ 
+ < 출력 예시 >
+ 이순신: 80점
+ 홍길동: 100점
+ 강감찬: 50점
+ 김태희: 90점
+ 전지현: 77점
+ ------------
+ 총점: 397점
+ 평균: 79.4점
+ 최고 점수: 100점
+ 최저 점수: 50점
+
+-----------------------------------------------------------------------------------------------------
+//		int sum = 0;
+//		int[] arr = {80, 100, 50, 90 ,77};
+//		for(int i = 0; i < arr.length; i++) {
+//			sum += arr[i];
+//		}
+//		System.out.println(arr[4]);
+//		System.out.println(sum);
+//		System.out.println(sum / arr.length);
+
+		int[] score = { 80, 100, 50, 90, 77 };
+		String[] names = { "이순신", "홍길동", "강감간", "김태희", "전지현" };
+
+		int sum = 0;
+
+		for (int i = 0; i < score.length; i++) {
+			System.out.println(names[i] + " 학생 : " + score[i] + "점");
+			sum += score[i];
+		}
+		double avg = sum / 5.0;
+		System.out.println("총점 : " + sum + "점");
+		System.out.println("평균 : " + avg + "점");
+
+		// 최고점수, 최저점수
+		int maxScore = score[0], minScore = score[0];
+//		for (int i = 1; i < score.length; i++) {
+//			// 최고점수
+//			if (maxScore < score[i]) {
+//				maxScore = score[i];
+//			}
+//
+//			// 최저점수
+//			if (minScore > score[i]) {
+//				minScore = score[i];
+//			}
+//		}
+		
+		for(int i = 1; i < score.length; i++) {
+			maxScore = maxScore < score[i] ? score[i] : maxScore;
+			minScore = minScore > score[i] ? score[i] : minScore;
+		}
+		System.out.println("최고 점수 : " + maxScore);
+		System.out.println("최저 점수 : " + minScore);
+```
+연습문제 2.
+```java
+n개의 숫자가 입력되면, 다음과 같이 크기를 비교한 후 양식에 맞춰 출력하시오.
+예를 들어, 1 2 3 2 1 이라는 숫자가 입력되면,
+첫 번째 1과 나머지 2, 3, 2, 1을 비교하면 1 < 2, 1 < 3, 1 < 2, 1 = 1 이므로 < < < = 를 출력한다
+두 번째 2와 나머지 1, 3, 2, 1을 비교하면 2 > 1, 2 < 3, 2 = 2, 2 > 1 이므로 > < = > 를 출력한다.
+세 번째 3과 나머지 1, 2, 2, 1을 비교하면 3 > 1, 3 > 2, 3 > 2, 3 > 1 이므로 > > > > 를 출력한다.
+같은 방법으로 네 번째는 > = < >, 다섯번째는 = < < < 를 출력한다.
+이와 같은 방식으로 대소 비교 결과를 출력하시오.
+
+1: < < < =
+2: > < = >
+3: > > > > 
+4: > = < >
+5: = < < < 
+
+
+
+------------------------------------------------------------------------
+		int arr[] = {1, 2, 3, 2, 1};
+		
+		for (int i = 0; i < arr.length; i++) {
+			int target = arr[i];
+			
+			String result = (i+1) + ": ";
+
+			for (int j = 0; j < arr.length; j++) {
+				
+				if(i == j) continue;
+				
+				int num = arr[j];
+				
+				if(target > num) { 
+					result += "> ";
+				} else if(target < num) {
+					result += "< ";
+				} else {
+					result += "= ";
+				}
+			}
+			System.out.println(result);
+		}
+```		
