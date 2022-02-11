@@ -15,7 +15,9 @@
 - 데이터를 입력(INSERT), 갱신(UPDATE), 삭제(DELETE) 할 수 있는 문법
 
 
-- INSERT INTO 문법
+### INSERT 문법
+- 테이블에 데이터를 입력하는 문법
+
 ```
 - INSERT INTO 테이블명 [(칼럼명1[, …])]
   VALUES (데이터1 [, …]);
@@ -112,3 +114,32 @@ SELECT * FROM student; 입력
 |      5 | Buy       | 2022-02-11 |
 +--------+-----------+------------+
 ```
+
+### UPDATE 문법
+- 기존 데이터의 값을 갱신할 때 사용하는 문법
+
+```
+- UPDATE 테이블명
+  SET 갱신컬럼 = 갱신할 값
+  [WHERE 조건컬럼 = 조건값];
+```
+```
+UPDATE student 입력
+SET last_name = 'GIM' 입력
+WHERE stu_no = 3; 입력
+
+SELECT * FROM student; 입력
+
++--------+-----------+------------+
+| stu_no | last_name | birth_date |
++--------+-----------+------------+
+|      1 | hi        | NULL       |
+|      2 | 6         | NULL       |
+|      3 | Gim       | NULL       |
+|      4 | bye       | NULL       |
+|      5 | Buy       | 2022-02-10 |
++--------+-----------+------------+
+```
+
+
+  
