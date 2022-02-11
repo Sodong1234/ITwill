@@ -205,12 +205,16 @@ mysql> DESC student;
 
 ## DDL (Data Definition Language) / 데이터 정의어
 - 데이터 저장 구조를 다루는 문법
-- CREATE : 오브젝트 생성
-- ALTER : 오브젝트 변형
-- DROP : 오브젝트 삭제
+	- CREATE : 오브젝트 생성
+	- ALTER : 오브젝트 변형
+	- DROP : 오브젝트 삭제
 
-
+키워드 : 기능 할당 된 단어
+키워드 + 요소 = 절
+절 + 절 = 문법
 ---
+
+ 
 
 # [오후수업] 자바 6차
 ## 클래스의 정의
