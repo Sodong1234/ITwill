@@ -419,4 +419,59 @@ function func5(color) {
 	<input type="radio" name="bgColor" value="SKYBLUE" onclick="func5(this.value)">SKYBLUE
 	
 </body>
+
+
+------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	//document 객체는 HTML 문서 자체의 정보를 담고 있으며, 문서의 시작을 가리킴
+	// = DOM(document Object Model, 문서 객체 모델)
+	// => document 객체를 통해 문서 구성요소(Element)를 단계별로 접근 가능
+	document.write("document : " + document + "<br>");
+	// object HTMLHtmlElement => <html> 태그를 가리키는 객체
+	document.write("document.documentElement : " + document.documentElement + "<br>")
+	// object HTMLheadElement => <html> 태그를 가리키는 객체
+	document.write("document.head : " + document.head + "<br>")
+	
+	// <HEAD> 태그 내의 자식 노드 갯수를 확인하는 경우
+	document.write("document.head.childNodes.length : " + document.head.childNodes.length + "<br>")
+	
+	// for문을 사용하여 변수 i가 0 부터 자식 노드 갯수보다 작을 동안 반복하면서 자식노드 정보 출력
+	// => HEAD 태그 내의 자식 노드 : META, TITLE, SCRIPT 태그와 함께 각 태그의 줄바꿈으로 인해
+	//							 TEXT 노드(#TEXT) 가 추가되어 있음(= 총 3개)
+	//							 (#TEXT, META, #TEXT, TITLE, #TEXT, SCRIPT = 총 6개)					
+	for(var i = 0; i < document.head.childNodes.length; i++) {
+		document.write(document.head.childNodes[i] + " : " + document.head.childNodes[i].nodeName + "<br>")
+	}
+	
+	// object HTMLBodyElement : <BODY> 태그를 가리키는 객체
+	document.write("document.body : " + document.body + "<br>")
+</script>
+</head>
+<body>
+	<h1>test7.html</h1>
+	<div>목록 시작</div>
+	<ul>
+		<li>항목1</li>
+		<li>항목2</li>
+	</ul>
+	<div>목록 끝</div>
+	<hr>
+	<script type="text/javascript">
+	for(var i = 0; i < document.body.childNodes.length; i++) {
+		alert(document.body.childNodes[i] + " : " + document.body.childNodes[i].nodeName + "<br>")
+	}
+	</script>
+	
+	<!-- 이 부분부터는 body 태그 내의 자식 노드 중 script 노드보다 아래쪽에 위치하므로
+	script 태그 실행 시점에서는 아직 로딩되기 전의 요소.
+	따라서, for문을 통해 body 태그 자식 노드 접근 시 대상 요소에 포함되지 않는다! -->
+	<h1>body 태그 자식 노드 접근 후</h1>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------	
 ```
