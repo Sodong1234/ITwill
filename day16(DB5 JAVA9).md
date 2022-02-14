@@ -532,3 +532,103 @@ String[] names = {"홍길동", "이순신", "강감찬", "김태희", "전지현
 			return result;
 		};
 	} // test1 클래스 끝
+```
+
+### 복습문제
+> 지금까지 수업시간에 배운 것들을 활용하여 복습 문제 풀이 실시
+1. operator 값이 +,-,*,/ 인 경우에 사칙 연산을 수행하는 프로그램을 if-else if문과 switch-case 문을 사용해 작성하기
+```java
+int num1 = 10;
+		int num2 = 2;
+		char operator = '+';
+		int result = 0;
+		
+		// if문
+		if(operator == '+') {
+			result = num1 + num2;
+		} else if (operator == '-') {
+			result = num1 - num2;
+		} else if (operator == '*') {
+			result = num1 * num2;
+		} else if (operator == '/') {
+			result = num1 / num2;
+		}
+		
+		System.out.println("if문 결과 : " + result);
+		// switch - case문
+		switch(operator) {
+		case '+' : 	result = num1 + num2;
+		break;
+		case '-' : result = num1 - num2;
+		break;
+		case '*' : result = num1 * num2;
+		break;
+		case '/' : result = num1 / num2;
+		break;
+		}
+		System.out.println("switch-case문 결과 : " + result);
+		
+		} // main() 메서드 끝
+	
+	//int형 정수 2개와 char형 연산자를 전달받아
+	// 사칙연산 수행 결과를 리턴하는 메서드 calc() 작성
+	
+	public static int calc(int n1, int n2, char op) {
+		int result = 0;
+		if(op== '+') {
+			result = n1 + n2;
+		} else if (op == '-') {
+			result = n1 - n2;
+		} else if (op == '*') {
+			result = n1 * n2;
+		} else if (op == '/') {
+			result = n1 / n2;
+		}
+			
+		return result;
+		}
+	
+	} // Ex1 클래스 끝
+```
+
+2. 구구단을 짝수 단만 출력하도록 프로그램을 만들어보기 (continue 사용)
+```java
+			/*
+		 * 구구단을 짝수 단만 출력하도록 프로그램을 만들어보기 (continue 사용)
+		 * 
+		 */
+
+//		for (int dan = 2; dan < 10; dan++) {
+//			
+//			System.out.println("< " + dan + "단 >");
+//			
+//			for (int i = 1; i < 10; i++) {
+//				if(dan % 2 == 1) { // if문 조건 판별 횟수 8 * 9 = 72회 실시됨.
+		// continue가 실행된 횟수 = 4 * 9 = 36회 실시됨.
+		// 비효율적.
+//					continue;
+//				}
+//				System.out.println(dan + " * " + i + " = " + (dan * i));
+//			}
+//			System.out.println();
+//		}
+
+		for (int dan = 2; dan < 10; dan++) {
+
+			if (dan % 2 == 1) { // if문 조건 판별 횟수 = 8회
+								// continue가 실행된 횟수 = 4회
+
+				continue;
+			}
+
+			System.out.println("< " + dan + "단 >");
+
+			for (int i = 1; i < 10; i++) {
+
+				System.out.println(dan + " * " + i + " = " + (dan * i));
+			}
+			System.out.println();
+		}
+	}
+}
+```		
