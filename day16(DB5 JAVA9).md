@@ -430,3 +430,105 @@ int[][] arr2 = {
 			System.out.println();
 		}
 ```    
+연습문제2. 
+- 1차원 배열(names)에 5명 학생의 이름을 저장하고, 2차원 배열(score)에 5명 학생의 국어, 영어, 수학 점수 저장 후 출력
+- 학생별 총점을 1차원 배열(total)에 저장하고 출력
+```
+ < 출력 예시 >
+	 국어		 영어		 수학
+홍길동	 80		 80		 80
+이순신	 90		 80		 77
+강감찬	 60		 50		 60
+김태희	 100	 	 100	 	 100
+전지현	 50		 80		 100
+---------------------------------
+< 학생별 총점 >
+홍길동 : 240점
+이순신 : 247점
+강감찬 : 170점
+김태희 : 300점
+전지현 : 230점
+```
+```java
+String[] names = {"홍길동", "이순신", "강감찬", "김태희", "전지현"};
+		int[][] score = {
+				{80, 80, 80},
+				{90, 80, 77},
+				{60, 50, 60},
+				{100, 100, 100},
+				{50, 80, 100}
+		};
+				
+		System.out.println("\t국어\t영어\t수학");
+
+		for(int i = 0; i < score.length; i++) {
+			System.out.print(names[i] + "\t");
+			for(int j = 0; j < score[i].length; j++) {
+				System.out.print(score[i][j] + "\t");
+			}
+			System.out.println();
+		}
+		
+			System.out.println("-------------------------------");
+			System.out.println("< 학생별 총점 >");
+			
+
+//		int[] total = new int[5];
+////			total[0] = score[0][0] + score[0][1] + score[0][2]; // 홍길동 총점
+////			total[1] = score[1][0] + score[1][1] + score[1][2]; // 이순신 총점
+////			total[2] = score[2][0] + score[2][1] + score[2][2]; // 강감찬 총점
+////			total[3] = score[3][0] + score[3][1] + score[3][2]; // 김태희 총점
+////			total[4] = score[4][0] + score[4][1] + score[4][2]; // 전지현 총점
+//		for (int i = 0; i < score.length; i++) {
+//			for (int j = 0; j < score[i].length; j++) {
+//				total[i] += score[i][j];
+//			}
+//		}
+//
+////			System.out.println(names[0] + " : " + total[0] + "점");
+////			System.out.println(names[1] + " : " + total[1] + "점");
+////			System.out.println(names[2] + " : " + total[2] + "점");
+////			System.out.println(names[3] + " : " + total[3] + "점");
+////			System.out.println(names[4] + " : " + total[4] + "점");
+//
+//		for (int i = 0; i < total.length; i++) {
+//			System.out.println(names[i] + " : " + total[i] + "점");
+//		}
+
+		// 메서드 version
+		
+		
+		
+		int[][] score2 = { 
+				{ 80, 80, 80 }, 
+				{ 90, 80, 77 }, 
+				{ 60, 50, 60 }, 
+				{ 100, 100, 100 }, 
+				{ 50, 80, 100 } 
+				
+				
+		};
+		int [] total = getTotal(score2);
+		for(int i = 0; i < total.length; i++) {
+			System.out.println(total[i]);
+		}
+		
+
+		
+		
+		
+		
+	} // main() 메서드 끝
+	
+	// score 배열을 전달하여 총점(total) 배열을 리턴하는 메서드 getTotal() 작성
+	public static int[] getTotal(int [][] score) {
+			int[] result = new int[score.length]; // 전달받은 score 배열의 행 크기만큼 1차원 배열을 생성
+			
+			for(int i = 0; i < score.length; i++) {
+				for(int j = 0; j < score[i].length; j++) {
+					result[i] += score[i][j];
+				}
+			}
+			return result;
+		};
+	} // test1 클래스 끝
