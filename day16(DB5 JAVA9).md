@@ -30,7 +30,7 @@ SELECT * FROM student; 입력
 +--------+-----------+------------+
 ```
 
-- WHERE절을 생략하는 경우 테이블의 모든 행에 대해서 SET절의 갱신의 영향을 받게 된다.
+- WHERE절을 생략하는 경우 테이블의 모든 행에 대해서 SET절의 갱신의 영향 받음
 ```
 UPDATE student 입력
 SET last_name = 'Name'; 입력
@@ -328,6 +328,7 @@ FROM HR_EMPLOYEES; 입력
 ```
 
 
-
+---
+# [오후수업] JAVA 9차
 
 
