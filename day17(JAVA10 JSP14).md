@@ -228,19 +228,24 @@ public class Test1 {
 4 5 1 2 3
 5 1 2 3 4 
 -----------------------------------------------------------------------------------   
-// 배열에 요소를 우측으로 출력
+
+public class Test2 {
+
+	public static void main(String[] args) {
+
+
 		int[] arr = { 1, 2, 3, 4, 5 };
-		
-		
-		
-		for(int i = 0; i <arr.length; i++) {
-			
+
+		// 기본적인 중첩 for문 정답
+		for (int i = 0; i < arr.length; i++) {
+
+			// 배열에 요소를 우측으로 출력
 			for (int j = 0; j < arr.length; j++) {
 				System.out.print(arr[j] + " ");
 			}
-			
+
 			System.out.println();
-			
+
 			// 배열의 요소 이동하는 부분 -> for문으로
 //			int temp = arr[0];
 //			arr[0] = arr[1];
@@ -248,14 +253,40 @@ public class Test1 {
 //			arr[2] = arr[3];
 //			arr[3] = arr[4];
 //			arr[4] = temp;
-			
+
 			// 배열 한 바퀴 돌림 (rotation)
 			int temp = arr[0];
-			for (int j = 0; j < arr.length-1; j++) {
+			for (int j = 0; j < arr.length - 1; j++) {
 				arr[j] = arr[j + 1];
 			}
-			arr[arr.length-1] = temp;
-			
+			arr[arr.length - 1] = temp;
+
 		}
+		System.out.println("==============================================");
+		// method로 변경
+		for(int i = 0; i < arr.length; i++) {
+			printArray(arr);
+			rotation(arr);
+		}
+	}
+
+	// 배열에 요소를 우측으로 출력
+	public static void printArray(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+
+		System.out.println();
+	}
+
+	// 배열 한 바퀴 돌림 (rotation)
+	public static void rotation(int[] arr) {
+		int temp = arr[0];
+		for (int i = 0; i < arr.length - 1; i++) {
+			arr[i] = arr[i + 1];
+		}
+		arr[arr.length - 1] = temp;
+	}
+}
 
 
