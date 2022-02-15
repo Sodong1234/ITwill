@@ -62,7 +62,7 @@ n = 4일 때, i = 0, 별의갯수 = 7
   * * * * *		// i = 4일 때, 좌우공백 : 1개, 별 : 5개
     * * *		// i = 5일 때, 좌우공백 : 2개, 별 : 3개
       *			// i = 6일 때, 좌우공백 : 3개, 별 : 1개
-      
+-----------------------------------------------------------------------------------      
 package ch04;
 
 public class Ex5 {
@@ -136,3 +136,126 @@ public class Ex5 {
 
 }
 ```
+6. 거스름돈 계산
+```java
+N이 32850일 경우,
+50000원 : 0개
+10000원 : 3개
+5000원 : 0개
+1000원 : 2개
+500원 : 1개
+100원 : 3개
+50원 : 1개
+10원 : 0개
+배열, 메서드 사용
+-----------------------------------------------------------------------------------   
+
+public class Test1 {
+
+	public static void main(String[] args) {
+
+		
+		int N = 32850;
+		int[] money = { 50000, 10000, 5000, 1000, 500, 100, 50, 10 };
+		
+		
+		
+		
+		// while문 (나의 해답)
+//		int i = 0;
+//		while(i < money.length) {
+//			
+//			System.out.println(money[i] + "원 : " + (N / money[i]) + "개");
+//			N %= money[i];
+//			i++;
+//		}
+
+		
+		
+		
+		
+		// for문
+//		for(int i = 1; i < money.length; i++) {
+////			int cnt = N / money[i]; // 메서드로 변경
+//			int cnt = change(money[i], N);
+//			N %= money[i];
+//				System.out.println(money[i] + "원 : " + cnt + "개");
+//		}
+
+		
+		
+		
+		
+		// 거스름돈 갯수를 저장할 배열 cnt[]를 리턴받는 메서드 version
+		
+		int [] cnt = change(money, N);
+		for(int i = 0; i < cnt.length; i++) {
+			System.out.println(money[i] + "원 : " + cnt[i] + "개");
+		}
+		
+		
+		
+		
+
+	}
+	// 거스름돈만 계산해서 리턴하는 메서드
+	public static int change(int money, int N) {
+		return N / money;
+	}	
+		// money 배열과 기준이 되는 금액(N)을 전달받아 cnt[] 배열을 리턴하는 메서드 작성
+	public static int[] change(int[] money, int N) {
+			int cnt[] = new int[money.length];
+			
+			for(int i = 0; i < money.length; i++) {
+				cnt[i] = N / money[i];
+				N %= money[i];
+			}
+			return cnt;
+		}
+	}
+
+
+```
+7. n개의 숫자가 입력되면 n개의 숫자를 왼쪽으로 하나씩 돌려서 출력하시오
+```java
+입력예시)
+5
+1 2 3 4 5
+출력 예시)
+1 2 3 4 5 
+2 3 4 5 1
+3 4 5 1 2
+4 5 1 2 3
+5 1 2 3 4 
+-----------------------------------------------------------------------------------   
+// 배열에 요소를 우측으로 출력
+		int[] arr = { 1, 2, 3, 4, 5 };
+		
+		
+		
+		for(int i = 0; i <arr.length; i++) {
+			
+			for (int j = 0; j < arr.length; j++) {
+				System.out.print(arr[j] + " ");
+			}
+			
+			System.out.println();
+			
+			// 배열의 요소 이동하는 부분 -> for문으로
+//			int temp = arr[0];
+//			arr[0] = arr[1];
+//			arr[1] = arr[2];
+//			arr[2] = arr[3];
+//			arr[3] = arr[4];
+//			arr[4] = temp;
+			
+			// 배열 한 바퀴 돌림 (rotation)
+			int temp = arr[0];
+			for (int j = 0; j < arr.length-1; j++) {
+				arr[j] = arr[j + 1];
+			}
+			arr[arr.length-1] = temp;
+			
+		}
+
+
