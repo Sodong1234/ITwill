@@ -77,6 +77,7 @@
 	  
 	  
 	  
+	  
 	   function changeImage2() {
 		  // "img" 라는 id 선택자를 사용하여 해당 요소(태그 객체) 가져오기
 		  var imgElem2 = document.getElementById("img")
@@ -86,22 +87,55 @@
 	  
 	  
 	  
+	  
 	  // 이름 창에 대한 색상 변경 처리를 위해 색상명을 파라미터로 전달받는 함수 정의
 	  function changeColor(color) {
 		  var textElem = document.getElementById("name")
 		  // 전달받은 텍스트 입력창의 배경색을 전달받은 색상명으로 변경
 		  // => 객체명.style.background 속성 사용
 		  textElem.style.background = color;
-		  
-		  
-		  
 	  }
+	  
+	  
 	  
 	  // 나이 창에 대한 색상 변경 처리를 위해 나이 창 객체와 색상명을 파라미터로 전달받는 함수 정의
 	  function changeColor2(elem, color) {
 		  elem.style.background = color;
 	  }
 	  
+	  
+	  
+	  // 테이블 행 마우스오버에 대한 색상 변경
+	  function changeColorTr(elem, color) {
+		  elem.style.background = color;
+	  }
+	  
+	  
+	  
+	  // 테이블 셀 클릭 시 셀 명을 
+	  function printTd(elem) {
+		  alert("선택한 셀 : " + elem.innerHTML)
+	  }
+	  
+	  
+	  
+	  // 함수 호출 시 this 지정할 경우 해당 태그 객체를 전달하고
+	  // this. value 지정할 경우 해당 태그의 value 속성값을 전달
+	  function checkId(id) { // 입력된 아이디가 전달됨
+		  // "checkResult" id 선택자를 사용 하여 span 태그 객체 가져오기
+		  var tagSpan = document.getElementById("checkResult")
+		  // 입력받은 아이디(id 변수값)가 "admin" 인지 판별
+		  if (id == "admin") {
+			  // span 태그 영역에 "사용 불가능한 아이디" 텍스트 표시(텍스트 색상을 "RED" 로 지정)
+			  tagSpan.innerHTML = "사용 불가능한 아이디"
+			  tagSpan.style.color = "RED";
+			  
+		  } else {
+			// span 태그 영역에 "사용 불가능한 아이디" 텍스트 표시(텍스트 색상을 "RED" 로 지정)
+			  tagSpan.innerHTML = "사용 가능한 아이디"
+			  tagSpan.style.color = "GREEN";
+		  }
+	  }
 </script>
 </head>
 <body>
@@ -124,4 +158,74 @@
 	<!-- 동일한 색상 변경 작업이므로 하나의 함수를 호출하며, 호출 시 색상명을 파라미터로 전달하여 구분 -->
 	이름 : <input type="text" id="name" onfocus="changeColor('SKYBLUE')" onblur="changeColor('WHITE')">
 	나이 : <input type="text" id="age" onfocus="changeColor2(this,'#FFCCCC')" onblur="changeColor2(this,'WHITE')">
+	
+	
+	
+	
+	<table border="1">
+		<tr>
+			<th colspan="4">테이블연습</th>
+		</tr>
+		<!-- 테이블의 행(tr)에 마우스를 가져다 대면 changeColorTr() 함수 호출 -->
+		<!-- 함수 호출 시 파라미터에 현재 tr 태그 객체와 변경할 색상을 전달 -->
+		<!-- 마우스를 가져다 대면 '#FFCCCC' 색상으로 변경, 빼면 'WHITE' 로 변경 -->
+		<tr onmouseover="changeColorTr(this, '#FFCCCC')"
+			onmouseout="changeColorTr(this, '#FFFFFF')">
+			<td>1-1</td>
+			<td>1-2</td>
+			<td>1-3</td>
+			<td>1-4</td>
+		</tr>
+		<tr onmouseover="changeColorTr(this, '#FFCCCC')"
+			onmouseout="changeColorTr(this, '#FFFFFF')">
+			<td>2-1</td>
+			<td>2-2</td>
+			<td>2-3</td>
+			<td>2-4</td>
+		</tr>
+		<tr onmouseover="changeColorTr(this, '#FFCCCC')"
+			onmouseout="changeColorTr(this, '#FFFFFF')">
+	<td>3-1</td>
+		<td>3-2</td>
+		<td>3-3</td>
+		<td>3-4</td>
+		</tr>
+		</table>
+		
+		
+		
+		
+		
+		
+		<table border="1">
+		<tr>
+			<th colspan="4">테이블연습</th>
+		</tr>
+		<!-- 테이블의 셀(td)에 마우스를 클릭하면 printTd() 함수 호출 -->
+		<!-- 함수 호출 시 파라미터에 현재 td 태그 객체의 이름을 전달 -->
+		<tr>
+			<td>1-1</td>
+			<td>1-2</td>
+			<td>1-3</td>
+			<td>1-4</td>
+		</tr>
+		<tr>
+			<td>2-1</td>
+			<td>2-2</td>
+			<td>2-3</td>
+			<td>2-4</td>
+		</tr>
+		<tr>
+			<td onclick="printTd(this)">3-1</td>
+			<td onclick="printTd(this)">3-2</td>
+			<td onclick="printTd(this)">3-3</td>
+			<td onclick="printTd(this)">3-4</td>
+		</tr>
+	</table>
+	
+	
+	<!-- 아이디 입력란에 글자를 입력할 때마다 아이디 비교하여 결과를 span 영역에 출력하기 -->
+	<!-- 함수 호출 시 파라미터로 입력된 텍스트를 전달하려면 this.value 사용(value 속성값 지정) -->
+	아이디 : <input type="text" id="id" onkeyup="checkId(this.value)" placeholder="아이디 입력">
+	<span id="checkResult"></span>
 </body>
