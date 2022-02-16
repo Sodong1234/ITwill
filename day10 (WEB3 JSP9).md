@@ -469,10 +469,10 @@ alert("외부 자바스크립트 확인");
 	var data2 = "Hello, World!"
 	document.write("<h3>" + data2 + "</h3>");
 	
-	data2 = "Java, JSP" // "Hello, World!" 문자열을 "Java, JSP" 로 교체됨
+	data2 = "Java, JSP" // "Hello, World!" 문자열이 "Java, JSP" 로 교체됨
 	document.write("<h3>" + data2 + "</h3>");
 	
-	data2 = 999; // 데이터가 변경되면서 변수 타입오 함께 변경됨(string -> number)
+	data2 = 999; // 데이터가 변경되면서 변수 타입도 함께 변경됨(string -> number)
 	document.write("<h3>" + data2 + "</h3>");
 	
 	// =============================================================================================
