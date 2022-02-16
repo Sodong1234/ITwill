@@ -65,7 +65,7 @@
 </body>
 </html>
 ```  
-- 다양한 이벤트 활용
+### 다양한 이벤트 활용
 ```javascript
 <script type="text/javascript">
 	  function changeImage() {
@@ -229,3 +229,165 @@
 	아이디 : <input type="text" id="id" onkeyup="checkId(this.value)" placeholder="아이디 입력">
 	<span id="checkResult"></span>
 </body>
+```
+
+### 다양한 이미지 활용
+```javascript
+문서 내의 이미지(img 태그)에 접근하는 방법
+
+
+
+<head>
+<meta charset="UTF-8">
+<title>test12.html</title>
+<script type="text/javascript">
+	/*
+	문서 내의 이미지(img 태그)에 접근하는 방법
+	1. document.getElementById() 함수 또는 document.getElementsByTagName() 함수 사용
+	2. 이미지(img 태그)에 지정된 name 속성명으로 접근하는 방법
+	   => document.name속성값.속성명 : 지정된 name속성값에 해당하는 이미지의 특정 속성에 접근
+	   ex) document.img1.src : "img1" 이라는 name 속성값에 해당하는 태그의 src 속성에 접근
+	3. 이미지(img 태그) 전체(= 복수개)를 배열 형태로 접근하는 방법
+	   => document.images[인덱스].속성명 : 복수개의 이미지 중 인덱스에 해당하는 이미지 속성에 접근
+	   ex) document.images[0].src : 첫번째 img 태그의 
+	   
+	*/
+function func1() {
+// 	document.write("src : " + document.img1.src + "<br>");
+// 	document.write("width : " + document.img1.width + "<br>");
+// 	document.write("height : " + document.img1.height + "<br>");
+// 	document.write("border : " + document.img1.border + "<br>");
+
+	var imgInfo = "src : " + document.img1.src + "\n"
+				+ "width : " + document.img1.width + "\n"
+				+ "height : " + document.img1.height + "\n"
+				+ "border : " + document.img1.border + "\n";
+	
+	alert(imgInfo);
+}
+
+
+
+function func2() {
+	// img1 이미지(1.jpg) 파일을 2.jpg 로 변경
+	// 배열 형태로 접근할 경우
+	document.images[0].src = "2.jpg";
+	document.images[0].width = "300";
+	document.images[0].height = "300";
+	document.images[0].title = "2.jpg";
+}
+
+
+function changeImage(tagImg, img) {
+	// this 미전달 시 : document.img2.xxx 속성으로 접근 가능
+	// ex) document.img2.src = img;
+	
+	// this 전달 시 
+	tagImg.src = img;
+}
+
+
+</script>
+</head>
+<body>
+	<h1>test12.html</h1>
+	<img src="1.jpg" name="img1" width="200" height="200" border="2" title="펭수" alt="펭수없음"><br>
+	<input type="button" value="이미지 속성정보 출력" onclick="func1()">
+	<input type="button" value="이미지 속성정보 변경" onclick="func2()"><br>
+	<hr>
+	<img src="2.jpg" name="img2" width="200" height="200" onclick="changeImage(this, '3.jpg')" onmouseover="changeImage(this, '4.jpg')" onmouseout="changeImage(this, '5.jpg')"><br>
+	<!-- 2.jpg 이미지 클릭 시 3.jpg 로 변경, 마우스 가져다 대면 4.jpg, 마우스 빼면 5.jpg 로 변경 -->
+</body>
+</html>
+```
+### form 태그 활용
+- 어떤 입력 데이터들(텍스트박스, 라디오버튼, 체크박스)을 하나의 묶음으로 관리하여 특정 페이지로 이동(포워딩) 시 파라미터 형태로 전달하는 역할의 태그
+	- ex) 회원가입 페이지의 입력 내용을 하나의 form 태그로 처리
+- 주로 input type="XXX" 형식의 입력 데이터 폼을 하나로 묶어주는 역할 수행
+- input type="submit" 버튼을 사용하면, 일반 버튼과 달리 클릭 시 form 태그의 action 속성에 지정된 페이지로 이동하면서, 입력받은 데이터를 모두 파라미터로 전달
+	- => 자바스크립트에서 submit() 함수를 통해 동일한 작업 처리 가능
+- form 태그에 onsubmit 속성을(이벤트) 지정 시 submit 동작이 수행될 때 이벤트 처리 수행됨
+	- => 이 때, true 또는 false 값을 리턴하면 페이지 이동 여부를 결정할 수 있음
+	- ex) onsubmit="return checkForm()"
+		- => checkForm() 함수를 호출하여 작업을 수행하고, true 또는 false 값을 리턴받아서 submit 작업을 실행할지 여부 결정할 수 있음
+
+```javascript
+[ 기본 문법 ]
+	<form action="이동할 페이지의 URL" method="이동할 방식(메서드)" name="폼이름">
+		// 폼 파라미터에서 입력받을 데이터들의 입력 태그
+		<input type="submit" value="XXX">
+	</form>
+```
+```javascript
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	// form 태그 내의 각 요소에 접근하는 방법
+	// document.form태그name속성값.접근할태그name속성값.속성명
+	// => 속성명 : name, type, value 등
+	// => 함수 : focus()  : 대상에 커서 요청
+	// 			blur()   : 대상에서 커서 해제
+	//			select() : 대상에 커서 요청(값 블럭지정)
+function requestFocus() {
+	// 폼 태그(name 속성값이 fr) 내의 아이디 입력받는 텍스트 박스(name 속성값이 id)에 접근
+	document.fr.id.focus();
+}
+
+function print() {
+		
+	// 폼 태그에 입력된 데이터(아이디, 패스워드, 자기소개)를 가져와서 출력
+	document.fr.id.id();
+	document.fr.id.passwd();
+	document.fr.id.ta();
+	}
+	
+	
+</script>
+</head>
+<body>
+	<!--
+	form 태그
+	- 어떤 입력 데이터들(텍스트박스, 라디오버튼, 체크박스)을 하나의 묶음으로 관리하여
+	  특정 페이지로 이동(포워딩) 시 파라미터 형태로 전달하는 역할의 태그
+	  ex) 회원가입 페이지의 입력 내용을 하나의 form 태그로 처리
+	- 주로 input type="XXX" 형식의 입력 데이터 폼을 하나로 묶어주는 역할 수행
+	- input type="submit" 버튼을 사용하면, 일반 버튼과 달리 클릭 시 
+	  form 태그의 action 속성에 지정된 페이지로 이동하면서, 입력받은 데이터를 모두 파라미터로 전달
+	  => 자바스크립트에서 submit() 함수를 통해 동일한 작업 처리 가능
+	  - form 태그에 onsubmit 속성을(이벤트) 지정 시 submit 동작이 수행될 때 이벤트 처리 수행됨
+	  => 이 때, true 또는 false 값을 리턴하면 페이지 이동 여부를 결정할 수 있음
+	  ex) onsubmit="return checkForm()"
+	  	  => checkForm() 함수를 호출하여 작업을 수행하고, true 또는 false 값을 리턴받아서
+	  	  	 submit 작업을 실행할지 여부 결정할 수 있음
+	
+	[ 기본 문법 ]
+	<form action="이동할 페이지의 URL" method="이동할 방식(메서드)" name="폼이름">
+		// 폼 파라미터에서 입력받을 데이터들의 입력 태그
+		<input type="submit" value="XXX">
+	</form>   
+	 -->
+	<h1>test13.html - form 태그 이벤트</h1>
+	<form action="./test13-2.html" name="fr">
+		아이디 <input type="text" name="id">
+		<input type="button" value="focus()" onclick="requestFocus()">
+		<!-- 버튼 클릭 시 폼 태그의 요소에 접근하여 작업 직접 수행 가능 -->
+		<input type="button" value="blur()" onclick="document.fr.id.blur">
+		<input type="button" value="select()" onclick="document.fr.id.select">
+		<br>
+<!-- 		패스워드 <input type="text" name="passwd"> // 입력하는 패스워드가 노출됨 -->
+		패스워드 <input type="password" name="passwd"> <!-- 입력하는 패스워드가 노출 X -->
+		<br>
+		<!-- textarea 태그는 input type="text" 태그와 달리 여러 줄 입력(줄바꿈) 가능한 태그 -->
+		자기소개 <textarea rows="5" cols="20" name="ta"></textarea>
+		<br>
+		<input type="button" value="입력값 출력" onclick="print()">
+		<input type="submit" value="확인">
+	</form>
+	
+	
+</body>
+</html>
+```
