@@ -20,26 +20,108 @@
 ### 이벤트 핸들러  
 - 이벤트 발생 시 수행할 동작을 기술해 놓은 함수 또는 객체
 - 이벤트가 발생되면 자동으로 onXXX 속성에 해당하는 함수 또는 객체 실행
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+---
+- body 로딩 완료 메세지 출력하기	
+```javascript
+
+<title>Insert title here</title>
+<script type="text/javascript">
+
+	
+	
+1번방법.	
+	// 현재 페이지의 body 영역 로딩이 완료되면 "body 로딩 완료!" 메세지 출력
+// 	window.onload = function() {
+// 		alert("body 로딩 완료!")
+// 	}
+	
+</script>
+</head>
+
+2번방법.
+<body onload="alert('body 로딩 완료!')" >
+	<h1>자바스크립트 이벤트 - test11.html</h1>
+</body>
+```
+
+- 버튼 클릭됨 메세지 출력하기
+```javascript
+<title>Insert title here</title>
+<script type="text/javascript">
+	  function clickButton() {
+		  alert("버튼2 클릭됨!")
+	  }
+</script>
+</head>
+<body onload="alert('body 로딩 완료!')" >
+	<h1>자바스크립트 이벤트 - test11.html</h1>
+	
+	<!-- "클릭" 버튼 클릭 시 alert() 함수를 사용하여 "버튼 클릭됨!" 출력 -->
+	<input type="button" value="클릭" onclick="alert('버튼 클릭됨!')">
+	
+	<!-- "클릭2" 버튼 클릭 시 clickButton() 함수를 호출하여 "버튼2 클릭됨!" 출력 -->
+	<input type="button" value="클릭2" onclick=clickButton();>
+	
+</body>
+</html>
+```  
+- 다양한 이벤트 활용
+```javascript
+<script type="text/javascript">
+	  function changeImage() {
+		  // "img" 라는 id 선택자를 사용하여 해당 요소(태그 객체) 가져오기
+		  var imgElem = document.getElementById("img")
+		  // 전달받은 img 태그 객체의 src 속성값을 다른 이미지("away.jpg") 로 변경
+		  imgElem.src = "./away.jpg"
+	  }
+	  
+	  
+	  
+	   function changeImage2() {
+		  // "img" 라는 id 선택자를 사용하여 해당 요소(태그 객체) 가져오기
+		  var imgElem2 = document.getElementById("img")
+		  // 전달받은 img 태그 객체의 src 속성값을 원래 이미지("australian.jpg") 로 변경
+		  imgElem2.src = "./australian.jpg"
+	  }
+	  
+	  
+	  
+	  // 이름 창에 대한 색상 변경 처리를 위해 색상명을 파라미터로 전달받는 함수 정의
+	  function changeColor(color) {
+		  var textElem = document.getElementById("name")
+		  // 전달받은 텍스트 입력창의 배경색을 전달받은 색상명으로 변경
+		  // => 객체명.style.background 속성 사용
+		  textElem.style.background = color;
+		  
+		  
+		  
+	  }
+	  
+	  // 나이 창에 대한 색상 변경 처리를 위해 나이 창 객체와 색상명을 파라미터로 전달받는 함수 정의
+	  function changeColor2(elem, color) {
+		  elem.style.background = color;
+	  }
+	  
+</script>
+</head>
+<body>
+	<h1>자바스크립트 이벤트 - test11.html</h1>
+	
+	<!-- "클릭" 버튼 클릭 시 alert() 함수를 사용하여 "버튼 클릭됨!" 출력 -->
+	<input type="button" value="클릭" onclick="alert('버튼 클릭됨!')">
+	
+	<!-- "클릭2" 버튼 클릭 시 clickButton() 함수를 호출하여 "버튼2 클릭됨!" 출력 -->
+	<input type="button" value="클릭2" onclick=clickButton();>
+	
+	<!-- "마우스를 가져다 대세요" 버튼에 mouseover, mouseout 이벤트 처리 -->
+	<input type="button" value="마우스를 가져다 대세요" onmouseover="alert('마우스 오버')" onmouseout="alert('마우스 아웃')">
+	
+	<!-- "이미지교체" 버튼 클릭 시 표시된 이미지를 다른 이미지로 교체 -->
+	<img src="./australian.jpg" id="img" width="200" height="150"><br>
+	<input type="button" value="이미지교체" onclick="changeImage()">
+	
+	<!-- 이름 입력창에 포커스가 위치하면 "SKYBLUE" 색상으로 변경, 포커스 잃으면 "WHITE"로 변경 -->
+	<!-- 동일한 색상 변경 작업이므로 하나의 함수를 호출하며, 호출 시 색상명을 파라미터로 전달하여 구분 -->
+	이름 : <input type="text" id="name" onfocus="changeColor('SKYBLUE')" onblur="changeColor('WHITE')">
+	나이 : <input type="text" id="age" onfocus="changeColor2(this,'#FFCCCC')" onblur="changeColor2(this,'WHITE')">
+</body>
