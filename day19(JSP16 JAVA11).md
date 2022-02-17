@@ -447,3 +447,145 @@ public class Test2 {
 6	2
 9	3	1
 19	10	7	?
+
+
+
+
+
+import java.util.Scanner;
+
+public class test3 {
+
+	public static void main(String[] args) {
+//		4
+//		6	2
+//		9	3	1
+//		19	10	7	?
+//	위와 같은 규칙을 좀 더 일반화하여 각 행의 제일 첫 번째 숫자들만 주어지면 N 크기의 모든 
+//	격자판 정보를 출력하는 프로그램을 작성하시오.
+//	
+//	입력예시)
+//	4
+//	4
+//	6
+//	9
+//	19
+//	출력예시)
+//	4
+//	6	2
+//	9	3	1
+//	19	10	7	?
+
+		
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		
+//		arr[0] = new int[1];
+//		arr[1] = new int[2];
+//		arr[2] = new int[3];
+		
+//		arr[0][0] = 4;
+//		arr[1][0] = 6;
+//		arr[2][0] = 9;
+//		arr[3][0] = 19;
+		
+		int[][] arr = new int [4][];
+		for(int i = 0; i < arr.length; i++) {
+			arr[i] = new int[i+1];
+			arr[i][0] = sc.nextInt();
+		}
+		
+		for(int i = 1; i < arr.length; i++) {
+			for(int j = 1; j < arr[i].length; j++) {
+				arr[i][j] = arr[i][j-1] - arr[i-1][j-1];
+			}
+					
+		}
+		
+		// 출력
+//		for(int i = 0; i < arr.length; i++) {
+//			for(int j = 0; j < arr[i].length; j++) {
+//				System.out.print(arr[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+		
+		
+		// 향상된 for문
+		for(int[] arr2 : arr) {
+			for(int num : arr2) {
+				System.out.print(num + " ");
+			}
+			System.out.println();
+		}
+		
+	}
+		
+
+}
+```
+
+11. 다리 건너기
+```java
+도로 교통상황이 숫자로 주어짐.
+		
+출발 70 80 60 20 30 50 10 80 77 89
+           ||    ||    ||
+     70 60 40 50 55 65 23 44 37 88 도착
+	 
+북쪽에서 남쪽 다리 index 번호가 주어짐.
+이 때, 가장 최소 시간이 소요되는 다리는 몇 번 다리인지 출력하고 최소시간을 함께 출력
+
+출력 예시) 다리번호 : 6
+		   최소시간 : 512
+		   
+주의사항.
+1. 무조건 다리를 1번 건너야함 (도착지점이 남쪽이기 때문)
+2. 다리를 여러번 건널 수 없고 딱 한 번만 가능
+3. 다리를 건널 때에는 남쪽, 북쪽 소요시간이 같이 소요됨. (즉, 같이 합산해야함)
+4. 소요시간이 같은 경우가 발생하면 낮은 다리번호를 출력
+
+
+
+
+
+public class Test4 {
+
+	public static void main(String[] args) {
+
+
+		int[] north = { 70, 80, 60, 20, 30, 50, 10, 80, 77, 89 };
+		int[] south = { 70, 60, 40, 50, 55, 65, 23, 44, 37, 88 };
+		int[] bridge = { 2, 4, 6 };
+		int[] result = { 0, 0, 0 };
+
+		for (int i = 0; i < bridge.length; i++) {
+
+			int nSum = 0;
+			for (int j = 0; j <= bridge[i]; j++) {
+				nSum += north[j];
+			}
+
+			// 남쪽의 합
+			int sSum = 0;
+			for (int j = bridge[i]; j < south.length; j++) {
+				sSum += south[j];
+			}
+			result[i] = nSum + sSum;
+		}
+
+		int min = result[0];
+		int minIndex = 0;
+		for (int i = 1; i < result.length; i++) {
+			if (min > result[i]) {
+				min = result[i];
+				minIndex = i;
+			}
+		}
+		System.out.println("다리번호 : " + bridge[minIndex]);
+		System.out.println("최소시간 : " + min);
+
+	}
+
+}
+```
