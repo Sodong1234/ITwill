@@ -139,3 +139,110 @@ function printRadio() {
 </body>
 </html>
 ```
+## Select 활용
+```javasciprt
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function check() {
+		// 셀렉트박스 선택 항목에 접근하려면 셀렉트박스의 value 속성 사용
+		alert(document.fr.fruits.value);
+	}
+
+	function check2() {
+		// 현재 셀렉트박스 항목이 "선택하세요" 일 경우 다른 항목을 선택하도록 오류 메세지 출력
+		// 1. 셀렉트박스 항목의 value 속성값이 "" 인지 판별"
+		// 	if(document.fr.fruits4.value == "") {
+		// 		alert("과일 선택 필수!");
+		// 	}
+
+		// 2. 셀렉트박스의 options 배열을 사용하여 접근(첫번째 항목 인덱스 0부터 시작)
+		// => "선택하세요" 항목은 0번 인덱스의 selected 속성값이 true 이면 아무것도 선택 안 됨
+		if (document.fr.fruits4.options[0].selected) { // 첫번째 항목("선택하세요") 선택된 경우
+			alert("과일 선택 필수!");
+		}
+
+	}
+
+	// function itemSelected() {
+	// 		alert("선택항목 : " + document.fr.fruits5.value)
+	// }
+
+	function itemSelected(selectedValue) {
+// 		alert("선택항목 : " + selectedValue);
+		// "선택하세요" 항목일때는 아무 작업도 수행하지 않고, 나머지 항목만 출력할 경우
+		if (selectedValue != "") {
+// 			alert("선택항목 : " + selectedValue)
+			// 텍스트박스("fruit")에 선택 항목 value 속성값 출력
+			document.fr.fruit.value = selectedValue;
+		} else {
+			// "선택하세요 항목일 때 텍스트박스 텍스트 초기화(삭제)
+		}
+	}
+	
+	
+</script>
+</head>
+<body>
+	<h1>test15.html</h1>
+	<form action="" name="fr">
+		<select name="fruits">
+			<option value="Apple">사과</option>
+			<option value="Strawberry">딸기</option>
+			<option value="Banana">바나나</option>
+		</select> <input type="button" value="확인" onclick="check()">
+
+		<hr>
+
+		<select name="fruits2">
+			<option value="Apple">사과</option>
+			<option value="Strawberry" selected="selected">딸기</option>
+			<!-- 기본값으로 선택 -->
+			<option value="Banana" disabled="disabled">바나나</option>
+			<!-- 비활성화(= 선택 불가) -->
+		</select>
+
+		<hr>
+
+		<!-- 셀렉트박스 size 속성을 지정 시 리스트박스 형태로 변경됨 -->
+		<select name="fruits3" size="2">
+			<!-- 목록 2개까지 표시 후 나머지는 스크롤링 -->
+			<option value="Apple">사과</option>
+			<option value="Strawberry">딸기</option>
+			<!-- 기본값으로 선택 -->
+			<option value="Banana">바나나</option>
+			<!-- 비활성화(= 선택 불가) -->
+		</select>
+
+		<hr>
+
+		<select name="fruits4">
+			<!-- 셀렉트박스 항목 선택이 필수가 아닐 경우 또는 항목을 반드시 확인하고 선택해야하는 경우 
+			"" 값을 갖는 option 태그 추가 
+			-->
+			<option value="">선택하세요</option>
+			<option value="Apple">사과</option>
+			<option value="Strawberry">딸기</option>
+			<option value="Banana">바나나</option>
+		</select>
+		<!-- 확인 버튼 클릭 시 check() 함수 호출 -->
+		<input type="button" value="확인" onclick="check2()">
+
+		<hr>
+
+		<select name="fruits5" onchange="itemSelected(this.value)">
+			<!-- 셀렉트박스 항목 변경을 감지하는 이벤트 : onchange -->
+			<!-- 함수 호출 시 this.value 지정하면 선택된 항목의 value 속성값을 파라미터로 전달 -->
+			<option value="">선택하세요</option>
+			<option value="Apple">사과</option>
+			<option value="Strawberry">딸기</option>
+			<option value="Banana">바나나</option>
+		</select>
+
+	</form>
+</body>
+</html>
+```
