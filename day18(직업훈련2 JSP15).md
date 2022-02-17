@@ -336,13 +336,65 @@ function requestFocus() {
 	document.fr.id.focus();
 }
 
+
+
 function print() {
 		
 	// 폼 태그에 입력된 데이터(아이디, 패스워드, 자기소개)를 가져와서 출력
-	document.fr.id.id();
-	document.fr.id.passwd();
-	document.fr.id.ta();
+	// => textarea 태그는 value 속성을 사용하지 않지만, 자바스크립트로 가져올 때는 document 객체를 통해 textarea 의 value 속성값 접근 가능
+	
+	alert("아이디 : " + document.fr.id.value + "\n" + "패스워드 : " + document.fr.passwd.value + "\n" + "자기소개 : " + document.fr.ta.value);
 	}
+	
+	
+	
+function check() {
+	// 폼 태그에 입력 항목 중에서 입력되지 않은 항목이 존재하는지 판별하는 방법
+	// 1) 해당 태그의 value 속성값이 널스트링("")과 같은지 판별
+	// 2) 해당 태그의  "" 에 대한 길이(length)가 0 인지 판별
+	
+// 	if(document.fr.id.value == "") { // 아이디가 입력되지 않은 경우
+// 		alert("아이디를 입력하세요!"); // 경고메세지 출력
+// 	} else if (document.fr.passwd.value == "") { // 패스워드가 입력되지 않은 경우
+// 		alert("패스워드를 입력하세요!");
+// 	} else if (document.fr.ta.value == "") { // 자기소개가 입력되지 않은 경우
+// 		alert("자기소개를 입력하세요!");
+// 	} else {
+// 		document.fr.submit();
+//  }
+	
+		if(document.fr.id.value.length == 0) { // 아이디가 입력되지 않은 경우
+		alert("아이디를 입력하세요!"); // 경고메세지 출력
+		// 아이디 입력 창에 커서 요청
+		document.fr.id.focus();
+		// 현재 함수 실행을 종료하고 빠져나가기(if문 외부의 submit() 함수가 실행되지 않도록 차단)
+		return;
+		
+	} else if (document.fr.passwd.value.length == 0) { // 패스워드가 입력되지 않은 경우
+		alert("패스워드를 입력하세요!");
+		// 패스워드 입력 창에 커서 요청
+		document.fr.passwd.focus();
+		// 현재 함수 실행을 종료하고 빠져나가기(if문 외부의 submit() 함수가 실행되지 않도록 차단)
+		return;		
+	} else if (document.fr.ta.value.length == 0) { // 자기소개가 입력되지 않은 경우
+		alert("자기소개를 입력하세요!");
+		// 자기소개 입력 창에 커서 요청
+		document.fr.ta.focus();
+		// 현재 함수 실행을 종료하고 빠져나가기(if문 외부의 submit() 함수가 실행되지 않도록 차단)
+		return;
+	} 
+		
+	// 만약, 모든 항목에 대한 입력이 완료되었을 경우
+	// 자바스크립트 함수에서 submit 기능 수행 할 수 있다! 
+	// => 대상 폼 객체에 대해 submit() 함수 호출
+	
+	document.fr.submit();
+	// => 주의! if문 외부에서 submit() 함수를 호출할 경우 입력값이 없을 경우에도 submit() 함수가 실행 될 수 있으므로
+	//    입력값이 있을 경우에만 실행 되도록 수정해야함
+	// 1) if문 마지막에 else 문을 통해 모든 값이 입력되면 submit() 함수 호출
+	// 2) 각 if문마다 현재 함수를 종료하고 빠져나가도록 return 문 사용
+}
+	
 	
 	
 </script>
@@ -371,20 +423,21 @@ function print() {
 	 -->
 	<h1>test13.html - form 태그 이벤트</h1>
 	<form action="./test13-2.html" name="fr">
-		아이디 <input type="text" name="id">
+		아이디 <input type="text" name="id" required="required">
 		<input type="button" value="focus()" onclick="requestFocus()">
 		<!-- 버튼 클릭 시 폼 태그의 요소에 접근하여 작업 직접 수행 가능 -->
 		<input type="button" value="blur()" onclick="document.fr.id.blur">
 		<input type="button" value="select()" onclick="document.fr.id.select">
 		<br>
-<!-- 		패스워드 <input type="text" name="passwd"> // 입력하는 패스워드가 노출됨 -->
-		패스워드 <input type="password" name="passwd"> <!-- 입력하는 패스워드가 노출 X -->
+		<!-- 패스워드 <input type="text" name="passwd"> // 입력하는 패스워드가 노출됨 -->
+		패스워드 <input type="password" name="passwd" required="required"> <!-- 입력하는 패스워드가 노출 X -->
 		<br>
 		<!-- textarea 태그는 input type="text" 태그와 달리 여러 줄 입력(줄바꿈) 가능한 태그 -->
-		자기소개 <textarea rows="5" cols="20" name="ta"></textarea>
+		자기소개 <textarea rows="5" cols="20" name="ta" required="required">자기소개</textarea>
 		<br>
 		<input type="button" value="입력값 출력" onclick="print()">
-		<input type="submit" value="확인">
+		<input type="button" value="입력값 확인" onclick="check()">
+		<input type="submit" value="가입">
 	</form>
 	
 	
