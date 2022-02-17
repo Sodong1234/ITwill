@@ -140,7 +140,7 @@ function printRadio() {
 </html>
 ```
 ## Select 활용
-```javasciprt
+```javascript
 <!DOCTYPE html>
 <html>
 <head>
