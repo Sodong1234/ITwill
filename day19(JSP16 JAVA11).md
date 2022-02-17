@@ -249,4 +249,201 @@ function printRadio() {
 
 ---
 # [오후수업] JAVA 11차
-	
+> 저번 차수에 이어 복습문제 이어서 실시
+8. 마방진 만들기
+```java
+import java.util.Scanner;
+
+public class test1 {
+
+	public static void main(String[] args) {
+//		마방진(magic square) : 가로, 세로, 대각선의 합이 같은 사각형. 
+//		홀수 n을 입력으로 받아 n*n 마방진 만들기
+//		
+//		구현 방법 :
+//		1. 시작은 첫 행, 한 가운데 열에 1을 둔다
+//		2. 행을 감소, 열을 증가하면서 순차적으로 수를 넣어감
+//		3. 행은 감소하므로 첫행보다 작아지는 경우에는 마지막으로 넘어감
+//		4. 열은 증가하므로 마지막 열보다 커지는 경우에는 첫 열로 넘아감
+//		5. 넣은 수가 n의 배수이면 행만 증가. 열은 변화없음
+//			
+//		8 1 6
+//		3 5 7
+//		4 9 2
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+//		
+//		int row = 0;
+//		int col = n/2;
+//		
+//		int[][] arr = new int[n][n];
+//		
+//		for(int i = 1; i < n*n; i++) {
+//			arr[row][col] = i;
+//			if(i % n == 0) { // n의 배수이면 행만 증가
+//				row++;
+//			} else {
+//				row--;
+//				col++;
+//			}
+//			if(row < 0) {
+//				row = n - 1;
+//			}
+//			
+//			if(col > n - 1) {
+//				col = 0;
+//			}
+//		}
+//		
+
+
+//		// 출력
+//		for(int i = 0; i < arr.length; i++) {
+//			for(int j = 0; j < arr[i].length; j++) {
+//				System.out.print(arr[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+
+		int[][] arr = makeMagicSquare(n);
+//		 출력
+//		for (int i = 0; i < arr.length; i++) {
+//			for (int j = 0; j < arr[i].length; j++) {
+//				System.out.print(arr[i][j] + " ");
+//			}
+//			System.out.println();
+
+			System.out.println("=========================================================");
+
+			// 향상된 for문
+			for (int[] arr2 : arr) {
+				for (int num : arr2) {
+					System.out.print(num + " ");
+				}
+				System.out.println();
+			}
+		
+	} // main() 메서드 끝
+		// 정수 n을 전달받아 2차원배열 마방진을 생성해서 리턴하는 makeMagicSquare 메서드 작성
+
+	public static int[][] makeMagicSquare(int n) {
+		int row = 0;
+		int col = n / 2;
+
+		int[][] arr = new int[n][n];
+
+		for (int i = 1; i < n * n; i++) {
+			arr[row][col] = i;
+			if (i % n == 0) {
+				row++;
+			} else {
+				row--;
+				col++;
+			}
+			if (row < 0) {
+				row = n - 1;
+			}
+			if (col > n - 1) {
+				col = 0;
+			}
+		}
+		return arr;
+	}
+} // test1 클래스 끝
+```
+9. 홀수 짝수 계산식 
+```java
+// 정수 2개가 입력되면 아래와 같이 출력
+// 입력) 5 7
+// 출력) "홀수 + 홀수 = 짝수"
+//
+// 입력) 2 7
+// 출력) "짝수 + 홀수 = 홀수"
+
+import java.util.Scanner;
+
+public class Test2 {
+
+	public static void main(String[] args) {
+		
+		// 1.
+		String result = "";
+//		if(num1 % 2 == 1 && num2 % 2 == 1) { 	// 홀홀짝
+//			result = "홀수 + 홀수 = 짝수";
+//		} else if(num1 % 2 == 1 && num2 % 2 == 0) {		// 홀짝홀 
+//			result = "홀수 + 짝수 = 홀수";
+//		} else if(num1 % 2 == 0 && num2 % 2 == 1) {		// 짝홀홀
+//			result = "짝수 + 홀수 = 홀수";
+//		} else if(num1 % 2 == 0 && num2 % 2 == 0) {		// 짝짝짝
+//			result = "짝수 + 짝수 = 짝수";
+//		}
+		
+		
+		// 2. 
+//		if(num1 % 2 == 1) { // 홀수
+//			result += "홀수 + ";
+//			
+//			if(num2 % 2 == 1 ) { // 홀수
+//				result += "홀수 = 짝수";
+//			} else { // 짝수
+//				result += "짝수 = 홀수";
+//			}
+//			
+//		} else { // 짝수
+//			result += "짝수 + ";
+//			
+//			if(num2 % 2 == 1 ) { // 홀수
+//				result += "홀수 = 홀수";
+//			} else { // 짝수
+//				result += "짝수 = 짝수";
+//			}
+//		}
+//		System.out.println(result);
+		
+		
+		
+		
+		// 3.
+//		result += (num1 % 2 == 0) ? "짝수 + " : "홀수 + ";
+//		result += (num2 % 2 == 0) ? "짝수 + " : "홀수 = ";
+//		result += ((num1+num2)%2 == 0) ? "짝수" : "홀수";
+//		
+//		System.out.println(result);
+		
+		
+		
+		
+		// 4.
+		System.out.println(method(num1) + " + " + method(num2) + " = " + method(num1 + num2));
+		
+		
+		
+	} //main() 메서드 끝
+		// 4.
+	public static String method(int n) {
+		return (n % 2 == 0) ? "짝수" : "홀수";
+		
+	}
+
+} // Test2 클래스 끝
+```
+10. 격자판 문제
+```java
+4
+6	2
+9	3	1
+19	10	7	?
+위와 같은 규칙을 좀 더 일반화하여 각 행의 제일 첫 번째 숫자들만 주어지면 N 크기의 모든 
+격자판 정보를 출력하는 프로그램을 작성하시오.
+
+입력예시)
+4
+4
+6
+9
+19
+출력예시)
+4
+6	2
+9	3	1
+19	10	7	?
