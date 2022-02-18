@@ -285,6 +285,7 @@ div{
 </body>
 </html>
 ```
+![6](https://user-images.githubusercontent.com/95197594/154613296-420bf982-facf-4fb2-8e4a-aec8bcfb7f20.PNG)
 
 ```css
 <title>Insert title here</title>
@@ -324,6 +325,8 @@ div{
 </body>
 </html>
 ```
+![7](https://user-images.githubusercontent.com/95197594/154613310-d558612b-71d8-46f8-9f2e-b39782279fba.PNG)
+
 ```css
 <style type="text/css">
 
@@ -364,4 +367,37 @@ th {
 </body>
 </html>
 ```
+![8](https://user-images.githubusercontent.com/95197594/154613314-8576e524-24bc-43e1-a504-ee3aae0b0248.PNG)
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	*{
+/* h2, p, div		문단태그 전체영역(블럭 영역) */
+/* span, strong		요소영역(인라인 영역) */
+/* border: 1px solid black; */
+	}
+	p{
+/* 		선모양 */
+		border-width: 5px;
+		border-style: dotted;
+		border-color: green;
+	}
+
+</style>
+</head>
+<body>
+<h2>레드향</h2>
+<p>껍질에 붉은빛이 돌아 <span>레드향</span>이라 불린다</p>
+<p>비타민C와 비타민 P가 풍부해
+혈액순환, 감기예방 등에 좋은 것으로 알려져 있다</p>
+<h2>일정</h2>
+<h2>먹거리</h2>
+</body>
+</html>
+```
+
 
