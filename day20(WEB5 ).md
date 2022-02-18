@@ -59,6 +59,7 @@ New -> CSS파일 생성
 
 <link rel="stylesheet" href="css1.css">
 ```
+![1](https://user-images.githubusercontent.com/95197594/154608195-d0138ed0-6fa4-4027-90c7-08fd4549d73a.PNG)
 
 ### css 활용
 ```css
@@ -120,6 +121,8 @@ New -> CSS파일 생성
 </body>
 </html>
 ```
+![2](https://user-images.githubusercontent.com/95197594/154608202-bb507cfa-7c3c-4bee-8c2c-9081c6fcc6c6.PNG)
+
 ```css
 <style type="text/css">
 /* 속성 : 글꼴관련 스타일 */
@@ -165,6 +168,7 @@ New -> CSS파일 생성
 </body>
 </html>
 ```
+![3](https://user-images.githubusercontent.com/95197594/154608205-b4a6f5fd-2639-4090-90cb-3c6969a56618.PNG)
 ```css
 <style type="text/css">
 h2{
@@ -210,6 +214,7 @@ p{
 </body>
 </html>
 ```
+![4](https://user-images.githubusercontent.com/95197594/154608210-a156c3ee-5a7c-4aa5-8369-63b6b759d374.PNG)
 ```css
 <!DOCTYPE html>
 <html>
@@ -245,3 +250,7 @@ p{
 </ol>
 </body>
 </html>
+```
+![5](https://user-images.githubusercontent.com/95197594/154608238-e53b8533-ad97-4d64-8e8a-ea708e5ea6ff.PNG)
+
+
