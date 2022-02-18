@@ -253,4 +253,115 @@ p{
 ```
 ![5](https://user-images.githubusercontent.com/95197594/154608238-e53b8533-ad97-4d64-8e8a-ea708e5ea6ff.PNG)
 
+```css
+<style type="text/css">
+/* ul태그에 목록상자 스타일 점 없게 적용 */
+ul{
+	list-style-type: none;
+}
+/* a 하이퍼링크 밑줄 없게 적용, 글자 파란색 */
+a{
+	text-decoration: none;
+	color: rgb(0,0,255);
+}
+li{
+	border: 1px solid #222;
+	padding: 20px;
+	margin: 5px;
+}
+div{
+	width: 300px;
+</style>
+</head>
+<body>
+<div>
+<ul>
+	<li><a href="test5.html">회사 소개</a></li>
+	<li><a href="test5.html">도서</a></li>
+	<li><a href="test5.html">자료실</a></li>
+	<li><a href="test5.html">동영상 강의</a></li>
+</ul>
+</div>
+</body>
+</html>
+```
+
+```css
+<title>Insert title here</title>
+<style type="text/css">
+	table {
+/* 		표제목 위치 */
+		caption-side: bottom;
+/* 		칸여백 */
+/* 		border-spacing:10px */
+/* 테이블 선, td칸 선 합치기, 기본 separate; */
+		border-collapse:collapse;
+
+		border: 1px solid black;
+		width: 500px;
+	}
+	td, th{
+/* 		border: 2px dotted blue; */
+		border: 1px solid black;
+		padding: 10px;
+/* 		글자 가운데 정렬 */
+		text-align: center;
+		background-color: silver;
+	}
+</style>
+</head>
+<body>
+<h2>표 합치기 연습</h2>
+<table>
+<caption>상품 구성</caption>
+<tr><td>용도</td><td colspan="3">중량 개수 가격</td>                      </tr>
+<tr><td rowspan="2">선물용</td><td>3kg</td><td>11-16과</td><td>35000원</td></tr>
+<tr>                         <td>5kg</td><td>18-26과</td><td>52000원</td></tr>
+<tr><td rowspan="2">가정용</td><td>3kg</td><td>11-16과</td><td>35000원</td></tr>
+<tr>                          <td>5kg</td><td>18-26과</td><td>47000원</td></tr>
+</table>
+
+</body>
+</html>
+```
+```css
+<style type="text/css">
+
+/* 	th, td 테두리선 1px 실선 검정, 안 여백 10px */
+/* th 배경색 #eee */
+
+table {
+/* 	table 태그에 테두리선 1px 실선 검정
+	테이블 제목 아래, 테이블 선 합치기 */
+
+		border: 1px solid black;
+		caption-side: bottom;
+		border-collapse: collapse;
+}
+
+th, td {
+/* 	th, td 테두리선 1px 실선 검정, 안 여백 10px */
+		border: 1px solid black;
+		padding: 10px;
+}
+
+th {
+/* th 배경색 #eee */
+	background-color: #eee;
+}
+
+</style>
+</head>
+<body>
+<table>
+<caption>2019 국민 독서실태</caption>
+<tr><th>구분</th><th>성인</th><th>독서자</th></tr>
+<tr><th>종이책</th><td>6.1권</td><td>11.8권</td></tr>
+<tr><th>전자책</th><td>1.2권</td><td>7.1권</td></tr>
+<tr><th>오디오북</th><td>0.2권</td><td>5.5권</td></tr>
+</table>
+
+</body>
+</html>
+```
 
