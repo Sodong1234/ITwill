@@ -557,7 +557,7 @@ int num1 = 10;
 		System.out.println("if문 결과 : " + result);
 		// switch - case문
 		switch(operator) {
-		case '+' : 	result = num1 + num2;
+		case '+' : result = num1 + num2;
 		break;
 		case '-' : result = num1 - num2;
 		break;
