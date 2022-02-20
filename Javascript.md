@@ -204,3 +204,161 @@ var 변수;
 - 그 외에 콜백 함수 등 다양한 활용이 존재 
 
     
+# 자바스크립트 객체
+## 객체
+- 객체 기본 : 객체 선언, 객체 접근, 객체 생성
+  - 객체 선언
+```javascript
+let product = {
+  제품명 : "7D 건조 망고",
+  유형 : "당절임",
+  성분 : "망고, 설탕, 메타중아황산나트륨, 치자황색소",
+  원산지 : "필리핀"
+};
+```
+  - 객체 접근
+```javascript
+product['제품명'] -> '7D 건조 망고'
+product['유형'] -> '당절임'
+
+product.성분 -> '망고, 설탕, 메타중아황산나트륨, 치자황색소'
+product.원산지 -> '필리핀'
+```
+
+- 객체와 반복문 : for in 반복문을 사용해 객체에 반복문을 적용
+```javascript
+let object = {
+  name : "바나나"
+  price : 12000
+};
+
+for (let key in object) {
+  console.log(`${key}: ${object[key]}`);
+}
+
+```
+- 속성과 메소드 : 요소(배열 내부에 있는 값 하나하나), 속성(객체 내부에 있는 값 하나하나)
+  - 객체의 다양한 자료형
+```javascript
+var object = {
+  number : 273,
+  string : 'RintlanTta',
+  boolean : true,
+  array : [52, 273, 103, 32]
+  method : functon() {
+  
+  }
+  
+};
+```
+
+  - 메소드(객체의 속성 중 자료형이 함수인 속성)
+```javascript
+let object = {
+  name : '바나나',
+  price : 1200,
+  print : function() {
+    console.log(`${this.name}의 가격은 ${this.price}원입니다.`)
+  }
+};
+
+Object.print();
+```
+
+- 생성자 함수와 프로토타입 
+  - 객체 지향 프로그래밍
+    - 현실의 객체를 모방해서 프로그래밍 
+  - 배열과 객체를 사용하면 여러 개의 데이터를 쉽게 다룰 수 있음
+  - 생성자 함수: 객체를 만드는 함수
+  - 프로토타입 : 생성자 함수로 만든 객체는 프로토타입 공간에 메소드를 지정해서 모든 객체가 공유하도록 함
+
+## 표준 내장 객체
+- 기본 자료형과 객체 자료형의 차이 : 자바스크립트는 다양한 객체를 제공, 기본 자료형의 속성 또는 메소드를 사용할 때 기본 자료형이 자동으로 객체로 변환이 됨, 기본 자료형은 객체가 아니므로 속성과 메소드를 추가할 수 없음
+- Number 객체 : 자바스크립트에서 숫자를 표현할 때 사용
+```
+메소드
+  - toExponential() : 숫자를 지수 표시로 나타낸 문자열 리턴
+  - toFixed() : 숫자를 고정소수점 표시로 나타낸 문자열 리턴
+  - toPrecision() : 숫자를 길이에 따라 지수 표시 또는 고정소수점 표시로 나타낸 문자열 리턴
+속성
+  - MAX_VALUE : 자바스크립트의 숫자가 나타낼 수 있는 최대 숫자
+  - MIN_VALUE : 자바스크립트의 숫자가 나타낼 수 있는 최소 숫자
+  - NaN : 자바스크립트의 숫자가 나타낼 수 없는 숫자
+  - POSITIVE_INFINITY : 양의 무한대 숫자
+  - NEGATIVE_INFINITY : 음의 무한대 숫자
+```
+- String 객체 : String 객체의 메소드는 변경된 값을 리턴함
+```
+메소드
+  - charAr, concat, match, searchc, slice ,split, substring 등 다양한 메소드 존재
+속성
+  - length : 문자열의 길이를 나타냄
+```  
+- Date 객체
+```
+생성자 함수 
+  - new Date() : 현재 시간으로 Date 객체 생성
+  - new Date(유닉스 타임) : 유닉스 타임(1970년 1월 1일 00시 00분 00초부터 경과한 밀리초)로 Date 객체 생성
+  - new Date(<시간 문자열>) : 문자열로 Date 객체 생성
+  - new Date(<년>, <월-1>, <일>, <시간>, <분>, <초>, <밀리초>) : 시간 요소를 기반으로 Date 객체 생성
+```
+
+
+# 객체 모델  
+## 브라우저 객체
+- window 객체
+  - 대표적인 객체 모델 : location, navigator, history, screen, document 객체
+  - 많은 속성이 있음, 일부 익스플로러에서는 실행되지 않음
+  - 자신의 형태와 위치를 변경할 수 있도록 메소드 제공
+    - moveBy(x,y), moveTo(x,y), resizeBy(x,y), resizeTo(x,y), scrollBy(x,y), scrollTo(x,y), focus(), blur(), close() 등
+    - By : 상대적 / To : 절대적
+- screen 객체 : 웹 브라우저의 화면이 아닌 운영체제 화면의 속성을 가지는 객체
+  - width, height, colorDepth, pixelDepth 등 
+- location 객체
+  - 브라우저의 주소 표시줄과 관련된 객체
+  - 프로토콜의 종류, 호스트 이름, 문서 위치 등의 정보가 있음
+    - href, host, port, hash, search, protocol, reload(), replace() 등
+- navigator 객체 
+  - 웹 페이지를 실행하고 있는 브라우저에 대한 정보가 있음
+  - appCodeName, appName, platform, userAgent 등
+- window 객체의 onload 이벤트 속성 : 문서 객체 속성 중‘on’으로 시작하는 속성을 이벤트 속성이라 부르고 함수를 할당해야 함
+```javascript
+<script>
+  window.onload = function() {
+  
+  };
+</script>
+```
+
+## 문서 객체
+- 넓은 의미 : 웹 브라우저가 HTML 페이지를 인식하는 방식
+- 좁은 의미 : document 객체와 관련된 객체의 집합
+- 노드
+  - 요소 노드 : HTML 태그
+  - 텍스트 노드 : 요소 노드 안에 들어 있는 글자들   
+- 문서 객체 
+  - 텍스트 노드를 갖는 문서객체 : 요소 노드와 텍스트 노드 생성 후 텍스트 노드를 요소 노드에 붙여 줌
+  - 텍스트 노드를 가지지 않는 문서객체 : 대표적으로 img 태그
+- 문서 객체 가져오기
+  - getElementById(id), getElementByName(name), getElementByTagName(tagName) 등의 메소드를 이용
+  - 가져온 문서 객체의 스타일 조작, style 속성의 사용이 가능함
+    - style 속성 : border, color, fontFamily 등
+- 문서 객체 제거 : 제거 메소드 사용
+```javascript
+
+<body>
+  <h1 id = "will-remove">Header</h1>
+</body>  
+
+
+<script>
+  window.onload = function() {
+  // 문서 객체 가져오기
+  var willRemove = document.getElementById('will-remove')
+  
+  // 문서 객체 제거하기
+  document.body.removeChild(willRemove);
+};
+</script>
+</body>
+```
