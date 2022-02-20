@@ -362,3 +362,98 @@ Object.print();
 </script>
 </body>
 ```
+
+# 자바스크립트 예외처리 및 이벤트처리
+## 예외 처리
+- 예외 : 실행에 문제가 발생하면 자동 중단됨. 
+- 예외 처리 : 오류에 대처할 수 있게 하는 것
+  - undefined 자료형을 일반적인 객체 또는 함수처럼 다루면 TypeError 예외 발생 
+  - 사전에 해당 데이터가 undefined 인지 조건문으로 확인해야함
+- 고급 예외 처리 : 예외 상황 확인 및 처리
+  - 배열을 생성할 때 길이를 음수로 지정하면 RangeError가 발생
+  - try catch finally 구문
+  - catch 구문, finally 구문생략 가능
+```javascript
+try {
+  // 예외가 발생하면
+} catch (exception) {
+
+  // 여기서 처리합니다
+} finally {
+  // 여기서 무조건 실행합니다
+}
+```
+- 예외 객체 : 예외가 발생하면 어떤 예외가 발생했는지 정보를 전달함
+  - name 속성과 message 속성이 존재 
+- 예외 강제 발생 : throw 키워드 사용, throw 키워드 뒤에는 문자열 또는 Error 객체를 입력
+```javascript
+try {
+  //예외를 강제로 발생시킴
+  throw "예외가 발생하였습니다";
+} catch (exception) {
+  //예외 객체를 출력
+  console.log("예외가 발생하였습니다.");
+  console.log(exception);
+}
+```
+
+## 이벤트 처리
+- 이벤트 : 키보드를 이용해 버튼을 입력하거나 마우스 클릭과 같이 다른 것에 영향을 미치는 것
+  ```
+  - 자바스크립트 이벤트 종류 : 
+    - 마우스 이벤트
+    - 키보드 이벤트
+    - HTML 프레임 이벤트
+    - HTML 입력 양식 이벤트
+    - 유저 인터페이스 이벤트
+    - 구조 변화 이벤트
+    - 터치 이벤트
+  ```
+  
+- 이벤트 연결 : window 객체의 onload 속성에 함수 자료형을 할당하는 것 
+  - ex: window.onload = function(){};)
+- 이벤트 모델 : 문서 객체에 이벤트를 연결하는 방법. 
+  - 이벤트 모델 분류(DOM(Document Object Model) Level 단계에 따라 두 가지로 분류
+    - DOM Level 0 
+      - 인라인 이벤트 모델
+      - 기본 이벤트 모델
+    - DOM Level 2
+      - 마이크로소프트 인터넷 익스플로러 이벤트 모델
+      - 표준 이벤트 모델
+  - 고전 이벤트 모델 : getElementById() 메소드로 문서 객체를 가져오고, 이벤트를 연결하여 계속 이벤트를 실행 
+  - this 키워드
+    - 이벤트를 발생한 객체를 찾을 수 있음
+    - this 키워드의 스타일을 바꾸는 것은 이벤트가 발생한 객체의 스타일을 변경하는 것
+    - 이벤트 객체 : "누가"와 관련된 정보
+- 이벤트 강제 실행 : 메서드를 호출하는 것처럼 이벤트 속성을 호출하면 이벤트가 강제로실행
+- 인라인 이벤트 모델 : HTML 페이지의 가장 기본적인 이벤트 연결 방법. 태그에 직접 이벤트를 연결
+```javascript
+<body>
+  <h1 onclick="alert('클릭')">Click</h1>
+</body>  
+```
+
+- 디폴트 이벤트 : 일부 HTML 태그에 이미 이벤트 리스너가 있는 것
+  - body 태그 안의 submit 이벤트 연결 등
+  - if문으로 비밀번호가 같은지 확인 등의 입력 양식 유효성 검사 가능 
+- 이벤트 전달 
+  - 이벤트 버블링 
+    - 자식 노드 -> 부모 노드 순으로 이벤트를 실행하는 것
+  - 이벤트 캡쳐링
+    - 부모 노드 -> 자식 노드 순으로 이벤트를 실행하는 것    
+  - 이벤트 전달을 막는 법
+    - 인터넷 익스플로러 : 이벤트 객체의 cancelBubble 속성을 true로 변경
+    - 그 이외의 브라우저 : 이벤트 객체의 stopPropagation() 메서드를 사용 
+
+# API
+- 클라이언트와 서버측 고유 기술 : 웹브라우저에서 동작하는 자바스크립트를 클라이언트 측 자바스크립트라 함
+- 웹 브라우저의 주요 API의 종류 : Window인터페이스, DOM, XMLHttpRequest 
+- 주요 API의 종류 : Drag and Drop, Blob, File, Web Workers, Web Storage, Indexed Database, WebSockets, Geolocation, Canvas
+
+- Drag and Drop API
+  - HTML 요소나 로컬 파일을 마우스로 끌어서 옮길 수 있으며 다른 요소에 드롭할 수 있음, 이때 드래그한 요소 또는 파일의 데이터는 드롭 타킷 요소에 전달
+    - API의 종류 : dragstrart, drag, dragend, dragenter, dragover 등 
+- 데이터 전달하기
+  - 모든 드래그 앤 드롭 이벤트는 dataTransfer 프로퍼티를 가짐
+  - dataTransfer 프로퍼티 값은 Datatransfer 객체이며, 이 객체로 드래그 타깃 요소가 드롭 타깃 요소에 데이터를 전달 할 수 있음
+    - 프로퍼티&메소드의 종류 : type, files, effectAllowed, dropEffect, setData(), getData(), setDragImage() 등 
