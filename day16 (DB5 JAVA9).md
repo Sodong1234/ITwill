@@ -66,10 +66,10 @@ SET stu_no = stu_no + 1; 입력
 
 ```
 
-### 데이터 삭제
+## DELETE 문법
 - 기존 테이블의 데이터를 삭제하는 문법
 ```
--문법
+- 문법
 DELETE FROM 테이블명;
 [WHERE 조건컬럼 연산자 조건절];
 ```
@@ -161,6 +161,9 @@ FROM 테이블명
 [WHERE 조건컬럼 연산자 조건값];
 ```
 ```
+HR_DEPARTMENTS 테이블에서  department_id, department_name, manager_id, location_id 컬럼 조회해보기
+
+
 SELECT department_id, department_name, manager_id, location_id 입력
 FROM HR_DEPARTMENTS; 입력
 
@@ -198,7 +201,7 @@ FROM HR_DEPARTMENTS; 입력
 
 
 ---------------------------------------------------------------------------------------------
-
+HR_DEPARTMENTS 테이블에서 department_id, department_name 컬럼 조회해보기
 
 SELECT department_id, department_name 입력
 FROM HR_DEPARTMENTS; 입력
