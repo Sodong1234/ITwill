@@ -632,4 +632,92 @@ public class Test4 {
 	
 }
 
+
+-----------------------------------------------------------------------------------------------------------------
+// 객체지향버전
+
+package review;
+
+class CalcMin {
+	public static Bridge min(Bridge[] bridges) {
+		Bridge minBridge = bridges[0];
+		
+		// 향상된 for문
+		for(Bridge b : bridges) {
+			if(minBridge.total > b.total) minBridge = b;
+		}
+		
+		return minBridge;
+	}
+	
+}
+
+class Bridge {
+	int index;
+	int total;
+}
+
+class Road {
+	int[] arr = new int[10];
+
+	public int sum(int start, int end) {
+		int sum = 0;
+		for (int i = start; i <= end; i++) {
+			sum += this.arr[i];
+		}
+		return sum;
+	}
+}
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+//		출발 70 80 60 20 30 50 10 80 77 89
+//        		   ||    ||    ||
+//        	 70 60 40 50 55 65 23 44 37 88 도착
+//
+//        	 
+
+		// 객체지향 version
+//		int[] north = { 70, 80, 60, 20, 30, 50, 10, 80, 77, 89 };
+//		int[] south = { 70, 60, 40, 50, 55, 65, 23, 44, 37, 88 };
+//		int[] bridge = { 2, 4, 6 };
+//		int[] result = { 0, 0, 0 };
+
+		Road north = new Road();
+		north.arr = new int[] { 70, 80, 60, 20, 30, 50, 10, 80, 77, 89 };
+
+		Road south = new Road();
+		south.arr = new int[] { 70, 60, 40, 50, 55, 65, 23, 44, 37, 88 };
+
+		Bridge bridge1 = new Bridge();
+		Bridge bridge2 = new Bridge();
+		Bridge bridge3 = new Bridge();
+		bridge1.index = 2;
+		bridge2.index = 4;
+		bridge3.index = 6;
+
+//		bridge1.total = north.sum(0, bridge1.index) + south.sum(bridge1.index, south.arr.length - 1);
+//		bridge2.total = north.sum(0, bridge2.index) + south.sum(bridge2.index, south.arr.length - 1);
+//		bridge3.total = north.sum(0, bridge3.index) + south.sum(bridge3.index, south.arr.length - 1);
+
+		Bridge[] bridges = { bridge1, bridge2, bridge3 };
+		
+		// 향상된 for문
+		for(Bridge b : bridges) {
+			b.total = north.sum(0, b.index) + south.sum(b.index, south.arr.length - 1);
+
+		}
+		
+//		for(Bridge b : bridges) {
+//			System.out.println(b.total);
+//		}
+		
+		Bridge min = CalcMin.min(bridges);
+		System.out.println("다리번호 : " + min.index);
+		System.out.println("최소시간 : " + min.total);
+	}
+
+}
+
 ```
