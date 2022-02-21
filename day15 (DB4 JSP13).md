@@ -18,9 +18,14 @@
 ### INSERT 문법
 - 테이블에 데이터를 입력하는 문법
 
+
+
 ```
 - INSERT INTO 테이블명 [(칼럼명1[, …])]
   VALUES (데이터1 [, …]);
+  
+- values절에서 숫자 데이터는 숫자로만 작성, 문자열 데이터는 ''로 묶어서 작성
+- 컬럼에는 컬럼이 가지는 데이터타입의 데이터들로만 값을 채울 수 있다.
 ```
 ```
 INSERT INTO student (stu_no, last_name) 입력
@@ -66,7 +71,7 @@ ERROR 1366 (HY000): Incorrect integer value: 'k' for column 'stu_no' at row 1 IN
 VALUES ('Kim', 3); 입력
 
 
-SELECT * FROM student;
+SELECT * FROM student; 입력
 
 +--------+-----------+------------+
 | stu_no | last_name | birth_date |
@@ -113,6 +118,26 @@ SELECT * FROM student; 입력
 |      4 | bye       | NULL       |
 |      5 | Buy       | 2022-02-11 |
 +--------+-----------+------------+
+
+---------------------------------------------------------------------------------------------------------------
+
+INSERT INTO student 입력
+VALUES (6, 'LEE', '2022-02-14'); 입력
+
+SELECT * FROM student; 입력
+
++--------+-----------+------------+
+| stu_no | last_name | birth_date |
++--------+-----------+------------+
+|      1 | hi        | NULL       |
+|      2 | 6         | NULL       |
+|      3 | Kim       | NULL       |
+|      4 | bye       | NULL       |
+|      5 | Buy       | 2022-02-11 |
+|      6 | LEE       | 2022-02-14 |
++--------+-----------+------------+
+
+
 ```
 
 ### UPDATE 문법
@@ -122,8 +147,25 @@ SELECT * FROM student; 입력
 - UPDATE 테이블명
   SET 갱신컬럼 = 갱신할 값
   [WHERE 조건컬럼 = 조건값];
+	
+* WHERE절에 대한 내용은 SELECT 구문에서 다룰 예정
+
 ```
 ```
++--------+-----------+------------+
+| stu_no | last_name | birth_date |
++--------+-----------+------------+
+|      1 | hi        | NULL       |
+|      2 | 6         | NULL       |
+|      3 | Kim       | NULL       |
+|      4 | bye       | NULL       |
+|      5 | Buy       | 2022-02-11 |
+|      6 | LEE       | 2022-02-14 |
++--------+-----------+------------+
+
+student 테이블에서 stu_no 컬럼의 값이 3인 행에 대해서 last_name컬럼의 값을 'Gim'으로 갱신
+
+
 UPDATE student 입력
 SET last_name = 'GIM' 입력
 WHERE stu_no = 3; 입력
@@ -138,6 +180,7 @@ SELECT * FROM student; 입력
 |      3 | Gim       | NULL       |
 |      4 | bye       | NULL       |
 |      5 | Buy       | 2022-02-10 |
+|      6 | LEE       | 2022-02-14 |
 +--------+-----------+------------+
 ```
 
