@@ -585,7 +585,51 @@ public class Test4 {
 		System.out.println("다리번호 : " + bridge[minIndex]);
 		System.out.println("최소시간 : " + min);
 
-	}
+	// 메서드 버전 다리(bridge) 반복
+		for(int i = 0; i < bridge.length; i++) {
+			result[i] = sum(north, south, bridge[i]);
+		}
 
+//		for(int i = 0; i < result.length; i++) {
+//			System.out.println(result[i]);
+//		}
+		
+		
+		int minIndex = 0;
+		int min = result[0];
+		
+		for(int i = 1; i < result.length; i++) {
+			if(min > result[i]) {
+				min = result[i];
+				minIndex = i;
+			} 
+		}
+		
+		System.out.println("다리번호 : " + bridge[minIndex]);
+		System.out.println("최소시간 : " + min);
+		
+	}
+	
+	
+	// 메서드 버전
+	public static int sum(int[] north, int[] south, int index) {
+		int sum = 0;
+		
+		// 북쪽(north) 합계
+		for(int i = 0; i <= index; i++) {
+			sum += north[i];
+		}
+		
+		// 남쪽(south) 합계
+		for(int i = index; i < south.length; i++) {
+			sum += south[i];
+		}
+		
+		
+		return sum;
+	}
+	
+	
 }
+
 ```
