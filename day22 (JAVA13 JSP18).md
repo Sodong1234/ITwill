@@ -355,4 +355,228 @@ class Person {
 ```
 
 # [오후수업] JSP 18차
+> JSP 17차에 실시한 final test의 추가분을 커밋해놓았음
 
+## JSP
+
+
+```jsp
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	Calendar c = Calendar.getInstance();
+	int hour = c.get(Calendar.HOUR);
+	int min = c.get(Calendar.MINUTE);
+	int sec = c.get(Calendar.SECOND);
+	%>    
+	<h1>test01.jsp</h1>
+	<h3>현재 시각은 <%=hour %>시 <%=min %>분 <%=sec %>초 입니다.</h3>
+	<!-- 동작 순서
+	1. 클라이언트가 웹브라우저에서 "http://localhost:8080/StudyJSP/jsp1/test01.jsp" 주소 요청
+	2. 요청을 받는 웹서버가 웹어플리케이션 서버로 JSP 부분의 처리(자바코드 해석 및 처리)를 요청함 
+	3. 웹어플리케이션 서버에서 처리된 자바코드(JSP)에 대한 응답을 웹서버로 전송 
+	4. 웹어플리케이션 서버로부터 웹서버가 응답을 받아 사용자에게 응답할 데이터를 생성하여 응답 전송
+	5. 웹서버로부터 응답을 전달받은 클라이언트(웹브라우저)가 HTML 코드 해석하여 화면 표시
+	-->
+	
+	
+	// JSP파일은 실행 후 소스보기 시 코드가 보이지 않음
+	
+	
+</body>
+</html>
+```
+
+
+## JSP 주석
+```jsp
+<%@page import="java.sql.Timestamp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 여기는 HTML 주석입니다. 이 주석은 웹브라우저 소스보기를 통해 확인이 가능합니다 -->
+	<h1>test02.jsp</h1>
+	<%--
+	JSP 주석입니다. 이 주석은 웹브라우저 소스보기를 통해 확인이 불가능합니다.
+	=> JSP 코드가 포함될 경우 HTML 주석으로는 주석 처리가 불가능하므로 반드시 JSP 주석을 사용 
+	 --%>
+	 <%
+	 // 이 부분은 자바 코드가 기술되는 부분으로 웹브라우저에서 코드가 표시되지 않고 
+	 // 서버측에서 실행 후 결과값만 전달하는 부분입니다. (자바 주석 사용 가능한 공간)
+	 Timestamp now = new Timestamp(System.currentTimeMillis());
+	 %>
+	 <h3>현재 시각 : <%=now %></h3>
+	 <hr>
+	 
+	 
+	 <!-- HTML 태그는 HTML 주석으로 처리하여, 실행 대상에서 제외가 가능 -->
+	 <!-- <h1>test02.jsp</h1> -->
+	 
+	 <!-- JSP 코드 부분은 HTML 주석으로 처리하더라도, 서버에서 실행됨(차후 오류발생 가능성 있음) -->
+	 <!-- <h3>현재 시각 : <%=now %></h3> -->
+	 
+	 <!-- JSP 주석을 사용할 경우 서버에서 해당 주석 부분 자체를 실행하지 않고, 브라우저도 실행하지 않음 -->
+<%-- 	 <h3>현재 시각 : <%=now %> --%>
+</body>
+</html>
+```
+
+## JSP 표현식과 스크립틀릿
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%!
+// 이 곳은 JSP 선언문(Declaration)으로 JSP 파일 전체(전역)에서 접근 가능한 
+// 멤버변수 및 메서드를 선언하는 곳입니다.
+// => 자바 클래스 내의 멤버레벨(클래스 내부, 메서드 외부)에 변수 및 메서드가 위치하는 것과 동일
+// 1. 멤버변수 선언
+String str1 = "멤버(전역) 변수입니다.";
+// 2. 메서드 정의
+public void method1() {
+	System.out.println("선언문의 method1() 메서드 호출됨!");
+}
+
+public String method2() {
+	//"method2()" 메서드의 리턴값" 문자열을 외부로 리턴
+	return "method2() 메서드의 리턴값";
+	
+}
+%>
+<%! String str2 = "두 번째 멤버(전역) 변수입니다."; %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>test03.jsp</h1>
+	<%--
+	표현식 <%= %>
+	- 선언문 또는 스크립틀릿에서 선언된 변수에 접근하여 값을 출력하거나 
+	  메서드 호출 후 리턴되는 값을 전달받아 출력할 수 있음
+	  - 자바 코드의 System.out.print() 메서드와 동잃한 코드로 동작함
+	  	(단, System.out.print() 메서드는 이클립스의 콘솔에 데이터가 출력되지만
+	  	표현식은 웹페이지에 출력하므로 out.print() 메서드와 동일한 역할 수행)
+	 --%>
+	 <h3>멤버변수 str1 = <%=str1 %></h3>
+	 <h3>method2() 메서드 호출 결과 : <%=method2() %></h3>
+	 
+	 <%--
+	 스크립틀릿 <% %>
+	 - 자바 문장을 그대로 표현 가능한 블럭
+	 - 스크립틀릿 내부는 자바에서 메서드 내부와 동일한 위치로 취급됨
+	   => 메서드 내에서 수행 가능한 작업들을 코드로 기술 가능
+	   => 자동 생성된 서블릿 클래스 내의 jsp_service() 메서드 내에 해당 코드가 모두 포함됨
+	 - 스크립틀릿 내에서 선언되는 변수는 로컬(지역) 변수로 취급됨
+	   또한, 메서드는 정의할 수 없다!
+	  --%>
+	  <%
+	  // 이 곳은 스크립틀릿 내부입니다.
+	  // 변수 선언도 가능하며, 해당 변수는 로컬 변수로 취급됨
+	  String str3 = "로컬(지역) 변수입니다.";
+	  
+	  // 다른 메서드를 호출하거나, 객체 생성 등의 다양한 작업이 가능함
+	  method1();
+	  
+	  System.out.println("이 문장은 이클립스의 콘솔창에 출력됨");
+	  
+	  // 만약, 스크립틀릿 내에서 웹페이지(HTML 문서, JSP 문서) 내에 데이터를 표시하고 싶을 경우
+	  // out.println() 또는 out.print() 메서드를 사용하여 출력(출력 데이터에 문자열로 태그 사용 가능)
+	  // => HTML 태그보다 자바 데이터가 많을 경우 주로 사용
+	  // => out.println() 메서드와 out.print() 메서드 모두 줄바꿈은 일어나지 않음
+	  out.println("<b>스크립틀릿 내에서 출력한 데이터</b>");
+	  out.print("out.print() 로 출력한 데이터");
+	  out.print("out.print() 로 출력한 데이터");
+	  
+	  // 스크립틀릿 내에서는 메서드 정의 불가(= 자바의 메서드 내에서도 메서드 정의 불가능)
+// 	  public void method3() {} // 컴파일 에러 발생!
+		  
+	  
+	  %>
+	  <%-- 로컬변수는 반드시 변수 선언보다 아래쪽에서만 접근 가능 --%>
+	  <h3>로컬변수 str3 = <%=str3 %></h3>
+	  
+	  <%-- 선언문보다 윗쪽에서 멤버변수에 접근하더라도 접근 가능 --%>
+	  <h3>로컬변수 str4(선언문보다 위) = <%=str4 %></h3>
+	  
+	  <%!String str4 = "멤버변수 str4"; %>
+	  <h3>로컬변수 str4(선언문보다 아래) = <%=str4 %></h3>
+</body>
+</html>
+```
+
+## 스크립틀릿과 표현식 연습	
+```jsp
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% // 스크립틀릿(자바의 메서드 내부와 동일)
+// java.util 패키지의 Calendar 클래스를 사용하여 현재 시스템(서버)의 시각 정보를 
+// 시, 분, 초로 분리하여 가져와서 로컬 변수에 저장하기
+Calendar c = Calendar.getInstance();
+int hour = c.get(Calendar.HOUR_OF_DAY);
+int min = c.get(Calendar.MINUTE);
+int sec = c.get(Calendar.SECOND);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>test03-2.jsp : 스크립틀릿과 표현식 연습</h1>
+	<%-- 스크립틀릿 내에서 선언된 변수는 표현식으로 출력 가능 --%>
+	<h3>현재 시각 : <%=hour %>시 <%=min %>분 <%=sec %>초</h3>
+	
+	<%
+	// 위의 현재 시각 출력문장과 동일한 결과를 갖는 스크립틀릿 코드 작성
+	out.print("<h3>현재 시각 : " + hour + "시 " + min + "분 " + sec + "초</h3>");
+	%>
+	
+	
+	<%--
+	스크립틀릿 내에서는 자바 문법 사용이 가능하므로 if 문 등도 사용 가능함
+	=> 따라서, HTML 태그를 특정 조건에서만 실행되도록 하기 위해서 
+	   if문 블록과 HTML 태그를 조합하여 사용할 수 있음
+	=> 단, if문 등과 조합하여 HTML 태그를 사용할 때 두 가지 방법 중 하나를 사용
+	   1) out.print() 메서드를 사용
+	   	   => HTML 태그보다 자바 코드가 더 많을 경우 주로 사용
+	   2) 스크립틀릿 외부에 태그 작성
+	       => 자바 코드보다 HTML 태그가 더 많을 경우 주로 사용 
+	--%>
+	<%
+	// 1번 방법. 스크립틀릿 내에서 out.print() 메서드를 사용하여 태그를 문자열로 지정하는 방법
+	// if문을 사용하여 현재 시각(hour)이 12 미만이면 "오전입니다" 출력, 아니면 "오후입니다" 출력
+	if(hour < 12) { // 12 보다 작을 경우 = 오전
+		out.print("<h3>오전입니다.</h3>");
+	} else { // 아니면 = 오후
+		out.print("<h3>오후입니다.</h3>");
+	}
+	
+	%>
+	
+	<%-- 2번 방법. 스크립틀릿으로 if문만 표현하고, HTML 태그는 스크립틀릿 외부에서 표현 --%>
+	<%if(hour < 12) {%>
+		<h3>오전입니다.</h3>
+	<%} else{%>
+		<h3>오후입니다.</h3>
+	<%} %>
+</body>
+</html>
+```
