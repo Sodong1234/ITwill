@@ -89,3 +89,70 @@
 </body>
 </html>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/155251366-690b02f3-9c52-4db5-bd1d-10dbfda0f298.PNG)
+
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+*{
+	box-sizing: border-box;
+}
+ul {
+	list-style-type: none;
+}
+ul li{
+	border : 1px solid black;
+/* 	안 여백 20px */
+	padding : 20px;
+/* 	밖 여백 상하 0px, 좌우 20px */
+	margin : 0px 20px;
+/* 	h2, p, div : 문단태그 전체영역(블랙 영역) */
+/* 	span, strong : 요소영역(인라인 영역) */
+/* 	배치 display:block : 전 영역 지정
+	    display:inline : 영역 하나하나 지정
+	    display:inline-block : 영역 하나하나 지정 (inline과는 조금 다름) */
+	display : inline-block;
+}
+span {
+	border : 1px solid black;
+	display : block;
+}
+
+div *{
+	border : 1px solid black;
+}
+img{
+/* 	이미지 글자 어울리게 배치 */
+	float : left;
+	margin-right : 20px;
+}
+/* id="bb" 어울림 해제 */
+#bb{
+/*  claer : left; clear : right; clear : both; */
+	clear : both;
+}
+</style>
+</head>
+<body>
+<span>요소영역(인라인)</span>
+<ul>
+	<li>menu 1</li>
+	<li>menu 2</li>
+	<li>menu 3</li>
+	<li>menu 4</li>
+</ul>
+<div>
+<img src="2.jpg">
+<p>가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바</p>
+<p>가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바</p>
+<p>가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바</p>
+<p>가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바가나다라마바</p>
+<p id="bb">안녕하세요</p>
+</div>
+</body>
+</html>
+```
