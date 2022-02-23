@@ -156,3 +156,65 @@ img{
 </body>
 </html>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/155253299-ce8e05a9-494e-4a15-b19e-93444c43744b.PNG)
+
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+*{
+/* 	border : 1px solid black; */
+/* 	브라우저 기본여백 안여백0 밖여백0 */
+	padding : 0px; margin : 0px; 
+/* 	테두리선 기준으로 계산 */
+	box-sizing : border-box; 
+}
+/* id="aaa" 너비 1200px, 가운데 정렬 밖여백 상하 20 좌우 가운데 */
+#aaa{
+	width : 1200px;
+	margin : 20px auto;
+/* 	background-color : yellow;  */
+}
+/* id="header" 너비 100%, 높이120px */
+#header{
+	width : 100%; height : 120px;
+	background-color : purple; 
+}
+/* id="leftbar" 너비 300px, 높이 600px */
+#leftbar{
+	width : 300px; height : 600px;
+	background-color : pink;
+/* 	다음에 나오는 내용 어울림 */
+	float : left;
+}
+
+/* id="bbb" 너비 900px, 높이 600px */
+#bbb{
+	width : 900px; height : 600px;
+	background-color : blue;
+/* 	다음에 나오는 내용 어울림 */
+	float : left;
+}
+/* id="footer" 너비 100%, 높이 100px */
+#footer{
+	width : 100%; height : 100px;
+	background-color : green;
+/* 	어울림 해제 */
+	clear : left; 
+}
+
+</style>
+</head>
+<body>
+<div id="aaa">
+	<div id="header">사이트 제목</div>
+	<div id="leftbar">왼쪽메뉴</div><div id="bbb">본문</div>
+	<div id="footer">푸터</div>
+</div>
+
+</body>
+</html>
+```
