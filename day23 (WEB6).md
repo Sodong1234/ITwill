@@ -1,7 +1,7 @@
 #[오전수업] WEB 6차
 > WEB 5차에서 실시한 선 모양 추가분을 커밋해놓았음
 
-## css 활용
+## css 선 스타일 및 화면배치 연습
 ```css
 <!DOCTYPE html>
 <html>
@@ -212,6 +212,67 @@ img{
 <div id="aaa">
 	<div id="header">사이트 제목</div>
 	<div id="leftbar">왼쪽메뉴</div><div id="bbb">본문</div>
+	<div id="footer">푸터</div>
+</div>
+
+</body>
+</html>
+```
+![캡처](https://user-images.githubusercontent.com/95197594/155256343-a30f71e2-51e4-4070-b752-20437f038176.PNG)
+
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	*{
+	margin : 0px; padding : 0px;
+	box-sizing : border-box;
+}
+	#aaa{
+	width : 1200px;
+	margin : 20px auto;
+}
+	#header{
+		width : 100%; height : 120px;
+		background-color : yellow;
+		border : 1px solid black;
+	}
+	#leftbar{
+		width : 250px; height : 600px;
+		background-color : pink;
+		float : left;
+		border : 1px solid black;
+	}
+	#bbb{
+		width : 800px; height : 600px;
+		float : left;
+		background-color : blue;
+		border : 1px solid black;
+	}
+	#rightbar{
+		width : 150px; height : 600px;
+		float : left;
+		background-color : skyblue;
+	}
+	#footer{
+		width : 100%; height : 100px;
+		clear : left;
+		background-color : green;
+	}
+
+</style>
+</head>
+<body>
+<div id="aaa">
+	<div id="header">사이트제목</div>
+	
+	<div id="leftbar">왼쪽메뉴 너비 250</div>
+	<div id="bbb">본문 너비 800</div>
+	<div id="rightbar">오른쪽바 너비 150</div>
+	
 	<div id="footer">푸터</div>
 </div>
 
