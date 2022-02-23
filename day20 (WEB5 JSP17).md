@@ -401,6 +401,11 @@ th {
 /*		margin : 50px; auto */
 		margin : 50px;
 		
+/* 		박스 모델 크기 계산 */
+/* 		box-sizing : content-box; 내용기준, 기본값 계산 */
+/* 		box-sizing : border-box; 내용, 안여백, 테두리선 두께 포함 계산 */
+/* 		box-sizing : border-box; */
+		
 	}
 	h2{
 /* 		border-width : 1px; 전체  */
