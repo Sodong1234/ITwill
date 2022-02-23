@@ -385,6 +385,43 @@ th {
 		border-width: 5px;
 		border-style: dotted;
 		border-color: green;
+/* 		너비 */
+/* 		width : 500px; 고정값 */
+/* 		width : 50%; 브라우저 크기에 따라 가변값 */
+		width : 500px;
+/* 		높이 */
+		height : 50px;
+/* 		안여백 */
+/* 		padding : 50px; */
+/* 		padding : 10px 50px; */
+		padding : 10px 50px 5px; 	/*시계방향*/
+		padding-top : 50px;
+/* 		padding-left & right & bottom 모두 적용 가능 */
+/* 		밖여백 여백이 중복됨, 가운데 정렬 시 사용*/
+		margin : 50px;
+	}
+	h2{
+/* 		border-width : 1px; 전체  */
+/* 		border-width : 1px 10px 위아래 왼오른쪽;  */
+/* 		border-width : 1px 10px 5px 20px 위 오른쪽 아래 왼쪽;  */
+/* 		border-bottom-width : 10px; */
+/* 		border-left-width : 10px; */
+ 		border-right-width : 10px; 
+		border-top-width : 10px;
+		
+		border-style : solid; 
+/* 		border-style : solid dotted; */
+/* 		border-style : solid dotted dashed double; */
+
+		border-bottom-style : dashed;
+/* 		border-left & right & top-style 모두 적용 가능 */
+
+
+/* 		border-color : black */
+ 		border-color : black blue green red;  /* 시계방향 */ 
+		border-bottom-color : green;
+/* 		border-left & right & top-color 모두 적용 가능 */
+	
 	}
 
 </style>
