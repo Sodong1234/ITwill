@@ -397,8 +397,10 @@ th {
 		padding : 10px 50px 5px; 	/*시계방향*/
 		padding-top : 50px;
 /* 		padding-left & right & bottom 모두 적용 가능 */
-/* 		밖여백 여백이 중복됨, 가운데 정렬 시 사용*/
+/* 		밖여백 여백이 중복됨(중첩), auto시 가운데 정렬 */
+/*		margin : 50px; auto */
 		margin : 50px;
+		
 	}
 	h2{
 /* 		border-width : 1px; 전체  */
@@ -436,7 +438,8 @@ th {
 </body>
 </html>
 ```
-![캡처](https://user-images.githubusercontent.com/95197594/154614163-e5f5d078-1856-4e10-8905-2d20422cb1c4.PNG)
+![캡처](https://user-images.githubusercontent.com/95197594/155244475-279e20f7-900c-4463-b1fe-93ecdd3621c3.PNG)
+
 
 
 # [오후수업] JSP 17차
