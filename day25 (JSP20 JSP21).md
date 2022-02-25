@@ -26,14 +26,7 @@
 ```   
 
 ```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>responseTest1.jsp</h1>
 
@@ -60,14 +53,7 @@
 ```jsp
 
 ---------------------------------requestForm4.jsp---------------------------------
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>requestPro4.jsp - 로그인</h1>
 
@@ -91,14 +77,7 @@
 </html>
 
 ---------------------------------requestPro4.jsp---------------------------------
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>requestPro4.jsp - 로그인 처리</h1>
 	<%
@@ -178,17 +157,6 @@ pageContext.forward("pageContextTest2.jsp");
 
 ---------------------------------pageContextTest2---------------------------------
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%
-// pageContext 객체
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<h1>pageContextTest2.jsp</h1>
 	<h1>include() 메서드 호출 전</h1>
@@ -232,15 +200,7 @@ pageContext.forward("pageContextTest2.jsp");
 3. 웹브라우저를 종료하면 세션이 초기화(동일한 웹브라우저 여러 개 실행 시 모두 종료할 경우)
 ```
 ```jsp
-<%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>sessionTest1.jsp</h1>
 	
@@ -279,14 +239,7 @@ pageContext.forward("pageContextTest2.jsp");
 ```jsp
 
 ---------------------------------sessionTest2_set---------------------------------
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>sessionTest2_set.jsp - 세션값 설정</h1>
 	<!-- 
@@ -311,14 +264,7 @@ pageContext.forward("pageContextTest2.jsp");
 
 ---------------------------------sessionTest2_set---------------------------------
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<h1>sessionTest2_get.jsp</h1>
 	<!-- sessionTest2_set.jsp 페이지에서 이동 시 세션 객체가 유지되므로 정보 확인 가능함 -->
@@ -345,12 +291,7 @@ pageContext.forward("pageContextTest2.jsp");
 ### 장바구니 기능 구현
 ```jsp
 ---------------------------------sessionTest3---------------------------------
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <title>Insert title here</title>
 <script type="text/javascript">
 function plusQty() {
@@ -405,14 +346,6 @@ function minusQty() {
 ---------------------------------sessionTest3_set---------------------------------
 
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<h1>sessionTest3_set.jsp</h1>
 	<%
@@ -449,14 +382,6 @@ function minusQty() {
 
 ---------------------------------sessionTest3_get---------------------------------
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<h1>sessionTest3_get.jsp - 장바구니 목록</h1>
 	<%
@@ -481,14 +406,6 @@ function minusQty() {
 ```jsp
 ---------------------------------sessionTest4_login_form.jsp---------------------------------
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<form action="sessionTest4_login_pro.jsp" method="post">
 		<table border="1">
@@ -512,14 +429,6 @@ function minusQty() {
 ---------------------------------sessionTest4_login_main.jsp---------------------------------
 
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<h1>메인페이지</h1>
 	<%
@@ -550,15 +459,7 @@ function minusQty() {
 		
 ---------------------------------sessionTest4_login_pro.jsp---------------------------------
 		
-	
-		<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 <h1>sessionTest4_login_pro.jsp - 로그인 처리</h1>
 	<%	
@@ -597,14 +498,7 @@ function minusQty() {
 ---------------------------------sessionTest4_logout.jsp---------------------------------
 		
 		
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+
 <body>
 	<%
 	// 세션에 저장된 모든 정보 초기화 후 sessionTest4_login_main.jsp 페이지로 이동
@@ -619,13 +513,163 @@ function minusQty() {
 </body>
 </html>
 ```		
-		
+
 ## application 객체
 - 웹 어플리케이션 서버(WAS = 웹컨테이너 = 톰캣)에 대한 정보를 관리하는 객체
 - 웹 어플리케이션(= 프로젝트) 하나 당 하나의 application 객체를 생성하고 관리함
   - 웹 어플리케이션 전체 영역에서 하나의 application 객체를 공유함
 - 서버가 시작되면 application 객체가 생성되고, 서버가 중단되면 객체가 제거됨 
 
+```jsp
+<body>
+	<h1>applicationTest.jsp</h1>
+
+	<h3>서버 정보 : <%=application.getServerInfo() %></h3>
+	<h3>서버의 물리적 경로(실제 경로) : <%=application.getRealPath("/") %></h3>
+	<h3>서버의 컨텍스트 경로 : <%=application.getContextPath() %></h3>
+</body>
+```
+
 ## 영역(Scope) 객체
 - 내장 객체 중 각기 다른 영역(Scope)을 갖는 4대 영역 객체
 	- page, request, session, application
+
+1. page 객체
+- 현재 페이지 정보를 저장하고 관리하는 객체
+- 현재 페이지에서만 접근 가능
+  - 페이지가 변경되면 현재 페이지 정보가 저장된 page 객체가 제거되므로 현재 페이지 정보는 사라지고, 새로운 페이지 정보가 저장됨
+> 주의! page 영역을 다루는 내장 객체는 pageContext 객체이다!
+
+2. request 객체(매우 중요!)
+- 현재의 요청(request) 정보를 저장하고 관리하는 객체
+- 현재 요청부터 응답(response)페이지까지는 접근 가능
+	- ex) "a.jsp" 페이지의 form 태그에서 "b.jsp" 페이지로 요청이 발생할 경우 새로운 request 객체가 생성되고 응답 페이지인 "b.jsp" 페이지까지 request 객체가 유지됨 
+  	- 새로운 요청이 발생하면 기존 request 객체가 제거되므로 기존에 저장되어 있던 요청 정보가 사라지고 새로운 request 정보가 생성됨
+			- (새로운 요청이란? response.sendRedirect() 메서드로 이동, 하이퍼링크로 이동 등) 
+> 주의사항!
+> <form> 태그 또는 URL 을 통해 전달된 파라미터값은 request.getParameter() 메서드로 가져오고
+> request.setAttribute() 메서드로 저장되어 전달된 데이터는
+> request.getAttribute() 메서드로 가져와야한다!
+
+3. session 객체(중요!)
+- 클라이언트와 서버 간의 연결 정보를 저장하고 관리하는 객체
+- 페이지와 무관하게 웹브라우저가 동작하는 동안 유지되는 객체
+- 웹브라우저를 완전히 종료하거나, 세션 타이머가 만료되거나(기본값 30분 = 1800초), invalidate() 메서드를 호출하여 세션을 초기화하면 session 객체 정보가 제거됨
+	- ex) 로그인 시 세션에 아이디를 저장하고, 로그아웃 수행 시 세션에 저장된 아이디를 제거
+  - ex2) 쇼핑몰에서 비회원 상태에서 장바구니에 상품을 담고, 웹브라우저 종료 시 장바구니 제거
+
+4. application 객체
+- 웹 어플리케이션 서버의 정보를 저장하고 관리하는 객체
+- 서버가 시작(start)되면 객체가 생성되고, 서버가 종료(stop)되면 객체가 제거됨
+- 페이지 또는 세션과 무관하게 사용 가능함
+	- ex) 웹사이트 접속자 수 카운팅 등
+
+	
+### 영역 객체의 공통 메서드 
+1. setAttribute(String key, Object value)
+- key 에 해당하는 이름으로 value 에 해당하는 데이터를 저장(= 매핑) 
+- key 에 해당하는 이름은 객체의 데이터를 구분하는 용도로 사용하며 중복되는 key 값이 지정될 경우, 기존의 데이터를 덮어쓰게 됨
+	- 하나의 key 에 저장될 수 있는 데이터는 동시에 하나뿐이다!
+- Object 타입으로 전달되는 value(데이터)는 모든 타입을 사용 가능(= 만능 타입)
+  - ex) 사물함의 특정 번호(key)에 물건(value)을 저장하는 것 
+	   
+2. Object getAttribute(String key)
+- key 에 해당하는 value 값(= 데이터)을 리턴하기(= 가져오기)
+- 리턴타입이 Object 타입(어떤 데이터든 모두 Object 타입으로 리턴됨)
+	- 따라서, 상황에 따라 형변환 연산자 등을 통해 데이터타입을 변환해야할 수 있음
+	- ex) 사물함의 번호를 key 로 사용하여 사물함 내에 저장된 물건(= value)을 가져오는 것
+	 
+3. removeAttribute(String key)
+- key 값으로 등록되어 있는 key 와 value 를 모두 제거
+
+
+
+## attribute 객체
+```jsp
+---------------------------------attributeTest1.jsp---------------------------------
+
+<body>
+	<h1>attributeTest1.jsp - 영역 객체</h1>
+	<%
+	// 각 영역 객체에 값을 저장 => setAttritube(String key, Object value) 메서드 사용
+	// => 주의! page 영역은 pageContext 객체로 접근해야함
+	
+	pageContext.setAttribute("pageValue", "page(pageContext) sopce value");
+	request.setAttribute("requestValue", "request sopce value");
+	session.setAttribute("sessionValue", "session sopce value");
+	application.setAttribute("applicationValue", "application sopce value");
+	%>
+	
+	<!-- 각 영역 객체에 저장된 값을 가져오기 => Object getAttribute(String key) 메서드 사용 -->
+	<h3>page 객체 값 : <%=pageContext.getAttribute("pageValue") %></h3>
+	<h3>request 객체 값 : <%=request.getAttribute("requestValue") %></h3> 
+	<h3>session 객체 값 : <%=session.getAttribute("sessionValue") %></h3>  
+	<h3>application 객체 값 : <%=application.getAttribute("applicationValue") %></h3>
+	
+	<%
+	// pageContext 객체의 forward() 메서드를 호출하여 "attributeTest2.jsp" 페이지로 이동
+	// => request 객체를 다음 페이지까지 유지시키기 위해(임시)
+	pageContext.forward("attributeTest2.jsp");
+	%> 	
+</body>
+</html>
+
+		
+---------------------------------attributeTest2.jsp---------------------------------	
+		
+		
+<body>
+	<h1>attributeTest2.jsp - 영역 객체</h1>
+	<!-- attributeTest1.jsp 페이지를 실행하여 이동한 페이지 -->
+	<!-- page 객체는 해당 페이지에서만 유효하므로 포워딩 된 attributeTest2.jsp 페이지에 전달 X -->
+	<h3>page 객체 값 : <%=pageContext.getAttribute("pageValue") %></h3>
+	<!-- request 객체는 Dispatcher 방식으로 이동했으므로 새 페이지에서도 유지됨 -->
+	<h3>request 객체 값 : <%=request.getAttribute("requestValue") %></h3> 
+	<h3>session 객체 값 : <%=session.getAttribute("sessionValue") %></h3>  
+	<h3>application 객체 값 : <%=application.getAttribute("applicationValue") %></h3>
+	
+	<!--
+	하이퍼링크를 사용하여 "attributeTest3.jsp" 페이지로 이동(= Redirect 방식)
+	// => 새로운 요청이 발생하므로 새로운 request 객체가 생성되도록 하기 위함
+	--> 
+</body>
+		
+		
+---------------------------------attributeTest3.jsp---------------------------------	
+		
+		
+<body>
+	<h1>attributeTest3.jsp - 영역 객체</h1>
+	<!-- attributeTest2.jsp 페이지를 실행하여 하이퍼링크를 통해 이동한 페이지 -->
+	
+	<!-- page 객체는 해당 페이지에서만 유효하므로 포워딩 된 다른 페이지에 전달 X -->
+	<h3>page 객체 값 : <%=pageContext.getAttribute("pageValue") %></h3> <!-- null 출력됨 -->
+	
+	<!-- request 객체는 Redirect 방식으로 이동했으므로 새 페이지에 전달 X -->
+	<h3>request 객체 값 : <%=request.getAttribute("requestValue") %></h3> <!-- null 출력됨 -->
+	 
+	<h3>session 객체 값 : <%=session.getAttribute("sessionValue") %></h3>  
+	<h3>application 객체 값 : <%=application.getAttribute("applicationValue") %></h3>
+	
+</body>
+
+---------------------------------attributeTest4.jsp---------------------------------	
+
+<body>
+	<h1>attributeTest4.jsp - 영역 객체</h1>
+	<!-- session 객체와 application 객체 확인을 위해 직접 실행하는 페이지 -->
+		
+	<!-- page 객체는 해당 페이지에서만 유효하므로 포워딩 된 다른 페이지에 전달 X -->
+	<h3>page 객체 값 : <%=pageContext.getAttribute("pageValue") %></h3> <!-- null 출력됨 -->
+	
+	<!-- request 객체는 Redirect 방식으로 이동했으므로 새 페이지에 전달 X -->
+	<h3>request 객체 값 : <%=request.getAttribute("requestValue") %></h3> <!-- null 출력됨 -->
+	
+	<!-- 웹브라우저를 완전히 종료한 후 현재 페이지를 실행했으므로 기존 세션 유지 X --> 
+	<h3>session 객체 값 : <%=session.getAttribute("sessionValue") %></h3> <!-- null 출력됨 -->
+	
+	<!-- 서버(= 톰캣)를 종료하기 전까지는 계속 유지 -->  
+	<h3>application 객체 값 : <%=application.getAttribute("applicationValue") %></h3>
+	
+</body>
+```		
