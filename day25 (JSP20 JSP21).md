@@ -18,6 +18,8 @@
 4) 클라이언트 요청에 대한 페이지 이동 처리(= 포워딩) 처리
 
   => response.sendRedirect("이동할 페이지 URL");
+  - 포워딩 발생 시 주소 표시줄의 URL이 이동할 페이지의 URL로 변경됨
+     => 이러한 방식을 "Redirect 방식" 의 포워딩이라고 함
   => 자바스크립트에서 location.href="이동할 페이지 URL" 과 동일한 기능 수행
   => 하이퍼링크(a 태그)를 사용하여 이동하는 방식과도 동일함(반드시 링크 클릭 필요)
     ex) <a href="이동할 페이지 URL">클릭</a>
@@ -50,6 +52,160 @@
 // location.href = "responseTest1_result.jsp";
 	</script> 
 	
+</body>
+</html>
+```
+
+### response 객체를 이용한 로그인 처리
+```jsp
+
+---------------------------------requestForm4.jsp---------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>requestPro4.jsp - 로그인</h1>
+
+<form action="requestPro4.jsp" method="post">
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id"></td>
+			</tr>
+			<tr>
+				<td>패스워드</td>
+				<td><input type="password" name="passwd"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="로그인"></td>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>
+
+---------------------------------requestPro4.jsp---------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>requestPro4.jsp - 로그인 처리</h1>
+	<%
+	// 폼 파라미터로 전달받은 아이디, 패스워드 가져오기
+	String id = request.getParameter("id");
+	String passwd = request.getParameter("passwd");
+	%>
+	<h3>아이디 : <%=id %></h3>
+	<h3>패스워드 : <%=passwd %></h3>
+	
+	<!-- 아이디가 "admin" 이고, 패스워드가 "1234" 일 경우
+	=> requestPro4_response_login_success.jsp 페이지로 이동
+	아니면, "requestPro4_response_logion_fail.jsp" 페이지로 이동
+	-->
+	
+	<%
+	if(id.equals("admin") && passwd.equals("1234")) { 
+		// 아이디와 패스워드가 일치할 경우(= 로그인 성공일 경우) 
+		response.sendRedirect("requestPro4_response_login_success.jsp");
+	} else { 
+		// 아이디 또는 패스워드가 일치하지 않을 경우(= 로그인 실패일 경우) 
+		response.sendRedirect("requestPro4_response_login_fail.jsp");
+	} 
+	%>
+</body>
+</html>
+```
+
+## pageContext 객체
+- JSP 페이지와 관련된 프로그램에서 다른 내장 객체를 얻어내거나 현재 페이지의 요청/응답 제어권을 다른 페이지로 넘겨주는 용도로 사용
+- request, session, application 등의 내장 객체 속성을 제어하는 용도로도 사용
+
+### pageContext 객체의 메서드
+1) forward() 메서드
+- pageContext 내장객체의 메서드이며, 지정된 페이지로 포워딩을 수행하는 메서드
+- 포워딩 시 주소 표시줄의 주소가 새로운(요청된) 주소로 변경되지 않고 기존의 주소가 그대로 유지됨 
+  - 이처럼, 새로운 요청이 발생해도 기존의 요청 주소(URL)가 그대로 유지되는(= 변경되지 않는) 이동(포워딩) 방식을 "Dispatcher 방식"의 포워딩이라고 함
+
+2) include() 메서드
+- 현재 페이지의 요청과 응답에 관한 제어권을 지정된 URL로 임시로 전달함
+- 해당 include 된 페이지의 처리가 끝나면 제어권이 다시 원래 페이지로 돌아옴
+- 따라서, include 로 지정된 페이지의 내용을 원래 페이지에 삽입하는 효과
+
+```jsp
+---------------------------------pageContextTest1---------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+/*
+
+// response 객체의 sendRedirect() 메서드를 사용하여 pageContextTest2.jsp 페이지로 이동
+// response.sendRedirect("pageContextTest2.jsp");
+// => 포워딩 시 주소표시줄의 주소가 새로운 요청 주소인 "pageContextText2.jsp" 로 변경됨
+//	  ex) 포워딩 결과 : http://localhost:8080/StudyJSP/jsp3/pageContext2.jsp
+
+// pageContext 객체의 forward() 메서드를 사용하여 pageContextTest2.jsp 페이지로 이동
+pageContext.forward("pageContextTest2.jsp");
+// => 포워딩 시 주소표시줄의 주소가 기존의 주소인 "pageContextTest1.jsp" 로 유지되고
+//	  새로운 요청 주소인 "pageContextTest2.jsp" 주소는 보이지 않는다!
+//	  단, 실제 웹브라우저에 표시되는 내용은 새로운 요청 주소인 "pageContextTest2.jsp" 페이지가 표시됨
+//	  ex) 포워딩 결과 : http://localhost:8080/StudyJSP/jsp3/pageContextTest1.jsp
+
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>pageContextTest1.jsp</h1>
+	<script type="text/javascript">
+	alert("확인");
+	</script>
+</body>
+</html>
+
+---------------------------------pageContextTest2---------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// pageContext 객체
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>pageContextTest2.jsp</h1>
+	<h1>include() 메서드 호출 전</h1>
+	<hr>
+	<%
+	// pageContext 객체의 include() 메서드를 호출하여 
+	// 현재 위치에 pageContextTest2_include1.jsp를 포함(해당 페이지의 내용을 표시) 
+	pageContext.include("pageContextTest2_include1.jsp");
+	
+	out.print("<hr>");
+	
+	// pageContext 객체의 include() 메서드를 호출하여 
+	// 현재 위치에 pageContextTest2_include2.jsp를 포함(해당 페이지의 내용을 표시)
+	pageContext.include("pageContextTest2_include2.jsp");
+	%>
+	<hr>
+	<h1>include() 메서드 호출 후</h1>
 </body>
 </html>
 ```
