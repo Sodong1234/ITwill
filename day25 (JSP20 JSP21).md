@@ -332,3 +332,7 @@ pageContext.forward("pageContextTest2.jsp");
 	<h3>세션값1 확인 : <%=name %></h3>
 </body>
 </html>
+```
+
+# [오후수업] JAVA 21차
+
