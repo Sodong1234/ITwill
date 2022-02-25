@@ -466,7 +466,7 @@ img{
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="passwd" name="passwd"></td>
+				<td><input type="password" name="passwd"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="로그인"></td>
