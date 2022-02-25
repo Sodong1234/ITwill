@@ -253,6 +253,12 @@ pageContext.forward("pageContextTest2.jsp");
 	<h3>세션 최근 접속 시각 : <%=new Date(session.getLastAccessedTime()) %></h3>
 	
 	<h3>세션 유지 시간 : <%=session.getMaxInactiveInterval() %></h3>
+	<!-- 세션 유지 시간을 기본값(1800초 = 30분)에서 1시간(= 3600초)으로 변경 -->
+<%-- 	<%session.setMaxInactiveInterval(3600); %> --%>
+	<!-- 단, 시간을 직접 입력하기 보단, 기초 단위부터 차례대로 계산과정을 명시하면 유지보수가 편리함 -->
+<%-- 	<%session.setMaxInactiveInterval(60 * 60); // 1시간(= 60초 * 60분) %> --%>
+	<%session.setMaxInactiveInterval(60 * 60 * 5); // 5시간(= 60초 * 60분 * 5시간) %>
+
 	
 	<!-- 세션 유지 시간을 기본값(1800초 = 30분)에서 1시간(3600초)으로 변경 -->
 	<% session.setMaxInactiveInterval(3600); %>
@@ -336,3 +342,282 @@ pageContext.forward("pageContextTest2.jsp");
 
 # [오후수업] JAVA 21차
 
+### 장바구니 기능 구현
+```jsp
+---------------------------------sessionTest3---------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function plusQty() {
+
+var qtyElem = document.fr.qty;
+var qty = qtyElem.value;
+
+	// 폼 데이터 접근하여 value 값 가져오면 string 타입이므로 연산 시 정수형으로 변환 필요
+	qtyElem.value = Number(qty) + 1; // 1만큼 증가시킨 값을 다시 표시
+	
+}
+
+function minusQty() {
+	var qtyElem = document.fr.qty;
+	var qty = qtyElem.value;
+
+	// 현재 수량이 1보다 클 경우에만 감소
+	if(qty > 1) {
+		qtyElem.value = Number(qty) - 1; // 1만큼 감소시킨 값을 다시 표시
+	}
+}
+
+</script>
+</head>
+<body>
+	<h1>sessionTest3_set.jsp</h1>
+	<form action="sessionTest3_set.jsp" name="fr">
+		<input type="hidden" name="product_id" value="펭수1">
+		<table border="1">
+			<tr>
+				<td><img src="1.jpg" width="200" height="200"></td>
+				<td>상품 설명입니다</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				수량 : <input type="text" name="qty" value="1">
+				<input type="button" value="▲" onclick="plusQty()">
+				<input type="button" value="▼" onclick="minusQty()">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<input type="submit" value="장바구니담기">
+				<input type="button" value="즉시주문">
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
+
+
+---------------------------------sessionTest3_set---------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>sessionTest3_set.jsp</h1>
+	<%
+	// sessionTest3.jsp 페이지로부터 전달받은 파라미터(product_id, qty) 값을
+	// 변수에 저장한 후 출력하기
+	String product_id = request.getParameter("product_id");
+	String qty = request.getParameter("qty");
+	
+	// 세션 객체에 장바구니 항목을 추가
+	// 속성명 "product_id" 와 "qty" 에 각 변수값을 저장
+	
+	session.setAttribute("product", product_id);
+	session.setAttribute("qty", qty);
+	%>
+	<h3>장바구니 추가가 완료되었습니다.</h3>
+	<table border="1">
+		<tr>
+			<td>상품명</td>
+			<td><%=product_id %></td>
+		</tr>
+		<tr>
+			<td>수량</td>
+			<td><%=qty %></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<input type="button" value="장바구니목록" onclick="location.href='sessionTest3_get.jsp'">
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
+
+
+---------------------------------sessionTest3_get---------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>sessionTest3_get.jsp - 장바구니 목록</h1>
+	<%
+	// 세션 객체에 저장된 product_id, qty 속성을 가져와서 변수에 저장
+	String product_id = (String)session.getAttribute("product_id");
+	String qty = (String)session.getAttribute("qty");
+	%>
+	<table border="1">
+		<tr>
+			<td>상품명</td>
+			<td><%=product_id %></td>
+		</tr>
+		<tr>
+			<td>수량</td>
+			<td><%=qty %></td>
+		</tr>
+	</table>
+</body>
+</html>
+```
+### 로그인 / 로그아웃
+```jsp
+---------------------------------sessionTest4_login_form.jsp---------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="sessionTest4_login_pro.jsp" method="post">
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id" required="required"></td>
+			</tr>
+			<tr>
+				<td>패스워드</td>
+				<td><input type="password" name="passwd" required="required"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="로그인"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
+
+
+---------------------------------sessionTest4_login_main.jsp---------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>메인페이지</h1>
+	<%
+	// 세션에 저장된 아이디("sId" 속성값)를 가져와서 변수 id에 저장
+	String id = (String) session.getAttribute("sId");
+	%>
+
+
+
+	<!-- 세션 아이디가 존재하지 않을 경우 (= null 값일 경우) 로그인, 회원가입 링크 표시 -->
+	<!-- 아니면, 세션 아이디를 출력하고(XXX 님), 로그아웃 링크(sessionTest4_logout.jsp) 표시 -->
+	<%
+	if (id == null) {
+	%>
+	<a href="sessionTest4_login_form.jsp">로그인</a>&nbsp;
+	<a href="">회원가입</a>
+	<%
+	} else {
+	%>
+	<%=id%>님 |
+	<a href="sessionTest4_logout.jsp">로그아웃</a>
+	<%
+	}
+	%>
+</body>
+</html>
+		
+		
+---------------------------------sessionTest4_login_pro.jsp---------------------------------
+		
+	
+		<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>sessionTest4_login_pro.jsp - 로그인 처리</h1>
+	<%	
+	// 폼 파라미터로 전달받은 아이디, 패스워드 가져오기
+	String id = request.getParameter("id");
+	String passwd = request.getParameter("passwd");
+	%>
+	<h3>아이디 : <%=id %></h3>
+	<h3>패스워드 : <%=passwd %></h3>
+	
+	<!-- 아이디가 "admin" 이고, 패스워드가 "1234" 일 경우 현재 웹페이지에 "로그인 성공!" 을 출력하고,
+	세션 객체에 "sId" 라는 속성명으로 아이디를 저장한 후 sessionTest4_login_main.jsp 페이지로 이동
+	아니면, 자바스크립트를 사용하여 "로그인 실패" 출력 후 이전페이지로 돌아가기
+	=> 주의! 자바코드에서 문자열 비교 시 동등비교연산자(==) 보다 equals() 메서드 사용을 권장!
+	   원본 문자열 equals(비교할 문자열) => 결과값이 boolean 타입으로 리턴됨
+	-->
+	
+	<%if(id.equals("admin") && passwd.equals("1234")) { %>
+		<%-- 아이디와 패스워드가 일치할 경우(= 로그인 성공일 경우) --%>
+		<h3>로그인 성공!</h3>
+		<%
+		session.setAttribute("sId", id);
+		response.sendRedirect("sessionTest4_login_main.jsp");
+		%>
+	<%} else { %>
+		<%-- 아이디 또는 패스워드가 일치하지 않을 경우(= 로그인 실패일 경우) --%>
+		<script type="text/javascript">
+			alert("로그인 실패!");
+			history.back();
+		</script>
+	<%} %>
+</body>
+</html>
+		
+		
+---------------------------------sessionTest4_logout.jsp---------------------------------
+		
+		
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	// 세션에 저장된 모든 정보 초기화 후 sessionTest4_login_main.jsp 페이지로 이동
+// 	session.invalidate();
+	
+	// 만약, 특정 세션 정보만 삭제하는 경우 removeAttribute() 메서드 사용
+	// 세션 아이디("sId") 만 삭제할 경우
+	session.removeAttribute("sId");
+	
+	response.sendRedirect("sessionTest4_login_main.jsp");
+	%>
+</body>
+</html>
+```		
+		
+		
