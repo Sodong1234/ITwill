@@ -331,7 +331,7 @@ class Person {
 		 System.out.println("점프!");
 	}
 	
-	public void normalLife() {
+	private void normalLife() {
 		 System.out.println("평범한 삶!");
 	}
 	
