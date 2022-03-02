@@ -91,19 +91,29 @@
 	
 	 <!-- pageContext 객체의 forward() 메서드를 통한 포워딩 수행 -->
 	 <!-- => forwardPro2.jsp 페이지 사용 -->
-	 <%pageContext.forward("forwardPro2.jsp"); %>
+<%--   <%pageContext.forward("forwardPro2.jsp"); %> --%>
    
    
 	 <!-- forward 액션 태그를 사용하여 forwardPro2.jsp 페이지로 포워딩 수행 -->
-	 <!-- 별도의끝 태그 없이 시작 태그에서 바로 끝 표시 -->
+	 <!-- 별도의 끝 태그 없이 시작 태그에서 바로 끝 표시 -->
 <%-- 	 <jsp:forward page="forwardPro2.jsp" /> --%>
+	 <!--
+	 주의! 맨 앞에 / 를 붙이면 상대경로에서 최상위 루트(= 컨텍스트루트 = 프로젝트명)가 되므로
+	 폴더 구조에 유의하여 페이지를 지정해야한다!
+	 ex) http://localhost:8080/StudyJSP/jsp6_action_tag/forwardPro2.jsp 페이지로 이동할 경우
+	 	1) page="forwardPro2.jsp"	=>	현재 위치와 같은 경로상의 forwardPro2.jsp 페이지 지정
+		2) page="/jsp6_action_tag/forwardPro2.jsp"	=>	컨텍스트루트상의 jsp6_action_tag 폴더 지정
+		-->
+<%--	<jsp:forward page="/jsp6_action_tag/forwardPro2.jsp" />	--%>
 
-
+	<!-- 포워딩 페이지를 동적으로 변화시키기 위해 변수 조합도 가능 -->
+	<jsp:forward page="<%=forwardPage %>" />
+	
 	 <!-- 별도의 끝 태그를 사용하고, 사이에 jsp:param 태그를 통해 데이터 저장할 경우 -->
-	 <jsp:forward page="forwardPro2.jsp">
-	 	<jsp:param name="paramValue" value="param"/>
-	 	<jsp:param name="paramValue2" value="<%=id %>"/>
-	 </jsp:forward>
+<%--	 <jsp:forward page="forwardPro2.jsp"> --%>
+<%--	 	<jsp:param name="paramValue" value="param"/> --%>
+<%--	 	<jsp:param name="paramValue2" value="<%=id %>"/> --%>
+<%--	 </jsp:forward> --%>
 	 
 </body>
 
@@ -225,4 +235,6 @@
 	</table>
 </body>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/156314517-a77d3aec-aae9-4386-a7bd-5500c0dcb876.PNG)
+
 
