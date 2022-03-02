@@ -237,4 +237,8 @@
 ```
 ![캡처](https://user-images.githubusercontent.com/95197594/156314517-a77d3aec-aae9-4386-a7bd-5500c0dcb876.PNG)
 
+---
+
+> 다음 시간에 mysql을 활용할 것을 대비하여 세팅작업 실시
+
 
