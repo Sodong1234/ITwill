@@ -389,7 +389,6 @@ SSH(원격접속-보안) : 22
 
 ```java
 
-
 -----------------------------ParentClass.java-----------------------------
 package access_modifier;
 
@@ -561,3 +560,221 @@ class Child extends Parent {
 
 
 연습문제
+```java
+
+public class Test1 {
+
+	public static void main(String[] args) {
+		ItwillBank ib = new ItwillBank();
+		ib.deposit(50000);
+		System.out.println("출금된 금액 : " + ib.withdraw(50000));
+		System.out.println("----------------------------------");
+		// ItwillBank 클래스에서 오버라이딩 된 withdraw() 메서드가 호출되므로
+		// 잔고가 부족하더라도 무조건 출금이 수행됨
+		System.out.println("출금된 금액 : " + ib.withdraw(50000));
+		System.out.println("----------------------------------");
+		
+		Car car = new Car();
+		car.SpeedUp(10);
+		car.SpeedDown(10);
+		car.addFuel();
+		
+		Taxi taxi = new Taxi();
+		taxi.SpeedUp(100);
+		taxi.SpeedDown(50);
+		taxi.addFuel();
+		
+		ElectricCar ec = new ElectricCar();
+		ec.addFuel();
+		
+		DiselCar dc = new DiselCar();
+		dc.addFuel();
+		
+		
+		
+	}
+}
+
+/*
+ * 자동차(Car) 클래스 정의
+ * - 멤버변수
+ * 		1) 현재속력(speed, 정수형)
+ * 		2) 최대속력(maxSpeed, 정수형)
+ * 
+ * - 메서드
+ * 		1) 속력증가 : speedUp()
+ * 			- 파라미터로 증가할 속력(speed) 전달, 리턴값 없음
+ * 			- "자동차의 속력 증가" 출력 
+ * 		2) 속력 감소 : speedDown()
+ * 			- 파라미터로 감속할 속력(speed) 전달, 리턴값 없음
+ * 			- "자동차의 속력 감소" 출력
+ * 		3) 연료 공급 : addFuel()
+ * 			- 파라미터 없음, 리턴값 없음
+ * 			- "자동차 연료 공급" 출력
+ * 
+ * 
+ * Taxi 클래스 정의 - Car 클래스를 상속받아 정의
+ * 	- SpeedUp() 메서드 오버라이딩 : "Taxi의 속력 증가!" 출력
+ * 	- speedDown() 메서드 오버라이딩 : "Taxi의 속력 감소!" 출력
+ *  
+ * Truck 클래스 정의 - Car 클래스를 상속받아 정의
+ * 	- SpeedUp() 메서드 오버라이딩 : "Truck의 속력 증가!" 출력
+ * 	- speedDown() 메서드 오버라이딩 : "Truck의 속력 감소!" 출력
+ * 
+ * ElectricCar 클래스 정의 - Car 클래스를 상속받아 정의
+ * 	- addFuel() 메서드 오버라이딩 : "전기차 충전소에서 충전!" 출력
+ * 
+ * DiselCar 클래스 정의 - Car 클래스를 상속받아 정의
+ * 	- addFuel() 메서드 오버라이딩 : "주유소에서 디젤 연료 공급!" 출력
+ * 
+ */
+
+
+class Car {
+	int speed;
+	int maxSpeed;
+	
+	public void SpeedUp(int speed) {
+		this.speed += speed;
+		System.out.println("자동차의 속력 증가! (현재속도 : " + speed + ")");
+	}
+	
+	public void SpeedDown(int speed) {
+		this.speed -= speed;
+		System.out.println("자동차의 속력 감소! (현재속도 : " + speed + ")");
+	}
+	
+	public void addFuel() {
+		System.out.println("자동차 연료 공급!");
+	}
+	
+}
+
+
+class Taxi extends Car {
+	@Override
+	public void SpeedUp(int speed) {
+		this.speed += speed;
+		System.out.println("Taxi의 속력 증가! (현재속도 : " + speed + ")");
+	}
+	@Override
+	public void SpeedDown(int speed) {
+		this.speed -= speed;
+		System.out.println("Taxi의 속력 감소! (현재속도 : " + speed + ")");
+	}
+}
+
+class Truck extends Car {
+	@Override
+	public void SpeedUp(int speed) {
+		this.speed += speed;
+		System.out.println("Truck의 속력 증가! (현재속도 : " + speed + ")");
+	}
+	
+	@Override
+	public void SpeedDown(int speed) {
+		this.speed -= speed;
+		System.out.println("Truck의 속력 감소! (현재속도 : " + speed + ")");
+	}	
+}
+
+class ElectricCar extends Car {
+	@Override
+	public void addFuel() {
+		System.out.println("전기차 충전소에서 충전!");
+	}
+}
+
+class DiselCar extends Car {
+	@Override
+	public void addFuel() {
+		System.out.println("주유소에서 디젤 연료 공급!");
+	}
+}
+
+
+
+
+
+// =================================================================
+class Account {
+	String accointNo;
+	String ownerName;
+	int balance;
+	
+	public void showAccountInfo() {
+		System.out.println("계좌번호 : " + accointNo);
+		System.out.println("예금주명 : " + ownerName);
+		System.out.println("현재잔고 : " + balance);
+	}
+	
+	// 입금기능
+	public void deposit(int amount) {
+		balance += amount;
+		System.out.println("입금금액 : " + amount);
+		System.out.println("현재잔고 : " + balance);
+	}
+	
+	// 출금기능
+	public int withdraw(int amount) {
+		if(amount > balance) { // 출금 불가능한 경우
+			System.out.println("출금할 금액 : " + amount);
+			System.out.println("잔액이 부족하여 출금 불가! (현재잔고 : " + balance + "원");
+			return 0;
+		} else { // 출금 가능
+			balance -= amount;
+			System.out.println("출금할 금액 : " + amount + "원");
+			System.out.println("출금 후 현재 잔고 : " + balance + "원");
+			return amount;
+		}
+	}
+}
+
+
+
+/*
+ * ItwillBank 클래스 정의 - Account 클래스 상속
+ * - 출금 기능(withdraw()) 메서드 오버라이딩 수행
+ * 	 => 잔고가 부족하더라도 무조건 출금 하도록 구현
+ * 		은행 잔고에 관계없이 무조건 출금 수행(마이너스 통장)
+ * 
+ * 
+ */
+
+class ItwillBank extends Account {
+	
+	@Override
+	public int withdraw(int amount) {
+		balance -= amount;
+		System.out.println("출금할 금액 : " + amount + "원");
+		System.out.println("출금 후 현재 잔고 : " + balance + "원");
+		return amount;
+	}
+}
+```
+
+## 멤버변수에 대한 오버라이딩 & 레퍼런스 super 
+- 멤버변수에 대한 오버라이딩
+	- Parent 클래스로부터 상속 받은 멤버변수와 동일한 이름의 변수를 서브클래스에서 선언하면 메서드 오버라이딩과 마찬가지로 멤버변수에 대한 은닉이 발생하여 슈퍼클래스의 멤버변수는 보이지 않고, 서브클래스의 멤버변수에만 접근 가능
+
+- 레퍼런스 super
+	- 레퍼런스 this와 마찬가지로 인스턴스의 주소를 저장하는 참조변수
+	- 레퍼런스 this는 자신의 인스턴스 주소를 저장하는 반면, 레퍼런스 super는 부모의 인스턴스 주소를 저장함
+	- 메서드(또는 변수) 오버라이딩으로 인해 슈퍼클래스의 멤버가 은닉되었을 때 서브클래스에서 슈퍼클래스의 은닉된 멤버에 접근하기 위해 사용
+	-	super.super 형식처럼 super 키워드를 중첩해서 사용할 수 없음
+
+```
+< 기본 사용 문법 >
+서브클래스의 메서드 내에서 
+super.부모의멤버변수 또는 super.부모의메서드()
+
+< 변수 사용 시 선언 방법에 따른 접근 순서 >
+1. 변수명만 지정했을 경우
+현재 선언된 메서드 내에서 먼저 탐색 -> 없을 경우 자신의 멤버변수에서 탐색 -> 없을 경우 부모의 멤버변수에서 탐색
+ 
+2. this.변수명을 지정했을 경우
+자신의 멤버변수에서 탐색 -> 부모의 멤버변수에서 탐색
+
+3. super.변수명을 지정했을 경우
+부모의 멤버변수에서 탐색
+```
