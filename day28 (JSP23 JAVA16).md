@@ -384,7 +384,7 @@ SSH(원격접속-보안) : 22
 1. public	: 모든 클래스에서 접근 가능 (제한 없음)
 2. protected 	: 같은 패키지 또는 다른 패키지이면서 상속관계에 있는 서브클래스만 접근 가능
 3. default	: 같은 패키지에서만 접근 가능 (다른 패키지에서 접근 불가!)
-4. private	: 자신의 클래스 내에서만 
+4. private	: 자신의 클래스 내에서만 접근 가능 (다른 클래스에서 접근 불가!)
 
 
 ```java
@@ -598,19 +598,19 @@ public class Test1 {
 /*
  * 자동차(Car) 클래스 정의
  * - 멤버변수
- * 		1) 현재속력(speed, 정수형)
- * 		2) 최대속력(maxSpeed, 정수형)
+ * 	1) 현재속력(speed, 정수형)
+ * 	2) 최대속력(maxSpeed, 정수형)
  * 
  * - 메서드
- * 		1) 속력증가 : speedUp()
- * 			- 파라미터로 증가할 속력(speed) 전달, 리턴값 없음
- * 			- "자동차의 속력 증가" 출력 
- * 		2) 속력 감소 : speedDown()
- * 			- 파라미터로 감속할 속력(speed) 전달, 리턴값 없음
- * 			- "자동차의 속력 감소" 출력
- * 		3) 연료 공급 : addFuel()
- * 			- 파라미터 없음, 리턴값 없음
- * 			- "자동차 연료 공급" 출력
+ * 	1) 속력증가 : speedUp()
+ * 	- 파라미터로 증가할 속력(speed) 전달, 리턴값 없음
+ * 	- "자동차의 속력 증가" 출력 
+ * 	2) 속력 감소 : speedDown()
+ * 	- 파라미터로 감속할 속력(speed) 전달, 리턴값 없음
+ * 	- "자동차의 속력 감소" 출력
+ * 	3) 연료 공급 : addFuel()
+ * 	- 파라미터 없음, 리턴값 없음
+ * 	- "자동차 연료 공급" 출력
  * 
  * 
  * Taxi 클래스 정의 - Car 클래스를 상속받아 정의
@@ -735,7 +735,7 @@ class Account {
 /*
  * ItwillBank 클래스 정의 - Account 클래스 상속
  * - 출금 기능(withdraw()) 메서드 오버라이딩 수행
- * 	 => 잔고가 부족하더라도 무조건 출금 하도록 구현
+ * 	=> 잔고가 부족하더라도 무조건 출금 하도록 구현
  * 		은행 잔고에 관계없이 무조건 출금 수행(마이너스 통장)
  * 
  * 
@@ -761,7 +761,7 @@ class ItwillBank extends Account {
 	- 레퍼런스 this와 마찬가지로 인스턴스의 주소를 저장하는 참조변수
 	- 레퍼런스 this는 자신의 인스턴스 주소를 저장하는 반면, 레퍼런스 super는 부모의 인스턴스 주소를 저장함
 	- 메서드(또는 변수) 오버라이딩으로 인해 슈퍼클래스의 멤버가 은닉되었을 때 서브클래스에서 슈퍼클래스의 은닉된 멤버에 접근하기 위해 사용
-	-	super.super 형식처럼 super 키워드를 중첩해서 사용할 수 없음
+	- super.super 형식처럼 super 키워드를 중첩해서 사용할 수 없음
 
 ```
 < 기본 사용 문법 >
@@ -777,4 +777,113 @@ super.부모의멤버변수 또는 super.부모의메서드()
 
 3. super.변수명을 지정했을 경우
 부모의 멤버변수에서 탐색
+```
+```java
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		
+		Child2 c = new Child2();
+		System.out.println(c.name);
+		System.out.println("우리집 TV : " + c.tv);
+		c.watchTv();
+		c.watchMyParentTv();
+		System.out.println("=================================");
+//		c.scope();
+		SonOfChild2 s = new SonOfChild2();
+		s.scope();
+		
+		System.out.println("=================================");
+		
+		SpiderMan sm = new SpiderMan();
+		System.out.println("현재 스파이더맨 모드인가? " + sm.isSpider);
+		sm.jump();
+		
+		sm.isSpider = true;
+		sm.jump();
+	}
+
+}
+
+class parent2 {
+	String tv = "부모님이 구입한 TV";
+	
+	public void watchTv() {
+		System.out.println("부모님 댁에서 " + tv + " 를 보자!");
+	}
+	
+	String name = "Parent의 멤버변수 name";
+}
+
+class Child2 extends parent2 {
+	String tv = "내가 구입한 TV";
+	
+	@Override
+	public void watchTv() {
+		System.out.println("우리집에서 " + tv + " 를 보자!");
+		System.out.println("super.tv = " + super.tv);
+	}
+	
+	public void watchMyParentTv() {
+		super.watchTv();
+	}
+	
+	// 로컬변수와 this.멤버변수와 super.멤버변수 범위의 차이
+	String name = "Child의 멤버변수 name";
+	
+	public void scope() {
+		String name = "Child의 클래스 메서드 내의 로컬변수 name";
+		
+		System.out.println("name = " + name);
+		System.out.println("this.name = " + this.name);
+		System.out.println("super.name = " + super.name);
+	}
+	
+	public String getParentName() {
+		return super.name;
+	}
+}
+
+class SonOfChild2 extends Child2 {
+	String name;
+	
+	public void scope() {
+		System.out.println("this.name = " + this.name);
+		System.out.println("super.name = " + super.name);
+//		System.out.println("super.super.name = " + super.super.name);
+		System.out.println("parent의 name은 굳이 가져오려면? = " + super.getParentName());
+	}
+}
+
+// ===========================================================
+class Person {
+	String name;
+	int age;
+	
+	public void jump() {
+		System.out.println("일반인의 점프!");
+	}
+	
+	public void eat() {
+		System.out.println("먹기!");
+	}
+}
+
+class SpiderMan extends Person {
+	boolean isSpider;
+
+	@Override
+	public void jump() {
+		// 만약, isSpider가 true이면 "스파이더맨의 강력한 점프!" 를 출력하고
+		// 아니면, 슈퍼클래스인 Person 클래스의 jump() 메서드를 호출
+		if(isSpider) {
+			System.out.println("스파이더맨의 강력한 점프!");
+		} else {
+			// 자신의 오버라이딩 된 jump() 메서드가 아닌 슈퍼클래스의 jump() 메서드를 호출
+			super.jump();
+		}
+	}
+	
+}
 ```
