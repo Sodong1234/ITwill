@@ -377,4 +377,187 @@ SSH(원격접속-보안) : 22
 </html>
 ```
 
-# [오후수업] JAVA 16
+# [오후수업] JAVA 16차
+
+
+## 접근 제한자의 접근 범위
+1. public	: 모든 클래스에서 접근 가능 (제한 없음)
+2. protected 	: 같은 패키지 또는 다른 패키지이면서 상속관계에 있는 서브클래스만 접근 가능
+3. default	: 같은 패키지에서만 접근 가능 (다른 패키지에서 접근 불가!)
+4. private	: 자신의 클래스 내에서만 
+
+
+```java
+
+
+-----------------------------ParentClass.java-----------------------------
+package access_modifier;
+
+public class ParentClass {
+	public int publicVar;		// 모든 클래스에서 접근 가능(제한없음)
+	protected int protectedVar; // 같은 패키지 또는 다른 패키지이면서 상속 관계에 있는 서브클래스만 접근 가능
+	int defaultVar;				// 같은 패키지에서만 접근 가능 (다른패키지 접근 X)
+	private int privateVar;		// 자신의 클래스 내에서만 접근 가능 (달느 클래스에서 접근 X)
+	
+	public void useMember() {
+		this.publicVar = 10;	// (O)
+		this.protectedVar = 20; // (O)
+		this.defaultVar = 30;	// (O)
+		this.privateVar = 40;	// (O)
+	}
+}
+
+-----------------------------SamePackageSomeClass.java-----------------------------
+package access_modifier;
+
+public class SamePackageSomeClass {
+
+	// 패키지가 동일한 다른 클래스에서 접근 범위(서로 다른 java파일 내)
+	public void useMember() {
+		ParentClass p = new ParentClass();
+		p.publicVar = 10;		// (O) - 누구나 접근 가능
+		p.protectedVar = 20;	// (O) - 같은 패키지이므로 접근 가능
+		p.defaultVar = 30;		// (O) - 같은 패키지이므로 접근 가능
+//		p.privateVar = 40;		// (X) - 다른 클래스에서 접근 불가
+	}
+}
+
+-----------------------------OtherPackageSomeClass.java-----------------------------
+package access_modifier2;
+
+import access_modifier.ParentClass;
+
+public class OtherPackageSomeClass {
+	// 패키지가 다르고 상속 관계가 아닌 클래스에서 접근 범위
+	public void useMember() {
+		ParentClass p = new ParentClass();
+		p.publicVar = 10;		// (O) - 누구나 접근 가능
+//		p.protectedVar = 20;	// (X) - 다른 패키지이고 상속관계가 아니므로 접근 불가
+//		p.defaultVar = 30;		// (X) - 다른 패키지이므로 접근 불가
+//		p.privateVar = 40;		// (X) - 다른 클래스에서 접근 불가
+		
+	}
+}
+
+-----------------------------OtherPackageChildClass.java-----------------------------
+package access_modifier2;
+
+import access_modifier.ParentClass;
+
+public class OtherPackageChildClass extends ParentClass {
+
+	// 패키지가 다르고 상속 관계에 있는 서브클래스에서 접근 범위
+	public void useMember() {
+		
+		// 주의! 상 관계에서 슈퍼클래스의 멤버에 접근 할 때
+		// 슈퍼클래스의 인스턴스를 생성하여 접근할 경우 상속 관계로써의 접근이 아니게 됨
+		ParentClass p = new ParentClass();
+		p.publicVar = 10;		// (O) - 누구나 접근 가능
+//		p.protectedVar = 20;	// (X) - 다른 패키지이고 상속관계가 아니므로 접근 불가
+//		p.defaultVar = 30;		// (X) - 다른 패키지이므로 접근 불가
+//		p.privateVar = 40;		// (X) - 다른 클래스에서 접근 불가
+		
+		
+		publicVar = 10;		// (O) - 누구나 접근 가능
+		protectedVar = 20;	// (O) - 다른 패키지이지만 상속관계이므로 접근 가능
+//		defaultVar = 30;	// (X) - 다른 패키지이므로 접근 불가
+//		privateVar = 40;	// (X) - 다른 클래스에서 접근 불가
+	}
+}
+```
+
+## 메서드 오버라이딩(Method Overriding)
+- 슈퍼클래스로부터 상속받은 메서드를 서브클래스에서 새롭게 재정의 하는 것
+- 반드시 상속 관계에서 상속받은 메서드에 대해서만 적용 가능
+- 서브클래스에서 오버라이딩 수행 후에는 슈퍼클래스의 메서드는 은닉됨
+
+```
+< 메서드 오버라이딩 규칙 >
+1. 슈퍼클래스의 메서드와 시그니처(리턴타입, 메서드명, 매개변수)가 동일해야함
+2. 접근제한자는 범위가 좁아질 수 없다
+   ( => 부모가 public 이면 자식도 public만 선택 가능함)
+```
+
+```java
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		
+		Child c = new Child();
+		c.parentPrn(); // 서브클래스에서 오버라이딩된 parentPrn() 메서드가 호출됨
+		// => 이 때, 오버라이딩 된 메서드로 인해 슈퍼클래스의 메서드는 은닉되기 때문에
+		//	  Child 인스턴스를 통해서는 Parent 클래스의 parentPrn() 접근이 불가능
+		Parent p = new Parent();
+		p.parentPrn();
+		c.childPrn();
+		System.out.println("===================");
+		
+		Dog dog = new Dog();
+		Cat cat = new Cat();
+		
+		dog.cry();
+		cat.cry();
+		
+		
+	}
+
+}
+
+class Animal {
+	String name;
+	int age;
+	
+	public void cry() {
+		System.out.println("동물 울음소리!");
+	}
+}
+
+class Dog extends Animal {
+	// Animal 클래스의 cry() 메서드 오버라이딩
+	public void cry() {
+		System.out.println("멍멍!");
+	}
+}
+
+class Cat extends Animal {
+	// Animal 클래스의 cry() 메서드 오버라이딩
+	public void cry() {
+		System.out.println("야옹!");
+	}
+}
+
+// ================================================================
+class Parent {
+	public void parentPrn() {
+		System.out.println("슈퍼클래스의 parentPrn()");
+	}
+}
+
+
+class Child extends Parent {
+	// Parent 클래스의 parentPrn() 메서드를 상속받아 오버라이딩을 수행
+	// => 슈퍼클래스인 Parent클래스의 parentPrn() 메서드의 시그니처를 동일하게 정의하고
+	//	  접근제한자는 public 이므로 다른 접근제한자로 변경 불가(좁아질 수 없음)
+//	public void parentPrn() {
+//		System.out.println("서브클래스에서 오버라이딩 된 parentPrn()");
+//	}
+	
+	// 자동 오버라이딩 단축키 : Alt + Shift + S -> V
+	@Override
+	public void parentPrn() {
+		// @Override 표시는 어노테이션(Annotation) 기능으로 자바 컴파일러를 위한 주석이며
+		// 이 메서드가 오버라이딩 되어 있다는 표시이므로, 반드시 오버라이딩만 가능하며
+		// 오버라이딩 규칙을 위반할 경우 오류가 발생
+		System.out.println("서브클래스에서 오버라이딩 된 parentPrn()");
+	}
+	
+	public void childPrn() {
+		System.out.println("서브클래스의 childPrn()");
+	}
+	
+}
+```
+
+
+연습문제
