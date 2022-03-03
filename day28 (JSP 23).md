@@ -303,7 +303,7 @@ SSH(원격접속-보안) : 22
 	</form>
 </body>
 </html>
------------------------------jdbc_connect_test3_form.jsp-----------------------------
+-----------------------------jdbc_connect_test3_pro.jsp-----------------------------
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
