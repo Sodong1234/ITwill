@@ -60,10 +60,12 @@
     => com.mysql.jdbc.Drive 클래스를 찾지 못해서 발생한 오류라는 의미 
 
 2단계. DB 연결(접속)
-- java.sql 패키지의 DriverManager 클래스의 static 메서드인 getConnection() 호출
-- 파라미터로 DB 접속 URL, 계정명, 패스워드를 전달(문자열)
-  => URL 형식 : "jdbc:mysql://접속할주소:포트번호/DB명"
-     ex) "jdbc:mysql://localhost:3306/study_jsp3"
+  - java.sql 패키지의 DriverManager 클래스의 static 메서드인 getConnection() 호출
+  - 파라미터로 DB 접속 URL, 계정명, 패스워드를 전달(문자열)
+  
+  < URL 형식 >
+  "jdbc:mysql://접속할주소:포트번호/DB명"
+  ex) "jdbc:mysql://localhost:3306/study_jsp3"
      
 ---------------------------------------------------------------------------- 
 포트번호 :
@@ -79,5 +81,298 @@ TELNET(원격접속) : 23
 SSH(원격접속-보안) : 22
 ----------------------------------------------------------------------------     
     
-  < 문법 >
-  DriverManager.getConnection("URL", "계정명", "패스워드");
+    < 문법 >
+    DriverManager.getConnection("URL", "계정명", "패스워드");
+    => 주의! 반드시 DriverManager 클래스는 자동 완성을 통해 java.sql 패키지가 import 될 수 있도록 해야함
+    (<%@page import="java.sql.DriverManager"%>)
+    
+    
+    
+    
+3단계. SQL 구문 작성 및 전달
+  - 현재 1단계, 2단계 과정을 통해 DB에 접속된 상태에서 접속 정보를 담고 있는 Connection 객체를 통해 데이터베이스 관련 작업 수행 가능
+   (반드시 2단계 과정에서 Connection 타입 변수에 객체를 리턴받아 저장되어 있어야함)
+  - Connection 객체에 prepareStatement() 메서드를 호출하여 실행할 SQL 구문 전달
+
+    < 문법 >
+    PreparedStatement pstmt = con.prepareStatement("SQL구문");
+    
+    
+    
+4단계. SQL 구문 실행 및 결과 처리
+  - 3단계에서 리턴받은 PreparedStatement 객체의 executeXXX() 메서드를 호출하여 전달받은 SQL 구문 실행
+    1) ExecuteUpdate() - DB에 조작을 가하는 쿼리문을 실행하는 용도의 메서드
+                         => 주로, DML 중 INSERT, UPDATE, DELETE와 DDL 중 CREATE, ALTER, DROP 등 실행하는 용도
+                         => 작업 실행 후 결과값이 int 타입으로 리턴되는데 이는, 영향을 받은 레코드 수가 리턴됨(DML 한정, 나머지는 0)
+    2) ExecuteQuery() - DB에 조작을 가하지 않는 쿼리문(SELECT)을 실행하는 용도의 메서드
+                        => 작업 실행 후 조회된 결과 테이블을 java.sql.ResultSet 타입 객체로 리턴함
+```
+
+```jsp
+
+-----------------------------jdbc_connect_test1.jsp-----------------------------
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<%
+	/*
+	1단계. JDBC 드라이버 로드
+  - java.lang 패키지의 Class 클래스의 static 메서드 forName() 를 호출하여
+    드라이버 클래스가 위치한 패키지명과 클래스명을 문자열로 전달
+  - com.mysql.jdbc 패키지 내의 Driver.class 파일을 지정해야함
+    => "com.mysql.jdbc.Driver" 형식으로 지정(주의! .class 생략)
+    
+    < 문법 >
+    Class.forName("드라이버클래스")
+    ex) Class.forName("com.mysql.jdbc.Driver");
+    => 주의! 드라이버 클래스 위치 또는 파일명이 틀렸을 경우(= 파일이 없을 경우) 오류 발생
+    java.lang.ClassNotFoundException: com.mysql.jdbc.Drive
+    => com.mysql.jdbc.Drive 클래스를 찾지 못해서 발생한 오류라는 의미
+	*/
+	
+	Class.forName("com.mysql.jdbc.Driver");
+	%>
+	<h1>드라이버 로드 성공!</h1>
+	<hr>
+	
+	<%
+	/*
+	2단계. DB 연결(접속)
+	- java.sql 패키지의 DriverManager 클래스의 static 메서드인 getConnection() 호출
+	- 파라미터로 DB 접속 URL, 계정명, 패스워드를 전달(문자열)
+	 < URL 형식 >
+	  "jdbc:mysql://접속할주소:포트번호/DB명"
+	  ex) "jdbc:mysql://localhost:3306/study_jsp3"
+
+	 < 문법 >
+    DriverManager.getConnection("URL", "계정명", "패스워드");
+    => 주의! 반드시 DriverManager 클래스는 자동 완성을 통해 java.sql 패키지가 import 될 수 있도록 해야함
+	*/
+	DriverManager.getConnection("jdbc:mysql://localhost:3306/study_jsp", "root", "1234");
+	
+	%>
+	<h1>DB 연결 성공!</h1>
+	
+	<!-- 2단계까지가 데이터베이스 제품별로 달라지는 부분 -->
+	<!-- 3단계부터 실제 데이터베이스에서 SQL 구문(쿼리)을 사용한 작업을 수행하는 부분(= 공통) -->
+</body>
+</html>
+
+-----------------------------jdbc_connect_test2.jsp-----------------------------
+
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	// DB 연결에 필요한 정보 문자열 4가지를 변수에 저장
+	String driver = "com.mysql.jdbc.Driver"; // 드라이버 클래스 위치 및 클래스명
+	String url = "jdbc:mysql://localhost:3306/study_jsp"; // 접속 URL 및 DB명
+	String user = "root"; // DB 접속 계정명
+	String password = "1234"; // DB 접속 계정 패스워드
+	
+	// 1단계. JDBC 드라이버 로드
+	Class.forName(driver);
+	out.println("<h1>드라이버 로드 성공!</h1>");
+	
+	
+	
+	// 2단계. DB 연결
+// 	DriverManager.getConnection(url, user, password);
+	
+	// getConnection() 메서드를 통해 DB 연결 성공 시 
+	// DB 접속 정보를 관리하는 java.sql.Connection 타입 객체가 리턴됨
+	// => Connection 타입 변수를 선언하여 리턴되는 객체 저장
+	Connection con = DriverManager.getConnection(url, user, password);
+	
+// 	out.println("<h1>DB 연결 성공!</h1>");
+	
+	%>
+	<h1>DB 연결 성공! (객체 내용 : <%=con %>)</h1>
+	
+	
+</body>
+</html>
+
+-----------------------------jdbc_connect_test3.jsp-----------------------------
+* study_jsp3 데이터베이스, test 테이블을 새로 생성
+
+
+
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	// DB 연결에 필요한 정보 문자열 4가지를 변수에 저장
+	String driver = "com.mysql.jdbc.Driver"; // 드라이버 클래스 위치 및 클래스명
+	String url = "jdbc:mysql://localhost:3306/study_jsp3"; // 접속 URL 및 DB명
+	String user = "root"; // DB 접속 계정명
+	String password = "1234"; // DB 접속 계정 패스워드
+	
+	// 1단계. JDBC 드라이버 로드
+	Class.forName(driver);
+	out.println("<h1>드라이버 로드 성공!</h1>");
+	
+	
+	
+	// 2단계. DB 연결
+	Connection con = DriverManager.getConnection(url, user, password);
+	out.println("<h1>DB 연결 성공!</h1>");
+	
+	// 3단계. SQL 구문 작성 및 전달
+	// 1) SQL 구문 작성
+// 	String sql = "INSERT INTO test VALUES (3);";
+
+	// 일반적으로는 외부로부터 데이터를 입력(전달)받아 변수에 저장하여 데이터베이스에 전달
+	int idx = 2; // 외부로부터 추가할 데이터를 입력받았다고 가정
+	// 데이터가 위치할 부분은 문자열 결합을 통해 변수를 결합하여 SQL 구문을 작성해야한다!
+	String sql = "INSERT INTO test VALUES (" + idx + ")";
+	
+	// 2) Connection 객체(con)의 prepareStatement() 메서드를 호출하여 SQL 구문 전달
+	//	  => 파라미터 : SQL 구문(String 타입)	리턴타입 : java.sql.preparedStatement 객체
+	PreparedStatement pstmt = con.prepareStatement(sql);
+	
+	/*
+	 	4단계. SQL 구문 실행 및 결과 처리
+	 	 - 3단계에서 리턴받은 PreparedStatement 객체의 executeXXX() 메서드를 호출하여 전달받은 SQL 구문 실행
+	    	1) ExecuteUpdate() - DB에 조작을 가하는 쿼리문을 실행하는 용도의 메서드
+	                         	=> 주로, DML 중 INSERT, UPDATE, DELETE와 DDL 중 CREATE, ALTER, DROP 등 실행하는 용도
+	                         	=> 작업 실행 후 결과값이 int 타입으로 리턴되는데 이는, 영향을 받은 레코드 수가 리턴됨(DML 한정, 나머지는 0)
+	    	2) ExecuteQuery() - DB에 조작을 가하지 않는 쿼리문(SELECT)을 실행하는 용도의 메서드
+	                        	=> 작업 실행 후 조회된 결과 테이블을 java.sql.ResultSet 타입 객체로 리턴함
+	*/
+	
+	// INSERT 구문 실행을 위해 preparedStatement 객체의 executeUpdate() 메서드를 호출
+	// => 이 때, SQL 구문을 다시 전달하지 않도록 주의(executeUpdate(sql) 메서드는 다른 객체에 있음)
+	// => 또한, 메서드 실행 후 리턴되는 데이터를 int 타입 변수에 저장하면
+	//	  DML 실행 후 영향을 받은 레코드 수를 알 수 있다! (결과 판별 가능)
+	int insertCount = pstmt.executeUpdate();
+	%>
+	<hr>
+	<h1>INSERT 작업 완료 - <%=insertCount %> 개 레코드 추가됨</h1> 
+	
+	
+	
+</body>
+</html>
+```
+
+```jsp
+-----------------------------jdbc_connect_test3_form.jsp-----------------------------
+
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>번호 입력 시스템</h1>
+	<form action="jdbc_connect_test3_pro.jsp">
+		번호 : <input type="text" name="idx">
+		<input type="submit" value="저장">	
+	</form>
+</body>
+</html>
+-----------------------------jdbc_connect_test3_form.jsp-----------------------------
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	// jdbc_connect_test3_form.jsp 페이지에서 입력받은 번호(idx 파라미터) 를 가져와서 변수에 저장
+	String idx = request.getParameter("idx");
+	
+	
+	%>
+	<%
+	// DB 연결에 필요한 정보 문자열 4가지를 변수에 저장
+	String driver = "com.mysql.jdbc.Driver"; // 드라이버 클래스 위치 및 클래스명
+	String url = "jdbc:mysql://localhost:3306/study_jsp3"; // 접속 URL 및 DB명
+	String user = "root"; // DB 접속 계정명
+	String password = "1234"; // DB 접속 계정 패스워드
+	
+	// 1단계. JDBC 드라이버 로드
+	Class.forName(driver);
+	out.println("<h1>드라이버 로드 성공!</h1>");
+	
+	
+	
+	// 2단계. DB 연결
+	Connection con = DriverManager.getConnection(url, user, password);
+	out.println("<h1>DB 연결 성공!</h1>");
+	
+	// 3단계. SQL 구문 작성 및 전달
+	// 1) SQL 구문 작성
+// 	String sql = "INSERT INTO test VALUES (3);";
+
+	// 일반적으로는 외부로부터 데이터를 입력(전달)받아 변수에 저장하여 데이터베이스에 전달
+// 	int idx = 2; // 외부로부터 추가할 데이터를 입력받았다고 가정
+	// 데이터가 위치할 부분은 문자열 결합을 통해 변수를 결합하여 SQL 구문을 작성해야한다!
+	String sql = "INSERT INTO test VALUES (" + idx + ")";
+	
+	// 2) Connection 객체(con)의 prepareStatement() 메서드를 호출하여 SQL 구문 전달
+	//	  => 파라미터 : SQL 구문(String 타입)	리턴타입 : java.sql.preparedStatement 객체
+	PreparedStatement pstmt = con.prepareStatement(sql);
+	
+	/*
+	 	4단계. SQL 구문 실행 및 결과 처리
+	 	 - 3단계에서 리턴받은 PreparedStatement 객체의 executeXXX() 메서드를 호출하여 전달받은 SQL 구문 실행
+	    	1) ExecuteUpdate() - DB에 조작을 가하는 쿼리문을 실행하는 용도의 메서드
+	                         	=> 주로, DML 중 INSERT, UPDATE, DELETE와 DDL 중 CREATE, ALTER, DROP 등 실행하는 용도
+	                         	=> 작업 실행 후 결과값이 int 타입으로 리턴되는데 이는, 영향을 받은 레코드 수가 리턴됨(DML 한정, 나머지는 0)
+	    	2) ExecuteQuery() - DB에 조작을 가하지 않는 쿼리문(SELECT)을 실행하는 용도의 메서드
+	                        	=> 작업 실행 후 조회된 결과 테이블을 java.sql.ResultSet 타입 객체로 리턴함
+	*/
+	
+	// INSERT 구문 실행을 위해 preparedStatement 객체의 executeUpdate() 메서드를 호출
+	// => 이 때, SQL 구문을 다시 전달하지 않도록 주의(executeUpdate(sql) 메서드는 다른 객체에 있음)
+	// => 또한, 메서드 실행 후 리턴되는 데이터를 int 타입 변수에 저장하면
+	//	  DML 실행 후 영향을 받은 레코드 수를 알 수 있다! (결과 판별 가능)
+	int insertCount = pstmt.executeUpdate();
+	%>
+	<hr>
+	<h1>INSERT 작업 완료 - <%=insertCount %> 개 레코드 추가됨</h1> 
+	
+	
+	
+</body>
+</html>
+```
