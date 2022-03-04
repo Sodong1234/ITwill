@@ -157,3 +157,102 @@ a:hover {
 </body>
 </html>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/156682268-885ea36a-683a-4fbf-b12e-2e29d2621f69.PNG)
+
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	background-color: #ccc;
+	padding: 20px;
+}
+form{
+/* 배경색 흰색, 테두리선 1px 실선 #222, 테두리 둥글게 5px */
+/* 안여백 20px, 너비 400px, 밖여백 상하30px 가운데정렬 */
+	background-color: white;
+	border: 1px solid #222;
+	border-radius: 5px;
+	padding: 20px; 
+	width: 400px;
+	margin: 30px auto;
+}
+fieldset {
+/* 	테두리선 1px 실선 #ccc, 밖아래여백 30px */
+	border : 1px solid #ccc;
+	margin-bottom: 30px;
+}
+legend {
+/* 	폰트크기 16px, 폰트굵기 bold, 안 왼쪽여백 5px, 안 아래여백 10px */
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 5px;
+	padding-bottom: 10px;
+}
+li{
+/* 줄간격 30px, 리스트스타일 none, 안 여백 5px 10px, 밖아래여백 2px */
+	line-height: 30px;
+	list-style: none;
+	padding: 5px 10px;
+	margin-bottom: 2px;
+}
+label {
+/* 왼쪽으로 배치, 폰트크기 13px, 너비 110px */
+	float: left; font-size: 13px; width: 110px;
+}
+/* class="btn" */
+.btn{
+/* 테두리 1px 실선 #222, 테두리 둥글게 20px, 글자크기 16px, 글자간격 1px, 밖여백 상하 0px 가운데정렬, 안여백 7px 25px */
+	border : 1px solid #222;
+	border-radius: 20px;
+	font-size: 16px;
+	letter-spacing: 1px;
+	margin: 0px auto;
+	padding: 7px 25px;
+	display: block;
+} 
+
+
+</style>
+</head>
+<body>
+<form action="a.jsp" method="get">
+	<fieldset>
+		<legend>로그인 정보</legend>
+		<ul>
+			<li><label>아이디</label>
+			    <input type="text" name="id" autofocus required></li>
+			<li><label>비밀번호</label>
+			    <input type="password" name="pwd1"  required></li>
+			<li><label>비밀번호 확인</label>
+			    <input type="password" name="pwd2"  required></li>
+			<li><label>회원 등급</label>
+			    <input type="text" name="level" value="준회원" readonly></li>
+		</ul>
+	</fieldset>
+	<fieldset>
+		<legend>개인정보</legend>
+		<ul>
+			<li><label>이름</label>
+			    <input type="text" name="name" placeholder="5자미만 공백없이" required></li>
+			<li><label>메일 주소</label>
+			    <input type="email" name="email" placeholder="abcd@domain.com" required></li>
+			<li><label>연락처</label>
+			    <input type="tel" name="tel"></li>
+		</ul>
+	</fieldset>
+	<fieldset>
+		<input type="submit" value="제출" class="btn">
+	</fieldset>
+</form>
+
+</body>
+</html>
+```
