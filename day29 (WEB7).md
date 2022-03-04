@@ -370,3 +370,5 @@ input[readonly] {
 </html>
 ```
 ![캡처](https://user-images.githubusercontent.com/95197594/156688942-fd252993-a8e2-429e-ab19-9b84c575ca93.PNG)
+
+> 12일 테스트 예정. ex2, test10, ex3, test13.html 파일 참조
