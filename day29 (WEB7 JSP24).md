@@ -839,7 +839,7 @@ main h3{
 ```
 
 ### update 구문
-
+```jsp
 -------------------------------------jdbc_update_form.jsp-------------------------------------
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
