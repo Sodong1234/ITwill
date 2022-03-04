@@ -75,4 +75,52 @@ p{
 </body>
 </html>
 ```
+![캡처](https://user-images.githubusercontent.com/95197594/156678113-3669d868-4d3b-43bd-b770-f91f5fc85c7b.PNG)
 
+```css
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+div{
+/* 	background-color: yellow; */
+/* 	background-color: #0000ff; */
+/* 	background-color: rgb(255,0,0); */
+/* 	배경이미지 */
+	background-image: url("dot.png");
+/* 	background-repeat: repeat-x; */
+/* 	background-repeat: repeat-y; */
+/* 	이미지 반복 */
+ 	background-repeat: no-repeat;
+/* 	위치 
+	수평left center right 
+	수직top conter bottom */
+/* 	background-position: 50% 50%; */
+	background-position: right center;
+/* 	이미지 크기 */
+	background-size: 50px 50px;
+/* 	이미지 고정 */
+	background-attachment: fixed;
+	
+	width: 300px;
+	height: 500px;
+	border: 20px dotted black;
+}
+
+</style>
+</head>
+<body>
+<h1>제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목</h1>
+
+<div>
+<h2>레드향</h2>
+<p>껍질에 붉은빛이 돌아 <span class="sp">레드향</span>이라 불린다</p>
+<p>비타민Cvvvv와 비타민 Pbbbbb가 풍부해<br>
+혈액순환, 감기예방 등에 좋은 것으로 알려져 있다</p>
+</div>
+	
+</body>
+</html>
+```
