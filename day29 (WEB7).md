@@ -2,11 +2,7 @@
 
 css 연습
 ```css
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>css1/ex4.html</title>
+
 <style type="text/css">
 #tot {
 /* 	너비 800px 가운데 정렬 위아래 0 */
@@ -78,11 +74,7 @@ p{
 ![캡처](https://user-images.githubusercontent.com/95197594/156678113-3669d868-4d3b-43bd-b770-f91f5fc85c7b.PNG)
 
 ```css
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 <style type="text/css">
 div{
 /* 	background-color: yellow; */
@@ -121,6 +113,47 @@ div{
 혈액순환, 감기예방 등에 좋은 것으로 알려져 있다</p>
 </div>
 	
+</body>
+</html>
+```
+![캡처](https://user-images.githubusercontent.com/95197594/156681092-d9dffd1f-0cd0-41f6-ac2f-1b970b886af3.PNG)
+
+```css
+
+<style type="text/css">
+/* ul 대상 스타일 없앰 */
+/* li 왼쪽으로 어울림 */
+/* a 밑줄 없애기, 안여백 위아래 10px 좌우20px, 배경색 #ccc  */
+ul{
+	list-style-type: none;
+}
+li{
+	float: left;
+}
+a{
+	text-decoration: none;
+	padding: 10px 20px;
+	background-color: #ccc;
+}
+a:link, a:visited {
+	color: black;
+}
+a:hover {
+	color: white;
+	background-color: black;
+}
+</style>
+</head>
+<body>
+<div>
+	<ul>
+		<li><a href="ex1.html">메뉴1</a></li>
+		<li><a href="ex2.html">메뉴2</a></li>
+		<li><a href="ex3.html">메뉴3</a></li>
+		<li><a href="ex4.html">메뉴4</a></li>
+	</ul>
+</div>
+
 </body>
 </html>
 ```
