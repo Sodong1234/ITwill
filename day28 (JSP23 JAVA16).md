@@ -353,13 +353,13 @@ SSH(원격접속-보안) : 22
 	PreparedStatement pstmt = con.prepareStatement(sql);
 	
 	/*
-	 	4단계. SQL 구문 실행 및 결과 처리
-	 	 - 3단계에서 리턴받은 PreparedStatement 객체의 executeXXX() 메서드를 호출하여 전달받은 SQL 구문 실행
-	    	1) ExecuteUpdate() - DB에 조작을 가하는 쿼리문을 실행하는 용도의 메서드
-	                         	=> 주로, DML 중 INSERT, UPDATE, DELETE와 DDL 중 CREATE, ALTER, DROP 등 실행하는 용도
-	                         	=> 작업 실행 후 결과값이 int 타입으로 리턴되는데 이는, 영향을 받은 레코드 수가 리턴됨(DML 한정, 나머지는 0)
-	    	2) ExecuteQuery() - DB에 조작을 가하지 않는 쿼리문(SELECT)을 실행하는 용도의 메서드
-	                        	=> 작업 실행 후 조회된 결과 테이블을 java.sql.ResultSet 타입 객체로 리턴함
+	 4단계. SQL 구문 실행 및 결과 처리
+	 - 3단계에서 리턴받은 PreparedStatement 객체의 executeXXX() 메서드를 호출하여 전달받은 SQL 구문 실행
+	    1) ExecuteUpdate() - DB에 조작을 가하는 쿼리문을 실행하는 용도의 메서드
+	                         => 주로, DML 중 INSERT, UPDATE, DELETE와 DDL 중 CREATE, ALTER, DROP 등 실행하는 용도
+	                         => 작업 실행 후 결과값이 int 타입으로 리턴되는데 이는, 영향을 받은 레코드 수가 리턴됨(DML 한정, 나머지는 0)
+	    2) ExecuteQuery() - DB에 조작을 가하지 않는 쿼리문(SELECT)을 실행하는 용도의 메서드
+	                         => 작업 실행 후 조회된 결과 테이블을 java.sql.ResultSet 타입 객체로 리턴함
 	*/
 	
 	// INSERT 구문 실행을 위해 preparedStatement 객체의 executeUpdate() 메서드를 호출
