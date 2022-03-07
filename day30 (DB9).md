@@ -95,3 +95,21 @@ FROM HR_LOCATIONS;
 - 테이블에 값 입력 시 컬럼의 입력값을 입력하지 않은 경우 기본적으로 입력되는 값
 - 숫자, 문자, 날짜도 아닌 데이터타입으로 데이터타입 구문없이 어느 컬럼이건 입력이 가능
 - 다만,연산에 영향을 미치는 부분이 있으므로 적극적인 활용은 피하는 것이 좋음
+- NULL값이 포함된 표현식의 결과는 표현식의 내용과는 상관없이 NULL값으로 만들어짐
+
+```
+SELECT last_name, 12*salary*commission_pct, commission_pct FROM HR_EMPLOYEES;
+
+
++-------------+--------------------------+----------------+
+| last_name   | 12*salary*commission_pct | commission_pct |
++-------------+--------------------------+----------------+
+| Davies      |                     NULL |           NULL |
+| Matos       |                     NULL |           NULL |
+| Vargas      |                     NULL |           NULL |
+| Russell     |                        0 |              0 |
+| Partners    |                        0 |              0 |
+| Errazuriz   |                        0 |              0 |
+…
+```
+
