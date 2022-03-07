@@ -113,3 +113,36 @@ SELECT last_name, 12*salary*commission_pct, commission_pct FROM HR_EMPLOYEES;
 …
 ```
 
+### column alias
+- 결과 출력 시 컬럼이나 표현식의 이름을 다른 이름으로 대체하여 출력하는 문법
+- alias는 구문이 실행되는 동안에만 유지 (영구 변환 X)
+- 컬럼명 [AS] 별명
+    - AS 키워드는 옵션으로 기능은 특별히 있지 않고 생략도 가능
+
+```
+SELECT last_name AS name, commission_pct comm
+FROM HR_EMPLOYEES;
+
++-------------+------+
+| name        | comm |
++-------------+------+
+| King        | NULL |
+| Kochhar     | NULL |
+| De Haan     | NULL |
+
+
+--------------------------------------------------------------------------------------------------
+
+column alias에 공백을 포함하고 싶은 경우 ""기호로 묶어서 작성
+
+
+SELECT last_name AS "last name", commission_pct comm FROM HR_EMPLOYEES;
+
++-------------+------+
+| last name   | comm |
++-------------+------+
+| King        | NULL |
+| Kochhar     | NULL |
+| De Haan     | NULL |
+…
+
