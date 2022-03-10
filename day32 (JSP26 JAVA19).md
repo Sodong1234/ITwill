@@ -610,7 +610,7 @@ class Airplane extends Flyer {
 ## 인터페이스
 > 차후 설명 추가 예정 
 
-```
+```java
 package interface_statement;
 
 interface A {
