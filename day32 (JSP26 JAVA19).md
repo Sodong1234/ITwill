@@ -72,7 +72,8 @@
 			<td>
 			<!-- 상세정보 버튼 클릭 시 jdbc_select3_detail.jsp 페이지로 이동(URL에 id 파라미터 전달) -->
 			<input type="button" value="상세정보" onclick="location.href='jdbc_select3_detail.jsp?id=<%=rs.getString("id")%>'">
-			<input type="button" value="수정">
+			<!-- 삭제 버튼 클릭 시 jdbc_delete_pro2.jsp 페이지로 이동(URL에 id 파라미터 전달) -->
+			<input type="button" value="삭제" onclick="location.href='jdbc_delete_pro2.jsp?id=<%=rs.getString("id")%>'">
 			</td>
 		</tr>
 		<%
@@ -334,7 +335,7 @@
 
 	// 새 패스워드 존재 유무에 따라 UPDATE 항목에 passwd 변경 문자열을 추가할지 말지 결정 => 삼항연산자를 통해 문자열 추가 선택 가능
 	String sql = "UPDATE test4 SET email=?, job=?, gender=?, hobby=?, reason=?" + 
-			(newPasswd.equals("") ? "" : "") +  
+			(newPasswd.equals("") ? "" : ",passwd=?") +  
 			" WHERE id=? AND passwd=?";
 	
 	out.println(sql);
@@ -350,7 +351,7 @@
 		pstmt.setString(6, id);
 		pstmt.setString(7, passwd);
 	} else { // 새 패스워드가 있을 경우 새 패스워드를 포함하여 파라미터 지정
-		pstmt.setString(6, passwd);		
+		pstmt.setString(6, newPasswd);	// 변경할 새 패스워드 전달
 		pstmt.setString(7, id);
 		pstmt.setString(8, passwd);
 	}
@@ -362,7 +363,7 @@
 		<script type="text/javascript">
 		alert("정보 수정 성공!");
 		// jdbc_select3_detail.jsp 로 이동 => id 파라미터 전달
-		location.href = "jdbc_select3_detail.jsp?id=" + id
+		location.href = "jdbc_select3_detail.jsp?id=<%=id%>";
 	</script>
 	<%
 	} else { // 수정 실패
@@ -374,6 +375,55 @@
 	<%
 	}
 	%>
+</body>
+</html>
+
+
+---------------------------------------------jdbc_update_pro2.jsp---------------------------------------------
+
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	// jdbc_select3.jsp 페이지에서 전달받은 id 파라미터 값을 변수에 저장
+	
+	request.setCharacterEncoding("UTF-8");
+	
+	// 전달받은 id 에 해당하는 레코드 삭제 후 jdbc_select3.jsp 페이지로 이동(단, 삭제 후 "삭제 완료!" 메세지 출력 후 이동)
+	
+	String id = request.getParameter("id");
+	
+	String Driver = "com.mysql.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/study_jsp3";
+	String user = "root";
+	String password = "1234";
+	
+	// 1단계
+	Class.forName(Driver);
+	out.println("<h3>드라이버 로딩 성공!</h3>");
+		
+	// 2단계
+	Connection con = DriverManager.getConnection(url, user, password);
+	out.println("<h3>로그인 성공!</h3>");
+	
+	// 3단계
+	String sql = "DELETE FROM test4 WHERE id=?";
+	PreparedStatement pstmt = con.prepareStatement(sql);
+	pstmt.setString(1, id);
+	
+	int deleteCount = pstmt.executeUpdate();
+	out.println("<h3>삭제 완료</h3>");
+	%>
+	
 </body>
 </html>
 ```
