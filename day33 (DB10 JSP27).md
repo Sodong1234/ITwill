@@ -119,3 +119,5 @@ mysql> SELECT DISTINCT department_id, job_id FROM HR_EMPLOYEES;
 ## 모듈화
 - 어떤 기능을 담당하는 작은 단위를 모듈(Module)이라고 함
 - 하나의 프로그램에서 특정 기능에 따라 작은 단위의 클래스 또는 메서드 형태로 잘게 분리하는 것을 모듈화라고 함
+
+> StudyJSP Project의 src/main/java 폴더에 
