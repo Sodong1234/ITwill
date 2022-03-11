@@ -6,9 +6,9 @@
 - 연결연산자로 연결된 요소들을 하나로 연결한 결과를 연산하여 출력하는 문법
 - oracle에서는 ||이 연결연산자로 동작하지만, mysql에서는 OR의 연산 형태로 동작
 
-- mysql에서는 CONCAT 함수로 이 기능을 활용할 수 있다.
 ```
 
+mysql에서는 CONCAT 함수로 이 기능을 활용
 mysql> SELECT last_name, job_id, CONCAT(last_name, job_id) AS "Employees" FROM HR_EMPLOYEES;
 
 +-------------+------------+---------------------+
@@ -20,8 +20,7 @@ mysql> SELECT last_name, job_id, CONCAT(last_name, job_id) AS "Employees" FROM H
 | Hunold      | IT_PROG    | HunoldIT_PROG       |
 … 
 
-
-
+컬럼의 내용을 조합하여 출력 시 고정적으로 출력해야할 문자열 요소가 있는 경우 리터럴 문자를 활용
 mysql> SELECT last_name, job_id, CONCAT(last_name, ' ', job_id) AS "Employees" FROM HR_EMPLOYEES;
 
 +-------------+------------+----------------------+
@@ -32,11 +31,16 @@ mysql> SELECT last_name, job_id, CONCAT(last_name, ' ', job_id) AS "Employees" F
 | De Haan     | AD_VP      | De Haan AD_VP        |
 | Hunold      | IT_PROG    | Hunold IT_PROG       |
 …
+
 ```
 
 ### DISTINCT
 - 행의 데이터의 중복값을 제거하여 출력
+- DISTINCT 키워드의 위치는 SELECT절의 첫번째 자리
+- 여러 컬럼이 SELECT절에 오는 경우 개별 컬럼 별로 중복제거가 아닌 컬럼의 값들을 하나의 세트로 보고 모든 컬럼의 값이 일치한 경우 중복값으로 제거하여 출력
+
 ```
+
 
 mysql> SELECT department_id
     -> FROM HR_EMPLOYEES;
@@ -51,6 +55,7 @@ mysql> SELECT department_id
 |            30 |
 |            30 |
 … 
+
 
 
 
@@ -77,8 +82,11 @@ mysql> SELECT DISTINCT department_id FROM HR_EMPLOYEES;
 
 
 
-// 여러 컬럼이 있을 경우 세트로 묶어서 판별
+
+
+아래의 두개의 컬럼에 대한 중복값 제거는 department_id, job_id의 값이 모두 일치한 경우에만 중복값으로 제거   
 mysql> SELECT DISTINCT department_id, job_id FROM HR_EMPLOYEES;
+
 +---------------+------------+
 | department_id | job_id     |
 +---------------+------------+
@@ -103,4 +111,5 @@ mysql> SELECT DISTINCT department_id, job_id FROM HR_EMPLOYEES;
 |           110 | AC_MGR     |
 |           110 | AC_ACCOUNT |
 +---------------+------------+
+
 ```
