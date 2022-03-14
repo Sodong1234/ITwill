@@ -142,9 +142,51 @@ Laura                Bissot                    Laura Bissot
 [](bracket)		: 생략가능한 옵션
 ```
 
+![unnamed](https://user-images.githubusercontent.com/95197594/158099343-623b7dda-63b5-422e-ab85-788280244cfd.png)
+
+
+### WHERE절
+- 필수가 아닌 옵션절로 출력을 원하는 행의 조건을 설정할 수 있는 절
+- WHERE의 요소로 조건식을 사용
+```
+WHERE 조건컬럼 연산자 조건값
+```
+- 조건값과 조건컬럼은 동일한 데이터 타입이어야함
+```
+
+SQL> SELECT employee_id, last_name, job_id, department_id
+  2  FROM employees
+  3  WHERE department_id = 90;
 
 
 
+EMPLOYEE_ID LAST_NAME                 JOB_ID     DEPARTMENT_ID
+----------- ------------------------- ---------- -------------
+        100 King                      AD_PRES               90
+        101 Kochhar                   AD_VP                 90
+        102 De Haan                   AD_VP                 90
+```
+- 문자열의 경우 비교시 대소문자를 구분
+```
+
+SQL> SELECT last_name, job_id, department_id
+  2  FROM employees
+  3  WHERE last_name = 'Whalen';
 
 
 
+LAST_NAME                 JOB_ID     DEPARTMENT_ID
+------------------------- ---------- -------------
+Whalen                    AD_ASST               10
+```
+```
+SQL> SELECT last_name, hire_date
+  2  FROM employees
+  3  WHERE hire_date = '19-MAR-05';
+
+
+
+LAST_NAME                 HIRE_DATE
+------------------------- ---------
+Hutton                    19-MAR-05
+```
