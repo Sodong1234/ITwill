@@ -680,7 +680,7 @@ class DesinerLogin implements LoginInterface {
 		String id = "admin";
 		String password = "1234";
 		
-		// 공통 메서드인 login() 메서드를 호출하여 파라미터가 잘 전달되었는지 확인
+		// 공통 메서드인 login() 메서드를 호출하여 파라미터가 잘 전달되었는지 확인하고
 		// login() 메서드에 임의의 리턴값을 설정하여 리턴된 데이터가 잘 출력되는지 확인
 		String result = login(id, password);
 		System.out.println("결과 : " + result); // alert라고 가정
