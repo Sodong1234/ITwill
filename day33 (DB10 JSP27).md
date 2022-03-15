@@ -121,14 +121,17 @@ mysql> SELECT DISTINCT department_id, job_id FROM HR_EMPLOYEES;
 - 하나의 프로그램에서 특정 기능에 따라 작은 단위의 클래스 또는 메서드 형태로 잘게 분리하는 것을 모듈화라고 함
 
 > StudyJSP Project의 src/main/java 폴더에 JdbcUtil.java 파일을 생성함
+> JdbcUtill.java 파일은 계속해서 업데이트 해 나갈 예정.
 
 ```jsp
 ---------------------------------------JdbcUtil.java---------------------------------------
 
-package jsp9_jdbc;
+package jsp10_javabeans;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 // JDBC 활용 시 데이터베이스 접근 관련 작업을 수행하는 용도의 클래스 정의
@@ -137,7 +140,9 @@ public class JdbcUtil {
 	// 1. DB 접속을 수행하는 getConnection() 메서드 정의
 	// => 파라미터 : 없음, 리턴타입 : java.sql.Connection
 	// => DB 접속을 수행하여 접속 성공 시 접속 정보를 객체로 관리하는 Connection 타입 객체를 외부로 리턴
-	public Connection getConnection() {
+	// => 외부에서 인스턴스 생성없이도 메서드 호출이 가능하도록 static 메서드로 선언
+	//	  (클래스명.메서드명() 형태로 호출 가능 => ex. JdbcUtil.getConnetction())
+	public static Connection getConnection() {
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/study_jsp3";
 		String user = "root";
@@ -173,6 +178,51 @@ public class JdbcUtil {
 		return con;
 		
 	}
+	
+	// 2. DB 자원을 반환하는 close() 메서드 정의
+	// => 반환해야하는 대상 객체 : Connection, PreparedStatement, ResultSet
+	// => 메서드 이름은 동일하고, 파라미터를 다르게 하는 메서드 오버로딩을 활용하여 메서드 정의
+	// 1) java.sql.Connection 객체를 전달받아 반환
+	public static void close(Connection con) {
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	// 2) java.sql.PreparedStatement 객체를 전달받아 반환
+	public static void close(PreparedStatement pstmt) {
+		if(pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("");
+	}
+
+	// 3) java.sql.ResultSet 객체를 전달받아 반환
+	public void close(ResultSet rs) {
+		if(rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	
+	
+
 }
 
 
@@ -357,28 +407,158 @@ public class JdbcUtil {
 </body>
 </html>
 
-
 ------------------------------------------------Test3DAO.java------------------------------------------------
 
 package jsp10_javabeans;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Test3DAO {
+
+//	// ------------- 기초 설명을 위한 주석 포함 -------------
+//	JdbcUtil jdbcUtil = new JdbcUtil();
+//	// 회원 추가 작업을 수행하는 insert() 메서드 정의
+//	// => 파라미터 : 회원 정보가 저장된 Test3DTO 객체(dto), 리턴타입 : int
+//	public int insert(Test3DTO dto) {
+//		int insertCount = 0;
+//		
+//		// finally 블록에서 close() 메서드를 호출하여 자원을 반환하기 위해서는
+//		// try 블록 바깥(위)쪽에서 Connection, PreparedStatement 등의 변수 선언 필요
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		
+//		try {
+//			// ------------------------------------------------------
+//			// 모듈화 없이 JDBC 연결(1단계 & 2단계)을 수행할 경우
+//			
+//			
+////			String driver = "com.mysql.jdbc.Driver";
+////			String url = "jdbc:mysql://localhost:3306/study_jsp3";
+////			String user = "root";
+////			String password = "1234";
+//			
+//			// 1단계. 드라이버 클래스 로드
+////			Class.forName(driver);
+//			
+//			// 2단계. DB 연결
+////			Connection con = DriverManager.getConnection(url, user, password);
+//			// ------------------------------------------------------
+//			// 모듈화를 통해 JDBC 연결(1단계 & 2단계)을 JdbcUtil 클래스 내에서 수행하고
+//			// 연결 성공 시 리턴되는 Connection 객체를 리턴받아 DB 작업을 수행할 경우
+//			// 1. JdbcUtil 클래스 인스턴스 생성
+////			JdbcUtil jdbcUtil = new JdbcUtil();
+//			// 2. JdbcUtil 인스턴스의 getConnection() 메서드를 호출하여
+//			//	  DB 접속을 수행하고 성공 시 Connection 객체 리턴받기
+////			Connection con = jdbcUtil.getConnection();
+//			
+//			// JdbcUtil 클래스 인스턴스 생성 없이 클래스명만으로 접근하여 메서드 호출할 경우
+//			// => JdbcUtil 클래스의 메서드들을 static 메서드로 선언해야함
+////			Connection con = JdbcUtil.getConnection();
+//			con = JdbcUtil.getConnection();
+//			// ------------------------------------------------------
+//			// 3단계. SQL 구문 작성 및 전달
+//			String sql = "INSERT INTO test3 VALUES(?,?,?,?)";
+////			PreparedStatement pstmt = con.prepareStatement(sql);
+//			pstmt = con.prepareStatement(sql);
+//			// 만능문자(?) 파라미터 데이터 교체
+//			// => 현재 메서드(insert()) 호출 시 전달받은 Test3DTO 객체로부터 데이터 꺼내기
+//			pstmt.setInt(1, dto.getNo());
+//			pstmt.setString(2, dto.getName());
+//			pstmt.setInt(3, dto.getAge());
+//			pstmt.setString(4, dto.getGender());
+//			
+//			// 4단계. SQL 구문 실행 및 전달
+//			insertCount = pstmt.executeUpdate();
+//			
+//			
+//			
+//		} catch (SQLException e) {
+//			// 예외 발생 시(SQLException) 실행될 코드들의 위치(예외 미발생 시 실행되지 않음)
+//			e.printStackTrace(); // 예외 발생 정보를 추적하여 모든 내용을 콘솔에 출력해줌
+////			System.out.println(e.getMessage()); // 예외 발생 메세지를 리턴받아 콘솔에 직접 출력
+//			System.out.println("SQL 구문 오류 발생! - insert()");
+//		} finally {
+//			// 예외 발생 여부와 관계없이 실행될 코드들의 위치
+//			// => 주로, 데이터베이스 작업 시 데이터베이스 관련 지원들을 반환하는 코드를 기술
+//			// => Connection, PreparedStatement, ResultSet 등 DB 자원을 관리하는 객체의
+//			//	  close() 메서드를 호출하여 자원을 반환
+//			//	  단, 자원 반환 순서는 객체 생성 순서의 역순으로 반환해야함
+////			pstmt.close(); // 반환할 자원이 없을 경우 SQLException 발생할 수 있음
+//			
+//			// 반환할 자원이 존재할 경우에만(= null이 아닐 경우)에만 자원반환 수행
+////			if(pstmt != null) {
+////				try {
+////					pstmt.close();
+////				} catch (SQLException e) {
+////					e.printStackTrace();
+////				}
+////			}
+////			
+////			
+////			if(con != null) {
+////				try {
+////					con.close();
+////				} catch (SQLException e) {
+////					e.printStackTrace();
+////				}
+////			}
+////			
+////		}
+//		
+//			//JdbcUtil 클래스 내에 오버로딩 된 close() 메서드(static 메서드)를 호출하여
+//			// Connection 및 PreparedStatement 객체 반환(= 역순으로 반환)
+//			JdbcUtil.close(pstmt);
+//			JdbcUtil.close(con);
+//			
+//		}
+//		
+//		return insertCount;
+//	}
 
 	// 회원 추가 작업을 수행하는 insert() 메서드 정의
 	// => 파라미터 : 회원 정보가 저장된 Test3DTO 객체(dto), 리턴타입 : int
 	public int insert(Test3DTO dto) {
 		int insertCount = 0;
-		
-		// 임시. Test3DTO 객체에 저장된 데이터 출력해보기
-		System.out.println("번호 : " + dto.getNo());
-		System.out.println("이름 : " + dto.getName());
-		System.out.println("나이 : " + dto.getAge());
-		System.out.println("성별 : " + dto.getGender());
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			// 1단계 & 2단계
+			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
+			con = JdbcUtil.getConnection();
+
+			// 3단계. SQL 구문 작성 및 전달
+			String sql = "INSERT INTO test3 VALUES (?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dto.getNo());
+			pstmt.setString(2, dto.getName());
+			pstmt.setInt(3, dto.getAge());
+			pstmt.setString(4, dto.getGender());
+
+			// 4단계. SQL 구문 실행 및 결과 처리
+			insertCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 발생! - insert()");
+		}  finally {
+			// DB 자원 반환 - JdbcUtil 클래스의 static 메서드 close() 호출(오버로딩) - 역순으로
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+		
 		return insertCount;
 	}
-	
+
+	// 회원 정보 조회하여 리턴하는 select() 메서드 정의
+	public void select() {
+
+	}
 }
+
 
 
 ------------------------------------------------Test3DTO.java------------------------------------------------
@@ -388,7 +568,7 @@ package jsp10_javabeans;
 // test3 테이블에 사용될 데이터를 관리하는 Test3DTO 클래스 정의
 public class Test3DTO {
 	// test3 테이블의 각 컬럼에 대응하는 멤버변수 선언
-	// => 외부에서 접근하지 모하도록 접근제한자를 private 으로 선언
+	// => 외부에서 접근하지 못하도록 접근제한자를 private 으로 선언
 	private int no;
 	private String name;
 	private int age;
@@ -431,8 +611,11 @@ public class Test3DTO {
 	
 }
 
+
 ```
 
+```
+위 과정 정리 :
 
 
 
