@@ -456,3 +456,63 @@ public class Ex5 {
 
 # [오후수업] JSP 28차
 > 27차에서 학습한 내용 복습 실시 및 추가분 커밋
+
+### select 구문
+```jsp
+<%@page import="jsp10_javabeans.Test3DTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="jsp10_javabeans.Test3DAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// Test3DAO 클래스의 인스턴스 생성 후 select() 메서드를 호출하여 학생 목록 정보 조회 요청
+// => 파라미터 : 없음	리턴타입 : ?(임시로 없다고 가정)
+Test3DAO dao = new Test3DAO();
+ArrayList dtoList = dao.select();
+
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>학생 목록 정보</h1>
+	<table border="1">
+		<tr>
+			<th width="100">학번</th>
+			<th width="100">이름</th>
+			<th width="100">나이</th>
+			<th width="100">성별</th>
+		</tr>
+		<%
+		// 배열과 마찬가지로 ArrayList 객체의 크기(size()) 크기보다 작을동안 반복
+		for(int i = 0; i < dtoList.size(); i++) {
+			// dtoList(ArrayList) 객체에는 Test3DTO 객체가 여러개 저장되어 있음
+			// => ArrayList 객체의 get() 메서드를 호출하여 저장된 객체를 꺼낼 수 있음
+			//	  이 때, 파라미터로 객체의 인덱스 지정
+			// => get() 메서드를 호출하여 리턴되는 객체를 Test3DTO 타입 변수에 저장해야함
+			//	  단, ArrayList 객체에 저장 시 adD() 메서드는 Object 타입 파라미터를 사용하므로
+			// 	  Test3DTO -> Object 타입으로 업캐스팅 되어있으며
+			//	  이를 다시 Test3DTO 타입으로 저장하려면 다운캐스팅이 필수!
+// 			Test3DTO dto = dtoList.get(i); // 오류 발생! Object -> Test3DTO 타입으로 그냥 저장 불가
+			Test3DTO dto = (Test3DTO)dtoList.get(i); // Object -> Test3DTO 타입으로 다운캐스팅
+			
+			// 테이블에 데이터 표시를 위해 td 태그 내에 Test3DTO 객체의 getXXX() 메서드를 호출하여
+			// 저장되어 있는 컬럼 데이터 출력
+			%>
+			<tr>
+				<td><%=dto.getNo() %></td>
+				<td><%=dto.getName() %></td>
+				<td><%=dto.getAge() %></td>
+				<td><%=dto.getGender() %></td>
+			</tr>
+			<%
+		}
+		%>
+		
+	</table>
+</body>
+</html>
+```
