@@ -322,6 +322,8 @@ public class JdbcUtil {
     - ex) MemberDTO => MemberBean => MemberVo 등
     - 프로젝트 수행하는 사람들의 특성에 따라 DTO 또는 Bean 또는 VO 로 명명   
 
+
+> Test3DTO, Test3DAO는 주기적으로 업데이트 실시함
 ```jsp
 
 ------------------------------------------------testBean_insert_Form.jsp------------------------------------------------
