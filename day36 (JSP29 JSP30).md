@@ -1,4 +1,4 @@
-# [오후수업] JSP 29차
+# [오전, 오후수업] JSP 29, 30차
 > 28차에 실시한 수업의 추가본을 여기서 커밋함
 
 ### select 구문
@@ -659,3 +659,404 @@ public class Test3DAO {
 
 ```
 
+
+
+### 간단한 게시판 만들어보기
+> 계속해서 추가해나갈 예정
+
+```jsp
+------------------------------------------main.jsp------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// 세션 객체에 저장된 아이디("sId") 가져와서 변수 id 에 저장하기
+String id = (String)session.getAttribute("sId"); // Object -> String 변환 필요
+
+
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>메인페이지</h1>
+	<h3><a href="./board/write_form.jsp">글쓰기</a></h3>
+	<h3><a href="./board/list.jsp">글목록</a></h3>
+	<!-- 로그인이 되지 않았을 경우 회원가입, 로그인 링크 표시 -->
+	<!-- 로그인이 되었을 경우 로그인된 아이디, 로그아웃 링크 표시 -->
+	<%if(id == null) { %>
+	<h3><a href="./member/join_form.jsp">회원가입</a></h3>
+	<h3><a href="./member/login_form.jsp">로그인</a></h3>
+	<%} else { %>
+	<h3><%=id %>님 | <a href="./member/logout.jsp">로그아웃</a></h3>
+	<%} %>
+</body>
+</html>
+
+------------------------------------------login_form.jsp------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>로그인 페이지</h1>
+	<form action="login_pro.jsp" method="post">
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id" required="required"></td>
+			</tr>
+			<tr>
+				<td>패스워드</td>
+				<td><input type="password" name="passwd" required="required"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="로그인"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
+
+
+------------------------------------------login_pro.jsp------------------------------------------
+
+<%@page import="jsp11_board.MemberDAO"%>
+<%@page import="jsp11_board.MemberDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// 아이디, 패스워드 파라미터 가져오기
+String id = request.getParameter("id");
+String passwd = request.getParameter("passwd");
+
+MemberDAO dao = new MemberDAO();
+
+// MemberDTO 객체에 id, passwd 저장 여부는 선택사항
+// 1. MemberDTO 객체 사용시
+// MemberDTO member = new MemberDTO();
+// member.setId(id);
+// member.setPasswd(passwd);
+
+// boolean isLoginSuccess = dao.login(member);
+
+// 2. MemberDTO 객체 미사용 시
+boolean isLoginSuccess = dao.login(id, passwd);
+
+// 로그인 작업 수행 후 결과를 boolean 타입(isLoginSuccess) 으로 리턴받아 결과에 따른 판별 작업을 수행
+// 만약, 로그인 성공 시 (isLoginSuccess 가 true) 세션에 아이디("sId" 속성명)를 저장 후 메인페이지로 이동
+// 로그인 실패 시 (isLoginSuccess 가 false) 자바스크립트를 통해 "로그인 실패" 출력 후 이전페이지로 이동
+
+if(isLoginSuccess) {
+	session.setAttribute("sId", id);
+	response.sendRedirect("../main.jsp");
+} else {
+	%>
+	<script>
+		alert("로그인 실패");
+		history.back();
+	</script>
+	<%
+}
+%>
+
+------------------------------------------join_form.jsp------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>회원 가입</h1>
+	<form action="join_pro.jsp" method="post">
+	<table border="1">
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="id" required="required"></td>
+			</tr>
+			<tr>
+				<th>패스워드</th>
+				<td><input type="password" name="passwd" required="required"></td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="name" required="required"></td>
+			</tr>
+			<tr>
+				<th>E-Mail</th>
+				<td><input type="text" name="email" required="required"></td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td><input type="text" name="phone" required="required"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" value="회원가입">
+					<input type="reset" value="초기화">
+					<input type="button" value="취소" onclick="history.back()">
+				</td>
+			</tr>
+		</table>
+	
+	</form>
+</body>
+</html>
+
+
+------------------------------------------join_pro.jsp------------------------------------------
+
+<%@page import="jsp11_board.MemberDAO"%>
+<%@page import="jsp11_board.MemberDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// POST 방식 한글 처리
+request.setCharacterEncoding("UTF-8");
+
+// 폼 파라미터 가져오기
+String id = request.getParameter("id");
+String passwd = request.getParameter("passwd");
+String name = request.getParameter("name");
+String email = request.getParameter("email");
+String phone = request.getParameter("phone");
+
+// 데이터를 MemberDTO 객체에 저장
+// MemberDTO member = new MemberDTO();
+// member.setId(id);
+// member.setPasswd(passwd);
+// member.setName(name);
+// member.setEmail(email);
+// member.setPhone(phone);
+
+// 만약, 파라미터 생성자를 정의했을 경우
+MemberDTO member = new MemberDTO(id, passwd, name, email, phone);
+
+// MemberDAO 클래스 객체 생성 후 insert() 메서드 호출
+// => 파라미터 : MemberDTO 객체(member), 리턴타입 : int(insertCount)
+MemberDAO dao = new MemberDAO();
+int insertCount = dao.insert(member);
+
+
+// insertCount 가 0보다 크면 main.jsp 페이지로 이동하고
+// 아니면, 자바스크립트를 통해 "회원 가입 실패!" 출력 후 이전페이지로 돌아가기
+if(insertCount > 0) {
+	// 절대경로로 지정할 경우
+	// request.getContextPath() 메서드(프로젝트명까지의 경로 리턴)를 활용하여 이동 경로 설정
+// 	response.sendRedirect(request.getContextPath()); // http://localhost:8080/StudyJSP/
+	response.sendRedirect(request.getContextPath() + "/jsp11_board/main.jsp");
+
+	// 상대경로로 지정할 경우
+// 	response.sendRedirect("../main.jsp");
+} else {
+	%>
+	<script>
+	alert("회원 가입 실패!");
+	history.back();
+	</script>
+	<%
+}
+
+%>
+
+------------------------------------------write_form.jsp------------------------------------------
+
+------------------------------------------write_form.jsp------------------------------------------
+
+```
+
+```java
+
+------------------------------------------MemberDAO.java------------------------------------------
+
+package jsp11_board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class MemberDAO {
+
+		// 회원 가입을 수행하는 insert() 메서드 정의
+//		=> 파라미터 : MemberDTO 객체(member), 리턴타입 : int(insertCount)
+		public int insert(MemberDTO member) {
+			int insertCount = 0;
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				con = JdbcUtil.getConnection();
+				
+				// memberDTO 객체에 저장된 아이디, 패스워드 이름, 이메일, 전화번호를 추가하고
+				// 가입일(date)의 경우 데이터베이스에서 제공되는 now() 함수 사용하여 자동 생성
+				String sql = "INSERT INTO member VALUES (?,?,?,?,?,now())";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, member.getId());
+				pstmt.setString(2, member.getPasswd());
+				pstmt.setString(3, member.getName());
+				pstmt.setString(4, member.getEmail());
+				pstmt.setString(5, member.getPhone());
+
+				
+				insertCount = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("SQL 구문 오류 발생! - insert()");
+
+			} finally {
+				JdbcUtil.close(con);
+				JdbcUtil.close(pstmt);
+			}
+			return insertCount;
+		}
+		
+		// 로그인 작업 수행 후 결과를 boolean 타입으로 리턴하는 login() 메서드 정의
+		public boolean login(String id, String passwd) {
+			boolean isLoginSuccess = false;
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+				con = JdbcUtil.getConnection();
+				
+				String sql = "SELECT id FROM member WHERE id=? AND passwd=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, passwd);
+
+				rs = pstmt.executeQuery();
+				// 조회 결과가 존재할 경우(= rs.next() 가 true일 경우)
+				// isLoginSuccess 변수값을 true 로 변경
+				if(rs.next()) {
+					isLoginSuccess = true;
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("SQL 구문 오류 - login()");
+			} finally {
+				JdbcUtil.close(con);
+				JdbcUtil.close(pstmt);
+				JdbcUtil.close(rs);
+
+			}
+			return isLoginSuccess;
+		}
+	}
+
+
+
+------------------------------------------MemberDTO.java------------------------------------------
+
+package jsp11_board;
+
+import java.sql.Date;
+
+/*
+ * member 테이블 정의
+ * 1. 아이디 - id 컬럼(문자 16자) 주키(Primary key)로 지정
+ * 2. 패스워드 - passwd 컬럼(문자 16자) null값 금지(NOT NULL 제약조건)
+ * 3. 이름 - name 컬럼(문자 10자) null값 금지(NOT NULL 제약조건)
+ * 4. 이메일 - email 컬럼(문자 50자) 중복금지(UNIQUE 제약조건),  null값 금지(NOT NULL 제약조건)
+ * 5. 전화번호 - phone 컬럼(문자20자) 중복금지(UNIQUE 제약조건),  null값 금지(NOT NULL 제약조건)
+ * 6. 가입일 - date 컬럼(날짜 - DATE)
+ * 
+ * CREATE TABLE member ( 
+ * 		id VARCHAR(16) PRIMARY KEY, 
+ * 		passwd VARCHAR(16) NOT NULL, 
+ * 		name VARCHAR(10) NOT NULL, 
+ * 		email VARCHAR(50) UNIQUE NOT NULL, 
+ * 		phone VARCHAR(20) UNIQUE NOT NULL,
+ * 		date DATE
+ */
+
+public class MemberDTO {
+	// member 테이블 컬럼에 대응하는 멤버변수 선언
+	private String id;
+	private String passwd;
+	private String name;
+	private String email;
+	private String phone;
+	private Date date;
+	
+	// 기본생성자
+	public MemberDTO() {}
+	
+	// 파라미터 생성자
+	public MemberDTO(String id, String passwd, String name, String email, String phone) {
+		this.id = id;
+		this.passwd = passwd;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+	}
+
+
+	// Getter/Setter 정의
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPasswd() {
+		return passwd;
+	}
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
+
+	
+
+	
+	
+	public static void main(String[] args) {
+		
+
+	}
+
+}
+
+```
