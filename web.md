@@ -1,3 +1,8 @@
+> 18일 실시할 web 시험 대비 노트 작성. 시험 종료 후 삭제 예정
+
+
+
+
 - 프론트엔드 개발(HTML, CSS, Javascript, jQuery)
 	- 사용자가 보는 화면에 관련된 작업들
 - 백엔드 개발(자바, JSP, MVC, 스프링)
@@ -1967,3 +1972,7 @@ main h3{
 </html>
 ```
 ![캡처](https://user-images.githubusercontent.com/95197594/156695784-2005721b-a2cf-4d7d-bcac-2bd4472ea0c3.PNG)
+
+
+
+> 18일 테스트 예정. ex2, test10, ex3, test13.html 파일 참조
