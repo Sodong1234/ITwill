@@ -96,7 +96,7 @@ Cabrio
 ```
 
 ### 연결연산자(||)
-- ORACLE DB에서는 ||이 연결연산자로 잘 동작함.
+> oracle에서는 ||이 연결연산자로 동작하지만, mysql에서는 OR의 연산 형태로 동작한다.
 
 - SQL> SELECT first_name, last_name, first_name||last_name AS name
 
@@ -189,6 +189,23 @@ SQL> SELECT last_name, hire_date
 LAST_NAME                 HIRE_DATE
 ------------------------- ---------
 Hutton                    19-MAR-05
+```
+
+
+- 날짜 데이터는 함수를 통해서 정확하게 다룰 수 있음
+- 지금 예제에서는 문자열을 활용해서 간접적으로 날짜데이터를 다루는 형태
+- 현재 DB 설정에서 국가는 미국으로 설정되어 있으며, DB에서 인식하는 형식은 'DD-MON-YY' / '일-월-년'의 형식
+```
+
+SQL> SELECT last_name, hire_date
+  2  FROM employees
+  3  WHERE hire_date = '19-MAR-05';
+
+
+LAST_NAME                 HIRE_DATE
+------------------------- ---------
+Hutton                    19-MAR-05
+
 ```
 
 
