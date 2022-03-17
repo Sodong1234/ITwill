@@ -1,6 +1,6 @@
 # [오전수업] WEB 7차
 
-css 연습
+### css 연습
 ```css
 
 <style type="text/css">
@@ -554,7 +554,7 @@ main h3{
 ```
 ![캡처](https://user-images.githubusercontent.com/95197594/156695784-2005721b-a2cf-4d7d-bcac-2bd4472ea0c3.PNG)
 
-> 12일 테스트 예정. ex2, test10, ex3, test13.html 파일 참조
+> 18일 테스트 예정. ex2, test10, ex3, test13.html 파일 참조
 
 
 # [오후수업] JSP 24차
