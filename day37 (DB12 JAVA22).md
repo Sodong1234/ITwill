@@ -412,13 +412,134 @@ EMPLOYEE_ID LAST_NAME                 HIRE_DATE
 [제한자] 리턴타입 메서드명([매개변수...]) throws 예외클래스1, 예외클래스2 .. {}
 ```
 
+```java
+package try_catch;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+public class Ex1 {
 
+	public static void main(String[] args) {
+		
+		try {
+			팀장();
+			// => throws 키워드를 통해 예외처리를 위임할 수 있으나
+			//	  현재 위치가 main() 메서드이며 main()메서드에서 위임할 경우
+			//	  더 이상 예외처리를 기술할 곳이 없기 때문에 예외 위임이 불가능
+			// => 최종 메서드인 main() 메서드에서 반드시 try ~ catch 문 사용 필수!
+		} catch (Exception e) {
+			System.out.println("main() 메서드에서 최종적으로 모든 예외를 처리!");
+		}
+		
 
+	} // main() 메서드 끝
+	
+	public static void 팀장() throws Exception {
+//		// 1) 팀장 메서드에서 직접 위임된 예외를 처리
+//		try {
+//			대리1();
+//			대리2();
+//		} catch (RuntimeException e) {
+//			System.out.println("팀장이 ArithmeticException, NullPointerException 예외를 모두 처리");
+//		} catch (Exception e) {
+//			System.out.println("팀장이 나머지 모든 예외를 직접 처리!");
+//		}
+		
+		// 2) 팀장() 메서드를 호출한 곳으로 예외 위임
+		대리1();
+		대리2();
+		// => 모든 예외를 하나로 묶어서 위임하려면
+		//	  1. 모든 클래스를 각각 명시
+		//    2. RuntimeException 과 ClassNotFoundException, SQLException
+		//	  3. RuntimeException 과 Exception 으로 명시
+		//    4. Exception 으로 모든 예외 통합(O)
+	}
 
+	public static void 대리1() throws ArithmeticException, NullPointerException {
+		// 사원1 에서 예외가 발생 했을 때 위임(trhows)된 경우
+		// 1) 대리1() 메서드에서 직접 위임된 예외를 처리
+//		try {
+//			사원1();
+//			사원2();
+//		} catch (ArithmeticException e) {
+//			System.out.println("사원1로부터 위임받은 ArithmeticException 예외를 대리1 직접 처리");
+//		} catch (NullPointerException e) {
+//			System.out.println("사원1로부터 위임받은 NullPointerException 예외를 대리1 직접 처리");
+//		}
+		
+		사원1();
+		사원2();
 
+	}
+	
+	public static void 대리2() throws Exception {
+		// RuntimeException 계열을 제외한 나머지 예외를 위임받을 경우
+		// 예외 발생 코드와 마찬가지로 명시적인 컴파일에러가 발생
+		사원3();		// ClassNotFoundException 예외 위임되는 위치
+		사원4();		// SQLException 예외가 위임되는 위치
+		// => 하나의 예외로 묶어서 던지려면 공통 클래스인 Exception 
+	}
+	
+	
+	
+	public static void 사원1() throws ArithmeticException {
+		// 사원1 에서 예외가 발생 했을 때
+		// 1) 직접 예외를 처리하는 경우 : try ~ catch문 직접 사용
+//		try {
+//			System.out.println(3 / 0);
+//		} catch (ArithmeticException e) {
+//			System.out.println("사원1 에서 예외를 직접 처리!");
+//		}
+		
+		// 2) 예외를 위임하는 경우 : throws 키워드 사용
+		System.out.println(3 / 1);
+		// => 발생한 예외를 사원1() 메서드를 호출한 대리1() 메서드로 던짐
+	}
+	
+	public static void 사원2() throws NullPointerException {
+//		try {
+//			String str = null;
+//			System.out.println(str.length());
+//		} catch (NullPointerException e) {
+//			System.out.println("사원 2에서 예외를 직접 처리!");
+//		}
+		
+		String str = "홍길동";
+		System.out.println(str.length());
+		// => 발생한 예외를 대리1 에게 위임(throws)
+	}
 
+	public static void 사원3() throws ClassNotFoundException {
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+		
+		// 예외처리를 위임하는 경우
+		Class.forName("com.mysql.jdbc.Driver");
+	}
+	
+	public static void 사원4() throws SQLException {
+//		try {
+//			DriverManager.getConnection("");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		
+		// 예외처리를 위임하는 경우
+		DriverManager.getConnection("");
+	}
+	
+	
+	
+	
+	
+	
+	
+} // Ex1 끝
+```
 
 
 
@@ -485,3 +606,78 @@ public class Ex2 {
 }
 ```
 
+### 사용자 정의 예외 클래스
+- 자바에서 제공하는 예외가 아닌 사용자가 직접 예외를 발생시키는 경우 자바의 예외의 이름은 어울리지 않는 경우가 발생함
+	- ex) 점수 입력 오류를 Exception 클래스 타입으로 예외 발생 시
+		- InvaildScoreInputException 이라는 이름 사용하면 더 직관적이나 해당 예외 클래스는 자바에서 존재하지 않음
+- 사용자가 직접 해당 이름을 가진 예외 클래스를 정의 간으
+- 반드시 Exception 클래스(또는 계열)를 상속받아 예외 클래스를 정의하며 생성자 내에서 슈퍼클래스에 예외 메세지를 전달하여 메세지 초기화 수행
+
+```
+< 기본 정의 문법 >
+class 사용자정의예외크래스명 extends 예외클래스명 {
+		 생성자() {
+			super("예외메세지");
+		 }
+}
+```
+
+
+```java
+package try_catch;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+
+		int score = 185;
+		// 1. 기존에 존재하는 예외 클래스를 활용하는 경우
+		try {
+			grade(score);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		System.out.println("------------------------------------");
+		
+		// 2. 사용자 정의 예외 클래스를 활용하는 경우
+		// => 1번(Exception)에 비해 예외를 추측하기 쉽다 = 예외클래스 이름이 직관적이므로
+		
+		try {
+			grade2(score);
+		} catch (InvaildScoreInputException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+	// 1. 기존에 존재하는 예외 클래스를 활용하는 경우
+	public static void grade(int score) throws Exception {
+		if(score < 0 || score > 100) {
+			throw new Exception("점수 입력 오류! " + score);
+		}
+	}
+	
+	// 2. 사용자 정의 예외 클래스를 활용하는 경우
+	public static void grade2(int score) throws InvaildScoreInputException {
+		if(score < 0 || score > 100) {
+			throw new InvaildScoreInputException("점수 입력 오류! " + score);
+		}
+	}
+	
+}
+
+
+
+
+
+class InvaildScoreInputException extends Exception {
+	// 슈퍼클래스인 Exception 클래스의 생성자를 통해 자동 생성
+	public InvaildScoreInputException(String message) {
+		// 메세지를 입력받아 슈퍼클래스의 생성자에 전달하면 예외 메세지 초기화 가능
+		super(message);
+	}
+}
+```
