@@ -672,8 +672,6 @@ public class Test3DAO {
 <%
 // 세션 객체에 저장된 아이디("sId") 가져와서 변수 id 에 저장하기
 String id = (String)session.getAttribute("sId"); // Object -> String 변환 필요
-
-
 %>
 <!DOCTYPE html>
 <html>
@@ -870,11 +868,173 @@ if(insertCount > 0) {
 
 %>
 
-------------------------------------------write_form.jsp------------------------------------------
 
 ------------------------------------------write_form.jsp------------------------------------------
 
+<%@page import="jsp11_board.BoardDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>글쓰기</h1>
+	<!-- form 태그 액션을 writePro.jsp 로 지정하고, 메서드는 POST 방식으로 지정 -->
+	<!-- table 태그를 통해 작성자(name), 비밀번호(pass), 제목(subject), 내용(content) 입력 받기 -->
+	<!-- submit(글쓰기), reset(초기화), button(취소 => 클릭 시 이전페이지로 돌아가기) -->
+	
+	<form action="writePro.jsp" method="POST">
+		<table border="1">
+			<tr>
+				<th>작성자</th>
+				<td><input type="text" name="name"></td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" name="pass"></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="subject"></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><textarea name="content" rows="10" cols="20"></textarea>
+			</tr>	
+			<tr>
+				<td colspan="2">
+				<input type="submit" value="글쓰기" onclick="write_pro.jsp">
+				<input type="reset" value="초기화">
+				<input type="button" value="취소" onclick="history.back()">
+				</td>
+			</tr>			
+		</table>
+		
+	</form>
+</body>
+</html>
+
+------------------------------------------writePro.jsp------------------------------------------
+<%@page import="jsp11_board.BoardDAO"%>
+<%@page import="jsp11_board.BoardDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// write_pro.jsp 페이지에서 보여줄(표시할) 웹페이지가 없다면 <HTML> 태그 불필요(삭제 가능)
+// POST 방식 한글 처리
+request.setCharacterEncoding("UTF-8");
+
+// write_form.jsp 페이지로부터 전달받은 폼파라미터(작성자, 비밀번호, 제목, 내용)을 가져와서
+// 변수에 저장 후 출력
+
+String name = request.getParameter("name");
+String pass = request.getParameter("pass");
+String subject = request.getParameter("subject");
+String content = request.getParameter("content");
+
+// 폼파라미터 데이터를 하나의 객체로 다루기 위해 BoardDTO 객체 생성 후 저장
+
+// BoardDTO board = new BoardDTO();
+// board.setName(name);
+// board.setPass(pass);
+// board.setSubject(subject);
+// board.setContent(content);
+// => 만약 파라미터 생성자가 정의되어 있을 경우 생성자를 통해 데이터 전달
+BoardDTO board = new BoardDTO(name, pass, subject, content);
+
+// BoardDAO 객체 생성 후 insert() 메서드를 호출하여 글쓰기 작업 요청
+// => 파라미터 : BoardDTO 객체(board)	리턴타입 : int(insertCount)
+BoardDAO dao = new BoardDAO();
+int insertCount = dao.insert(board);
+
+// 글쓰기 작업 요청 결과에 따른 판별
+// => 글쓰기 성공 시 "list.jsp" 페이지로 포워딩
+// => 글쓰기 실패 시 자바스크립트를 사용하여 "글쓰기 실패!" 출력 후 이전 페이지로 돌아가기
+if(insertCount > 0) {
+	response.sendRedirect("list.jsp");
+} else {
+	%>
+	<script>
+		alert("글쓰기 실패!")
+		history.back();
+	</script>
+	<%
+}
+
+
+%> 
+
+------------------------------------------list.java------------------------------------------
+<%@page import="jsp11_board.BoardDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="jsp11_board.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// BoardDAO 객체의 selectList() 메서드를 호출하여 전체 레코드 조회 요청
+// => 파라미터 : 없음		리턴타입 : ArrayList(boardList)
+
+BoardDAO dao = new BoardDAO();
+// List boardList = dao.selectList();
+
+// 컬렉션 객체들(List 등)은 선언 및 객체 생성 시 제네릭타입으로 저장되는 데이터의 타입 지정 가능함
+// => 컬렉션클래스명 뒤에 <> 기호 사이에 저장될 객체의 타입을 지정 가능
+//	  ex) List 객체에 저장될 데이터가 BoardDTO 타입일 경우 List<BoardDTO> 형태로 명시
+List<BoardDTO> boardList = dao.selectList();
+
+%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>글목록</h1>
+	<table border="1">
+		<tr>
+			<th width="150">작성자</th>
+			<th width="300">제목</th>
+			<th width="500">내용</th>
+		</tr>
+		<%
+		// List 객체 크기만큼 for문을 사용하여 반복
+		for(int i = 0; i < boardList.size(); i++) {
+			// ArrayList(boardList) 객체에서 1개 레코드를 저장한 BoardDTO 객체 꺼내기
+			// => ArrayList 객체의 get() 메서드를 호출하여 인덱스 지정
+// 			BoardDTO board = (BoardDTO)boardList.get(i); // 다운캐스팅 필수!
+		// ---------------------------------------------------------------------
+		// List 객체에 제네릭 타입으로 BoardDTO 타입을 선언한 경우
+		// Object 타입으로 업캐스팅 된 객체가 아닌 BoardDTO 객체 그대로 저장되어 있으므로
+		// 꺼낸 후 다운캐스팅이 불필요하다!
+		BoardDTO board = boardList.get(i);
+		%>
+		<tr>
+			<td><%=board.getName() %></td>
+			<td><%=board.getSubject() %></td>
+			<td><%=board.getContent() %></td>
+		</tr>
+		<%
+		}
+		%>
+	</table>
+</body>
+</html>
+------------------------------------------logout.java------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// 세션 객체 초기화(invalidate()) 를 수행 후 메인페이지로 이동
+session.invalidate();
+response.sendRedirect("../main.jsp");
+%>
 ```
+
+
 
 ```java
 
@@ -959,6 +1119,8 @@ public class MemberDAO {
 			return isLoginSuccess;
 		}
 	}
+
+
 
 
 
@@ -1059,4 +1221,159 @@ public class MemberDTO {
 
 }
 
+
+------------------------------------------BoardDAO.java------------------------------------------
+package jsp11_board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BoardDAO {
+
+	public int insert(BoardDTO board) {
+		int insertCount = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = JdbcUtil.getConnection();
+
+			String sql = "INSERT INTO board VALUES (?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getName());
+			pstmt.setString(2, board.getPass());
+			pstmt.setString(3, board.getSubject());
+			pstmt.setString(4, board.getContent());
+
+			insertCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 발생! - insert()");
+
+		} finally {
+			JdbcUtil.close(con);
+			JdbcUtil.close(pstmt);
+		}
+		return insertCount;
+	}
+	
+	
+	
+	// 제네릭타입 BoardDTO 지정
+	public List<BoardDTO> selectList() {
+		// List 타입 변수 선언 시 제네릭타입으로 BoardDTO 타입을 지정할 경우
+		// 해당 객체의 메서드에 사용되는 Object 타입은 모두 BoardDTO 타입으로 변경됨
+		List<BoardDTO> boardList = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = JdbcUtil.getConnection();
+
+			String sql = "SELECT * FROM board";
+			pstmt = con.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+			
+			// 객체 생성 시 제네릭 타입 지정 가능
+			boardList = new ArrayList<BoardDTO>();
+			while(rs.next()) {
+//				String name = rs.getString("name");
+//				String pass = rs.getString("pass");
+//				String subject = rs.getString("subject");
+//				String content = rs.getString("content");
+//				System.out.println(name + ", " + pass + ", " + subject + ", " + content);
+			
+			// 1개 레코드에 해당하는 데이터를 BoardDTO 객체에 저장
+				BoardDTO board = new BoardDTO();
+				board.setName(rs.getString("name"));
+//				board.setPass(rs.getString("pass")); // 패스워드는 불필요하므로 제외
+				board.setSubject(rs.getString("subject"));
+				board.setContent(rs.getString("content"));
+
+				// 모든 레코드를 저장하는 ArrayList 객체에 1개 레코드를 저장한 BoardDTO 객체 추가
+				// 만약, 제네릭타입으로 BoardDTO 타입을 선언했을 경우
+				// add() 메서드의 파라미터 타입이 Object 가 아닌 BoardDTO 타입으로 사용됨
+				// => 즉, Object 타입이 아닌 자기 자신이므로 업캐스팅이 일어나지 않는다!
+				boardList.add(board);
+				// 제네릭 타입에 맞지 않는 타입은 사용 불가능
+//				boardList.add("홍길동");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 발생! - selectList()");
+
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+			
+		}
+		return boardList;
+	}
+}
+
+------------------------------------------BoardDTO.java------------------------------------------
+package jsp11_board;
+
+/*
+CREATE TABLE board (
+ 	name VARCHAR(16),
+ 	pass VARCHAR(16),
+ 	subject VARCHAR(50),
+ 	content VARCHAR(2000)
+); 
+ */
+public class BoardDTO {
+	private String name;
+	private String pass;
+	private String subject;
+	private String content;
+	
+	public BoardDTO() {}
+	
+	public BoardDTO(String name, String pass, String subject, String content) {
+		super();
+		this.name = name;
+		this.pass = pass;
+		this.subject = subject;
+		this.content = content;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPass() {
+		return pass;
+	}
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	
+	
+}
 ```
