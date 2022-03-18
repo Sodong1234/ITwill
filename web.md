@@ -1320,6 +1320,7 @@ img{
 #header{
 	width : 100%; height : 120px;
 	background-color : purple; 
+	float : left;
 }
 /* id="leftbar" 너비 300px, 높이 600px */
 #leftbar{
