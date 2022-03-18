@@ -967,7 +967,7 @@ if(insertCount > 0) {
 
 %> 
 
-------------------------------------------list.java------------------------------------------
+------------------------------------------list.jsp------------------------------------------
 <%@page import="jsp11_board.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="jsp11_board.BoardDAO"%>
@@ -1023,7 +1023,7 @@ List<BoardDTO> boardList = dao.selectList();
 	</table>
 </body>
 </html>
-------------------------------------------logout.java------------------------------------------
+------------------------------------------logout.jsp------------------------------------------
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
