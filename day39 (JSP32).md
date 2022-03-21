@@ -240,3 +240,276 @@ pageContext.setAttribute("strMsg", strMsg);
 </body>
 </html>
 ```
+
+> 이후 개인 프로젝트에 대한 기초설명 실시
+
+
+# [오후수업] JAVA
+
+## java.lang.Object 클래스
+- 모든 클래스의 최상위 클래스
+	- 별도로 상속을 받지 않는 클래스는 묵시적으로 Object 클래스를 상속받음
+
+
+### toString() 메서드
+- 어떤 객체의 정보를 문자열로 변환하여 리턴하는 메서드
+- Object 클래스의 toString() 메서드는 객체의 클래스명과 주소값을 결합한 문자열 리턴
+	- => getclass() 와 hashCode() 메서드 결과를 변형하여 문자열로 리턴해줌
+- 일반적으로 객체의 정보란 객체가 가진 고유의 데이터(멤버변수값)를 의미하므로 클래스 정의 시 Object 클래스의 toString() 메서드 오버라이딩을 통해 객체의 멤버변수 값들을 문자열로 결합하여 리턴하도록 해야한다!
+- 출력문 내에서 참조변수명.toString() 을 호출하여 리턴값을 바로 출력하거나 리턴값을 String 타입 변수에 저장 할 수 있다!
+- 또한, 출력문 내에서 toString() 메서드 생략이 가능하므로 참조변수명을 출력문 내에 전달 시 자동으로 toString() 메서드가 호출됨
+	- ex) System.out.println(str); 또는 System.out.println(str.toString());
+- 일반적으로 자바에서 제공되는 대부분의 API에는 toString() 메서드가 오버라이딩 되어 있으므로 객체 내의 멤버변수 값을 쉽게 확인 가능함
+
+```java
+package Object;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+		
+		Person p1 = new Person("홍길동", 20);
+		System.out.println(p1.toString()); // Object.Person@15db9742
+		// toString() 메서드 호출하면 "클래스명@해시코드값" 형태로 문자열 리턴됨
+		
+		System.out.println("클래스명 : " + p1.getClass().getName());
+		System.out.println("해시코드 : " + p1.hashCode());
+		
+		System.out.println("객체 p의 정보 : " + p1);
+		
+		System.out.println("=======================================");
+		
+		ToStringPerson p2 = new ToStringPerson("홍길동", 20);
+		System.out.println("객체 p2의 정보 : " + p2.toString());
+		System.out.println("객체 p2의 정보 : " + p2); // toString() 메서드가 생략되어 있음.
+		
+		// toString() 메서드가 적용된 대표적인 예 : String 클래스
+		String str = "홍길동";
+		System.out.println(str);
+		System.out.println(str.toString());
+
+		
+
+	}
+
+}
+
+
+
+class ToStringPerson {
+	String name;
+	int age;
+	public ToStringPerson(String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+	
+	
+//	@Override
+//	public String toString() {
+//		return name + ", " + age;
+//	}
+	
+	// toStrong() 메서드 자동 오버라이딩 단축키 : Alt + Shift + S -> S
+	@Override
+	public String toString() {
+		return "ToStringPerson [name=" + name + ", age=" + age + "]";
+	}
+	
+	
+}
+```
+
+
+- 연습문제
+```java
+package Object;
+
+import java.util.Objects;
+
+public class Test3 {
+
+	public static void main(String[] args) {
+		/*
+		 * Account 클래스 정의 멤버변수 : 계좌번호(accountNo, String타입), 예금주명(ownerName, String타입), 현재잔고(balance, int타입) 
+		 * 생성자 : 멤버변수 모두 전달받아 초기화하는 생성자 
+		 * equals() 메서드 오버라이딩 : 모든 멤버변수 값이 같을 경우 true 리턴 
+		 * toString() 메서드 오버라이딩 : 모든 멤버변수 정보를 String 타입으로 리턴
+		 */
+		
+		Account acc1 = new Account("111-1111-111", "홍길동", 100);
+		Account acc2 = new Account("111-1111-111", "홍길동", 100);
+		
+		if(acc1.equals(acc2)) {
+			System.out.println("두 계좌는 동일!");
+		} else {
+			System.out.println("두 계좌는 다름!");
+		}
+		
+		System.out.println(acc1);
+		System.out.println(acc2);
+
+
+	}
+
+}
+
+class Account {
+	String accountNo;
+	String ownerName;
+	int balance;
+
+	// Alt + Shift + S -> O
+	public Account(String accountNo, String ownerName, int balance) {
+		this.accountNo = accountNo;
+		this.ownerName = ownerName;
+		this.balance = balance;
+	}
+
+	// Alt + Shift + S -> H
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(accountNo, other.accountNo) && balance == other.balance
+				&& Objects.equals(ownerName, other.ownerName);
+	}
+
+	// Alt + Shift + S -> S
+	@Override
+	public String toString() {
+		return "Account [accountNo=" + accountNo + ", ownerName=" + ownerName + ", balance=" + balance + "]";
+	}
+}
+```
+
+
+## java.lang.Math 클래스
+- 수학적인 다양한 기능을 상수와 static 메서드로 제공
+- 모든 멤버가 static 으로 선언되어 있으므로 클래스명만으로 접근 가능
+	- ex) Math.PI, Math.random()
+
+### Math 클래스
+```java
+package lang;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		
+		// Math 클래스의 상수
+		System.out.println("PI 값 : " + Math.PI);
+		
+		int num = -10;
+		// Math 클래스의 static 메서드
+		System.out.println("num의 절대값 : " + Math.abs(num));
+		System.out.println("num과 20 중 큰 값 : " + Math.max(num, 20));
+		System.out.println("num과 20 중 작은 값 : " + Math.min(num, 20));
+		System.out.println("4의 제곱근 : " + Math.sqrt(4));
+		
+		// ------------------------------------------------------------------
+		
+		double dNum = 3.141592;
+		System.out.println("실수 dNum의 소수점 첫째자리 반올림값 : " + Math.round(dNum));
+		// 항상 소수점 첫째자리에서 반올림이 일어나므로 X번째 자리 반올림을 위해서는
+		// 반올림할 숫자의 반올림 자리 수를 첫번째 자리에 위치하도록 변형해야한다.
+		// ex) 실수 3.141592의 소수점 4번째 자리 숫자 (5)를 반올림하기 위해서는
+		// 	   해당 숫자를 소수점 첫 번째 자리로 이동시키기 위한 값을 직접 곱하거나
+		//	   해당 숫자에 10^(x-1) 값을 곱해야함
+		//	   ex) 3.141592 * 1000 또는 3.141592 * (10^(4-1))
+		//	   => 또한, 원래 자리로 숫자를 되돌리기 위해 다시 곱한 값만큼 나눗셈 수행
+		//	   ex) 3.141592 * 1000 / 1000
+		System.out.println("실수 dNum의 소수점 넷째자리 반올림값 : " + Math.round(dNum * 1000) / 1000.0);
+
+		// ----------------------------------------------------------------------------------------
+		/*
+		 * Math.random()
+		 * - 난수(임의의 수) 발생을 위한 메서드
+		 * - Math.random() : 0.0 <= x < 1.0 범위의 double 타입 난수 발생
+		 * 
+		 * < 난수 발생 기본 공식 >
+		 * 1. (정수화)(Math.random() * 상한값) : 0 ~ 상한값-1 (0 <= x < 상한값)
+		 * 2. (정수화)(Math.random() * 상한값) + 1 : 1 ~ 상한값 (1 <= x <= 상한값)
+		 * 3. 복합 공식 (확률적으로 난수 중복을 최소화하기 위한 공식)
+		 * 	  (정수화)(Math.random() * (상한값 - 하한값 + 1) + 하한값)
+		 */
+		
+		for(int i = 1; i <= 10; i++) {
+//			System.out.println(Math.random());
+			
+			// 정수 1자리 범위의 난수 발생시키기 위해서는
+			// Math.randon() 결과를 원하는 자릿수만큼 정수로 이동시키고
+			// 남은 자리 숫자들을 제거
+			System.out.println((int)(Math.random() * 10)); // 0 <= x < 10
+			
+			// 0을 제외하고 1부터 상한값까지의 난수 발생을 위해서는 
+			// 난수 발생 결과에 +1을 수행
+			System.out.println((int)(Math.random() * 10) + 1); // 1 <= x < 11 (1 ~ 10)
+			
+			// 0을 제외하고 x부터 상한값까지의 난수 발생을 위해서는
+			// 난수 발생 결과에 +x를 수행
+			System.out.println((int)(Math.random() * 10) + 5); // 5 <= x < 15 (5 ~ 14)
+
+		}
+		
+		// 복합 공식 적용 시
+		int upperNum = 20;	// 상한값
+		int lowerNum = 1;	// 하한값
+		
+		for(int i = 1; i <= 10; i++) {
+			// (정수화)(Math.random() * (상한값 - 하한값 + 1) + 하한값 )
+			System.out.println((int)(Math.random() * (upperNum - lowerNum + 1) + lowerNum));
+			
+		}
+	}
+
+}
+```
+
+### Arrays 클래스
+- 배열 관련 다양한 기능을 제공하는 클래스
+- static 메서드가 제공되므로 클래스명만으로 호출 가능
+
+```java
+package lang;
+
+import java.util.Arrays;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+	
+		int[] myLotto = {40, 45, 10, 33, 1, 42};
+		
+		// 반복문을 통하여 배열의 모든 요소 출력
+		for(int i = 0; i < myLotto.length; i++) {
+			System.out.print(myLotto[i] + " ");
+		}
+		System.out.println();
+		
+		// Arrays 클래스를 활용하여 배열의 모든 요소 출력
+		// => Arrays.toString() 메서드를 사용하면 배열 내의 모든 요소를 문자열로 리턴해줌
+		System.out.println(Arrays.toString(myLotto));
+
+		System.out.println("----------------------------------------");
+		
+		// 배열 요소를 정렬(sort)
+		// 정수는 오름차순(0 -> 9) 으로 정렬
+		Arrays.sort(myLotto);
+		System.out.println("정렬 후 : " + Arrays.toString(myLotto));
+		
+		System.out.println("----------------------------------------");
+		// 문자열은 알파벳 오름차순(A -> Z) 으로 정렬
+		String[] subject = {"Java", "Android", "Oracle", "JSP", "HTML5"};
+		Arrays.sort(subject);
+		System.out.println("정렬 후 : " + Arrays.toString(subject));
+		
+	}
+
+}
+```
