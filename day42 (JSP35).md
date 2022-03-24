@@ -16,3 +16,7 @@ import static 패키지명.클래스명.메서드명;
 => db.jdbcUtil 클래스의 모든 static 메서드를 import 하는 경우
 import static db.JdbcUtil.*;
 ```
+
+---
+
+# [오후수업] DB
