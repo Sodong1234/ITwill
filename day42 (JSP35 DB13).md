@@ -22,3 +22,50 @@ import static db.JdbcUtil.*;
 # [오후수업] DB 13차
 
 
+- 연습문제
+```
+
+SQL> SELECT last_name, hire_date
+  2  FROM employees
+  3  WHERE hire_date LIKE '%04';
+
+
+SQL> SELECT last_name, hire_date
+  2  FROM employees
+  3  WHERE hire_date LIKE '__-___-04';
+
+
+SQL> SELECT last_name, hire_date
+  2  FROM employees
+  3  WHERE hire_date LIKE '_______04';
+
+
+
+
+LAST_NAME                 HIRE_DATE
+------------------------- ---------
+Weiss                     18-JUL-04
+Mallin                    14-JUN-04
+Russell                   01-OCT-04
+King                      30-JAN-04
+Sully                     04-MAR-04
+McEwen                    01-AUG-04
+Abel                      11-MAY-04
+Sarchand                  27-JAN-04
+Bell                      04-FEB-04
+Hartstein                 17-FEB-04
+```
+
+## IS NULL 연산자
+- 특정 컬럼의 값이 NULL인 행을 선택하는 연산자
+```
+SQL> SELECT last_name, manager_id
+  2  FROM employees
+  3  WHERE manager_id IS NULL;
+
+
+LAST_NAME                 MANAGER_ID
+------------------------- ----------
+King
+```
+
