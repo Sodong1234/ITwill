@@ -237,6 +237,118 @@ Raphaely                       11000 PU_MAN
 - 지정한 기준으로 출력 결과의 순서를 정렬하여 출력할 수 있는 옵션절
 - ORDER BY 정렬기준 [정렬방식]
 
+![캡처](https://user-images.githubusercontent.com/95197594/159871868-6fad9412-b669-4d72-bf23-baf86e79b796.PNG)
+
+
+- hire_date컬럼을 기준으로 내림차순 정렬한 결과를 출력 (이후 → 이전)
+```
+
+SQL> SELECT last_name, job_id, department_id, hire_date
+  2  FROM employees
+  3  ORDER BY hire_date DESC;
+
+
+LAST_NAME                 JOB_ID     DEPARTMENT_ID HIRE_DATE
+------------------------- ---------- ------------- ---------
+Kumar                     SA_REP                80 21-APR-08
+Banda                     SA_REP                80 21-APR-08
+Ande                      SA_REP                80 24-MAR-08
+Markle                    ST_CLERK              50 08-MAR-08
+Lee                       SA_REP                80 23-FEB-08
+Philtanker                ST_CLERK              50 06-FEB-08
+Geoni                     SH_CLERK              50 03-FEB-08
+Zlotkey                   SA_MAN                80 29-JAN-08
+Marvins                   SA_REP                80 24-JAN-08
+Grant                     SH_CLERK              50 13-JAN-08
+Johnson                   SA_REP                80 04-JAN-08
+Perkins                   SH_CLERK              50 19-DEC-07
+Gee                       ST_CLERK              50 12-DEC-07
+Popp                      FI_ACCOUNT           100 07-DEC-07
+…
+```
+
+- salary*12 표현식의 column alias인 annsal로 정렬된 결과를 출력
+- 정렬 방식을 생략하는 경우 기본값인 ASC가 적용
+
+```
+SQL> SELECT employee_id, last_name, salary*12 annsal
+  2  FROM employees
+  3  ORDER BY annsal;
+```
+- 무조건 alias를 사용하지 않아도 된다.
+```
+
+SQL> SELECT employee_id, last_name, salary*12 annsal
+  2  FROM employees
+  3  ORDER BY salary*12;
+
+
+EMPLOYEE_ID LAST_NAME                     ANNSAL
+----------- ------------------------- ----------
+        132 Olson                          25200
+        128 Markle                         26400
+        136 Philtanker                     26400
+        135 Gee                            28800
+        127 Landry                         28800
+        119 Colmenares                     30000
+        131 Marlow                         30000
+…
+```
+
+- 3번째 컬럼을 기준으로 오름차순 정렬
+
+```
+SQL> SELECT last_name, job_id, department_id, hire_date
+  2  FROM employees
+  3  ORDER BY 3;
+
+
+LAST_NAME                 JOB_ID     DEPARTMENT_ID HIRE_DATE
+------------------------- ---------- ------------- ---------
+Whalen                    AD_ASST               10 17-SEP-03
+Hartstein                 MK_MAN                20 17-FEB-04
+Fay                       MK_REP                20 17-AUG-05
+Raphaely                  PU_MAN                30 07-DEC-02
+Khoo                      PU_CLERK              30 18-MAY-03
+Baida                     PU_CLERK              30 24-DEC-05
+Tobias                    PU_CLERK              30 24-JUL-05
+Himuro                    PU_CLERK              30 15-NOV-06
+Colmenares                PU_CLERK              30 10-AUG-07
+Mavris                    HR_REP                40 07-JUN-02
+Weiss                     ST_MAN                50 18-JUL-04
+Fripp                     ST_MAN                50 10-APR-05
+Kaufling                  ST_MAN                50 01-MAY-03
+Vollman                   ST_MAN                50 10-OCT-05
+Mourgos                   ST_MAN                50 16-NOV-07
+…
+
+```
+- 정렬 기준이 여러개인 경우 왼쪽의 정렬기준부터 순서대로 적용이 된다.
+- 정렬 기준마다 개별 정렬방식을 지정해서 정렬한다.
+```
+
+SQL> SELECT last_name, department_id, salary
+  2  FROM employees
+  3  ORDER BY department_id, salary DESC;
+
+
+LAST_NAME                 DEPARTMENT_ID     SALARY
+------------------------- ------------- ----------
+Whalen                               10       4400
+Hartstein                            20      13000
+Fay                                  20       6000
+Raphaely                             30      11000
+Khoo                                 30       3100
+Baida                                30       2900
+Tobias                               30       2800
+Himuro                               30       2600
+Colmenares                           30       2500
+Mavris                               40       6500
+Fripp                                50       8200
+Weiss                                50       8000
+Kaufling                             50       7900
+```
+
 
 
 
