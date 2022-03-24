@@ -19,4 +19,6 @@ import static db.JdbcUtil.*;
 
 ---
 
-# [오후수업] DB
+# [오후수업] DB 13차
+
+
