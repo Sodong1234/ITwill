@@ -138,4 +138,8 @@ FROM test3;
 ### 부록 : DBeaver 사용하기
 - https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe
 - 마우스 오른쪽 -> Create -> Connection 클릭 -> Oracle 선택
-- 
+- 세팅 설정 후 다운로드
+![unnamed (2)](https://user-images.githubusercontent.com/95197594/160050514-3cff85ac-cf4c-443f-8746-4177c6031596.png)
+![unnamed (3)](https://user-images.githubusercontent.com/95197594/160050517-a88763a3-71ee-41b6-b02f-fedc4ce3fa94.png)
+
+
