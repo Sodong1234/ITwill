@@ -133,3 +133,9 @@ FROM test3;
         10 HH                                      
         20 HH                                      
 ```
+
+
+### 부록 : DBeaver 사용하기
+- https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe
+- 마우스 오른쪽 -> Create -> Connection 클릭 -> Oracle 선택
+- 
