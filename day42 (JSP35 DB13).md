@@ -23,7 +23,10 @@ import static db.JdbcUtil.*;
 
 
 - 연습문제
+
 ```
+# employees 테이블로부터 04년도에 입사한 모든 사원의 last_name과 hire_date를 출력하기
+
 
 SQL> SELECT last_name, hire_date
   2  FROM employees
