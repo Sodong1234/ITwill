@@ -49,6 +49,12 @@ Raphaely   | 11000|              |
 - 연산을 보조해주는 오브젝트
 - 단일행 함수는 행단위로 함수의 연산 결과를 출력
 
+![unnamed](https://user-images.githubusercontent.com/95197594/160322817-988bb101-9919-449b-a580-318b549402f7.png)
+
+![unnamed (1)](https://user-images.githubusercontent.com/95197594/160322820-e1caef79-62d2-4dba-ada1-05e88767e350.png)
+
+
+
 ## 문자함수
 ### 대소문자 변환 함수
 - higgins의 성을 가진 사원은 있으나 결과로 출력되지 않음
