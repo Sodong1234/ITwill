@@ -360,18 +360,19 @@ Integer n1;
 }
 ```
 
+
 ## 문자열 -> 기본 데이터로 변환
 - 주로 웹의 <form> 태그나 GUI 환경에서 데이터를 입력받았을 때 수치 데이터를 입력하더라도 모두 문자열로 취급됨
-  - (ex. request.getParameter(str) -> 문자열로 된 정수를 int형 정수로 변호나 필요)
+	- (ex. request.getParameter(str) -> 문자열로 된 정수를 int형 정수로 변호나 필요)
 - 따라서, 해당 문자열을 실제 연산을 위해 수치데이터 등의 기본 데이터타입으로 변환하려면 Wrapper 클래스에서 제공하는 메서드를 통해 해당 타입으로 변환해야한다!
-
+	
 ```
 Wrapper클래스명.parseXXX (문자열변수 또는 리터럴);
 => XXX은 자바의 기본데이터타입 이름
 => ex) 정수형으로 변환할 경우 : Integer.parseInt("100");
        실수형으로 변환할 경우 : Double.parseDouble("3.14");
 ```
-  
+
 ```java
   package Wrapper;
 
@@ -400,7 +401,91 @@ public class Ex3 {
 		strNum = "3.14";
 		int num2 = Integer.parseInt(strNum);
 	}
+	
 
 }
 ```
-  
+
+## Wrapper 클래스의 다양한 메서드
+- Wrapper 클래스 타입을 활용하면 기본 데이터타입들을 다양하게 처리 가능
+- 주로 Wrapper 클래스의 static 메서드를 직접 호출하여 기본 데이터타입 데이터를 처리하도록 작업을 수행하는 형태로 사용	
+	
+```java
+package Wrapper;
+
+public class Ex4 {
+
+	public static void main(String[] args) {
+
+		// 기본 데이터타입 변수 선언 시
+		int num1 = 10, num2 = 20;
+		
+		// Integer 타입 객체 생성 시
+//		Integer n1 = new Integer(10);
+//		Integer n2 = new Integer(20);
+		
+		// => 오토박싱을 활용할 경우
+		Integer n1 = 10, n2 = 20;
+		
+		int sum = 10 + n2; // Integer -> int 오토언박싱 후 int + int 연산 수
+		System.out.println(sum);
+		
+		System.out.println("=================================================");
+		
+		
+		// Integer 클래스의 static 메서드 활용
+		// 1 . 두 정수에 대한 대소 관계 비교
+		System.out.println("num1과 num2 중 큰 값 : " + Integer.max(num1, num2));
+		System.out.println("n1과 n2 중 작은 값 : " + Integer.min(n1, n2));	// 오토언박싱
+		
+		// 2. 어떤 정수에 대한 진법 변환
+		// => 해당 진법의 문자열 형태로 리턴하는 메서드 사용 : toXXXSTring()
+		System.out.println("10진수 num1에 대한 2진수 변환 : " + Integer.toBinaryString(num1));
+		System.out.println("10진수 num1에 대한 8진수 변환 : " + Integer.toOctalString(num1));
+		System.out.println("10진수 num1에 대한 16진수 변환 : " + Integer.toHexString(num1));
+
+		System.out.println("=============================================");
+		
+		// Character 클래스의 메서드 활용
+		// => 주로 특정 문자에 대한 판별을 Character.isXXX() 메서드로 수행하거나 
+		// 	  특정 문자로 변환을 Character.toXXX() 메서드로 수행
+		char ch = 'F';
+		if(ch >= 'A' && ch <= 'Z') {
+			System.out.println(ch + " : 대문자!");
+		} else if(ch >= 'a' && ch <= 'z') {
+			System.out.println(ch + " : 소문자!");
+		} else if(ch >= '0' && ch <= '9') {
+			System.out.println(ch + " : 숫자!");
+		}
+		
+		// Character 클래스의 isXXX() 메서드를 호출하여 판별할 경우
+		ch = ' ';
+		System.out.println(ch + " 문자는 대문자인가? " + Character.isUpperCase(ch));
+		System.out.println(ch + " 문자는 소문자인가? " + Character.isLowerCase(ch));
+		System.out.println(ch + " 문자는 숫자(0~9)인가? " + Character.isDigit(ch));
+		System.out.println(ch + " 문자는 공백문자인가? " + Character.isSpace(ch));
+		System.out.println(ch + " 문자는 공백문자인가? " + Character.isSpaceChar(ch));
+		// => deprecated 처리된 메서드 : 사용은 가능하지만
+		//	  보안 상의 이유나 다른 메서드 제공 등으로 인해
+		//	  현재는 사용하는 것을 추천하지 않는 메서드
+		//	  @Deprecated 어노테이션을 사용
+		
+		ch = '3';
+		if(Character.isUpperCase(ch)) {
+			System.out.println(ch + " : 대문자!");
+		} else if(Character.isLowerCase(ch)) {
+			System.out.println(ch + " : 소문자!");
+		} else if(Character.isDigit(ch)) {
+			System.out.println(ch + " : 숫자!");
+		} else if(Character.isWhitespace(ch)) {
+			System.out.println(ch + " : 공백 문자!");
+		} else {
+			System.out.println(ch + " : 기타문자!");
+		}
+
+
+	}
+
+}
+```
+	
