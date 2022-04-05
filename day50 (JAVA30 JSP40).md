@@ -726,7 +726,7 @@ ex) "xy"(X), "axy"(O), "haxy"(X), "axy1"(X)
         5) 공백 사용 불가
         6) 길이제한 없음
         => 1번, 2번, 5번, 6번 규칙을 적용하여 정규표현식을 나타낼 경우
-           "^[A-Za-z가-힣\\$_][A-Za-z가-힣0-9$_]{0,}$"
+           "^[A-Za-z가-힣$_][A-Za-z가-힣0-9$_]{0,}$"
 ```	   
 ```
 ------------------------------------------------------------------------
@@ -754,4 +754,257 @@ ex) "xy"(X), "axy"(O), "haxy"(X), "axy1"(X)
    ex) "01012345678"(O), "0115556666"(O), "010-12345678"(O), "010 1234 5678"(O)
        "010)1234-5678"(X), "0171113333"(X)
 ```       
+
+### 정규표현식을 활용하는 클래스(Pattern, Matcher)
+1. java.util.regex.Pattern 클래스
+- 정규표현식 패턴 문자열을 컴파일해서 객체로 관리
+- 해당 객체를 활용하여 전체 문자열이 정규표현식 패턴에 매칭되는지 판별 가능
+	- ex) 전화번호 유효성 검사, 패스워드 길이 유효성 검사 등
+		- 단, 패스워드 복잡도 검사(= 부분 규칙 검사) 불가
+- 공개된 생성자가 없으며, Pattern.compile() 메서드를 통해 객체 리턴받아 사용 가능
+- 간단한 검사는 Pattern.matches() 메서드를 통해 검사 가능
+< 주의! >
+정규표현식 패턴을 자바 문자열로 작성하는 경우 이스케이프 문자(ex. \s 등) 작성 시 \ 대신 \\ 필수
+
+```java
+package regular_expression;
+
+import java.util.regex.Pattern;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		
+		// 1. 전화번호 검증
+		// 1-1) 전화번호 검증에 사용할 정규표현식 작성
+		String phoneRegex = "^(010|011)[-\\s]?\\d{3,4}[-\\s]?\\d{4}$"; // 주의! \s가 아닌 \\s 형태 사용 필수!
+
+		// 1-2) 전화번호 검증에 사용할 전화번호 배열 생성
+		String[] arrPhone = {"010-1234-5678", "01012345678", "010 1234 5678", "010)1234-5678", "010-1234-567a"};
+		
+		// for문을 사용하여 배열 크기만큼 반복
+		for(String phone : arrPhone) {
+			// 1-3. Pattern 클래스의 matches() 메서드를 호출하여 패턴 일치 여부 검사
+			//		=> 파라미터 : 정규표현식 문자열(regex), 검증할 원본 문자열(data)
+			//		   리턴타입 : boolean
+			if(Pattern.matches(phoneRegex, phone)) {
+				System.out.println(phone + " : 올바른 전화번호 형식");
+			} else {
+				System.out.println(phone + " : 잘못된 전화번호 형식");
+			}
+			
+		}
+		
+		System.out.println("-----------------------------------------------");
+		
+		// 2. 식별자 검증
+		// 2-1. 식별자 검증에 사용할 정규표현식 작성
+		String idRegex = "^[A-Za-z가-힣$_][A-Za-z가-힣0-9$_]{0,}$";
+		
+		// 2-2. 식별자 검증에 사용할 식별자 배열 생성
+		String[] arrId = {"a", "num1", "$ystem", "7eleven", "my_name"};
+		
+		// for문을 사용하여 배열 크기만큼 반복
+		for(String id : arrId) {
+			// 2-3. Pattern 클래스의 static 메서드 matches() 를 호출하여 패턴 일치 여부 검사
+			if(Pattern.matches(idRegex, id)) {
+				System.out.println(id + " : 올바른 아이디 형식");
+			} else {
+				System.out.println(id + " : 잘못된 아이디 형식");
+			}
+		}
+	}
+
+}
+```
+
+2. java.util.regex.Matcher 클래스
+- 정규표현식 패턴 해석 및 입력 문자열 일치 여부를 파악하는 클래스
+- Pattern 클래스와 달리 정규표현식 전체에 대한 일치 여부만 판단하는 것이 아니라 정규표현식 내용을 포함하는지, 위치가 어디인지 등 자세한 정보까지 파악 가능
+- 공개된 생성자가 없으며, Pattern.matcher() 메서드를 호출하여 Matcher 객체를 리턴 받을 수 있음
+	- (= Pattern 객체가 있어야함)
+```java
+package regular_expression;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		/*
+		 * 2. java.util.regex.Matcher 클래스
+		 * - 정규표현식 패턴 해석 및 입력 문자열 일치 여부를 파악하는 클래스
+		 * - Pattern 클래스와 달리 정규표현식 전체에 대한 일치 여부만 판단하는 것이 아니라
+		 * 	 정규표현식 내용을 포함하는지, 위치가 어디인지 등 자세한 정보까지 파악 가능
+		 * - 공개된 생성자가 없으며, Pattern.matcher() 메서드를 호출하여 Matcher 객체를 리턴 받을 수 있음
+		 * 	 (= Pattern 객체가 있어야함)
+		 * - 메서드를 사용하여 판별할 때 인덱스(또는 커서)의 개념이 활용됨(탐색 위치에 커서가 위치함)
+		 * 
+		 */
+		
+		String src = "Java and Javascript has no relation"; // 원본 문자열
+		String regex = "Java";	// 정규표현식
+		
+		// 만약, Pattern 클래스의 matches() 메서드를 사용할 경우
+//		System.out.println(Pattern.matches(regex, src));
+		// => src 문자열이 regex 와 완벽하게 일치할 경우에만 true, 아니면 false
+		
+		// Matcher 클래스를 활용한 판별
+		// 1. Pattern 클래스의 static 메서드 compile() 메서드를 호출하여 정규표현식을 갖는 Pattern 객체 생성
+		Pattern pattern = Pattern.compile(regex);
+		
+		// 2. 생성된 Pattern 객체의 matcher() 메서드를 호출하여 Matcher 객체 얻어오기(생성)
+		// => 파라미터 : 검증할 문자열	리턴타입 : Matcher
+		Matcher matcher = pattern.matcher(src);
+
+		// 3. 생성된 Matcher 객체의 다양한 메서드를 호출하여 각종 검증 수행
+		// => 대부분의 메서드는 파라미터가 불필요(객체 생성 과정에서 정규표현식 패턴 문자열과 원본 문자열 모두 전달함)
+		// 3-1. matches() 메서드 : 정규표현식과 완전히 일치하는지 검사(= Pattern.matches() 와 동일)
+		System.out.println("원본문자열이 정규표현식과 완전히 일치하는가? " + matcher.matches()); // false
+		// "Java" 와 "Java and Javascript has no relation" 은 일치하지 않음
+		
+		// 3-2. lookingAt() : 정규표현식으로 시작하는지 검사
+		System.out.println("원본문자열이 정규표현식과 완전히 일치하는가? " + matcher.lookingAt()); // true
+//		System.out.println("원본문자열이 정규표현식과 완전히 일치하는가? " + matcher.lookingAt()); // true
+		// => 검색 시 항상 가장 처음 위치에서 패턴에 일치하는 문자열을 찾아감
+		// => 메서드 호출을 여러번 반복해도 결과값은 동일함
+		
+		// 3-3. find() : 정규표현식을 포함하는지 검사
+		System.out.println("원본문자열이 정규표현식을 포함하는가? " + matcher.find()); // true
+		System.out.println("원본문자열이 정규표현식을 포함하는가? " + matcher.find()); // false
+		// => 검색 시 현재 커서 위치에서부터 패턴에 일치하는 문자열을 찾아감
+		// => 메서드 호출을 여러 번 반복할 경우 결과값이 달라질 수 있음
+		// => 만약, lookingAt() 메서드를 먼저 호출하여 "Java" 문자열을 탐색할 경우
+		//	  가장 앞에 있는 "Java" 문자열이 일치하고, 커서는 그 뒤에 위치하므로
+		//	  find() 메서드를 이어서 호출할 경우 "Java"가 아닌 "Javascript" 의 "Java" 문자열이 탐색됨
+		//	  따라서, find() 메서드를 한 번 더 호출할 경우 더 이상 "Java" 문자열이 없으므로 false 리턴됨
+		System.out.println("원본문자열이 정규표현식을 포함하는가? " + matcher.find()); // false
+		
+	}
+
+}
+```
+
+
+연습문제
+```java
+package regular_expression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Test2 {
+
+	public static void main(String[] args) {
+		/* 
+		 * Pattern 클래스와 Matcher 클래스를 활용하여
+		 * 입력된 패스워드에 대한 규칙(복잡도) 검사
+		 * 
+		 * 규칙1. 패스워드 길이 제한 - 영문자, 숫자, 특수문자(!@#$%) 를 포함하는 8 ~ 16자리
+		 * 		 1) 길이 제한 통과 시 : 복잡도 검사 수행
+		 * 		 2) 길이 제한 위반 시 : "영문자, 숫자, 특수문자(!@#$%) 조합 8 ~ 16자리 필수!" 출력
+		 * 규칙2. 패스워드 복잡도 검사
+		 * 		 1) 영문 대문자
+		 * 		 2) 영문 소문자
+		 * 		 3) 숫자
+		 * 		 4) 특수문자(!@#$%)
+		 * 		 => 위의 네 가지 항목 중 하나씩 포함될 때마다 점수를 카운팅하여 다음 메세지 출력
+		 * 			4점 : "안전"
+		 * 			3점 : "보통"
+		 * 			2점 : "위험"
+		 * 			1점 이하 : "영문자, 숫자, 특수문자(!@#$%) 중 두 가지 이상 조합 필수!" 
+		 * 
+		 */
+		
+		// 패스워드 길이를 판별하는 정규표현식
+		String lengthRegex = "^[A-Za-z0-9!@#$%]{8,16}$";
+		
+		// 복잡도 검증에 대한 조건을 판별하는 정규표현식
+		String engUpperRegex = "[A-Z]"; // 영문 대문자
+		String engLowerRegex = "[a-z]"; // 영문 소문자
+		String numRegex = "[0-9]"; // 숫자
+		String specRegex = "[!@#$%]"; // 특수문자(!@#$%)
+		
+		// -------------------------------------------------
+		// Scanner 클래스를 활용하여 패스워드를 콘솔에 입력받기
+		System.out.print("패스워드 입력(종료 시 :wq! 입력 : ");
+		Scanner sc = new Scanner(System.in);
+		String password = sc.nextLine();
+		
+		// Pattern 클래스의 static 메서드 matches() 를 활용하여
+		// 입력받은 패스워드(password) 가 정규표현식(lengthRegex) 와 일치하는지 검사하여 결과 출력
+		while(!password.equals("/exit")) { // 입력된 문자열이 "/exit" 가 아닐 동안 반복
+			// 반복문 내에서 패스워드 입력 및 판별 반복
+			if(Pattern.matches(lengthRegex, password)) {
+				System.out.println(password + " : 길이 규칙 통과!");
+				
+				// 패스워드 길이 체크를 통과했을 경우 각 패턴별 검사를 추가적으로 수행
+				int count = 0; // 각 패턴 포함 여부를 체크하기 위해 카운팅 변수 선언
+				// -----------------------------------------------------------------
+				// 1) 검사할 정규표현식으로 Pattern 객체 생성 및 Pattern 객체로 Matcher 객체 생성 후 find() 호출 시
+//				Pattern pattern = Pattern.compile(engUpperRegex); // 대문자 검사 정규표현식으로 Pattern 객체 생성
+//				Matcher matcher = pattern.matcher(password); // 검사할 패스워드 문자열로 Matcher 객체 생성
+//			
+//				// Matcher 객체의 find() 메서드로 해당 정규표현식이 포함되는지 검사
+//				if(matcher.find()) {
+//					// 정규표현식이 포함되는 경우 카운팅 변수값 1 증가
+//					count++;
+//					System.out.println("정규표현식(영문 대문자) 포함됨!");
+//				} else {
+//					System.out.println("정규표현식(영문 대문자) 포함되지 않음!");
+//				}
+				// -----------------------------------------------------------------
+				// 2) Pattern 객체 생성과 Matcher 객체 생성을 하나로 결합 후 find() 호출 시
+//				Matcher matcher = Pattern.compile(engUpperRegex).matcher(password);
+//				
+//					if(matcher.find()) {
+//						// 정규표현식이 포함되는 경우 카운팅 변수값 1 증가
+//						count++;
+//						System.out.println("정규표현식(영문 대문자) 포함됨!");
+//					} else {
+//						System.out.println("정규표현식(영문 대문자) 포함되지 않음!");
+//				}
+					
+					// ------------------------------------------------------------
+					// 3) Pattern 객체 생성과 Matcher 객체 생성 및 find() 메서드 호출을 하나로 결합 시
+//				if(Pattern.compile(engUpperRegex).matcher(password).find()) {
+//						count++;
+//					}
+				
+				// if 문의 중괄호 생략 시(수업시간에는 하지 말 것!)
+//				if(Pattern.compile(engUpperRegex).matcher(password).find()) count++;
+//				if(Pattern.compile(engLowerRegex).matcher(password).find()) count++;
+//				if(Pattern.compile(numRegex).matcher(password).find()) count++;
+//				if(Pattern.compile(specRegex).matcher(password).find()) count++;
+				
+				// 삼항연산자를 사용하여 동일한 결과를 얻을 수 있다!
+				// => find() 메서드 호출 결과가 true 이면 +1, 아니면 +0
+				count += Pattern.compile(engUpperRegex).matcher(password).find() ? 1 : 0;
+				count += Pattern.compile(engLowerRegex).matcher(password).find() ? 1 : 0;
+				count += Pattern.compile(numRegex).matcher(password).find() ? 1 : 0;
+				count += Pattern.compile(specRegex).matcher(password).find() ? 1 : 0;
+				
+				// 점수(count)를 판별하여 패스워드 복잡도 검사 결과 출력
+				switch (count) {
+				case 4: System.out.println(password + " : 안전!"); break;
+				case 3: System.out.println(password + " : 보통!"); break;
+				case 2: System.out.println(password + " : 위험!"); break;
+				default: System.out.println(password + " : 영문자, 숫자, 특수문자(!@#$%) 중 두 가지 이상 조합 필수!");
+				}
+
+			} else {
+				System.out.println(password + " : 영문자, 숫자, 특수문자(!@#$%) 조합 8 ~ 16자리 필수!");
+			}
+			
+			System.out.print("패스워드 입력 : ");
+			password = sc.nextLine();
+		}
+
+		sc.close();
+		System.out.println("패스워드 검사 종료!");
+	}
+
+}
 
