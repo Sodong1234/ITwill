@@ -1,7 +1,7 @@
 # [오전수업] JSP 41차
 
 ### 정규표현식 연습
-```java
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
