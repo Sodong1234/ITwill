@@ -113,4 +113,195 @@
 
 # [오후수업] JSP 42차
 
+## jQuery(제이쿼리)
+- 클라이언트 사이드의 자바스크립트 라이브러리의 한 종류
+- 오픈소스(= 무료)이며 크로스 플랫폼 지원됨
+- 자바스크립트에서 사용하는 다양한 문법을 짧게 압축 가능
+- 문서 객체 모델(Document Object Model = DOM)과 관련된 처리를 쉽게 구현
+- 이벤트 연결을 쉽게 구현(= 일관된 방식으로 연결)
+- AJAX 애플리케이션을 쉽게 개발 가능
+
+< jQuery 사용법 >
+1. www.jquery.com 사이트에서 jquery 라이브러리 다운로드(jquery-3.6.0.js) 필요
+	- (다운로드 없이도 CDN 방식으로 서버에서 끌어다 사용 가능하지만 서버 장애 시 적용 불가능)
+2. HTML 문서 내에서 <script> 태그를 사용하여 라이브러리 등록
+```jsp	
+   <script src="jquery-3.6.0.js"></script>
+```	
+3. load 이벤트 또는 ready 이벤트를 사용하거나 자바스크립트 함수 내에서 jquery 문장 적용
+	- 주로, jquery 의 경우 페이지 로딩 시 동작하도록 load 또는 ready 이벤트에서 작성을 하며 ready 이벤트 방식을 좀 더 많이 사용 (ready 이벤트가 먼저 호출됨)
+	- (추후 추가 예정)
+
+
+### jQuery 연습
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+	// body 태그의 onload 이벤트 : body 문서가 로딩 완료 시 자동으로 동작
+	function load() {
+		alert("load 이벤트");
+	}
+</script>
+</head>
+<body onload="load()"> <!-- body 영역 로딩 완료 시 load() 함수 호출됨 -->
+	<script type="text/javascript">
+		alert("1");
+	</script>
+	
+	<h1>test.jsp - jQuery</h1>
+	
+	<script type="text/javascript">
+		alert("2");
+	</script>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- jquery-3.6.0.js 라이브러리 등록 -->
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	// window.jQuery = jQuery = $ 형식으로 식별자가 변경되어 왔으며, $ 를 가장 많이 사용
+	// jQuery 에서 문서 로딩 관련 이벤트 처리 시 load 또는 ready 이벤트를 사용
+	// jQuery 에서 document 객체(HTML) ready 이벤트 처리 방법
+	// 1. jquery(selector).ready(함수) 형식으로 작성하는 방법
+// 	function print() {
+// 		alert("ready 이벤트 - 1");
+// 	}
+// 	jQuery(document).ready(print);
+	// => 함수를 별도로 정의하고 ready() 함수 파라미터로 정의된 함수 전달하거나
+	//    별도의 함수를 정의하지 않고 익명함수(anonymous function) 형태로 직접 정의 가능
+// 	jQuery(document).ready(function()) { // 함수의 이름이 없는 익명함수를 ready() 함수 내에 정의(1회용) 
+// 		alert("ready 이벤트 - 1");
+// 	});
+	
+	
+	
+	
+	// 2. $(selector).ready(함수) 형식으로 작성하는 방법
+	//	  => ($(selector).이벤트(함수) 형식으로 주로 다른 객체에 대한 이벤트에서 많이 사용하는 형태
+// 	$(document).ready(function() {
+// 		alert("ready 이벤트 - 2");
+// 	});
+	
+	// 3. $(함수) 형식으로 작성하는 방법(document.ready 이벤트일 경우 가장 많이 사용하는 형태)
+	$(function() {
+		alert("ready 이벤트 - 3")
+	});
+</script>
+</head>
+<body>
+	<h1>test2.jsp - jQuery</h1>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	/*
+	선택자(selector)
+	- 문서 객체 내의 요소를 선택하는 용도로 사용되는 구성 요소
+	- 자바스크립트에서 선택자를 사용하여 요소 선택 시
+	  document.getElementBy("선택자") 또는 document.querySelector("선택자") 형태로 선택
+	  => jQuery 는 $("선택자") 형태로 지정하므로 쉽고 편리하게 접근 가능
+	  
+	  < 선택자 종류 >
+	1. 직접 선택자
+	  1) 아이디(#) - 페이지 내에서 유일한 요소 => $("#id선택자명")
+	  2) 클래스(.) - 페이지 내에서 중복될 수 있는 요소 => $(".class선택자명")
+	  	
+	< 선택자 활용 기본 문법 >
+	$("선택자명 또는 *").메서드("속성명","속성값");
+	*/
+
+	// jQuery 를 활용하여 document 객체의 ready 이벤트를 통해 HTML 문서의 각종 속성 변경
+	$(document).ready(function() {
+		// HTML 문서 내의 전체 요소에 대해 CSS 속성을 변경
+		// => 이 때, 전체 요소를 선택하기 위한 선택자로 * 사용 가능
+		// => CSS 속성을 변경하기 위해서는 css() 메서드 호출하여 css("속성명", "속성값") 형태로 사용
+		// 1. 전체 요소 글자색을 "RED" 로 변경
+		$("*").css("color", "RED");
+		
+		// 2. id 선택자 중 "idSelector" 요소의 색상을 BLUE 로 변경
+		$("#idSelector").css("color", "BLUE");
+	});
+</script>
+</head>
+<body>
+	<h1>jQuery/test3.jsp</h1>
+	<h1 id="idSelector">id 선택자</h1>
+	<h1 class="classSelector">class 선택자</h1>
+	<table>
+		<tr><td>번호</td><td>제목</td></tr>
+		<tr><td>1</td><td>제목1</td></tr>
+		<tr><td>2</td><td>제목2</td></tr>
+		<tr><td>3</td><td>제목3</td></tr>
+		<tr><td>4</td><td>제목4</td></tr>
+	</table>
+	<div id="inputBox">
+		<input type="text" value="admin">
+		<input type="password" value="1234"><br>
+		<textarea readonly="readonly"></textarea>
+		<textarea id="textarea"></textarea>
+	</div>
+	<hr>
+	<div id="divBox">
+		<div>
+			1번 div 태그
+			<div>1-1번 div 태그</div>
+			<div>1-2번 div 태그</div>
+		</div>
+		<span>span 태그</span>
+		<div>2번 div 태그</div>
+		<div>
+			3번 div 태그
+			<div>3-1번 div 태그</div>
+			<div>3-2번 div 태그</div>
+		</div>
+	</div>
+	<hr>
+	<div id="divBox2">
+		<div>
+			1번 div 태그
+			<div>1-1번 div 태그</div>
+			<div>1-2번 div 태그</div>
+		</div>
+		<span>span 태그</span>
+		<div>2번 div 태그</div>
+		<div>
+			3번 div 태그
+			<div>3-1번 div 태그</div>
+			<div>3-2번 div 태그</div>
+		</div>
+	</div>
+	<hr>
+	
+</body>
+</html>
+```	
+	
+	
+	
 > 개인 프로젝트 회원가입 영역에 정규표현식 사용함.
+>	개인 프로젝트용 홈페이지 구현작업 실시. repositories에 파일을 업로드해놓음.
+	
