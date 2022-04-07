@@ -341,3 +341,684 @@ TO_CHAR(SYS
 ---
 
 # [오후수업] JAVA 31차
+
+## Thread
+- 프로그램(Program)
+  - 디스크에 설치되어 있는 실행되기 전 상태의 소프트웨어
+
+- 프로세스(Process)
+  - 프로그램을 실행하여 메모리에 로딩된 상태(= 실행 중인 프로그램)
+  - 멀티태스킹(Multi Tasking)
+	  - 프로세스가 여러개일 때 해당 프로세스들이 동시에 수행되는 것 (정확히는 CPU가 빠른 속도로 프로세스들을 번갈아가며 처리함 = 진짜 동시 x)
+	    - 동영상을 재생하면서 웹페이지를 표시하고, 자바 코드를 실행하는 것
+
+쓰레드(Thread)
+- 프로세스 내에서 작업의 최소 단위
+- 하나의 프로세스 내에 쓰레드가 한 개(= Single Thread)일 때 해당 프로세스 내에서 동시에 수행 가능한 작업은 단 하나 뿐이다.
+- 하나의 프로세스 내에서 동시에 수행 가능한 작업을 늘리려면 멀티 쓰레딩(= Multi Thread)을 구현 해야한다!
+  - (ex. 메신저에서 파일 전송과 함께 메세지 송신, 수신을 동시에 수행하는 것)
+
+- 일반적인 프로그래밍은 싱글 쓰레드(Single Thread)로 동작하므로 하나의 작업이 끝난 후에야 그 다음 작업이 수행 될 수 있다!
+
+```java
+package thread;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+
+		NoThread nt1 = new NoThread("★★A작업★★", 1000000);
+		NoThread nt2 = new NoThread("○○B작업○○", 1000000);
+		NoThread nt3 = new NoThread("◈◈C작업◈◈", 1000000);
+		
+		nt1.run();	// A 작업이 100만번 수행이 끝나면
+		nt2.run();	// B 작업이 실행되고, B 작업이 100만번 수행이 끝나면
+		nt3.run();	// C 작업이 실행됨
+		// => 즉, 기본적인 프로그램은 앞의 코드가 실행이 끝나야만 다음 코드가 실행된다!
+
+
+		
+		
+	}
+
+}
+
+class NoThread {
+	String str;
+	int count;
+	public NoThread(String str, int count) {
+		this.str = str;
+		this.count = count;
+	}
+	
+	public void run() {
+		// count 횟수만큼 str 반복 출력
+		for(int i = 1; i <= count; i++) {
+			System.out.println(i + " : " + str);
+			
+		}
+	}
+	
+}
+```
+
+### 멀티 쓰레딩(Multi Threading)
+- 하나의 프로세스 내에서 두가지 이상의 작업을 동시에 처리하는 것
+- 실제로 두 가지 이상의 작업을 동시에 수행하는 것이 아니며 CPU가 빠른 속도로 여러 작업을 번갈아가며 수행하기 때문에 동시에 수행되는 것처럼 느껴짐 = Round Robin 방식 이라고 함
+- 멀티쓰레딩으로 처리되는 작업 순서는 고정이 아닌 계속 바뀌므로 항상 실행결과가 달라질 수 있다!
+  
+< 멀티 쓰레딩 구현 방법 >
+1. Thread 클래스를 상속 받는 서브클래스를 정의하는 방법
+- 1) 멀티쓰레딩 코드가 포함될 서브클래스에서 Thread 클래스를 상속
+- 2) Thread 클래스의 run() 메서드를 오버라이딩하여 멀티쓰레딩으로 처리할 코드를 기술
+- 3) 멀티쓰레딩 클래스 인스턴스 생성
+- 4) *** start() 메서드를 호출하여 멀티쓰레딩 시작 ***
+  - 주의! run() 메서드 호출이 아닌 start() 메서드를 호출해야한다! (run() 메서드 호출 시 멀티 쓰레딩이 아닌 싱글 쓰레딩으로 동작함)
+
+```java
+package thread;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		
+		MyThread mt1 = new MyThread("★★A작업★★", 1000000);
+		MyThread mt2 = new MyThread("★★B작업★★", 1000000);
+		MyThread mt3 = new MyThread("★★C작업★★", 1000000);
+
+		// run() 메서드를 호출하면 멀티쓰레딩이 아닌 싱글쓰레딩으로 처리되므로 주의!
+//		mt1.run();
+//		mt2.run();
+//		mt3.run();
+		
+		mt1.start();
+		mt2.start();
+		mt3.start();
+	}
+
+}
+
+class MyThread extends Thread {
+
+	String str;
+	int count;
+	
+	public MyThread(String str, int count) {
+		this.str = str;
+		this.count = count;
+	}
+
+	// 오버라이딩 단축키 : Alt + Shift + S -> V
+	@Override
+	public void run() {
+		for(int i = 0; i <= count; i++) {
+			System.out.println(i + " : " + str);
+		}
+	}
+	
+}
+```      
+
+연습문제
+```java
+package thread;
+
+public class Test2 {
+
+	public static void main(String[] args) {
+		// 메세지 전송과 파일 전송을 동시에 수행할 경우
+		// 1. 싱글쓰레드로 구현한 경우
+
+		SendMessage sm = new SendMessage("안녕하세요", 10);
+		FileTransfer ft = new FileTransfer("a.java", 100000);
+
+		ft.run();
+		sm.run();
+
+		System.out.println("======================================");
+
+		// 2. 멀티쓰레드로 구현한 경우
+
+		// 객체 생성 (SendMessageThread, FileTransferThread, ReceiveMessageThread)
+		SendMessageThread smt = new SendMessageThread("안녕하세요", 100000);
+		FileTransferThread ftt = new FileTransferThread("a.java", 100000);
+		ReceiveMessageThread rmt = new ReceiveMessageThread("Re:안녕하세요", 100000);
+
+		// 반드시 start() 메서드 호출 필수!
+		smt.start();
+		ftt.start();
+		rmt.start();
+	}
+
+}
+
+class SendMessage {
+	String str;
+	int count;
+
+	public SendMessage(String str, int count) {
+		this.str = str;
+		this.count = count;
+	}
+
+	public void run() {
+		for (int i = 0; i <= count; i++) {
+			System.out.println(i + " : " + str + "메시지 전송");
+		}
+	}
+}
+
+	class FileTransfer {
+		String str;
+		int count;
+
+		public FileTransfer(String str, int count) {
+			this.str = str;
+			this.count = count;
+		}
+
+		public void run() {
+			for (int i = 0; i <= count; i++) {
+				System.out.println(i + " : " + str + "파일 전송");
+			}
+		}
+	}
+
+// 메세지 전송 클래스를 Thread 클래스를 상속받아 정의하는 SendMessageThread
+	class SendMessageThread extends Thread {
+		String str;
+		int count;
+
+		public SendMessageThread(String str, int count) {
+			this.str = str;
+			this.count = count;
+		}
+
+		public void run() {
+			for (int i = 0; i <= count; i++) {
+				System.out.println(i + " : " + str + "메시지 전송");
+			}
+		}
+	}
+
+// 파일 전송 클래스를 Thread 클래스를 상속받아 정의하는 FileTransferThread
+
+	class FileTransferThread extends Thread {
+		String str;
+		int count;
+
+		public FileTransferThread(String str, int count) {
+			this.str = str;
+			this.count = count;
+		}
+
+		public void run() {
+			for (int i = 0; i <= count; i++) {
+				System.out.println(i + " : " + str + "파일 전송");
+			}
+		}
+	}
+// 메세지 수신 클래스를 Thread 클래스를 상속받아 정의하는 ReceiveMessageThread
+
+class ReceiveMessageThread extends Thread {
+	String str;
+	int count;
+	
+	public ReceiveMessageThread(String str, int count) {
+		this.str = str;
+		this.count = count;
+	}
+	
+	@Override
+	public void run() {
+		for(int i = 0; i <= count; i++) {
+			System.out.println(i + " : " + str + "메시지 수신");
+		}
+	}
+}
+```
+
+### Runnable
+< 멀티 쓰레딩 구현 방법 >
+2. Runnable 인터페이스를 구현하는 서브클래스를 정의하는 방법
+- 기존에 다른 클래스를 상속중인 서브클래스는 Thread 클래스 상속이 불가능하므로 Thread 클래스 상속 대신 Runnable 인터페이스를 구현하면 된다.
+  - (Thread 클래스는 Runnable 인터페이스의 구현체이다)
+- Runnable 인터페이스 내에는 start() 메서드가 존재하지 않으며 존재 하더라도 추상 메서드 형태이기 때문에 start() 메서드 호출이 불가능하다!
+  - 따라서, Thread 클래스를 통해 간접적으로 start() 메서드를 호출해야한다!
+1) 멀티쓰레딩 코드가 포함될 서브클래스에서 Runnable 인터페이스를 구현(implements)
+2) 추상메서드인 run() 메서드를 구현(오버라이딩)하여 멀티쓰레딩 코드 기술
+3) 멀티쓰레딩 클래스 인스턴스 생성
+
+        ----------------- 주의! Runnable 인터페이스 내에 start() 메서드가 존재하지 않음 -----------------
+
+4) start() 메서드를 갖고 있는 Thread 클래스의 인스턴스 생성
+  - 생성자 파라미터로 Runnable 구현체 객체 전달
+5) Thread 인스턴스 통해 간접적으로 start() 메서드 호출
+
+```java
+package thread;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+		
+
+//		YourThread yt1 = new YourThread("★★A작업★★", 100000);
+//		YourThread yt2 = new YourThread("○○B작업○○", 100000);
+//		YourThread yt3 = new YourThread("◈◈C작업◈◈", 100000);
+//		Runnable r = new YourThread("◈◈C작업◈◈", 100000);	// YourThread -> Runnable 업캐스팅
+		
+		// Thread 클래스의 인스턴스 생성 시 생성자 파라미터로 Runnable 구현체 객체 전달 후
+		// Thread 객체를 통해 start() 메서드를 호출하여 간접적으로 멀티쓰레딩 수행 
+//		Thread t1 = new Thread(yt1);
+//		Thread t2 = new Thread(yt2);
+//		Thread t3 = new Thread(yt3);
+		
+		// -----------------------------------------------------
+		// YourThread 타입 변수는 (yt1 ~ yt3) 쓰레드 클래스 생성자에 전달하는 작업 외에 사용되지 않는다.
+		// 따라서, 1회성 변수를 선언하기보다 Thread 생성자에 
+		// YourThread 객체 생성 코드를 직접 전달하여 변수 없이 객체 자체를 바로 전달 가능
+//		YourThread yt1 = new Thread(new YourThread("★★A작업★★", 100000));
+//		YourThread yt2 = new Thread(new YourThread("○○B작업○○", 100000));
+//		YourThread yt3 = new Thread(new YourThread("◈◈C작업◈◈", 100000));
+		
+//		t1.start();
+//		t2.start();
+//		t3.start();
+
+		// -------------------------------------------------------------------
+		new Thread(new YourThread("★★A작업★★", 100000)).start();
+		new Thread(new YourThread("○○B작업○○", 100000)).start();
+		new Thread(new YourThread("◆◆C작업◆◆", 100000)).start();
+
+		
+	}
+
+}
+
+class A {}
+class YourThread extends A implements Runnable {
+	
+	String str;
+	int count;
+	
+	
+	public YourThread(String str, int count) {
+		this.str = str;
+		this.count = count;
+	}
+
+
+	// Runnable 인터페이스에서 상속된 run() 메서드 오버라이딩 필수!
+	@Override
+	public void run() {
+		for(int i = 1; i <= count; i++) {
+			System.out.println(i + " : " + str);
+		}
+	}
+}
+
+```
+
+
+연습문제
+```java
+package thread;
+
+public class Test3 {
+
+	public static void main(String[] args) {
+		GugudanThread gt1 = new GugudanThread(2);
+		GugudanThread gt2 = new GugudanThread(5);
+		GugudanThread gt3 = new GugudanThread(9);
+
+//		gt1.start();
+//		gt2.start();
+//		gt3.start();
+
+		System.out.println("===================================");
+
+		// GugudanRunnable 인스턴스 3개 생성(각각 다른 단을 생성자에 전달)
+		// start() 메서드 호출
+//		GugudanRunnable g1 = new GugudanRunnable(2);
+//		GugudanRunnable g2 = new GugudanRunnable(5);
+//		GugudanRunnable g3 = new GugudanRunnable(9);
+//		
+//		Thread t1 = new Thread(g1);
+//		Thread t2 = new Thread(g2);
+//		Thread t3 = new Thread(g3);
+
+		Thread t1 = new Thread(new GugudanRunnable(2));
+		Thread t2 = new Thread(new GugudanRunnable(5));
+		Thread t3 = new Thread(new GugudanRunnable(9));
+
+		t1.start();
+		t2.start();
+		t3.start();
+
+		new Thread(new GugudanRunnable(7)).start();
+	}
+
+}
+
+/*
+ * GugudanRunnable 클래스 정의 - Runnable 인터페이스 구현 - 멤버변수(int dan) - 생성자 정의(int형 변수
+ * dan을 초기화하는 생성자) - run() 메서드 내부에서 dan에 해당하는 구구단을 100번 반복 출력 => 멀티쓰레드
+ */
+
+class GugudanRunnable implements Runnable {
+
+	int dan;
+
+	public GugudanRunnable(int dan) {
+		this.dan = dan;
+	}
+
+	@Override
+	public void run() {
+		for (int count = 1; count <= 1000; count++) {
+			for (int i = 1; i <= 9; i++) {
+				System.out.printf("%d단 : %d * %d = %d \n", dan, dan, i, dan * i);
+			}
+		}
+	}
+
+}
+
+class GugudanThread extends Thread {
+
+	int dan;
+
+	public GugudanThread(int dan) {
+		this.dan = dan;
+	}
+
+	@Override
+	public void run() {
+		for (int count = 1; count <= 1000; count++) {
+			for (int i = 1; i <= 9; i++) {
+				System.out.printf("%d단 : %d * %d = %d \n", dan, dan, i, dan * i);
+			}
+		}
+	}
+
+}
+  
+```
+
+### 멀티쓰레딩 구현 코드의 변형
+- 실제 프로그래밍에서 더 많이 쓰는 형식 
+- Runnable 인터페이스를 구현하는 구현체 클래스를 별도로 정의하지 않고 Thread 클래스의 생성자에 Runnable 인터페이스 객체 생성 코드를 바로 작성
+  - Runnable 인터페이스의 임시 객체 형태를 Thread 생성자에 전달 
+- Runnable 객체를 담는 변수가 없으므로 Runnable 객체에는 접근 불가능. 만약, Thread 객체의 변수도 제거하는 경우 Thread 객체도 접근 불가능 
+  - 일회용 객체(= 임시 객체)라고 한다!
+```
+* < 기본 문법 >
+Thread t = new Thread(new Runnable(){
+		@Override
+		public void run(){
+			// 멀티 쓰레딩으로 구현할 코드...
+		}
+});
+t.start();
+=> 위의 두문장을 하나로 결합하여 Thread 객체도 임시 객체로 사용 가능
+new Thread(new Runnable(){...}).start();
+```
+```java
+package thread;
+
+public class Ex4 {
+
+	public static void main(String[] args) {
+		
+
+		Thread t = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100000; i++) {
+					System.out.println(i + ": A작업");
+				}
+			}
+		});
+		t.start();
+
+		// --------------------------------------------
+		// 위의 작업을 하나의 문장으로 결합
+		// => Thread 클래스의 변수를 제거 후 객체 생성 코드만 기술하고,
+		// start() 메서드를 바로 호출
+//		new Thread().start();
+
+//		new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				for (int i = 1; i <= 100000; i++) {
+//					System.out.println(i + ": A작업");
+//				}
+//
+//			}
+//		}).start();
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100000; i++) {
+					System.out.println(i + ": A작업");
+				}
+
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100000; i++) {
+					System.out.println(i + ": B작업");
+				}
+
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100000; i++) {
+					System.out.println(i + ": C작업");
+				}
+
+			}
+		}).start();
+
+		// 람다 맛보기
+		new Thread(() -> {
+			for(int i = 1; i <= 100000; i++) {
+				System.out.println(i + ": 람다 작업");
+			}
+		}).start();
+		
+		/*
+		 * 참고. Thread 클래스만으로 멀티쓰레딩을 구현하는 방법 (위의 방법보다 사용빈도 낮음)
+		 * < 기본 문법 >
+		 * new Thread(){
+		 * 		@Override
+		 * 		public void run(){
+		 * 			// 멀티 쓰레딩으로 처리할 코드
+		 * 		}
+		 * }.start();
+		 * 
+		 */
+		Thread t2 = new Thread() {
+			
+			@Override
+			public void run() {
+				for(int i = 1; i <= 100000; i++) {
+					System.out.println(i + " : D작업");
+				}
+			}
+			
+		};
+		
+		t2.start();
+		
+		new Thread() {
+			@Override
+			public void run() {
+				for(int i = 1; i <= 100000; i++) {
+					System.out.println(i + " : E작업");
+				}
+			}
+		}.start();
+		
+		
+	}
+
+}
+```
+
+
+연습문제
+```java
+package thread;
+
+public class Test4 {
+
+	public static void main(String[] args) {
+		// main() 메서드 (main 쓰레드) 내에서
+		// "메세지 송신", "메세지 수신", "파일 전송" 작업을 동시에 100번씩 수행
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 0; i <= 100; i++) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println("메세지 송신");
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 0; i <= 100; i++) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println("메세지 수신");
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 0; i <= 100; i++) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println("파일 전송");
+				}
+			}
+		}).start();
+
+		// 람다식
+//		new Thread(() -> { for(int i = 0; i <= 100; i++) System.out.println("메세지 송신"); }).start();
+//		new Thread(() -> { for(int i = 0; i <= 100; i++) System.out.println("메세지 수신"); }).start();
+//		new Thread(() -> { for(int i = 0; i <= 100; i++) System.out.println("파일 전송"); }).start();
+
+//		
+	}
+
+}
+
+```
+
+```java
+package thread;
+
+public class Ex5 {
+
+	public static void main(String[] args) {
+
+		Thread t1 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100; i++) {
+					System.out.println("A작업");
+				}
+
+			}
+		});
+		t1.start();
+
+		Thread t2 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (int i = 1; i <= 100; i++) {
+					System.out.println("B작업");
+				}
+
+			}
+		});
+		t2.start();
+
+		System.out.println("현재 쓰레드명 : " + Thread.currentThread().getName());
+		System.out.println("t1 쓰레드명 : " + t1.getName());
+		System.out.println("t2 쓰레드명 : " + t2.getName());
+
+		Thread t3 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// 현재 수행중인 쓰레드 객체를 가져오는 방법
+				// => Thread 클래스의 static 메서드 currentThread() 메서드 호출
+				Thread t = Thread.currentThread();
+				System.out.println("C작업! 현재 쓰레드 : " + t.getName());
+
+			}
+		});
+		t3.setName("t3 쓰레드"); // 저장된 쓰레드명 변경
+		t3.start();
+		System.out.println("t3.getName() : " + t3.getName());
+
+		System.out.println("=======================================");
+
+		MyThread2 mt = new MyThread2("<<< 내 쓰레드 >>>", 1000);
+		mt.start();
+	}
+
+}
+
+class MyThread2 extends Thread {
+	int count;
+
+	public MyThread2(String name, int count) {
+		setName(name); // 외부로부터 쓰레드명을 전달받아 초기화 가능
+		this.count = count;
+	}
+
+	@Override
+	public void run() {
+		for (int i = 1; i <= count; i++) {
+			System.out.println(i + " : " + getName());
+		}
+	}
+
+}
+```
+
