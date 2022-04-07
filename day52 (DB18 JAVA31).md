@@ -59,8 +59,6 @@ ADD_MONTHS('96-01-31',-11)|
    1995-02-28 00:00:00.000|
 ```
 
----
-
 ### NEXT_DAY 함수
 - 특정 날짜 다음 오는 특정 요일 연산하는 함수
 ```
@@ -254,5 +252,92 @@ HIRE_DATE              |REVIEW_DATE            |
 - 변환할 수 있는 형식을 갖춘 데이터에 대해서 변환이 가능
 - 변환함수를 사용해서 데이터타입을 변환하는 방식을 명시적 형변환.
 - 변환함수 없이 데이터베이스가 자동으로 인식해서 형변환하는 방식은 암시적 형변환
+
+![unnamed](https://user-images.githubusercontent.com/95197594/162115633-dd28b738-bb1d-434b-9246-cc4bbb6c764b.png)
+
+
+### TO_CHAR(날짜 → 문자)
+- 날짜 데이터가 가지고 있는 요소(년,월,일,시,…)들을 원하는 형식의 문자열로 변환하여 출력하는 함수
+- TO_CHAR(날짜데이터, '형식문자')
+```
+SELECT employee_id, hire_date,
+TO_CHAR(hire_date, 'MM/YY') Month_Hired
+FROM employees
+WHERE last_name = 'Higgins';
+
+EMPLOYEE_ID|HIRE_DATE              |MONTH_HIRED|
+-----------+-----------------------+-----------+
+        205|2002-06-07 00:00:00.000|06/02      |
+```
+
+### TO_CHAR 형식문자
+- 온전한 단어형태의 형식문자
+> - YEAR	년도의 영문 스펠링형태
+> - MONTH	월의 영문 스펠링형태
+> - DAY	요일의 영문 스펠링형태
+```
+SELECT TO_CHAR(SYSDATE, 'YEAR / MONTH / DAY')
+FROM dual;
+
+
+TO_CHAR(SYSDATE,'YEAR/MONTH/DAY')
+--------------------------------------------------------------------------------
+TWENTY TWENTY-TWO / APRIL     / THURSDAY
+```
+
+- 요소를 3자리의 약어형태로 출력하는 형식
+> - MON	월을 3자리의 약어로 표현
+> - DY	요일을 3자리의 약어로 표현
+```
+SELECT TO_CHAR(SYSDATE, 'MON / DY')
+FROM dual;
+
+
+TO_CHAR(SYSDATE,'MON/DY')
+---------------------------
+APR / THU
+```
+
+- 요소 단위의 첫 글자가 반복되는 형식
+> - YYYY	년도를 4자리의 숫자로 표현
+> - YY	년도를 2자리의 숫자로 표현
+> - MM	월을 2자리의 숫자로 표현
+> - DD	일을 2자리의 숫자로 표현
+> - D	요일을 1자리의 숫자로 표현 (1~7 → 일~토)
+```
+SELECT TO_CHAR(SYSDATE, 'YYYY / MM / DD')
+FROM dual;
+
+
+TO_CHAR(SYSDAT
+--------------
+2022 / 04 / 07
+
+SQL> SELECT TO_CHAR(SYSDATE, 'YY / MM / DD')
+  2  FROM dual;
+
+
+--------------------------------------------------------------------
+
+
+TO_CHAR(SYSD
+------------
+22 / 04 / 07
+
+SELECT TO_CHAR(SYSDATE, 'YY / MM / D')
+FROM dual;
+
+
+---------------------------------------------------------------------
+
+
+TO_CHAR(SYS
+-----------
+22 / 04 / 5
+```
+
+
+
+---
 
 # [오후수업] JAVA 31차
