@@ -357,3 +357,414 @@
 </body>
 </html>
 ```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+/*
+1. eq(인덱스)
+	- 선택자를 포함하여 형제자매 요소 탐색
+	- 파라미터로 전달하는 인덱스 값은 0부터 시작하며, 인덱스에 해당하는 순서에 위치한 요소 리턴
+	- 음수값 전달 시 뒤에서부터 탐색
+	
+2. attr("HTML속성명")
+	- 선택자의 지정된 해당 속성 값을 가져오거나 추가
+	- HTML 태그 속성값 자체를 가져오며 상태에 따라 변하지 않음
+	ex) 체크박스 checked="checked" 속성값을 가져올 때 활용(단, 체크 상태가 변해도 checked 값 전달됨)
+
+3. prop("Javascript속성명")
+	- 선택자의 지정된 속성 값에 대한 상태를 가져오거나 추가
+	- 속성값 자체를 다루지 않고 해당 속성에 대한 상태(true/false) 리턴
+	- attr() 함수와 유사하나 HTML 태그의 상태에 따라 결과값이 변함(자바스크립트의 상태 사용)
+	ex) 체크박스 checked="checked" 속성값을 가져올 때 활용
+		=> 단, 체크박스 체크 시 true, 체크 해제 시 false 리턴
+4. is()
+	- 선택자 입력 값과 관련된 상태 확인 후 일치 여부(true/false) 리턴
+	- 선택자의 실행 결과가 태그 확인용
+	- prop() 함수 리턴값을 boolean 타입으로 비교하는 것과 동일
+*/
+	$(function() {
+// 		$("input[type=button]").click(function() {
+// 			alert("버튼 클릭!");
+// 		});
+
+		// 가상선택자를 사용하여 버튼 클릭 이벤트 등록 시 => $(":button") 활용
+		$(":button").click(function() {
+			// 선택자 요소에 eq() 함수를 사용하여 지정된 요소들 중 인덱스에 해당하는 순서의 요소 지정
+			// => 요소 지정 후 attr() 또는 prop() 함수를 사용하여 해당 요소의 속성에 접근
+			// 홍길동에 해당하는 두번째 체크박스(1번 인덱스)에 대한 값 확인
+			var attr1 = $("input[type=checkbox]").eq(1).attr("checked");
+			// => 실제 체크 여부와 관계없이 HTML 속성에 checked="checked" 이므로 항상 checked 리턴
+			var prop1 = $("input[type=checkbox]").eq(1).prop("checked");
+			// => 체크 상태에 따라 true 또는 false 가 바뀌어 리턴
+			
+			// 이순신에 해당하는 두번째 체크박스(1번 인덱스)에 대한 값 확인
+			var attr2 = $("input[type=checkbox]").eq(2).attr("checked");
+			// => 체크박스 태그 내에 checked 속성이 명시되어 있지 않으므로 undefined 리턴
+			var prop2 = $("input[type=checkbox]").eq(2).prop("checked");
+			// => 체크 상태에 따라 true 또는 false 가 바뀌어 리턴
+			
+			// 두번째, 세번째 체크박스(1번, 2번 인덱스)에 대한 checked 속성값 상태 확인
+			var is1 = $("input[type=checkbox]").eq(1).is(":checked");
+			var is2 = $("input[type=checkbox]").eq(2).is(":checked");
+			
+			
+			// 값 확인을 위해 id 선택자 result 영역에 표시
+			$("#result").html(
+				"attr1 = " + attr1 + ", prop1 = " + prop1 + "<br>" +
+				"attr2 = " + attr2 + ", prop2 = " + prop2 + "<br>" +
+				"is1 = " + is1 + ", is2 = " + is2 + "<br>"
+			);
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>jQuery/test7.jsp</h1>
+	<table border="1">
+        <tr>
+            <th><input type="checkbox" id="allCheck"></th>
+            <th>번호</th>
+            <th>이름</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="check1" name="check" checked="checked" value="1"></td>
+            <td>1</td>
+            <td>홍길동</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="check" value="2"></td>
+            <td>2</td>
+            <td>이순신</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="check" value="3"></td>
+            <td>3</td>
+            <td>강감찬</td>
+        </tr>
+        <tr>
+        	<td colspan="3">
+        		<input type="button" value="확인"><br>
+        		<div id="result">결과 확인 위치</div>
+        	</td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+
+### submit 함수
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		/*
+		submit() 함수
+		- submit 동작에 대한 이벤트 처리
+		- 자바스크립트에서 submit 이벤트 처리 방법과 동일
+		- form 태그를 선택자로 지정하여 submit() 함수를 호출하여
+		  submit 함수 내에 익명함수를 구현하여 submit 버튼 클릭 시 수행할 동작 지정
+		*/
+		$("form").submit(function() {
+			// 콤보박스(select) 의 option 태그들 중 첫번째 option 태그의 selected 속성 확인
+			// => '선택하세요' 항목이 선택되어 있을 경우 true, 아니면 false 리턴하기 위해 prop() 함수 활용
+// 			alert($("#selectBox > option").eq(0).prop("selected"));
+// 			alert($("#selectBox > option:first").prop("selected"));
+// 			alert($("#selectBox > option[value=선택하세요]").prop("selected"));
+
+// 			alert($("input[name=id]").val()); // 아이디 입력값 가져와서 출력
+
+			// if문을 사용하여 '선택하세요' 항목이 선택되어 있을 경우(true)
+			// => alert() 함수를 통해 "항목 선택 필수!" 출력 후 false 값 리턴(submit 동작 취소)
+			// 아니면 true 값 리턴(submit 동작 수행)
+			if($("#selectBox > option").eq(0).prop("selected")) { // true 일 경우
+				alert("항목 선택 필수!");
+				$("#selectBox > option").eq(0).focus();
+				return false;
+			} else if($("input[name=id]").val() == "") {
+				alert("아이디 입력 필수!");
+				$("input[name=id]").focus();
+				return false;
+			} else if($("input[name=password]").val() == "") {
+				alert("패스워드 입력 필수!");
+				$("input[name=password]").focus();
+				return false;
+			} else { // false 일 경우
+				return true;
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>jQuery/test8.jsp</h1>
+	<div id="wrap">
+		<form action="test8_result.jsp">
+			<div id="inputBox">
+				아이디 : <input type="text" name="id"><br>
+				패스워드 : <input type="password" name="password">
+			</div>
+			<select id="selectBox" name="subject">
+				<option value="선택하세요">선택하세요</option>
+				<option value="자바">자바</option>
+				<option value="JSP">JSP</option>
+				<option value="스프링">스프링</option>
+			</select>
+			<br>
+			<input type="submit" value="전송">
+		</form>
+	</div>
+	
+</body>
+</html>
+```
+### on 함수
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		/*
+		DOM 객체에 대한 탐색 및 접근을 통해 조작하는 공통적인 이벤트
+		=> on("이벤트명", "함수") 형식을 사용
+		
+		1. 클릭 동작에 대한 이벤트 : on("click", 함수)
+		- 특정 대상 클릭 시 동작하는 이벤트
+		- $("선택자").click(함수) 이벤트와 동일함
+		- 클릭 대상에 제한 없음(버튼 외에 어떤 요소도 사용 가능)
+		*/
+		
+		// 확인 버튼에 click 이벤트 연결
+		// 1) click() 함수 사용 시
+// 		$("#btnOk").click(function() {
+// 			alert("확인 버튼 클릭!");
+// 		});
+		
+		// 2) on() 함수 사용 시
+		$(":button").on("click", function() {
+// 			alert("확인 버튼 클릭! - on()");
+			// 아이디, 패스워드 값을 textarea 에 출력
+			var id = $("input[name=id]").val()
+			var password = $("input[name=password]").val() 
+			var subject = $("#selectBox > option:selected").val();
+			$("#resultArea").html( 
+				"아이디 : " + id + "\n" + 
+				"패스워드 : " + password + "\n" +
+				"선택과목 : " + subject
+			);
+		});
+		
+		// 버튼 외의 항목도 클릭 이벤트 처리 가능
+		$("#clickDiv").on("click", function() {
+			alert("div 태그 클릭됨!");
+		});
+		
+		// 아이디 입력란에 키보드를 눌러 데이터 입력 시 처리 이벤트 = "keyup"
+		$("input[name=id]").on("keyup", function() {
+			var id = $("input[name=id]").val();
+			$("#spanId").html(id);
+		});
+		
+		// 특정 요소에 포커스가 주어질 때(focus)와 포커스가 해제될 때(blur) 동작하는 이벤트
+// 		$("#resultArea").on("focus", function() {
+// 			$("#resultArea").html("textarea focus in").css("background", "skyblue");
+// 		});
+		
+// 		$("#resultArea").on("blur", function() {
+// 			$("#resultArea").html("textarea focus out").css("background", "white");
+// 		});
+		
+// 		$("#resultArea").on("focus", function() {
+// 			$("#resultArea").html("textarea focus in").css("background", "skyblue");
+// 		});
+		
+		// 복수개의 이벤트를 하나의 함수로 처리할 경우(이벤트명을 차례대로 기술 - 공백으로 구분)
+// 		$("#resultArea").on("focus blur", function() {
+// 			$("#resultArea").html("포커스 상태 변경");
+// 		});
+		
+		// 복수개의 이벤트를 각각의 함수로 처리할 경우(on() 함수 내에서 {이벤트명:함수()} 형태로 작성)
+		$("#resultArea").on({
+			// 이벤트명: function() {수행할 동작},
+			// 이벤트명: function() {수행할 동작}...
+			focus: function() {
+	 			$("#resultArea").html("textarea focus in").css("background", "skyblue");
+			},
+			blur: function() {
+	 			$("#resultArea").html("textarea focus out").css("background", "white");
+			},
+			mouseenter: function() {
+	 			$("#resultArea").html("textarea mouse enter").css("background", "orange");
+			},
+			mouseleave: function() {
+	 			$("#resultArea").html("textarea mouse leave").css("background", "yellow");
+			}
+		});
+		
+		// off() 함수를 사용하면 등록된 이벤트 제거 가능(= binding 된 이벤트를 unbindimg)
+		// => $("선택자").off("이벤트명")
+		// 버튼 클릭 시 확인 버튼 동작을 수행하지 못하도록 이벤트 제거
+		$("#btnStopEvent").on("click", function() {
+			$("#btnOk").off("click").val("버튼 클릭 불가능 처리됨");
+		});
+		
+	});
+</script>
+</head>
+<body>
+	<h1>jQuery/test8.jsp</h1>
+	<div id="wrap">
+		<div id="inputBox">
+			아이디 : <input type="text" name="id"><span id="spanId"></span><br>
+			패스워드 : <input type="password" name="password">
+		</div>
+		<select id="selectBox" name="subject">
+			<option value="선택하세요">선택하세요</option>
+			<option value="자바">자바</option>
+			<option value="JSP">JSP</option>
+			<option value="스프링">스프링</option>
+		</select>
+		<br>
+		<textarea id="resultArea" rows="5"></textarea>
+		<br>
+		<input type="button" value="확인" id="btnOk">
+		<input type="button" value="취소" id="btnCancel">
+		<input type="button" value="확인 버튼 클릭 기능 중지" id="btnStopEvent">
+	</div>
+	====<div id="clickDiv">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>====
+	
+</body>
+</html>
+```
+### each 함수
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("table").css("width", "300px").css("text-align", "center");
+		
+		
+		// on("change", 함수) 이벤트를 통한 체크박스 상태 변경 처리
+		// => 특정 대상의 '상태가 변하면' 동작하는 이벤트
+		
+		// each() 함수
+		// => 지정된 대상에 대한 반복 접근 수행하는 함수
+		// => 함수 내부에 익명함수 구현을 통해 인덱스와 요소를 전달받을 수 있음
+		//	  $("선택자").each(function(index, item) {})
+		// 	  => 각 요소에 접근하여 해당 요소의 인덱스와 요소 자체를 전달받음
+		
+		// #allCheck 체크박스 체크 상태에 따라 다른 체크박스 체크 또는 해제
+		$("#allCheck").on("change", function() {
+			// 전체선택 체크박스에 대한 체크 상태 판별(prop() 또는 is() 활용 => true/false 리턴)
+			if($("#allCheck").is(":checked")) { // $("#allCheck").prop("checked") 동일함
+// 				alert("전체선택 체크됨!");
+				// 체크박스에 대한 전체 요소 반복 - each() 함수 활용
+				$(":checkbox").each(function (index, item) {
+// 					alert(index + " : " + $(item).prop("checked"))
+					// 전체선택 체크박스를 제외한 나머지 체크박스를 체크(= 체크상태를 true 로 변경)
+					// => prop() 함수의 파라미터로 "속성명" 과 함께 값을 전달 시 속성값 변경 가능
+					// index 값이 0 보다 클 경우에만 체크 수행(전체선택 제외시킴
+					if(index > 0) {
+					$(item).prop("checked", true);
+					}
+				});
+			} else {
+// 				alert("전체선택 체크 해제됨!");
+				// 체크박스 전체를 체크 해제
+				$(":checkbox").each(function (index, item) {
+					$(item).prop("checked", false);
+				});
+			}
+		});
+				
+		// -----------------------------------------------------
+		// target 콤보박스의 change 이벤트 바인딩
+		$("#selectBox").on("change", function() {
+			alert("selectBox 변경됨! - " + $("#selectBox").val());
+		});
+		
+		// searchType 콤보박스의 change 이벤트 바인딩
+		$("#searchType").on("change", function() {
+			alert("searchType 변경됨! - " + $("#searchType").val());
+		});
+		
+		// searchKeyword 인풋박스의 change 이벤트
+		// => 데이터 입력받는 인풋박스의 change 이벤트는 입력이 끝난 후 포커스 해제될 때 동작
+		//	  (= blur 이벤트와 유사하지만, 내용 변경이 있을 때만 동작함)
+		$("#searchKeyword").on("change", function() {
+			alert("searchKeyword 변경됨! - " + $("searchKeyword").val())
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>jQuery/test10.jsp</h1>
+	<table border="1">
+		<tr>
+			<td colspan="3">
+				<select id="selectBox" name="target">
+					<option value="전체">전체</option>
+					<option value="VIP">VIP</option>
+					<option value="일반">일반</option>
+				</select>
+			</td>
+		</tr>
+        <tr>
+            <th><input type="checkbox" id="allCheck"></th>
+            <th>번호</th>
+            <th>이름</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="check1" name="check" checked="checked" value="1"></td>
+            <td>1</td>
+            <td>홍길동</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="check" value="2"></td>
+            <td>2</td>
+            <td>이순신</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="check" value="3"></td>
+            <td>3</td>
+            <td>강감찬</td>
+        </tr>
+       <tr>
+			<td colspan="3">
+				<select id="searchType" name="target">
+					<option value="name">이름</option>
+					<option value="id">아이디</option>
+				</select>
+				<input type="text" id="searchKeyword" name="search" placeholder="검색어 입력">
+			</td>
+		</tr>
+    </table>
+</body>
+</html>
+```
