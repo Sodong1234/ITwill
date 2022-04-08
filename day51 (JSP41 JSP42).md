@@ -281,15 +281,15 @@
 // 		$("table tr").css("background", "green");
 		
 		// tr 태그들 중 첫번째 tr 태그 배경색만 green 으로 변경하고 가운데 정렬
-		$("tr:first").css("background", "green");
-		$("tr:first").css("text-align", "center");
+// 		$("tr:first").css("background", "green");
+// 		$("tr:first").css("text-align", "center");
+		$("tr:first").css({
+			background: "green",
+			textAlign: "center"
+		});
 		
 		// tr 태그들 중 홀수번째 태그 배경색을 skyblue 로 변경
-		$("table tr").css("odd", "skyblue");
-		$("table tr").css("even", "pink");
-		
-		// tr 태그들 중 짝수번째 태그 배경색을 pink 로 변경
-		$("tr:odd").css("background", "skyblue");
+// 		$("tr:odd").css("background", "skyblue");
 		
 		// tr 태그들 중 홀수번째 태그 배경색을 pink 로 변경(제목열도 짝수번째(0번) 이므로 변경됨)
 		$("tr:even").css("background", "pink");
