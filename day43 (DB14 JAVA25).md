@@ -1,4 +1,5 @@
 # [오전수업] DB 14차
+> 13차 수업 복습 실시
 
 ## sql developer 접속하기
 > sqldeveloper-21.4.3.063.0100-x64.zip 다운로드
