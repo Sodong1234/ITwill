@@ -20,7 +20,7 @@ import static db.JdbcUtil.*;
 ---
 
 # [오후수업] DB 13차
-
+> 12차 수업 복습 실시
 
 - 연습문제
 
