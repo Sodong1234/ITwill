@@ -524,7 +524,7 @@ class Customer {
 > ServletTest.jsp, ServletTest2.jsp는 src/main/java 폴더에 생성
 
 ```jsp
-------------------------------------------------------------------index.jsp------------------------------------------------------------------
+---------------------------------------------index.jsp---------------------------------------------
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -560,7 +560,7 @@ class Customer {
 
 
 
-------------------------------------------------------------------ServletTest.jsp------------------------------------------------------------------
+---------------------------------------------ServletTest.jsp---------------------------------------------
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -595,7 +595,7 @@ public class ServletTest extends HttpServlet { // 서블릿 클래스 정의
 }
 
 
-------------------------------------------------------------------Servlet2.jsp------------------------------------------------------------------
+---------------------------------------------Servlet2.jsp---------------------------------------------
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -628,7 +628,7 @@ public class ServletTest2 extends HttpServlet { // 서블릿 클래스 정의
 
 }
 
-------------------------------------------------------------------web.xml------------------------------------------------------------------
+---------------------------------------------web.xml---------------------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Test</display-name>
