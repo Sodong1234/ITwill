@@ -517,3 +517,139 @@ class Customer {
 ---
 
 # [오후수업] JSP 45차
+
+## 서블릿
+> 새로운 Workspace(JSP_model2) 생성
+
+> ServletTest.jsp, ServletTest2.jsp는 src/main/java 폴더에 생성
+
+```jsp
+------------------------------------------------------------------index.jsp------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>index.jsp</h1>
+	
+	<!-- GET 방식의 요청을 수행하는 방법 3가지 -->
+	<!-- 1. 웹브라우저 주소창에 직접 URL 을 입력하여 요청 -->
+	
+	<!-- 2. 하이퍼링크를 사용하여 "test" 주소(= 서블릿 주소) 요청 -->
+	<a href="test">test 서블릿 주소 요청</a>
+	
+	<!-- 3. form 태그에서 method="get" 으로 명시하거나 method 속성을 명시하지 않은 상태로 요청 -->
+	<!-- form 태그를 사용하여 submit 버튼("test 서블릿 주소 요청(GET)")에 "test" 주소 GET 방식 요청 -->
+	<form action="test" method="get">
+		<input type="submit" value="test 서블릿 주소 요청(GET)">
+	</form>
+
+	
+	<!-- POST 방식의 요청을 수행하는 방법 - 1가지 -->
+	<!-- form 태그에서 method="post" 로 명시하여 요청 -->
+	<!-- form 태그를 사용하여 submit 버튼("test 서블릿 주소 요청(GET)")에 "test" 주소 POST 방식 요청 -->
+	<form action="test" method="post">
+		<input type="submit" value="test 서블릿 주소 요청(POST)">
+	</form>
+</body>
+</html>
+
+
+
+------------------------------------------------------------------ServletTest.jsp------------------------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/test222")
+public class ServletTest extends HttpServlet { // 서블릿 클래스 정의
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// => GET 방식 요청 시 자동으로 호출되는 메서드
+
+//		System.out.println("doGet() 메서드 호출됨!");
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h1>doGet() 메서드 호출됨!</h1>");
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h1>doPost() 메서드 호출됨!</h1>");
+	}
+
+}
+
+
+------------------------------------------------------------------Servlet2.jsp------------------------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletTest2 extends HttpServlet { // 서블릿 클래스 정의
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// => GET 방식 요청 시 자동으로 호출되는 메서드
+
+//		System.out.println("doGet() 메서드 호출됨!");
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h1>ServletTest2 - doGet() 메서드 호출됨!</h1>");
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h1>ServletTest2 - doPost() 메서드 호출됨!</h1>");
+	}
+
+}
+
+------------------------------------------------------------------web.xml------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>Test</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>main2.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet-mapping>
+  	<servlet-name>itwillServlet</servlet-name>
+  	<url-pattern>/itwill</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>itwillServlet</servlet-name>
+  	<servlet-class>ServletTest2</servlet-class>
+  </servlet>
+</web-app>
+```
