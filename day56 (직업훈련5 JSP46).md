@@ -4,6 +4,29 @@
 
 # [오후수업] JSP 46차
 
+** index  파일
+```java
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>index.jsp</h1>
+	<h3><a href="test.jsp">test.jsp 페이지로 이동</a></h3>
+	<h3><a href="test2.jsp">test2.jsp 페이지로 이동</a></h3>
+	<h3><a href="test3.jsp">test3.jsp 페이지로 이동</a></h3>
+	<h3><a href="servletLifeCycle.jsp">servletLifeCycle.jsp 페이지로 이동</a></h3>
+	<h3><a href="test4_redirect_dispatcher_main.jsp">로그인 페이지로 이동</a></h3>
+	
+</body>
+</html>
+
+```
+
 ** java 파일
 
 ```java
@@ -452,25 +475,4 @@ public class dispatcherServlet extends HttpServlet {
 
 ```
 
-** index  파일
-```
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>index.jsp</h1>
-	<h3><a href="test.jsp">test.jsp 페이지로 이동</a></h3>
-	<h3><a href="test2.jsp">test2.jsp 페이지로 이동</a></h3>
-	<h3><a href="test3.jsp">test3.jsp 페이지로 이동</a></h3>
-	<h3><a href="servletLifeCycle.jsp">servletLifeCycle.jsp 페이지로 이동</a></h3>
-	<h3><a href="test4_redirect_dispatcher_main.jsp">로그인 페이지로 이동</a></h3>
-	
-</body>
-</html>
 
-```
