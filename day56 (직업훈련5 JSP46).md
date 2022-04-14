@@ -240,6 +240,8 @@ public class ServletLifeCycle extends HttpServlet {
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -254,10 +256,37 @@ public class redirectServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("redirectServlet 확인");
+		System.out.println("RedirectServlet - doGet()");
+		
+		// 로그인 페이지에서 입력받은 아이디, 패스워드 가져와서 변수에 저장 후 출력
+		// => 이전 페이지의 요청은 모두 request 객체가 관리함
+		String id = request.getParameter("id");
+		int passwd = Integer.parseInt(request.getParameter("passwd"));
+//		System.out.println("아이디 : " + id);
+//		System.out.println("패스워드 : " + passwd);
+		
+		// 자바 클래스에서 웹 페이지에 HTML 문서 내용 출력해야하는 경우
+		// response 객체의 setContentType() 메서드를 통해 컨텐츠(문서) 타입 설정 및
+		// response 객체의 getWriter() 메서드를 통해 PrintWriter 객체(out) 가져와서 HTML 태그 출력
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h3>아이디 : " + id + "</h3>");
+		out.println("<h3>패스워드 : " + passwd + "</h3>");
+
+		// -----------------------------------------------------
+		// 현재 서블릿 클래스에서 작업 완료 후 redirect_result.jsp 페이지로 포워딩(이동)
+		// => Redirect 방식 포워딩 수행
+		// => response 객체의 sendRedirect() 메서드를 호출하여 포워딩 할 페이지를 전달
+		response.sendRedirect("test4_redirect_result.jsp");
+		
+		// Redirect 방식 특징1. 포워딩 시 포워딩 주소가 주소표시줄에 표시됨(새 주소로 갱신됨)
+		// Redirect 방식 특징2. 이전 요청의 request 객체가 유지되지 않음(= 새 request 객체 생성됨)
+		//					  따라서, 이전에 저장되어 있던 파라미터는 존재하지 않음
+		
 	}
 
 }
+
 
 
 
@@ -268,8 +297,10 @@ public class redirectServlet extends HttpServlet {
 
 
 
-
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -284,7 +315,42 @@ public class dispatcherServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("dispatcherServlet 확인");
+		System.out.println("RedirectServlet - doGet()");
+		
+		// 로그인 페이지에서 입력받은 아이디, 패스워드 가져와서 변수에 저장 후 출력
+		// => 이전 페이지의 요청은 모두 request 객체가 관리함
+		String id = request.getParameter("id");
+		int passwd = Integer.parseInt(request.getParameter("passwd"));
+		System.out.println("아이디 : " + id);
+		System.out.println("패스워드 : " + passwd);
+		
+		// 자바 클래스에서 웹 페이지에 HTML 문서 내용 출력해야하는 경우
+		// response 객체의 setContentType() 메서드를 통해 컨텐츠(문서) 타입 설정 및
+		// response 객체의 getWriter() 메서드를 통해 PrintWriter 객체(out) 가져와서 HTML 태그 출력
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<h3>아이디 : " + id + "</h3>");
+		out.println("<h3>패스워드 : " + passwd + "</h3>");
+		
+		// -----------------------------------------------------
+		// 현재 서블릿 클래스에서 작업 완료 후 dispatcher_result.jsp 페이지로 포워딩(이동)
+		// => Dispatcher 방식 포워딩 수행
+		// 1. request 객체의 getRequestDispatcher() 메서드를 호출하여 포워딩 할 페이지를 전달
+		//	  => 리턴타입 : javax.servlet.RequestDispatcher
+		RequestDispatcher dispatcher = request.getRequestDispatcher("test4_dispatcher_result.jsp");
+		// 2. RequestDispatcer 객체의 forward() 메서드를 호출하여 포워딩 작업 수행
+		// => 파라미터 : request 객체, response 객체
+		dispatcher.forward(request, response);
+		
+		// Dispatcher 방식 특징1. 포워딩 시 포워딩 주소가 주소표시줄에 표시되지 않고 
+		//						이전의 요청 주소가 그대로 유지됨(주소표시줄 주소가 변경X)
+		// Redirect 방식 특징2. 포워딩 시점에서 원래 가지고 있던 request 객체를 함께 전달하므로
+		//					  포워딩 후에도 request 객체가 그대로 유지됨
+		//					  => 원래 저장되어 있던 파라미터 값도 그대로 유지됨(새 페이지에서 공유)
+	}
+		
+		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			doGet(request, response);
 	}
 
 }
