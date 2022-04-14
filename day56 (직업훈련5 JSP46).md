@@ -214,6 +214,8 @@ public class ServletLifeCycle extends HttpServlet {
 
 
 
+
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -221,23 +223,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class RedirectServlet
- */
-@WebServlet("/RedirectServlet")
-public class RedirectServlet extends HttpServlet {
+@WebServlet("/redirectServlet")
+public class redirectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public RedirectServlet() {
+    public redirectServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("redirectServlet 확인");
 	}
 
 }
+
 
 
 
@@ -246,6 +244,8 @@ public class RedirectServlet extends HttpServlet {
 
 
 
+
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -253,23 +253,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class RedirectServlet
- */
-@WebServlet("/RedirectServlet")
-public class RedirectServlet extends HttpServlet {
+@WebServlet("/dispatcherServlet")
+public class dispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public RedirectServlet() {
+    public dispatcherServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("dispatcherServlet 확인");
 	}
 
 }
+
 
 ```
 
@@ -472,7 +468,7 @@ public class RedirectServlet extends HttpServlet {
 	<h3><a href="test2.jsp">test2.jsp 페이지로 이동</a></h3>
 	<h3><a href="test3.jsp">test3.jsp 페이지로 이동</a></h3>
 	<h3><a href="servletLifeCycle.jsp">servletLifeCycle.jsp 페이지로 이동</a></h3>
-	<h3><a href="test4_redirect_dispatcher_main">로그인 페이지로 이동</a></h3>
+	<h3><a href="test4_redirect_dispatcher_main.jsp">로그인 페이지로 이동</a></h3>
 	
 </body>
 </html>
