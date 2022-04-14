@@ -250,6 +250,179 @@ public class ListServlet extends HttpServlet {
 
 ---
 
+> studyDBCP 프로젝트 생성
+
+- META-INF에 context.xml 파일 생성
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<!-- 
+< DBCP 설정을 위한 Context.xml 파일 설정 >
+Context 태그 내에 Resource 태그를 사용하여 DBCP 정보 설정
+1. name 속성(*) : 공유할 리소스 이름
+				 => DB 작업 수행 코드에서 DBCP API 를 통해 불러올 때 지정할 이름
+2. auth 속성 : 자원 관리를 수행할 대상(인증 대상) 지정 => 톰캣이 수행하므로 "Container" 속성값 지정
+3. type 속성 : 웹 상에서 리소스(Connection 객체) 사용 시 실제 사용될 클래스 지정
+			  => java.sql.DataSource 인터페이스 타입 지정
+			  => name 속성에 지정된 이름을 통해 DCCP 접근 시 DataSource 타입 객체 리턴됨
+4. driverClassName 속성 속성(*) : JDBC 드라이버 클래스 지정(드라이버 API 파일 - jar 파일 필요)
+								ex) MySQL 의 경우 "com.mysql.jdbc.Driver"			  
+								ex) Oracle 의 경우 "oracle.jdbc.OracleDriver"
+5. url 속성(*) : JDBC 접속에 필요한 URL 정보 지정
+				ex) MySQL 의 경우 "jdbc:mysql://접속주소:포트번호/DB명"
+				ex) Oracle 의 경우 "jdbc:oracle:thin:@접속주소:포트번호:DB명"
+6. username 속성(*) - DB 접속 계정명
+7. password 속성(*) - DB 접속 패스워드
+8. maxActive 속성 : 동시에 생성(활성화)해 놓을 Connection 갯수(일반 PC는 보통 8개 정도) - 생략 가능   
+9. maxIdle 속성 : 현재 사용중인 Connection 객체 외에 여유분으로 남겨놓을 Connection 객체 - 생략 가능				  				
+-->
+	<Resource
+		name="jdbc/MySQL" 
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3360/study_jsp3"
+		username="root"
+		password="1234"
+		maxActive="500"
+		maxIdle="100"
+	/>
+</Context>
+```
+
+** java 파일
+```
+---------------------------------------------------------WriteFormServlet---------------------------------------------------------
+
+
+
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/WriteForm")
+public class WriteFormServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public WriteFormServlet() {
+        super();
+    }
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// test4_board 폴더 내의 write.jsp 페이지로 포워딩 => Dispatcher 방식의 포워딩
+		RequestDispatcher dispatcher = request.getRequestDispatcher("write.jsp");
+		dispatcher.forward(request, response);
+	}
+
+}
+
+
+---------------------------------------------------------WriteProServlet---------------------------------------------------------
+
+
+
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/WritePro")
+public class WriteProServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public WriteProServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 작성자, 제목 가져와서 출력
+		request.setCharacterEncoding("UTF-8");
+		String name = request.getParameter("name");
+		String subject = request.getParameter("subject");
+		System.out.println("작성자 : " + name);
+		System.out.println("제목 : " + subject);
+	}
+
+}
+
+
+```
+
+** jsp 파일
+
+```
+
+---------------------------------------------------------write---------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>글쓰기 폼</h1>
+	
+	<form action="WritePro" method="post">
+		작성자 : <input type="text" name="name"><br>
+		패스워드 : <input type="password" name="pass"><br>
+		제목 : <input type="text" name="subject"><br>
+		내용 : <input type="text" name="content"><br>
+		<input type="submit" value="글쓰기">
+	</form>
+</body>
+</html>
+
+
+---------------------------------------------------------WriteProServlet---------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>index.jsp</h1>
+	<h3><a href="WriteForm">글쓰기</a></h3>
+</body>
+</html>
+
+
+```
+
 # [오후수업] JAVA 34차
 
 ## StringTokenizer 클래스
