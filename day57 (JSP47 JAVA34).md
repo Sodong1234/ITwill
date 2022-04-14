@@ -1,6 +1,252 @@
 # [오전수업] JSP 47차
+** index 파일
+```java
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>index.jsp</h1>
+	<h3><a href="test.jsp">test.jsp 페이지로 이동</a></h3>
+	<h3><a href="test2.jsp">test2.jsp 페이지로 이동</a></h3>
+	<h3><a href="test3.jsp">test3.jsp 페이지로 이동</a></h3>
+	<h3><a href="servletLifeCycle.jsp">servletLifeCycle.jsp 페이지로 이동</a></h3>
+	<h3><a href="test4_redirect_dispatcher_main.jsp">로그인 페이지로 이동</a></h3>
+	<h3><a href="WriteForm">글쓰기</a></h3>
+	
+</body>
+</html>
+```
+
+** java 파일
+```java
+---------------------------------------------------------WriteFormServlet---------------------------------------------------------
 
 
+package test4_board;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/WriteForm")
+public class WriteFormServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public WriteFormServlet() {
+        super();
+    }
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// test4_board 폴더 내의 write.jsp 페이지로 포워딩 => Dispatcher 방식의 포워딩
+		RequestDispatcher dispatcher = request.getRequestDispatcher("test4_board/write.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+
+
+---------------------------------------------------------WriteFormServlet---------------------------------------------------------
+
+
+package test4_board;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/WritePro")
+public class WriteProServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public WriteProServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 작성자, 제목 가져와서 출력
+		request.setCharacterEncoding("UTF-8");
+		String name = request.getParameter("name");
+		String subject = request.getParameter("subject");
+		System.out.println("작성자 : " + name);
+		System.out.println("제목 : " + subject);
+		
+
+		// 글목록 표시를 위해 List 서블릿 주소 요청
+		// => 이전 request 객체 유지가 불필요하며, 새로운 요청을 발생시켜야 하므로
+		//	  Redirect 방식으로 포워딩
+		response.sendRedirect("List");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+
+
+---------------------------------------------------------WriteFormServlet---------------------------------------------------------
+
+
+package test4_board;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/List")
+public class ListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public ListServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 작성자, 제목 가져와서 출력
+		// => Redirect 방식으로 포워딩했으므로 주소가 변경되고 이전 request 객체가 유지되지 않음
+//		request.setCharacterEncoding("UTF-8");
+//		String name = request.getParameter("name");
+//		String subject = request.getParameter("subject");
+//		// 따라서, 이전 request 객체에 저장된 데이터가 없으므로 null 값이 됨
+//		System.out.println("작성자 : " + name);
+//		System.out.println("제목 : " + subject);
+		
+		// list.jsp 페이지로 포워딩
+		// => 이전 요청인 List 서블릿 주소 유지를 위해 Dispatcher 방식으로 포워딩
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/test4_board/list.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+
+
+```
+
+** jsp 파일
+
+```jsp
+
+---------------------------------------------------------write---------------------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>글쓰기 폼</h1>
+	
+	<form action="WritePro" method="post">
+		작성자 : <input type="text" name="name"><br>
+		제목 : <input type="text" name="subject"><br>
+		<input type="submit" value="글쓰기">
+	</form>
+</body>
+</html>
+
+
+---------------------------------------------------------list--------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>글목록</h1>
+</body>
+</html>
+
+
+---------------------------------------------------------test4_redirect_result---------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>test4_redirect_result.jsp</h1>
+	<%
+	// 이전 요청에서 저장되어 있던 아이디, 패스워드 가져와서 변수에 저장 후 출력
+	String id = request.getParameter("id");
+	int passwd = Integer.parseInt(request.getParameter("passwd"));
+	out.println("<h3>아이디 : " + id + "</h3>");
+	out.println("<h3>패스워드 : " + passwd + "</h3>");
+	// => Redirect 방식으로 포워딩 했기 때문에 request 객체가 그대로 유지되지 않고
+	//	  새로운 request 객체가 생성되므로 
+	//	  새로 포워딩 된 현재 페이지에서는 이전의 파라미터 값을 가져올 수 없다!
+	%>
+</body>
+</html>
+	
+	
+---------------------------------------------------------WriteFormServlet---------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>test4_dispatcher_result.jsp</h1>
+	<%
+	// 이전 요청에서 저장되어 있던 아이디, 패스워드 가져와서 변수에 저장 후 출력
+	String id = request.getParameter("id");
+	String passwd = request.getParameter("passwd");
+	out.println("<h3>아이디 : " + id + "</h3>");
+	out.println("<h3>패스워드 : " + passwd + "</h3>");
+	// => Dispatcher 방식으로 포워딩 했기 때문에 이전 request 객체가 그대로 유지되고
+	//	   새로 포워딩 된 현재 페이지에서도 이전 파라미터 값을 그대로 가져올 수 있다!
+	%>
+</body>
+</html>
+
+```
 
 ---
 
