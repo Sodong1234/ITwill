@@ -349,3 +349,104 @@ Cambrault  |.3           |
 
 # [오후수업] JSP 47차
 
+* java 파일
+```java
+
+------------------------------------------------WriteProServlet------------------------------------------------
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+@WebServlet("/WritePro")
+public class WriteProServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public WriteProServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 작성자, 제목 가져와서 출력
+		request.setCharacterEncoding("UTF-8");
+		String name = request.getParameter("name");
+		String pass = request.getParameter("pass");
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		
+//		System.out.println("작성자 : " + name);
+//		System.out.println("패스워드 : " + pass);
+//		System.out.println("제목 : " + subject);
+//		System.out.println("내용 : " + content);
+		
+		try {
+			// context.xml 에 설정된 DBCP(커넥션풀)로부터 Connection 객체를 가져오기
+			// 1. 톰캣으로부터 context.xml 파일의 Context 태그 부분(객체) 가져오기
+			// => InitialContext 객체 생성하여 Context 타입으로 업캐스팅하여 저장
+			Context initCtx = new InitialContext();
+			
+			// 2. 생성된 Context 객체(initCtx)로부터 context.xml의 Resource 태그 부분(객체) 가져오기
+			// => Context 객체의 lookup() 메서드를 호출하여 찾아올 리소스 지정
+			// => 리턴되는 Object 타입 객체를 Context 타입으로 다운캐스팅하여 저장
+			// => 파라미터로 "java:comp/env" 문자열 전달(Resource 태그 가리킴)
+//			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+			
+			// 3. Resource 태그 내의 name 속성(리소스 이름 "jdbc/MySQL") 을 가져오기(*)
+			// => 생성된 Context 객체(envCtx)의 lookup() 메서드를 호출하여 찾아올 리소스 이름 지정
+			// => 리턴되는 Object 타입 객체를 javax.sql.DataSource 타입으로 다운캐스팅하여 저장
+			// => 주의! context.xml 파일에 지정된 이름에 따라 문자열 바뀔 수 있다!
+//			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQL");
+
+			// --- 참고! 2번과 3번 작업을 하나로 결합하는 경우 ---
+			// 2번과 3번에서 지정한 문자열을 결합(2번문자열/3번문자열)
+			DataSource ds = (DataSource)initCtx.lookup("java:comp/env/jdbc/MySQL");
+			// -------------------------------------------------------------------
+			
+			// 4. DataSource 객체(= 커넥션풀)로부터 미리 생성되어 있는 Connection 객체 가져오기
+			// => 리턴타입 : java.sql.Connection
+			Connection con = ds.getConnection();
+			// => 만약, context.xml 파일 내에서 계정명(username)과 패스워드(password) 미등록 시
+			//	  getConnection() 메서드 파라미터로 계정명, 패스워드 전달도 가능함
+			// 	  ex) Connection con = ds.getConnection("root", "1234");
+			// => 또한, Properties 객체 활용하여 아이디와 패스워드를 외부 파일로부터 가져올 수도 있음
+			// ========================================================================
+			// Connection 객체를 가져왔으므로 3단계, 4단계를 통해 DB 작업 가능
+			String sql = "INSERT INTO board VALUES(?,?,?,?)";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, pass);
+			pstmt.setString(3, subject);
+			pstmt.setString(4, content);
+			
+			pstmt.executeUpdate();
+
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
