@@ -354,6 +354,8 @@ Cambrault  |.3           |
 
 ------------------------------------------------WriteProServlet------------------------------------------------
 
+
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -449,4 +451,8 @@ public class WriteProServlet extends HttpServlet {
 	}
 
 }
+
 ```
+
+> 모델2 수업을 위한 기초 세팅 작업 실시
+
