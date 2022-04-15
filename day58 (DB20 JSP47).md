@@ -274,8 +274,75 @@ Austin     |  4800|                    0| 57600|
 Pataballa  |  4800|                    0| 57600|
 ```
 
+### NVL2 함수
+- NULL값을 간접적으로 활용하는 함수
+- NVL2(NULL컬럼, NULL이 아닐 때, NULL일 때)
+- 2,3번째 인자가 실제로 하나의 컬럼에 출력되는 값들이기 때문에 데이터타입은 통일되어 있어야 한다. 
 
+```
+SELECT last_name, salary, commission_pct, 
+NVL2(commission_pct, 'SAL+COMM', 'SAL') income
+FROM employees
+WHERE department_id IN (50, 80);
 
+LAST_NAME  |SALARY|COMMISSION_PCT|INCOME  |
+-----------+------+--------------+--------+
+Rajs       |  3500|              |SAL     |
+Davies     |  3100|              |SAL     |
+Matos      |  2600|              |SAL     |
+Vargas     |  2500|              |SAL     |
+Russell    | 14000|           0.4|SAL+COMM|
+Partners   | 13500|           0.3|SAL+COMM|
+Errazuriz  | 12000|           0.3|SAL+COMM|
+Cambrault  | 11000|           0.3|SAL+COMM|
+…
+```
+
+### COALESCE 함수
+- NULL에 대한 여러 대체값을 출력할 수 있는 함수
+- 입력값의 목록에서 NULL이 아닌 첫번째 값을 출력한다.
+
+```
+
+SELECT last_name, employee_id,
+COALESCE(TO_CHAR(commission_pct), TO_CHAR(manager_id),
+'No commission and no manager')
+FROM employees;
+
+LAST_NAME  |EMPLOYEE_ID|COALESCE(TO_CHAR(COMMISSION_PCT),TO_CHAR(MANAGER_ID),'NOCOMMISSIONANDNOMANAGER')|
+-----------+-----------+--------------------------------------------------------------------------------+
+King       |        100|No commission and no manager                                                    |
+Kochhar    |        101|100                                                                             |
+De Haan    |        102|100                                                                             |
+Hunold     |        103|102                                                                             |
+Ernst      |        104|103                                                                             |
+Austin     |        105|103                                                                             |
+…
+Matos      |        143|124                                                                             |
+Vargas     |        144|124                                                                             |
+Russell    |        145|.4                                                                              |
+Partners   |        146|.3                                                                              |
+Errazuriz  |        147|.3                                                                              |
+Cambrault  |        148|.3                                                                              |
+…
+```
+
+- 연습문제
+
+``` 
+SELECT last_name, 
+NVL(TO_CHAR(commission_pct), 'No Commission') comm
+FROM employees;
+LAST_NAME  |COMM         |
+-----------+-------------+
+Davies     |No Commission|
+Matos      |No Commission|
+Vargas     |No Commission|
+Russell    |.4           |
+Partners   |.3           |
+Errazuriz  |.3           |
+Cambrault  |.3           |
+```
 
 
 ---
