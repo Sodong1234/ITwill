@@ -1,4 +1,282 @@
 # [오전수업] DB 20차
+### 형식문자 ','
+```
+- 천자리 표시자 ','를 추가하여 숫자를 문자열로 변환하기
+
+SELECT TO_CHAR(1234567, '9,999,999')
+FROM dual;
+
+TO_CHAR(1234567,'9,999,999')|
+----------------------------+
+ 1,234,567                  |
+
+
+-----------------------------------------------------------------------
+
+
+- 천자리 표시자 기호는 값의 길이에 맞춰 출력된다.
+SELECT TO_CHAR(12345, '9,999,999')
+FROM dual;
+
+TO_CHAR(12345,'9,999,999')|
+--------------------------+
+    12,345                |
+
+
+-----------------------------------------------------------------------
+
+
+- ',' 기호의 위치나 수는 제한이 없음.
+SELECT TO_CHAR(12345, '9,999,9,9,9')
+FROM dual;
+
+TO_CHAR(12345,'9,999,9,9,9')|
+----------------------------+
+    12,3,4,5                |
+
+
+-----------------------------------------------------------------------
+
+
+SELECT TO_CHAR(salary, '$99,999.00') salary
+FROM employees
+WHERE last_name = 'Ernst';
+
+SALARY     |
+-----------+
+  $6,000.00|
+```
+
+- 연습문제 
+```
+SELECT last_name || ' earns ' 
+|| TO_CHAR(salary, '$99,999.00')
+|| ' monthly but wants ' 
+|| TO_CHAR(3*salary, '$99,999.00')
+|| '.'AS "Dream"
+FROM employees;
+
+Dream                                                       |
+------------------------------------------------------------+
+King earns  $24,000.00 monthly but wants  $72,000.00.       |
+Kochhar earns  $17,000.00 monthly but wants  $51,000.00.    |
+De Haan earns  $17,000.00 monthly but wants  $51,000.00.    |
+Hunold earns   $9,000.00 monthly but wants  $27,000.00.     |
+Ernst earns   $6,000.00 monthly but wants  $18,000.00.      |
+Austin earns   $4,800.00 monthly but wants  $14,400.00.     |
+Pataballa earns   $4,800.00 monthly but wants  $14,400.00.  |
+Lorentz earns   $4,200.00 monthly but wants  $12,600.00.    |
+Greenberg earns  $12,008.00 monthly but wants  $36,024.00.  |
+Faviet earns   $9,000.00 monthly but wants  $27,000.00.     |
+
+
+-----------------------------------------------------------------------------------
+
+
+SELECT LPAD(last_name, 11) || ' earns ' 
+|| TO_CHAR(salary, '$99,999.00')
+|| ' monthly but wants ' 
+|| TO_CHAR(3*salary, '$99,999.00')
+|| '.'AS "Dream"
+FROM employees;
+
+Dream                                                       |
+------------------------------------------------------------+
+       King earns  $24,000.00 monthly but wants  $72,000.00.|
+    Kochhar earns  $17,000.00 monthly but wants  $51,000.00.|
+    De Haan earns  $17,000.00 monthly but wants  $51,000.00.|
+     Hunold earns   $9,000.00 monthly but wants  $27,000.00.|
+      Ernst earns   $6,000.00 monthly but wants  $18,000.00.|
+     Austin earns   $4,800.00 monthly but wants  $14,400.00.|
+  Pataballa earns   $4,800.00 monthly but wants  $14,400.00.|
+    Lorentz earns   $4,200.00 monthly but wants  $12,600.00.|
+  Greenberg earns  $12,008.00 monthly but wants  $36,024.00.|
+```
+
+### TO_NUMBER (문자 → 숫자)
+- 문자데이터를 입력 받아 숫자로 변환하는 함수
+- 입력 받은 문자의 형태를 형식문자로 묘사하여 숫자부분을 추려서 변환
+- 이때 사용되는 형식문자는 TO_CHAR의 숫자→문자 변환에 사용한 형식문자와 동일하다.
+
+```
+SELECT TO_NUMBER('$24,000.00', '$99,999.99')
+FROM dual;
+
+TO_NUMBER('$24,000.00','$99,999.99')|
+------------------------------------+
+                               24000|
+
+
+------------------------------------------------------------------------------------------
+
+
+문자열에 숫자 이외의 문자가 없는 경우 형식문자를 생략해도 숫자로 변환이 된다.
+SELECT TO_NUMBER('12345')
+FROM dual;
+
+TO_NUMBER('12345')|
+------------------+
+             12345|
+```
+
+### TO_DATE(문자→날짜)
+- 날짜의 요소가 포함된 문자열을 날짜데이터로 변환하는 함수
+- DB나 접속도구에서 기본적으로 DB가 인식하는 날짜의 형식인 경우 형식문자 없이도 날짜데이터로 변환 가능
+
+```
+sql*plus 
+SQL> SELECT TO_DATE('20-OCT-99')
+  2  FROM dual;
+
+
+TO_DATE('
+---------
+20-OCT-99
+
+----------------------------------------------------------------------------------------
+
+
+DBeaver
+SELECT TO_DATE('99/10/20')
+FROM dual;
+
+TO_DATE('99/10/20')  |
+---------------------+
+1999-10-20 00:00:00.0|
+
+
+-----------------------------------------------------------------------------------------
+SQL> SELECT TO_DATE('99/10/20', 'YY/MM/DD')
+  2  FROM dual;
+
+
+TO_DATE('
+---------
+20-OCT-99
+
+
+--------------------------------------------------------------------------------------------
+SELECT TO_DATE('15 / 15 / 04 / 18', 'HH24 / DD / MM / MI')
+FROM dual;
+
+TO_DATE('15/15/04/18','HH24/DD/MM/MI')|
+--------------------------------------+
+                 2022-04-15 15:18:00.0|
+
+
+----------------------------------------------------------------------------------------------
+SELECT employee_id, last_name, salary, hire_date
+FROM employees
+WHERE hire_date < TO_DATE('2004/08/09', 'YYYY/MM/DD');
+
+
+EMPLOYEE_ID LAST_NAME                     SALARY HIRE_DATE
+----------- ------------------------- ---------- ---------
+        100 King                           24000 17-JUN-03
+        102 De Haan                        17000 13-JAN-01
+        108 Greenberg                      12008 17-AUG-02
+        109 Faviet                          9000 16-AUG-02
+        114 Raphaely                       11000 07-DEC-02
+        115 Khoo                            3100 18-MAY-03
+        120 Weiss                           8000 18-JUL-04
+        122 Kaufling                        7900 01-MAY-03
+        133 Mallin                          3300 14-JUN-04
+        137 Ladwig                          3600 14-JUL-03
+        141 Rajs                            3500 17-OCT-03
+
+EMPLOYEE_ID LAST_NAME                     SALARY HIRE_DATE
+----------- ------------------------- ---------- ---------
+        156 King                           10000 30-JAN-04
+        157 Sully                           9500 04-MAR-04
+        158 McEwen                          9000 01-AUG-04
+        174 Abel                           11000 11-MAY-04
+        184 Sarchand                        4200 27-JAN-04
+        192 Bell                            4000 04-FEB-04
+        200 Whalen                          4400 17-SEP-03
+        201 Hartstein                      13000 17-FEB-04
+        203 Mavris                          6500 07-JUN-02
+        204 Baer                           10000 07-JUN-02
+        205 Higgins                        12008 07-JUN-02
+
+EMPLOYEE_ID LAST_NAME                     SALARY HIRE_DATE
+----------- ------------------------- ---------- ---------
+        206 Gietz                           8300 07-JUN-02
+
+23 rows selected.
+```
+
+## 일반함수
+- 데이터타입 구분 없이 처리할 수 있는 함수
+- NULL값을 처리하는 함수들
+
+### NVL 함수
+- NULL이 아닌 값은 그대로 출력
+- NULL값을 직접 대체값으로 출력해주는 함수
+- 컬럼의 값과 NULL의 대체값이 같은 컬럼에 출력이 되므로 데이터타입을 통일시켜야 동작한다.
+
+```
+
+SELECT commission_pct, NVL(commission_pct, 0)
+FROM employees;
+
+COMMISSION_PCT|NVL(COMMISSION_PCT,0)|
+--------------+---------------------+
+              |                    0|
+              |                    0|
+           0.4|                  0.4|
+           0.3|                  0.3|
+           0.3|                  0.3|
+           0.3|                  0.3|
+…
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+SELECT commission_pct, NVL(commission_pct, 0),
+NVL(hire_date, '97-01-01'), NVL(job_id, 'No Job Yet')
+FROM employees;
+
+
+- 표현식에 NULL값이 들어가게 되면 표현식의 경우 연산식의 내용과는 상관없이 연산 결과를 NULL이 출력된다.
+SELECT last_name, salary, commission_pct,
+(salary*12) + (salary*12*commission_pct) an_sal
+FROM employees;
+
+LAST_NAME  |SALARY|COMMISSION_PCT|AN_SAL|
+-----------+------+--------------+------+
+Patel      |  2500|              |      |
+Rajs       |  3500|              |      |
+Davies     |  3100|              |      |
+Matos      |  2600|              |      |
+Vargas     |  2500|              |      |
+Russell    | 14000|           0.4|235200|
+Partners   | 13500|           0.3|210600|
+Errazuriz  | 12000|           0.3|187200|
+
+
+
+------------------------------------------------------------------------------------------------------------------
+
+
+SELECT last_name, salary, NVL(commission_pct, 0),
+(salary*12) + (salary*12*NVL(commission_pct, 0)) an_sal
+FROM employees;
+
+LAST_NAME  |SALARY|NVL(COMMISSION_PCT,0)|AN_SAL|
+-----------+------+---------------------+------+
+King       | 24000|                    0|288000|
+Kochhar    | 17000|                    0|204000|
+De Haan    | 17000|                    0|204000|
+Hunold     |  9000|                    0|108000|
+Ernst      |  6000|                    0| 72000|
+Austin     |  4800|                    0| 57600|
+Pataballa  |  4800|                    0| 57600|
+```
+
+
+
+
 
 ---
 
