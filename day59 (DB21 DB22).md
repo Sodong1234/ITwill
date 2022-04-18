@@ -201,9 +201,50 @@ ORA-00979: not a GROUP BY expression
 - 그룹에 대한 조건절
 - WHERE절은 테이블의 행에 대한 조건, HAVING절과는 조건이 적용되는 위치가 다르다.
 - 그룹에 대한 조건은 그룹함수를 기준으로 조건식을 만들 수 있으며, 연산자나 조건값의 작성은 WHERE절과 동일하다.
-- 
 
+![unnamed (1)](https://user-images.githubusercontent.com/95197594/163756820-75e30171-8f82-4288-aa72-ca986e2f0b97.png)
 
+```
+SELECT job_id, SUM(salary) payroll
+FROM employees
+WHERE job_id NOT LIKE '%REP%'
+GROUP BY job_id
+HAVING SUM(salary) > 13000
+ORDER BY SUM(salary);
 
+JOB_ID    |PAYROLL|
+----------+-------+
+PU_CLERK  |  13900|
+AD_PRES   |  24000|
+IT_PROG   |  28800|
+AD_VP     |  34000|
+ST_MAN    |  36400|
+FI_ACCOUNT|  39600|
+ST_CLERK  |  55700|
+SA_MAN    |  61000|
+SH_CLERK  |  64300|
+```
+
+연습문제
+```
+SELECT manager_id, MIN(salary)
+FROM employees
+WHERE manager_id IS NOT NULL
+GROUP BY manager_id
+HAVING MIN(salary) >= 6000
+ORDER BY MIN(salary) DESC;
+
+MANAGER_ID|MIN(SALARY)|
+----------+-----------+
+       102|       9000|
+       205|       8300|
+       146|       7000|
+       145|       7000|
+       108|       6900|
+       149|       6200|
+       147|       6200|
+       148|       6100|
+       201|       6000|
+```
 
 
