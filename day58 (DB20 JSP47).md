@@ -631,7 +631,7 @@ Context 태그 내에 Resource 태그를 사용하여 DBCP 정보 설정
 </Context>
 ```
 
-- vo 패키지에 BoardDTO.java 파일 생성
+- vo 패키지에 BoardDTO.java 파일 생성 및 mysql에 테이블 추가
 
 ```java
 package vo;
