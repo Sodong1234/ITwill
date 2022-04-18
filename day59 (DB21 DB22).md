@@ -513,4 +513,6 @@ EMPLOYEE_ID|LAST_NAME |DEPARTMENT_ID|DEPARTMENT_NAME|
 ### subquery
 - 쿼리구문의 실행을 보조해주는 쿼리구문
 - 메인쿼리구문보다 먼저 실행되며 실행결과를 메인쿼리에 돌려주고 사라짐.
-- 
+
+![unnamed](https://user-images.githubusercontent.com/95197594/163781778-f1e77826-9475-43b4-8c1a-84cacc4b54cc.png)
+
