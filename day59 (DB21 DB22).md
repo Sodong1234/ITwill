@@ -284,3 +284,4 @@ MANAGER_ID|MIN(SALARY)|
 ## JOIN
 - 여러 테이블의 데이터를 연결해서 출력하는 문법
 
+![양윤석 취업](https://user-images.githubusercontent.com/95197594/163762419-69fcd2df-fe13-455f-a1f4-1df6a655a2ad.jpg)
