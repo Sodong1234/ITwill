@@ -223,6 +223,40 @@ SH_CLERK  |  64300|
 
 연습문제
 ```
+
+SELECT job_id, MAX(salary) "Maximum", MIN(salary) "Minimum",
+SUM(salary) "Sum", AVG(salary) "Average"
+FROM employees
+GROUP BY job_id;
+
+JOB_ID    |Maximum|Minimum|Sum   |Average|
+----------+-------+-------+------+-------+
+IT_PROG   |   9000|   4200| 28800|   5760|
+AC_MGR    |  12008|  12008| 12008|  12008|
+AC_ACCOUNT|   8300|   8300|  8300|   8300|
+ST_MAN    |   8200|   5800| 36400|   7280|
+PU_MAN    |  11000|  11000| 11000|  11000|
+AD_ASST   |   4400|   4400|  4400|   4400|
+AD_VP     |  17000|  17000| 34000|  17000|
+SH_CLERK  |   4200|   2500| 64300|   3215|
+FI_ACCOUNT|   9000|   6900| 39600|   7920|
+FI_MGR    |  12008|  12008| 12008|  12008|
+PU_CLERK  |   3100|   2500| 13900|   2780|
+SA_MAN    |  14000|  10500| 61000|  12200|
+MK_MAN    |  13000|  13000| 13000|  13000|
+PR_REP    |  10000|  10000| 10000|  10000|
+AD_PRES   |  24000|  24000| 24000|  24000|
+SA_REP    |  11500|   6100|250500|   8350|
+MK_REP    |   6000|   6000|  6000|   6000|
+ST_CLERK  |   3600|   2100| 55700|   2785|
+HR_REP    |   6500|   6500|  6500|   6500|
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
 SELECT manager_id, MIN(salary)
 FROM employees
 WHERE manager_id IS NOT NULL
