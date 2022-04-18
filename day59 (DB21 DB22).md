@@ -286,3 +286,101 @@ MANAGER_ID|MIN(SALARY)|
 
 ![unnamed (2)](https://user-images.githubusercontent.com/95197594/163762524-06843940-e82a-4157-86a4-bd3f9cdac613.png)
 
+
+### ON절을 사용한 JOIN
+- FROM, JOIN절에 연결할 테이블명을 작성
+- ON절에는 테이블 간 연결할 조건을 작성
+```
+
+SELECT employees.employee_id, employees.last_name, 
+departments.department_id, departments.department_name
+FROM employees JOIN departments
+ON employees.department_id = departments.department_id;
+
+EMPLOYEE_ID|LAST_NAME  |DEPARTMENT_ID|DEPARTMENT_NAME |
+-----------+-----------+-------------+----------------+
+        200|Whalen     |           10|Administration  |
+        201|Hartstein  |           20|Marketing       |
+        202|Fay        |           20|Marketing       |
+        114|Raphaely   |           30|Purchasing      |
+        115|Khoo       |           30|Purchasing      |
+        116|Baida      |           30|Purchasing      |
+        117|Tobias     |           30|Purchasing      |
+        118|Himuro     |           30|Purchasing      |
+        119|Colmenares |           30|Purchasing      |
+        203|Mavris     |           40|Human Resources |
+        120|Weiss      |           50|Shipping        |
+        121|Fripp      |           50|Shipping        |
+        122|Kaufling   |           50|Shipping        |
+        123|Vollman    |           50|Shipping        |
+        124|Mourgos    |           50|Shipping        |
+…
+```
+
+### table alias 적용
+- 테이블의 별명으로 구문이 실행되는 동안 유지된다.
+```
+SELECT emp.employee_id, emp.last_name, 
+dept.department_id, dept.department_name
+FROM employees emp JOIN departments dept
+ON emp.department_id = dept.department_id;
+```
+
+### 테이블명 생략
+```
+- 테이블간 컬럼명이 중복되지 않는다면 컬럼이 속한 테이블명을 생략할 수 있다.
+
+SELECT employee_id, last_name, 
+dept.department_id, department_name
+FROM employees emp JOIN departments dept
+ON emp.department_id = dept.department_id;
+
+- JOIN의 문법을 통해서 연결된 테이블의 정보에서도 WHERE절을 사용할 수 있다.
+SELECT employee_id, last_name, 
+dept.department_id, department_name
+FROM employees emp JOIN departments dept
+ON emp.department_id = dept.department_id
+WHERE emp.manager_id = 149;
+
+EMPLOYEE_ID|LAST_NAME |DEPARTMENT_ID|DEPARTMENT_NAME|
+-----------+----------+-------------+---------------+
+        174|Abel      |           80|Sales          |
+        175|Hutton    |           80|Sales          |
+        179|Johnson   |           80|Sales          |
+        177|Livingston|           80|Sales          |
+        176|Taylor    |           80|Sales          |
+
+```
+
+연습문제
+```
+
+SELECT employee_id, last_name, salary, 
+dept.department_id, department_name
+FROM employees emp JOIN departments dept
+ON emp.department_id = dept.department_id;
+
+EMPLOYEE_ID|LAST_NAME  |SALARY|DEPARTMENT_ID|DEPARTMENT_NAME |
+-----------+-----------+------+-------------+----------------+
+        200|Whalen     |  4400|           10|Administration  |
+        201|Hartstein  | 13000|           20|Marketing       |
+        202|Fay        |  6000|           20|Marketing       |
+        114|Raphaely   | 11000|           30|Purchasing      |
+        115|Khoo       |  3100|           30|Purchasing      |
+        116|Baida      |  2900|           30|Purchasing      |
+        117|Tobias     |  2800|           30|Purchasing      |
+        118|Himuro     |  2600|           30|Purchasing      |
+        119|Colmenares |  2500|           30|Purchasing      |
+        203|Mavris     |  6500|           40|Human Resources |
+        120|Weiss      |  8000|           50|Shipping        |
+        121|Fripp      |  8200|           50|Shipping        |
+        122|Kaufling   |  7900|           50|Shipping        |
+…
+```
+
+### ON절을 사용한 self-join
+- 동일한 테이블 간의 데이터를 연결하여 출력하는 JOIN 문법
+
+
+
+
