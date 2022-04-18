@@ -381,6 +381,136 @@ EMPLOYEE_ID|LAST_NAME  |SALARY|DEPARTMENT_ID|DEPARTMENT_NAME |
 ### ON절을 사용한 self-join
 - 동일한 테이블 간의 데이터를 연결하여 출력하는 JOIN 문법
 
+![unnamed](https://user-images.githubusercontent.com/95197594/163773607-f2749bd8-e47f-4a1c-80de-876fa61bb5bf.png)
+```
+- 사원과 매니저직원의 정보를 같이 출력
+SELECT worker.employee_id, worker.last_name, worker.manager_id,
+manager.employee_id, manager.last_name, manager.manager_id
+FROM employees worker JOIN employees manager
+ON worker.manager_id = manager.employee_id;
+
+EMPLOYEE_ID|LAST_NAME  |MANAGER_ID|EMPLOYEE_ID|LAST_NAME|MANAGER_ID|
+-----------+-----------+----------+-----------+---------+----------+
+        105|Austin     |       103|        103|Hunold   |       102|
+…
+        103|Hunold     |       102|        102|De Haan  |       100|
+…
+        102|De Haan    |       100|        100|King     |          |
+…
 
 
 
+------------------------------------------------------------------------------------------------
+
+
+
+- 매니저의 사원번호가 103인 사원들을 출력 (103 사원의 부하직원 출력)
+SELECT worker.employee_id, worker.last_name, worker.manager_id,
+manager.employee_id, manager.last_name, manager.manager_id
+FROM employees worker JOIN employees manager
+ON worker.manager_id = manager.employee_id
+WHERE worker.manager_id = 103;
+
+EMPLOYEE_ID|LAST_NAME|MANAGER_ID|EMPLOYEE_ID|LAST_NAME|MANAGER_ID|
+-----------+---------+----------+-----------+---------+----------+
+        104|Ernst    |       103|        103|Hunold   |       102|
+        105|Austin   |       103|        103|Hunold   |       102|
+        106|Pataballa|       103|        103|Hunold   |       102|
+        107|Lorentz  |       103|        103|Hunold   |       102|
+
+```
+
+
+연습문제
+```
+
+SELECT w.last_name "Employee", w.employee_id "Emp#",
+m.last_name "Manager", m.employee_id "Mgr#"
+FROM employees w JOIN employees m
+ON w.manager_id = m.employee_id;
+
+Employee   |Emp#|Manager  |Mgr#|
+-----------+----+---------+----+
+Ozer       | 168|Cambrault| 148|
+Bloom      | 169|Cambrault| 148|
+Fox        | 170|Cambrault| 148|
+Smith      | 171|Cambrault| 148|
+Bates      | 172|Cambrault| 148|
+Kumar      | 173|Cambrault| 148|
+Hunold     | 103|De Haan  | 102|
+Vishney    | 162|Errazuriz| 147|
+Greene     | 163|Errazuriz| 147|
+Marvins    | 164|Errazuriz| 147|
+Lee        | 165|Errazuriz| 147|
+Ande       | 166|Errazuriz| 147|
+Banda      | 167|Errazuriz| 147|
+Bissot     | 129|Fripp    | 121|
+…
+```
+
+### 3 이상의 테이블 JOIN
+- JOIN과 ON절의 기능은 동일하며 반복해서 연결할 테이블의 정보를 작성해서 JOIN을 할 수 있다.
+```
+
+SELECT employee_id, last_name, d.department_id, department_name, 
+l.location_id, city, c.country_id, country_name, r.region_id, region_name
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id
+JOIN locations l
+ON d.location_id = l.location_id
+JOIN countries c
+ON l.country_id = c.country_id
+JOIN regions r
+ON c.region_id = r.region_id;
+
+EMPLOYEE_ID|LAST_NAME  |DEPARTMENT_ID|DEPARTMENT_NAME |LOCATION_ID|CITY               |COUNTRY_ID|COUNTRY_NAME            |REGION_ID|REGION_NAME|
+-----------+-----------+-------------+----------------+-----------+-------------------+----------+------------------------+---------+-----------+
+        100|King       |           90|Executive       |       1700|Seattle            |US        |United States of America|        2|Americas   |
+        101|Kochhar    |           90|Executive       |       1700|Seattle            |US        |United States of America|        2|Americas   |
+        102|De Haan    |           90|Executive       |       1700|Seattle            |US        |United States of America|        2|Americas   |
+        103|Hunold     |           60|IT              |       1400|Southlake          |US        |United States of America|        2|Americas   |
+        104|Ernst      |           60|IT              |       1400|Southlake          |US        |United States of America|        2|Americas   |
+        105|Austin     |           60|IT              |       1400|Southlake          |US        |United States of America|        2|Americas   |
+…
+```
+
+### equi join
+- ON절과 JOIN절을 사용하지 않는 문법
+```
+
+SELECT employee_id, last_name, e.department_id, department_name
+FROM employees e, departments d
+WHERE e.department_id = d.department_id;
+
+EMPLOYEE_ID|LAST_NAME  |DEPARTMENT_ID|DEPARTMENT_NAME |
+-----------+-----------+-------------+----------------+
+        200|Whalen     |           10|Administration  |
+        201|Hartstein  |           20|Marketing       |
+        202|Fay        |           20|Marketing       |
+        114|Raphaely   |           30|Purchasing      |
+        115|Khoo       |           30|Purchasing      |
+        116|Baida      |           30|Purchasing      |
+…
+```
+
+### 자연 조인
+```
+SELECT employee_id, last_name, department_id, department_name
+FROM employees NATURAL JOIN departments;
+
+EMPLOYEE_ID|LAST_NAME |DEPARTMENT_ID|DEPARTMENT_NAME|
+-----------+----------+-------------+---------------+
+        101|Kochhar   |           90|Executive      |
+        102|De Haan   |           90|Executive      |
+        104|Ernst     |           60|IT             |
+        105|Austin    |           60|IT             |
+        106|Pataballa |           60|IT             |
+        107|Lorentz   |           60|IT             |
+…
+```
+
+### subquery
+- 쿼리구문의 실행을 보조해주는 쿼리구문
+- 메인쿼리구문보다 먼저 실행되며 실행결과를 메인쿼리에 돌려주고 사라짐.
+- 
