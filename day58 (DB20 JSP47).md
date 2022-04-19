@@ -453,6 +453,50 @@ public class WriteProServlet extends HttpServlet {
 }
 
 ```
+## Model 1 개발 방식 vs Model 2 개발 방식
+1. Model 1 방식 : 화면 구성(디자이너) 코드와 백엔드 작업(개발자) 코드가 하나의 JSP 페이지에서 모두 수행되는 방식
+- 프로젝트 규모가 적을 때 코드가 간단
+- 개발자와 디자이너 코드 섞여있으므로 유지보수 어렵다
+- 프로젝트 규모가 커지면 생산성 저하
+
+2. Model 2 방식 : 화면 구성 코드(Presentation Logic)와 데이터베이스 처리 코드(Business Logic)가 별도로 분리되어 수행되는 방식
+- (ex. 디자이너는 jsp 파일, 개발자는 java 클래스를 사용하여 작업)
+- 설계 시 해당 구조를 잘 설계해야만 작업 원활
+- 개발자와 디자이너 코드가 분리되어 있으므로 유지보수 쉽다 
+- 프로젝트 규모가 커질 수록 생산성 증대
+---
+MVC 패턴
+1. Controller(Servlet 클래스)
+- Model 과 View 의 연결 역할을 수행
+- 모든 요청의 시작점(진입점) 역할을 수행
+- 자바 코드로 이루어져 있지만, 웹으로부터의 요청도 처리되어야 하므로 Servlet 클래스로 정의
+	- (Servlet 클래스 = 웹에서의 요청을 처리할 수 있는 자바 클래스)
+
+2. Model(POJO = 순수 자바 객체)
+- 웹과 관련없는 자바 코드로만 이루어진 객체
+- Business Logic(DB 처리 작업 등) 용도로 사용하는 객체이므로 서블릿 클래스로 정의할 필요가 없음
+	- 즉, 일반적인 자바 클래스로 정의
+- Model 객체를 통해서만 데이터베이스 접근이 가능함
+- 처리 결과를 Controller 를 통해 View 페이지로 전달하여 출력을 수행(직접 출력 X)
+- 주로 DAO 클래스와 DTO 클래스를 의미함
+- ex) 게시판 글 쓰기, 글 목록 조회, 글 수정 등의 실제 데이터베이스 작업 처리를 담당
+
+3. View(JSP 파일)
+- 화면 출력을 담당
+- 대부분의 코드가 웹디자인 관련(HTML, CSS, Javascript 등) 코드로 이루어져 있음
+- 절대 Business Logic 코드를 구현하지 않으며 단순히 Controller 로부터 Model 이 처리한 결과를 보여주는 역할을 수행
+
+
+
+## [ MVC_Board 프로젝트 패키지 구조 ]
+- action - Action 클래스 위치(= Controller 역할)
+- controller - FrontController 클래스 위치(= 초기 진입점)
+- dao - JavaBean 중 비즈니스 로직 처리 역할을 수행할 DAO 클래스 위치
+- db - 데이터베이스 연결 작업을 담당하는 JdbcUtil 클래스 위치
+- svc - Service 클래스 위치(DB 작업 처리 결과 판별 및 트랜잭션 처리 담당)
+- vo - JavaBean 중 데이터 저장 역할을 수행할 XXXBean 클래스(= DTO) 위치
+
+---
 
 > 모델2 수업을 위한 기초 세팅 작업 실시
 
