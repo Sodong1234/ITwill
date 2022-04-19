@@ -623,3 +623,13 @@ qna_board_write.jsp
 ```
 
 
+## MVC 게시판 흐름
+![MVC게시판_흐름](https://user-images.githubusercontent.com/95197594/163960943-51fb8d59-9083-4f40-8c7b-d5eba37031f6.png)
+
+
+---
+
+## MVC_Board 구조(흐름)
+![MVC_Board 구조(흐름)](https://user-images.githubusercontent.com/95197594/163960956-9fca468c-1985-48ce-96ce-fee109bd1124.jpg)
+
+
