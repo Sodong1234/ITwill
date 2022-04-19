@@ -423,6 +423,26 @@ public class WriteProServlet extends HttpServlet {
 
 ```
 
+**[ 포워딩 방식 비교 (Redirect 방식 vs Dispatcher 방식) ]
+1. Redirect 방식
+1) 새로운 요청이 발생하므로 웹브라우저 주소표시줄의 URL 이 변경됨
+	- (= 포워딩 될 새로운 주소로 바뀜)
+2) 새로운 요청에 의해 새 request 객체가 생성되므로 이전 페이지에서 사용한 request 객체의 속성값이 유지되지 않음
+	- (= 이전 페이지의 request 객체에 접근 불가능)
+- 포워딩 방법 : response 객체의 sendRedirect() 메서드를 호출하여 포워딩 할 페이지를 파라미터로 전달
+	- ex) response.sendRedirect("main.jsp");
+
+2. Dispatcher 방식
+1) 웹브라우저 주소표시줄의 URL 이 변경되지 않은 채로 요청을 수행
+- 이전의 요청 URL 이 새 페이지로 포워딩 될 때도 그대로 유지됨 (즉, 주소 변경 없이 새로운 페이지로 이동)
+2) 이전 페이지의 요청과 동일한 요청으로 처리되므로
+-	기존의 request 객체가 유지되며, request 객체의 속성값도 유지됨
+	- 따라서, 포워딩 된 페이지에서도 request 객체에 접근 가능
+- 포워딩 방법 : request 객체의 getRequestDispatcher() 메서드를 호출하여 RequestDispatcher 객체를 리턴받은 후 리턴받은 객체의 forward() 메서드를 호출하여 포워딩 수행
+	- (forward() 메서드 파라미터로 request, response 객체 전달)
+
+
+
 # [오후수업] JAVA 34차
 
 ## StringTokenizer 클래스
