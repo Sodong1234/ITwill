@@ -347,7 +347,7 @@ Cambrault  |.3           |
 
 ---
 
-# [오후수업] JSP 47차
+# [오후수업] JSP 48차
 
 * java 파일
 ```java
