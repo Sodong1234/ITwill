@@ -761,3 +761,469 @@ public class BoardDAO {
 
 # [오후수업] JAVA 36차
 
+## 자바 I/O (Input / Output)
+- java.io 패키지에 있는 클래스들의 모음
+- 자바에서 각종 입출력을 담당
+- Node(노드) : 자바에서 입출력을 수행하는 대상
+	- (입력 노드 : 키보드, 마우스, 파일, 네트워크, 데이터베이스 등)
+	- (출력 노드 : 모니터, 스피커, 파일, 네트워크, 데이터베이스 등)
+
+- Stream(스트림) : 입력 또는 출력 데이터가 한 방향으로 끊임없이 전송되는 것
+	- 출발지 노드 -> 도착지 노드
+- 입력스트림 : 자바에서 데이터가 입력될 때 처리하는 스트림
+- 출력스트림 : 자바에서 데이터가 출력될 때 처리하는 스트림
+
+** 스트림 종류
+1. byte 기반(단위) 스트림
+- 그림, 사진, 영상 등 바이너리(Binary) 데이터를 입출력
+- InputStream, OutputStream을 최상위 클래스로 두고 XXXInputStream, XXXOutputStream 클래스가 하위클래스로 존재함
+2. char 기반(단위) 스트림
+- 문자 데이터(텍스트)를 입출력
+- Reader, Writer 를 최상위 클래스로 두고 XXXReader, XXXWriter 클래스가 하위클래스로 존재함
+
+** 표준 입출력 : 컴퓨터에서 기본적으로 사용하는 입출력
+- 표준 입력 장치 : 키보드
+- 표준 출력 장치 : 모니터
+- 표준 입출력을 담당하는 클래스 : System
+1) System.in : 표준 입력을 담당(키보드에서 입력받기 가능)
+2) System.out : 표준 출력을 담당(모니터로 출력 가능)
+3) System.err : 모니터에 에러 정보 출력(잘 사용하지 않음)
+
+### 키보드로부터 데이터를 입력받아 처리하는 방법
+```java
+package io;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로부터 데이터를 입력받아 처리하는 방법
+		 * 1. InputStream 객체를 사용하여 1Byte 단위로 입력데이터를 처리하는 방법
+		 * 		- read() 메서드를 사용하여 1Byte 만큼의 데이터를 가져올 수 있음
+		 * 		- 아무리 많은 데이터가 입력되어도 read() 메서드는 한 번에 1Byte만 처리되므로
+		 * 		  더 많은 데이터나 더 큰 단위 처리가 불가능
+		 * 		  => 영문 또는 숫자 등의 데이터 1글자만 처리 가능
+		 * 		  => 한글이나 한자 등 2Byte(char 단위) 문자들은 처리 불가능
+		 * 		  => 읽어온 데이터가 int형 이므로 문자로 변환 등의 후속 작업 필요
+		 * 		- 가장 저수준의 입력 방법
+		 * 
+		 */
+//		InputStream is = null;
+//		
+//	try {
+//		System.out.println("데이터를 입력하세요!");
+//		is = System.in;
+//		// => System.in 코드에 의해 키보드로부터 데이터 입력이 가능하며
+//		// 입력 스트림 객체를 InputStream 타입 변수에 저장(연결)
+//		int n = is.read(); // 입력스트림 데이터 중 1Byte 만큼의 데이터 읽어서 변수에 저장
+//		System.out.println("입력 데이터 : " + n);
+//		System.out.println("입력 데이터를 문자로 변환 : " + (char)n);
+//	} catch (IOException e) {
+//		e.printStackTrace();
+//	} finally {
+//		if(is != null) try { is.close(); } catch (IOException e) {} 
+//	}
+		
+	// ==================================================
+	/*
+	 * try ~ resource 구문을 사용하여 자원 반환(close())을 자동으로 수행
+	 * - 기본적으로 자원을 사용하는 객체(Connection, InputStream 등)는
+	 * 	 사용 후 close() 메서드 호출을 통해 사용중인 자원을 반환해아하며
+	 * 	 자원이 반환되지 않으면 반복적인 자원 요청으로 인해 자원이 고갈되어
+	 * 	 더 이상 다른 사용자의 작업 요청을 수행할 수 없게 된다!
+	 * 	 => 예외 발생 여부와 관계업이 finally 블록 내에서 자원반환 코드 기술했음
+	 * - try ~ resource 구문은 try문에서 반환할 자원을 갖는 객체를 생성하고
+	 * 	 try ~ catch 블록 작업이 끝나면 자동으로 자원을 반환해 주도록 함
+	 * 
+	 * < 기본 문법 >
+	 * try(자원을 반환할 객체 생성 및 변수에 저장) {
+	 * 		// 작업 수행
+	 * } catch(...) {
+	 * 		// 예외 처리 작업 수행
+	 * }
+	 */
+	
+	// try문의 소괄호() 내부에 예외처리가 필요한 객체의 생성 코드를 작성
+//	try(InputStream is = System.in) {
+//		int n = is.read();
+//		System.out.println("입력 데이터 : " + n);
+//		System.out.println("입력 데이터(문자로 변환) : " + (char)n);
+//	} catch(IOException e) {
+//		e.printStackTrace();
+//	}
+		
+	// => 별도의 close() 메서드를 호출하지 않아도 자동으로 자원이 반환됨
+	
+	// ====================================================
+	// 반복문을 사용하여 1Byte씩 여러번 반복하여 입력 처리
+	System.out.println("데이터를 입력하세요. (취소 시 Ctrl + Z)");
+	try (InputStream is = System.in) {
+		
+		int n = is.read();
+		while(n != -1) {
+			System.out.println("입력데이터 : " + n + ", 문자로변환 : " + (char)n);
+			n = is.read();
+		}
+		
+	} catch(IOException e) {
+		e.printStackTrace();
+	}
+
+	}
+}
+
+```
+
+```java
+package io;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로부터 데이터를 입력받아 처리하는 방법
+		 * 2. InputStream 객체를 사용하여 1Byte 단위로 입력 데이터를 처리하지 않고
+		 * 	  배열을 사용하여 한 번에 여러 Byte를 모아서 처리하는 방법
+		 * 	  - read(byte[] b) 메서드를 호출하여 입력데이터를 배열크기만큼 읽어와서 저장
+		 * 	  - 아무리 많은 데이터가 입력되어도 배열 크기만큼만 다룰 수 있기 때문에
+		 * 	    더 많은 데이터나 더 큰 단위 처리가 불가능
+		 * 	  - 가장 저수준의 입력 방법
+		 */
+//		System.out.println("데이터를 입력하세요.");
+//		
+//		try(InputStream is = System.in) {
+//			// 1Byte씩 묶음으로 처리할 byte[] 배열을 생성
+//			byte[] bArr = new byte[10]; // 10Byte 단위로 묶을 경우
+//			
+//			// read() 메서드 파라미터로 byte[] 배열을 전달할 경우
+//			// 입력되는 스트림을 자동으로 배열 크기만큼 읽어서 배열에 저장
+//			// => 배열에 저장된 데이터 크기(읽어들인 바이트 수)를 리턴
+//			int n = is.read(bArr);
+//			System.out.println("입력 데이터 크기 : " + n + "바이트");
+//			
+//			for(byte b : bArr) {
+//				System.out.println("입력 데이터 : " + b + ", 문자로 변환 : " + (char)b);
+//			}
+//			
+//			// String 클래스를 활용하면 byte	[] 배열 데이터를 문자열로 변환 가능
+//			String str = new String(bArr);
+//			System.out.println("입력데이터(문자열) : " + str);
+//			
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
+		// ==================================================
+		System.out.println("데이터를 입력하세요. (Ctrl + Z)"); // -1 입력됨
+		
+		try(InputStream is = System.in) {
+			byte[] bArr = new byte[10];
+			
+			int n = is.read(bArr);
+			while(n > 0) {
+				
+				String str = new String(bArr);
+				System.out.println("입력데이터(문자열) : " + str);
+				
+				n = is.read(bArr);
+			}
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
+```java
+package io;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로부터 데이터를 입력받아 처리하는 방법
+		 * 3. InputStreamReader 객체를 사용하여 char 단위로 입력데이터를 처리하는 방법
+		 * 	- InputStream 객체를 파라미터로 갖는 InputStreamReader 객체 생성
+		 * 	  => 보조스트림을 사용하는 스트림 체이닝(Stream Chaning) 방식 문법 구성
+		 * 	- read() 메서드를 호출하여 입력데이터를 char단위(2Byte) 만큼 읽어와서 저장
+		 * 	- 아무리 많은 데이터가 입력되어도 2Byte(char) 만큼만 다룰 수 있기 때문에
+		 * 	  더 많은 데이터나 더 큰 단위 처리가 불가능
+		 * 	  => 영문 또는 숫자 등의 데이터 1글자만 처리 가능
+		 * 	  => 한글이나 한자 등 2Byte(char 단위) 문자도 처리 가능(1글자)
+		 * 	  => 읽어온 데이터를 문자로 변환하는 후속작업 필요
+		 * - InputStream 보다는 유용하지만, 여전히 낮은 수준의 입력 처리 방식
+		 * 
+		 * < 기본 문법 >
+		 * InputStreamReader reader = new InputStreamReader(InputStream 객체);
+		 * 
+		 */
+		// 1. System.in을 사용하여 입력 스트림 가져오기
+//		InputStream is = System.in;
+		
+		// 2. InputStreamReader 객체 생성 => 파라미터로 InputStream 객체를 전달
+//		InputStreamReader reader = new InputStreamReader(is);
+		
+		// ------------------------- 위의 문법을 한 문장으로 결합 --------------------------------
+//		InputStreamReader reader = new InputStreamReader(System.in);
+
+//		System.out.println("데이터를 입력하세요.");
+//		try(InputStreamReader reader = new InputStreamReader(System.in)) {
+//			// InputStreamReader 객체의 read() 메서드를 호출하여 char 단위 읽어오기
+//			int n = reader.read();
+//
+//			System.out.println("입력된 데이터 : " + n + ", 문자로 변환 : " + (char)n);
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		// =======================================================================
+		System.out.println("데이터를 입력하세요. (Ctrl + Z)");
+		
+		try(InputStreamReader reader = new InputStreamReader(System.in)) {
+			
+			int n = reader.read();
+			
+			while(n != -1) {
+				System.out.println("입력된데이터 : " + n + ", 문자로 변환 : " + (char)n);
+				n = reader.read();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
+
+```java
+package io;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Ex4 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로부터 데이터를 입력받아 처리하는 방법
+		 * 4. InputStreamReader 객체를 사용하여 char 단위로 읽어온 데이터를
+		 * 	  배열을 사용하여 한 번에 여러 문자로 모아서 처리하는 방법
+		 */
+		System.out.println("데이터를 입력하세요.");
+		
+		try(InputStreamReader reader = new InputStreamReader(System.in)) {
+			char[] chArr = new char[10];
+			
+			int n = reader.read(chArr);
+			
+			System.out.println("입력데이터(문자열) : " + new String(chArr));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+```
+
+```java
+package io;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+public class Ex5 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로부터 데이터를 입력받아 처리하는 방법
+		 * 5. BufferReader 객체를 사용하여 String 단위로 입력 데이터를 처리하는 방법
+		 * 		- inputStream 객체를 파라미터로 갖는 inputStreamReader 객체 생성 후
+		 * 		  다시 InputStreamReader 객체를 파라미터로 갖는 BufferedReader 객체 생성
+		 * 		  => 보조스트림을 사용하는 스트림 체이닝(Stream Chaning) 방식 문법 구성
+		 * 		  => 이처럼 기본 스트림을 꾸며주는 역할을 하는 보조스트림을 적용하여
+		 * 			 입출력을 처리하는 방식을 데코레이션 패턴(Decoration Pattern) 이라고 함
+		 * 		- read() 메서드가 아닌 readLine() 메서드를 사용하여 String 단위로 처리
+		 * 		  => 즉, 데이터를 한 문장(라인 = 엔터키 기준)단위로 읽어들여 처리
+		 * 		- 키보드를 통해 입력되는 데이터를 처리하는 최종적인 방법(가장 효율적)
+		 */
+
+		// 스트림 체이닝을 통한 데코레이션 패턴 구현
+		// 1. 기본 입력스트림 객체(InputStream) 생성 = byte 단위 처리
+//		InputStream is = System.in;
+		
+		// 2. 입력스트림을 연결하는 보조스트림 InputStreamReader 객체 생성 = char 단위 처리
+//		InputStreamReader reader = new InputStreamReader(is);
+		
+		// 3. 향상된 입력 보조스트림 BufferedReader 객체 생성 = String 단위 처리
+//		BufferedReader buffer = new BufferedReader(reader);
+		
+		// ------------------- 위 세 문장을 하나의 문장으로 결합 --------------------
+//		BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+		
+//		System.out.println("데이터를 입력하세요.");
+//		
+//		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in))) {
+//			
+//			String str = buffer.readLine();
+//			System.out.println("입력데이터 : " + str);
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+		// ======================================================
+		// 반복문을 사용하여 Ctrl + Z 입력 시 까지의 모든 문자열을 출력
+		// => 주의! Ctrl + 입력데이터가 정수일 때는 -1, 문자열일 때는 null 값 사용
+		System.out.println("데이터를 입력하세요. (취소: Ctrl + Z)");
+		
+		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in))) {
+			
+			String str = buffer.readLine();
+			
+			while(str != null) {
+				System.out.println("입력데이터 : " + str);
+				str = buffer.readLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("입력 종료!");
+		
+		
+	}
+
+}
+
+```
+
+### 모니터로 데이터를 출력하는 방법
+
+```java
+package io;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Ex6 {
+
+	public static void main(String[] args) {
+		/*
+		 * 모니터로 데이터를 출력하는 방법
+		 * 1. 기본 출력스트림인 OutputStream 사용(byte 단위로 처리)
+		 * 		- write() 메서드를 호출하여 byte 단위 출력
+		 * 		- byte 단위로 처리되므로 문자열 데이터 자체를 처리할 수 없음
+		 * 
+		 */
+
+		// OutputStream 객체를 연결하기 위해서는 System.out 사용
+//		OutputStream os = System.out;
+		
+//		char ch = 'A';
+//		
+//		try(OutputStream os = System.out) {
+//			os.write(ch);	// 1byte 단위로 출력하므로 한글, 한자 등 출력 불가능
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		// ==============================================================
+		// String 타입 데이터(문자열)를 OutputStream 으로 출력
+		String str = "Hello, 자바";
+		
+		try(OutputStream os = System.out) {
+			// write(byte[] b) 메서드를 호출하여 출력할 데이터를 배열로 전달
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+```
+
+연습문제
+```java
+package io;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
+public class Test6 {
+
+	public static void main(String[] args) {
+		// BufferedReader 를 사용하여 입력받은 문자열을
+		// OutputStream 을 사용하여 출력
+		
+		// try ~ resource 구문 작성
+		// try() 문장 소괄호 내에 복수개의 객체를 세미콜론(;) 으로 구분하여 전달 가능
+		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in)); 
+				OutputStream os = System.out;) {
+			
+			// 입력 스트림에서 한 줄의 데이터(문자열) 읽어오기
+			String str = buffer.readLine();
+			
+			// 출력 스트림을 통해 입력데이터 출력하기
+			os.write(str.getBytes());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+```
+```java
+package io;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
+public class Ex7 {
+
+	public static void main(String[] args) {
+		/*
+		 * 모니터로 데이터를 출력하는 방법
+		 * 2. OutputStreamWriter 사용 (char 단위로 처리)
+		 * - write() 메서드를 호출하여 char[] 배열 또는 String 객체를 전달하여
+		 * 	 문자 데이터 출력 가능
+		 * 	 => String 클래스는 char[] 배열로 관리되므로 Writer 계열에서 처리 가능
+		 * - 데코레이션 패턴을 활용하기 위해 BufferedWriter 객체 사용 가능
+		 *   => OutputStreamWriter 보다 BufferedWriter 의 처리속도가 빠르다!
+		 * 
+		 */
+		
+		try(OutputStreamWriter writer = new OutputStreamWriter(System.out)) {
+			String str = "Hello, 자바";
+			writer.write(str);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+
+}
+```
