@@ -453,6 +453,43 @@ Bissot     | 129|Fripp    | 121|
 …
 ```
 
+연습문제2
+
+```
+Q. 전체 직원 중에 Toronto에 근무하는 사원에 대한 보고서를 작성한다. Toronto에서 근무
+하는 모든 사원의 last_name, job_id, department_id, department_name을 출력하는
+명령문을 작성하시오.
+
+
+
+--on절을 사용한 join
+SELECT last_name, job_id,
+d.department_id, department_name, 
+l.location_id, l.city
+FROM departments d
+JOIN locations l
+ON d.location_id = l.location_id
+JOIN employees e
+ON e.department_id = d.department_id
+WHERE city = 'Toronto';
+
+
+--일반 JOIN
+SELECT last_name, job_id, 
+d.department_id, department_name, city
+FROM employees e, departments d, locations l
+WHERE e.department_id = d.department_id
+AND d.location_id = l.location_id
+AND city = 'Toronto';
+
+
+LAST_NAME|JOB_ID|DEPARTMENT_ID|DEPARTMENT_NAME|LOCATION_ID|CITY   |
+---------+------+-------------+---------------+-----------+-------+
+Hartstein|MK_MAN|           20|Marketing      |       1800|Toronto|
+Fay      |MK_REP|           20|Marketing      |       1800|Toronto|
+```
+
+
 ### 3 이상의 테이블 JOIN
 - JOIN과 ON절의 기능은 동일하며 반복해서 연결할 테이블의 정보를 작성해서 JOIN을 할 수 있다.
 ```
