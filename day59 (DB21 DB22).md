@@ -558,3 +558,25 @@ EMPLOYEE_ID|LAST_NAME |DEPARTMENT_ID|DEPARTMENT_NAME|
 
 ![unnamed](https://user-images.githubusercontent.com/95197594/163781778-f1e77826-9475-43b4-8c1a-84cacc4b54cc.png)
 
+- WHERE절에 사용한 경우 컬럼의 데이터 타입, 컬럼 수, 값의 수를 고려하여 적절하게 서브쿼리를 작성해야한다.
+
+- 서브쿼리에서 1개의 숫자 값을 돌려주는 내용을 출력했으므로 메인쿼리의 salary컬럼과 '='으로 비교연산하는데 전혀 문제가 없음.
+
+```
+
+SELECT last_name, job_id, salary
+FROM employees
+WHERE salary = (
+    SELECT MIN(salary)
+    FROM employees
+);
+
+
+LAST_NAME|JOB_ID  |SALARY|
+---------+--------+------+
+Olson    |ST_CLERK|  2100|
+
+서브쿼리는 문자, 날짜, 숫자 데이터가 들어가는 어느 위치에서건 사용할 수 있는 문법!
+
+```
+
