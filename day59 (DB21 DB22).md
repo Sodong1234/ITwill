@@ -175,6 +175,7 @@ SELECT department_id, COUNT(last_name)
        *
 ERROR at line 1:
 ORA-00937: not a single-group group function
+
 - 그룹 함수를 사용한 경우 GROUP BY절에서 사용한 컬럼이외에는 SELECT절에 컬럼명은 작성이 불가능하다.
 - GROUP BY절을 사용하지 않은 경우 SELECT절에는 일반 컬럼은 입력할 수 없다.
 ```
