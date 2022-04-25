@@ -1,4 +1,8 @@
 # [오전수업] DB 24차
+
+> 23차 수업 복습 실시
+
+
 ## DML(데이터 조작어 / Data Manipulation Language)
 - 테이블의 데이터를 조작하는데 사용하는 문법
 - 새로운 데이터 입력 (INSERT)
@@ -391,3 +395,559 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 ---
 
 # [오후수업] JAVA 37차
+
+- 연습문제1
+```java
+package book;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		// 386p
+		// Q1)
+		// 두 개의 인스턴스가 메모리는 다르더라도 논리적으로 동일하다는 것을 
+		// 구현하는 Object의 메서드는 eXXX 입니다. 정답: equals()
+		
+		// Q2)
+		// String 클래스는 멤버로 가지는 문자열 변수가 final이어서 변하지 않습니다. 다음과 같이 두 개의
+		// String 변수를 연결할 때 힙 메모리에 생성되는 String 인스턴스를 그려보세요.
+//		String a = new String("abc");
+//		String b = new String("def");
+//		a = a + b;
+//		String c = new String("abc");
+//		String d = "abc";
+		
+		// ------------------------------------
+//		String a = "abc";
+//		String b = "def";
+//		a = a + b;
+//		String c = "abc";
+//		System.out.println(a == c);
+		
+		// Q3)
+		// 기본 자료형을 멤버 변수로 포함하여 메서드를 제공함으로써 기본 자료형의 객체를 
+		// 제공하는 클래스를 WXXX 라고 합니다. 정답: Wrapper Class
+		
+		// Q4)
+		MyDog dog = new MyDog("멍멍이", "진돗개");
+		System.out.println(dog);	// 출력결과: 진돗개 멍멍이 
+		
+	}
+
+}
+
+//Q4)
+//다음 코드의 결과가 '진돗개 멍멍이' 가 되도록 MyDog클래스를 수정하세요.
+class MyDog {
+	String name;
+	String type;
+	
+	public MyDog(String name, String type) {
+		this.name = name;
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return type + " " + name;
+	}
+}
+```
+
+- 연습문제2
+```java
+package book;
+
+import java.util.HashSet;
+import java.util.Iterator;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		// 446p
+		// Q1)
+		// 자료구조를 사용하기 편리하도록 자바에서 제공하는 라이브러리를 컬XXX 라고 합니다.
+		// 정답: 컬렉션 프레임워크, 컬렉션 라이브러리, 컬렉션 API
+		
+		// Q2)
+		// 클래스에서 여러 자료형을 사용할 때 자료형을 명시하지 않고 자료형을 의미하는
+		// 문자로 선언한 후 실제 클래스를 생성할 때 자료형을 명시하는 프로그래밍 방식을 제XXX 이라고 합니다.
+		// 정답: 제네릭
+		
+		// Q3)
+		// Collection 인터페이스를 구현한 클래스를 순회하기 위해 사용하는 인터페이스는 IXXX 입니다.
+		// 정답: Iterator
+		
+		// Q5)
+		// 출력결과가 다음과 같도록 Student 클래스를 구현해 보세요.
+		HashSet<Student> set = new HashSet<Student>();
+		set.add(new Student("100", "홍길동"));
+		set.add(new Student("200", "강감찬"));
+		set.add(new Student("300", "이순신"));
+		set.add(new Student("400", "정약용"));
+		set.add(new Student("100", "송중기"));
+		
+		System.out.println(set);
+		// < 출력 결과 > (출력 순서는 무관)
+		// [100:홍길동, 200:강감찬, 300:이순신, 400:정약용, 100:송중기]
+	}
+
+}
+
+class Student {
+	String num;
+	String name;
+	
+	public Student(String num, String name) {
+		this.num = num;
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return num + ":" + name;
+	}
+	
+}
+```
+
+- 연습문제3
+```java
+package book;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+		// 484p
+		// Q1)
+		// 지역 내부 클래스에서 외부 클래스 메서드의 지역변수를 사용할 수 있지만,
+		// 그 값을 변경하면 오류가 발생합니다. 이때 사용하는 지역 변수는 fXXX 변수가 되기 때문입니다.
+		// 정답: final
+		
+		// Q2)
+		// 내부 클래스 중 클래스 이름 없이 인터페이스나 추상 클래스 자료형에 직접 대입하여
+		// 생성하는 클래스를 익XXX 라고 합니다.
+		// 정답: 익명클래스
+		
+		// Q3)
+		// 자바에서 제공하는 함수형 프로그래밍 방식으로 인터페이스의 메서드를 직접 구현하는
+		// 코드를 람XXX 라고 합니다.
+		// 정답: 람다식
+		
+		// Q4)
+		// 람다식으로 구현할 수 있는 인터페이스는 메서드를 하나만 가져야합니다.
+		// 이러한 인터페이스를 함XXX 라고 합니다.
+		// 정답: 함수형 인터페이스 @FunctionalInterface
+		
+		// Q5)
+		// 다음과 같이 두 정수를 매개변수로 하는 메서드가 인터페이스에 정의되어 있습니다.
+		// 두 정수의 합을 반환하는 람다식을 구현하고 호출해보세요.
+		
+		// 구현
+		Calc cal = (num1, num2) -> num1 + num2;
+		// 호출
+		System.out.println(cal.add(10, 20));
+		
+		// Q6)
+		List<Book> bookList = new ArrayList<Book>();
+		bookList.add(new Book("자바", 25000));
+		bookList.add(new Book("파이썬", 15000));
+		bookList.add(new Book("안드로이드", 30000));
+		
+		// 위와 같을 때 스트림을 활용하여 다음처럼 책 목록을 출력해보세요.
+		// 1. 모든 책의 가격의 합
+		int total = bookList.stream().mapToInt(book -> book.getPrice()).sum();
+		System.out.println(total);
+		
+		// 2. 책의 가격이 20000원 이상인 책의 이름을 정렬하여 출력
+		bookList.stream().filter(book -> book.getPrice() >= 20000)
+						 .map(book -> book.getName())
+						 .sorted().forEach(b -> System.out.println(b));
+	}
+
+}
+
+// Q5)
+interface Calc {
+	public int add(int num1, int num2);
+}
+
+//Q6)
+class Book {
+	private String name;
+	private int price;
+	
+	public Book(String name, int price) {
+		this.name = name;
+		this.price = price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+	
+}
+```
+
+### 자바의 기본 데이터 입출력
+- DataInputStream, DataOutputStream 사용
+- 자바의 기본데이터타입 8가지 + 문자열(String)타입 처리 가능
+  - readXXX(), writeXXX() 메서드 사용하며 XXX은 기본데이터타입의 이름 사용
+    - ex) int형 데이터 출력시 : writeInt()
+  	- ex) double형 데이터 입력 시 : readDouble()
+  - 주의! String 타입은 XXX 부분에 String 대신 UTF 사용
+    - ex) readString() 메서드 (X) => readUTF() 메서드 (O)
+- 주의사항!
+  - 반드시 두 객체 끼리만 데이터 입출력 가능
+	- 입출력 시 각각의 순서에 따라 처리해야함
+    - ex) int, char, String 순으로 출력 시 int, char, String 순으로 입력해야함!
+```
+< 기본 문법 >
+1. 기본 데이터 출력
+		DataOutputStream dos = new DataOutputStream(바이트 스트림 객체);
+		dos.writeXXX(데이터);
+2. 기본 데이터 입력
+		DataInputStream dis = new DataInputStream(바이트 스트림 객체);
+		dis.readXXX(데이터);   
+```
+
+```java
+package io;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Ex1 {
+
+	public static void main(String[] args) {
+		
+		// 자바 기본 데이터를 파일로 출력하기
+		// 1. FileOutputStream 객체를 생성하여 출력할 파일 위치 및 파일명 지정
+//		FileOutputStream fos = new FileOutputStream("C:\\temp\\data.txt");
+		// 2. DataOutputSream 객체를 생성하여 FileOutputStream 객체를 전달
+//		DataOutputStream dos = new DataOutputStream(fos);
+		
+//		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream("C:\\temp\\data.txt"))){
+//			// DataOutputStream 객체를 통해 출력되는 데이터는
+//			// C 드라이브 temp 폴더 내의 data.txt 파일에 출력됨(기록됨)
+//			dos.writeInt(100);		// int형 정수 출력
+//			dos.writeDouble(3.14);	// double형 실수 출력
+//			dos.writeUTF("홍길동");	// 문자열 출력(주의! writeString() 메서드 아님!)
+//			
+//		} catch (FileNotFoundException e) {
+//			// FileOutputStream 에서 지정한 경로가 존재하지 않을 경우 예외 발생
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		System.out.println("=====================================================");
+		
+		// 파일에 출력된 자바 기본데이터를 읽어와서 화면에 출력하기
+		try(DataInputStream dis = new DataInputStream(new FileInputStream("C:\\temp\\data.txt"))){
+			
+			// dis.readXXX() 메서드 호출하여 데이터 읽어오기(입력)
+			// 읽어들일 데이터는 반드시 출력된 데이터 순으로 읽어야 한다!
+			// => 출력 순서: int -> double -> String 이므로, 입력 순서도 동일해야함
+			// => 순서가 바뀔 경우 EOFException 예외가 발생하므로 주의!
+			int num = dis.readInt();
+			double dNum = dis.readDouble();
+			String str = dis.readUTF();
+			
+			// 입력받은 데이터 출력
+			System.out.println("int형 정수: " + num);
+			System.out.println("double형 실수: " + dNum);
+			System.out.println("문자열: " + str);
+			
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
+
+### 객체 직렬화(Serialization) & 역직렬화(Deserialization)
+- 자바에서 사용하는 객체에 영속성을 부여하여 파일 또는 네트워크 등으로 내보내는 것을 직렬화라고 하며, 반대로 파일이나 네트워크로부터 데이터를 읽어 객체로 변환하는 것을 역직렬화라고 함
+- ObjectInputStream, ObjectOutputStream 클래스 사용
+- 주의! 직렬화 대상이 되는 클래스를 정의할 때는 반드시 Serialization 인터페이스 상속 필수!  
+- 만약, 직렬화 클래스 내에서 출력 대상으로부터 제외시킬 변수가 있을 경우 해당 변수 선언부 앞에 transient 키워드를 사용하면 출력 대상에서 제외됨
+
+```java
+package io;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		
+		// Person 객체 생성
+//		Person p = new Person("홍길동", 20, "901010-1234567");
+//		
+//		// File 경로 관리를 위한 File 객체 생성
+		File f = new File("C:\\temp\\person.txt");
+//		
+//		// try ~ resource 구문으로 Person 객체 직렬화(= Serialization)
+//		// => ObjectOutputStream 객체를 생성하여 FileOutputStream 객체 연결
+//		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f))){
+//			
+//			oos.writeObject(p);
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println("객체 출력 완료!");
+		
+		System.out.println("==============================================");
+		
+		// 외부 폴더(C드라이브 - temp - person.txt) 에 저장되어 있는 파일 내의
+		// Person 객체를 ObjectInputStream 객체를 사용하여 읽어오기
+		// => 역직렬화(Deserialization)
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))){
+			
+			// ObjectInputStream 객체의 readObject() 메서드를 호출하여
+			// 파일에 저장된 객체를 Object 타입으로 읽어오기
+			// => 리턴타입이 Object 타입이므로 실제 객체 사용을 위해 다운캐스팅 필요
+//			Person person = (Person)ois.readObject();
+			
+			Object o = ois.readObject();
+			if(o instanceof Person) {
+				Person person = (Person)o;
+				// toString() 메서드가 오버라이딩 되어 있으므로 변수명 바로 전달
+				System.out.println(person);
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+
+
+		
+	}
+
+}
+
+// 직렬화를 위한 Person 클래스 정의
+// => 주의! 직렬화 대상이 되는 클래스를 정의할 때 반드시 Serializable 인터페이스 상속 필수!
+// 별도의 추상메서드가 없는 단순히 마커(Marker)용도의 인터페이스
+class Person implements Serializable {
+	String name;
+	int age;
+	String jumin;
+	
+	// Alt + Shift + S -> O
+	public Person(String name, int age, String jumin) {
+		this.name = name;
+		this.age = age;
+		this.jumin = jumin;
+	}
+
+	// toString() 오버라이딩
+	// Alt + Shift + S -> S
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", age=" + age + ", jumin=" + jumin + "]";
+	}
+	
+}
+```
+
+### 키보드로 부터 입력받은 데이터를 파일로 출력
+- 키보드로부터 입력받기
+1) System.in을 통해 키보드로부터 입력받는 입력스트림을 InputStream 객체로 연결
+    - byte 단위로 처리
+2) InputStream -> InputStreamReader 객체로 변환하여 char단위로 처리
+3) InputStreamReader -> BufferedReader 객체로 변환하여 String 단위로 처리
+4) BufferedReader 객체로부터 입력스트림 한줄(Line) 단위로 읽어와서 출력
+
+- 파일로 출력하기
+1) File 객체를 사용하여 출력할 파일 위치 및 이름을 지정
+2) FileWriter 객체를 사용하여 char 단위로 처리(File 객체 전달)
+3) FileWriter -> PrintWriter 객체로 변환하여 출력
+
+
+```java
+package io;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
+public class Ex3 {
+
+	public static void main(String[] args) {
+  
+//		InputStream is = System.in;
+//		InputStreamReader isr = new InputStreamReader(is);
+//		BufferedReader buffer = new BufferedReader(isr);
+		
+		// 위문장을 한줄로 표현하면 Scanner sc = new Scanner(System.in);
+//		BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+		
+		File f = new File("C:\\temp\\readme.txt");
+//		FileWriter fw = new FileWriter(f);
+//		PrintWriter pw = new PrintWriter(fw);
+		
+		// 위 문장을 한줄로 표현하면
+//		PrintWriter out = new PrintWriter(new FileWriter(f));
+		
+		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+				PrintWriter out = new PrintWriter(new FileWriter(f))){
+			
+			String str = buffer.readLine();
+			out.println(str);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
+
+- 연습문제1
+```java
+package io;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
+public class Test3 {
+
+	public static void main(String[] args) {
+		/*
+		 * 키보드로 부터 입력받은 내용을 readme.txt 파일에 출력
+		 * - 여러 줄을 입력 가능하도록 반복 입력 처리
+		 * - 단, ":wq" 문자열이 입력되면 입력을 종료
+		 * */
+		
+		System.out.println("데이터를 입력하세요. (종료 시 :wq 입력)");
+		
+		File f = new File("C:\\temp\\readme.txt");
+		
+		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+				PrintWriter out = new PrintWriter(new FileWriter(f))){
+			
+			String str = buffer.readLine();
+			
+			// 입력 문자열이 ":wq" 가 아닐동안 반복
+			while(!str.equals(":wq")) {
+				out.println(str);		// 입력데이터 한줄 출력
+				str = buffer.readLine();// 새로운 한줄 읽어오기
+			}
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
+```
+
+- 연습문제2
+```java
+package io;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
+public class Test4 {
+
+	public static void main(String[] args) {
+		/*
+		 * temp 폴더에 저장된 source.txt 파일을 읽어들여
+		 * 각 라인에 라인번호를 추가하여 콘솔(화면)에 출력
+		 * - FileReader, BufferedReader 사용
+		 *   (키보드로 입력받는 InputStreamReader 대신 File로 부터 입력받는 FileReader 사용)
+		 * 
+		 * */
+//		try(BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+//				PrintWriter out = new PrintWriter(new FileWriter(f))){
+//			
+//			String str = buffer.readLine();
+//			
+//			// 입력 문자열이 ":wq" 가 아닐동안 반복
+//			while(!str.equals(":wq")) {
+//				out.println(str);		// 입력데이터 한줄 출력
+//				str = buffer.readLine();// 새로운 한줄 읽어오기
+//			}
+//			
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		File f = new File("C:\\temp\\source.txt");
+		try(BufferedReader buffer = new BufferedReader(new FileReader(f))){
+			
+			int count = 1;
+			
+			String str = buffer.readLine();
+			while(str != null) {
+				System.out.println(count + " " + str);	// 라인번호 붙여 출력
+				str = buffer.readLine();	// 새로운 한 줄 읽어오기
+				count++;	// 라인번호 증가
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+
+}
+```
+
