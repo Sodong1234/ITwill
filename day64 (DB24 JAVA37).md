@@ -6,7 +6,10 @@
 - 기존 데이터 삭제(DELETE)
 
 ### INSERT 구문
-1번사진
+
+![1](https://user-images.githubusercontent.com/95197594/165093075-3bf0826d-47de-4adf-b4bf-4e969b84d9ac.png)
+
+
 - insert into 절 : 데이터를 입력할 테이블명과 입력 값의 컬럼의 목록
 - values 절 : 입력할 값들의 목록 (작성 시 컬럼에 대한 데이터타입 크기에 맞춰 작성)
 ```
@@ -129,7 +132,9 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 
 ### UPDATE 구문
 - 기존 행의 데이터를 다른 값으로 갱신하는 구문
-2번사진
+
+![2](https://user-images.githubusercontent.com/95197594/165093086-5342d94f-8dda-4fd0-8616-49f01e958e0e.png)
+
 
 ```
 - 실습용 emp2 테이블 생성 / 기존 employees테이블을 통으로 복사
@@ -252,7 +257,8 @@ EMPLOYEE_ID|SALARY|JOB_ID|
 
 ### DELETE구문
 - 기존 테이블의 데이터를 삭제하는 구문
-3번사진
+
+![3](https://user-images.githubusercontent.com/95197594/165093087-0a548b6d-584a-4bdb-b8a6-8e7e1e9795dc.png)
 
 ```
 
@@ -301,14 +307,17 @@ EMPLOYEE_ID|FIRST_NAME|LAST_NAME|EMAIL|PHONE_NUMBER|HIRE_DATE|JOB_ID|SALARY|COMM
 - 한번에 처리되어야 할 논리적인 작업단위
 - 여러 개의 DML구문이 모여서 트랜잭션을 구성할 수 있다.
 - 하나의 DDL, DCL구문이 트랜잭션을 구성한다.
-4번사진
+
+![4](https://user-images.githubusercontent.com/95197594/165093088-ee5e54dc-1482-45f9-a6aa-091f2970e96b.png)
 
 ### TCL(Transaction Control Language)
 - DML구문은 사용자가 TCL구문을 통해서 직접 트랜잭션을 종료할 수 있다.
 - COMMIT : 트랜잭션의 작업을 DB에 반영
 - ROLLBACK : 트랜잭션의 작업을 취소
 - SAVEPOINT : 트랜잭션 진행 중 돌아갈 수 있는 지점을 생성
-5번사진
+
+![5](https://user-images.githubusercontent.com/95197594/165093091-38b27704-09d5-479a-a17d-2f67e56f3f9a.png)
+
 
 ```
 SELECT * FROM sales_reps;
