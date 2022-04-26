@@ -1075,7 +1075,6 @@ public class BoardDAO {
 ```
 - controller 폴더의 BoardFrontController.java 파일 수정
 
-```java
 package controller;
 
 import java.io.IOException;
@@ -1094,6 +1093,7 @@ import action.BoardListAction;
 import action.BoardModifyFormAction;
 import action.BoardModifyProAction;
 import action.BoardReplyFormAction;
+import action.BoardReplyProAction;
 import action.BoardWriteProAction;
 import vo.ActionForward;
 
@@ -1132,7 +1132,6 @@ public class BoardFrontController extends HttpServlet {
 			// => 글쓰기 작업 요청을 위해 BoardWriteProAction 인스턴스 생성 후 execute() 메서드 호출
 			// => 생성된 인스턴스를 부모 타입인 Action 타입으로 업캐스팅하여 다루기
 			action = new BoardWriteProAction();
-
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
@@ -1142,7 +1141,6 @@ public class BoardFrontController extends HttpServlet {
 		} else if (command.equals("/BoardList.bo")) {
 			// 비즈니스 로직 처리를 위해 BoardListAction 클래스의 execute() 메서드 호출
 			action = new BoardListAction();
-
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
@@ -1197,22 +1195,31 @@ public class BoardFrontController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// ----------------------------------------------------
-			// ActionForward 객체에 저장된 포워딩 정보에 따른 포워딩 작업 수행
-			if (forward != null) { // ActionForward 객체가 비어있지 않을 경우
-				// Redirect 방식 vs Dispatcher 방식 판별하여 각 방식으로 포워딩
-				if (forward.isRedirect()) { // Redirect 방식
-					response.sendRedirect(forward.getPath());
-				} else { // Dispatcher 방식
-					RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
-					dispatcher.forward(request, response);
-				}
-			} else {
-				// ActionForward 객체가 비어있을 경우 메세지 출력(임시)
-				System.out.println("ActionForward 객체가 null 입니다!");
+		} else if (command.equals("/BoardReplyPro.bo")) {
+			// 비즈니스 로직 처리를 위해 BoardReplyFormAction 클래스의 execute() 메서드 호출
+			action = new BoardReplyProAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		// ----------------------------------------------------
+		// ActionForward 객체에 저장된 포워딩 정보에 따른 포워딩 작업 수행
+		if (forward != null) { // ActionForward 객체가 비어있지 않을 경우
+			// Redirect 방식 vs Dispatcher 방식 판별하여 각 방식으로 포워딩
+			if (forward.isRedirect()) { // Redirect 방식
+				response.sendRedirect(forward.getPath());
+			} else { // Dispatcher 방식
+				RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
+				dispatcher.forward(request, response);
+			}
+		} else {
+			// ActionForward 객체가 비어있을 경우 메세지 출력(임시)
+			System.out.println("ActionForward 객체가 null 입니다!");
+		}
 	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doProcess(request, response);
@@ -1224,6 +1231,7 @@ public class BoardFrontController extends HttpServlet {
 	}
 
 }
+
 
 ```
 
