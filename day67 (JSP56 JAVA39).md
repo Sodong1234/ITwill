@@ -752,3 +752,448 @@ public class MemberDAO {
 ---
 
 # [오후수업] JAVA 39차
+
+## 이벤트(Event)
+- 컴포넌트(버튼 등)에서 사용자에 의해 어떤 상호작용이 일어나는 것
+	- ex) 버튼 클릭, 마우스 이동, 키보드 입력, 체크박스 선택 등
+- 이벤트가 발생했을 때 어떤 동작을 수행하기 위해서는 대상 컴포넌트와 이벤트를 처리하는 이벤트 리스너를 서로 연결해야함
+	- 각 컴포넌트에 따라 서로 다른 리스너가 제공됨
+		- ex) 버튼 클릭 이벤트 담당 : ActionListener 사용
+	 	- 컴포넌트 객체의 addXXX() 메서드를 호출하여 리스너 객체를 파라미터로 전달하여 연결. 이 때, XXX은 담당 리스너 인터페이스(또는 클래스)이름
+		- ex) btn.addActionListener(리스너 객체)
+
+### 이벤트 처리(Event Handling)
+- 컴포넌트에 특정 이벤트가 발생했을 때 수행할 동작을 지정하여 처리하는 것
+	- XXXListener 인터페이스 또는 XXXAdapter 클래스가 제공됨
+- 리스너 객체를 직접 구현하거나, 별도의 핸들러(Handler) 클래스를 정의하여 리스너 인터페이스(또는 어댑터 클래스)를 상속 받아 구현
+- 리스너 인터페이스 등은 주로 java.awt.event 패키지 내에 위치함
+
+
+**이벤트 처리 1단계**
+```java
+package event_handling;
+
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
+
+public class Ex1 {
+
+		 /* 
+		 * < 이벤트 처리 5단계 >
+		 * 1. 리스너 인터페이스를 구현하는 구현체 클래스(핸들러)를 정의
+		 * 	  => 이벤트 발생 시 수행할 동작을 구현체 내부의 메서드에 기술하고
+		 * 	     리스너 연결 시 구현체 객체 생성하여 addXXXListener() 메서드 파라미터로 전달
+		 */
+		public Ex1() {
+			showFrame();
+		}
+		
+		public void showFrame() {
+			JFrame f = new JFrame("이벤트 처리-1");
+			f.setBounds(600, 400, 300, 200);
+			
+			// 이벤트 처리 1단계. 리스너를 구현한 핸들러 클래스 정의하여 사용
+			// 현재 프레임(JFrame 객체)에 WindowListener 구현체 연결
+			// 1. 핸들러 객체(WindowListener 구현체) 생성
+			MyWindowListener listener = new MyWindowListener();
+			
+			// 2. 이벤트 연결을 위한 대상 객체(JFrame)의 addXXXListener() 메서드를 호출하여
+			//	  파라미터로 핸들어 객체를 전달 => 대상과 이벤트 리스너 연결이 완료됨
+			f.addWindowListener(listener);
+			
+			f.setVisible(true);
+			
+			//=========================================
+			// JFrame 객체 생성 후 MyWindowListener 리스너 연결
+			JFrame f2 = new JFrame();
+			f2.setBounds(800, 400, 300, 300);
+			
+//			MyWindowListener listener2 = new MyWindowListener();
+//			f2.addWindowListener(listener2);
+			// => 만약, 처리할 이벤트가 동일할 경우 새 객체를 생성하지 않고
+			//    기존에 생성한 리스너 객체를 그대로 재사용 가능
+			f2.addWindowListener(listener);
+			
+			f2.setVisible(true);
+		}
+		
+		public static void main(String[] args) {
+			new Ex1();
+		}
+		
+	}
+
+// 이벤트 처리 1단계
+// 이벤트 처리를 위해 리스너 인터페이스를 구현하는 핸들러 클래스 별도로 정의
+// 윈도우(프레임)에 대한 이벤트 처리 담당 리스너 : WindowListener 인터페이스
+class MyWindowListener implements WindowListener {
+
+	// WindowListener 인터페이스를 구현하는 MyWindowListener 클래스 정의
+	// => 추상메서드 오버라이딩 필수!
+	// => 각 메서드들은 이벤트 발생했을 때 해당 이벤트에 맞게 자동으로 호출됨
+	//	  따라서, 이벤트 발생 시 처리할 동작을 기술
+	
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// 맨 처음 프로그램이 실행될 때 프레임이 생성되어 표시되면 호출되는 메서드(1회)
+		System.out.println("windowOpened");
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.out.println("windowClosing");
+		System.exit(0); // 프로그램 종료(0 : 정상 종료, 0 이외의 값 : 비정상 종료)
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		System.out.println("windowClosed");
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// 프레임의 최소화 버튼 클릭 시 호출되는 메서드
+		System.out.println("windowIconified");
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// 프레임의 최소화가 해제될 때 호출되는 메서드
+		System.out.println("windowDeiconified");
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// 프레임이 사용자와 상호작용이 가능한 상태가 될 때 호출되는 메서드
+		System.out.println("windowActivated");
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// 프레임이 사용자와 상호작용이 불가능한 상태가 될 때 호출되는 메서드
+		// ex) 다른 프로그램에 가려진 상태가 될 때
+		System.out.println("windowDeactivated");
+	}
+	
+}
+```
+
+- 연습문제
+```java
+package event_handling;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class Test1 {
+
+	public Test1() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		/*
+		 * 1. 300, 200 프레임 생성
+		 * 2. "버튼" 이라는 텍스트를 갖는 버튼 객체 부착(CENTER영역)
+		 * 3. 클릭 이벤트 처리를 위해 ActionListener 인터페이스를 구현 핸들어(MyActionListener) 정의
+		 * 	  => 추상 메서드 오버라이딩
+		 * 	  => 메서드 내에 "버튼 클릭" 문자열 출력하는 코드 기술
+		 * 4. ActionListener 인터페이스 구현체(MyActionListener) 객체 생성
+		 * 5. 버튼 객체의 addXXXListener() 메서드 호출하여 MyActionListener 객체 전달
+		 * 
+		 */
+		
+		JFrame f = new JFrame("이벤트처리 연습-1");
+		f.setBounds(800, 400, 300, 200);
+		
+		// JButton 객체 생성 및 JFrame 객체에 부착
+		JButton btn = new JButton("버튼");
+		f.add(btn);
+		
+		// JButton 객체의 addXXXListener() 메서드 호출하여 연결
+		// 1. 리스너 구현체 객체 생성
+		MyActionListener listener = new MyActionListener();
+		
+		// 2. JButton 객체의 addActionListener() 메서드를 호출하여 구현체 객체 전달
+		btn.addActionListener(listener);
+		
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+		
+		// ===========================================================
+		
+		JFrame f2 = new JFrame("버튼연습");
+		f2.setBounds(300, 300, 300, 300);
+		
+		JButton btn2 = new JButton("버튼2");
+		f2.add(btn2);
+		
+		btn2.addActionListener(listener);
+	}
+	
+	public static void main(String[] args) {
+		new Test1();
+	}
+
+}
+
+// JButton 컴포넌트에 대한 이벤트 처리 담당 리스너 : ActionListener 인터페이스
+class MyActionListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// 버튼 클릭 시 자동으로 호출되는 메서드
+		// => "버튼 클릭" 메세지 출력
+		System.out.println("버튼 클릭!");
+	}
+	
+}
+```
+
+**이벤트 처리 2단계**
+```java
+package event_handling;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+
+public class Ex2 {
+	/*
+	 * < 이벤트 처리 5단계 >
+	 * 2. 리스너 인터페이스 대신 어댑터 클래스 사용
+	 * 	  - 추상메서드가 2개 이상인 인터페이스를 구현할 경우
+	 * 		불필요한 메서드까지 구현해야하므로 코드가 길어짐
+	 * 	  - 리스너 인터페이스를 미리 구현해놓은 어댑터 클래스를 상속받는 핸들러에서 
+	 * 		원하는 메서드만 선택하여 오버라이딩이 가능하므로 코드가 간결해짐
+	 * 	  - XXXListener 인터페이스 대응하는 XXXAdapter 클래스가 제공됨
+	 * 	    단, 추상메서드가 하나뿐인 인터페이스는 어댑터클래스가 제공되지 않음
+	 * 		ex) ActionListener 인터페이스의 추상메서드가 1개 이므로 ActionAdapter 제공 X
+	 * 
+	 */
+	public Ex2() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트처리-2");
+		f.setBounds(600, 400, 300, 300);
+		
+		// 이벤트처리 2단계. 어댑터 클래스를 구현한 핸들러 클래스 정의하여 사용
+		// 현재 프레임(JFrame 객체)에 WindowAdapter 구현체 연결
+		// 1. 핸들러 객체(WindowAdapter 구현체) 생성
+		MyWindowAdapter listener = new MyWindowAdapter();
+		
+		// 2. 이벤트 연결을 위한 대상 객체(JFrame)의 addXXXListener() 메서드를 호출하여
+		//	  파라미터로 핸들러 객체를 전달 => 대상과 이벤트 리스너 연결이 완료됨
+		f.addWindowListener(listener);
+		
+		
+		f.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new Ex2();
+	}
+
+}
+
+// 이벤트 처리 2단계
+// 이벤트 처리를 위한 리스너 인터페이스 대신 어댑터 클래스를 구현하는 핸들러 클래스 별도로 정의
+// 윈도우(프레임)에 대한 이벤트 처리 담당 리스너 : WindowListener 인터페이스
+// => 이에 대한 어댑터클래스 : WindowAdapter 클래스 
+class MyWindowAdapter extends WindowAdapter {
+	
+	// 상속받은 슈퍼클래스의 메서드 중 필요한 메서드만 선택적 오버라이딩
+	// => windowClosing() 메서드 오버라이딩
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.out.println("windowClosing");
+		System.exit(0);
+	}
+}
+
+```
+```java
+package event_handling;
+
+public class Test2 {
+
+	public Test2() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		// 이벤트 처리 2단계.
+		// ActionListener -> ActionAdapter
+		// ActionListener는 추상메서드가 하나뿐이므로
+		// 별도의 어댑터 클래스 (ActionAdapter)가 제공되지 않는다!
+	}
+	public static void main(String[] args) {
+		new Test2();
+	}
+
+}
+
+//class MyActionAdapter extends ActionAdapter {
+//	
+//}
+```
+
+**이벤트 처리 3단계**
+```java
+package event_handling;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+
+public class Ex3 {
+
+	public Ex3() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트처리-3");
+		f.setBounds(600, 400, 300, 300);
+		
+		/*
+		 * < 이벤트 처리 5단계 >
+		 * 3단계. 내부 클래스(Inner Class) 형태로 정의
+		 * 리스너 인터페이스 또는 어댑터 클래스를 구현 시 내부클래스 형태로 구현하여 사용
+		 * => 이벤트 리스너 구현체(핸들러 클래스)는 보통 GUI 클래스에서만 사용됨(= 전용클래스)
+		 * 	  따라서, 별도의 클래스로 외부에 정의하기보다는 내부클래스 형태로 정의해서 사용
+		 * 	  GUI 클래스 내부에 핸들러 클래스를 정의하면 내부클래스가 됨
+		 * => 외부에 정의하는 방법과 클래스 모양은 동일하나 클래스 정의 위치만 달라짐
+		 * 
+		 * [ 위치에 따른 차이점 ]
+		 * 1) 멤버 레벨에 정의하는 멤버 내부클래스 (인스턴스 내부 클래스)
+		 * 	  => 멤버 변수의 성격과 동일한 클래스가 됨 (= 접근 범위가 멤버변수와 동일해짐)
+		 * 2) 메서드 내부에 정의하는 로컬 내부 클래스
+		 * 	  => 로컬 변수의 성격과 동일한 클래스가 됨 (= 접근 범위가 로컬변수와 동일해짐)
+		 * 
+		 */
+		
+		// 멤버레벨의 WindowAdapter
+//		MyMemberWindowAdapter listener = new MyMemberWindowAdapter();
+		
+		// 로컬 내부 클래스 형태로 정의
+		// => 로컬 변수와 동일한 범위에서만 접근 가능
+		class MyLocalWindowAdapter extends WindowAdapter {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println("windowClosing");
+				System.exit(0);
+			}
+			
+		}
+		MyLocalWindowAdapter listener = new MyLocalWindowAdapter();
+		
+		f.addWindowListener(listener);
+		f.setVisible(true);
+		
+		
+	}
+	
+	public void showFrame2() {
+		// 메서드가 달라지면 로컬 내부클래스는 접근이 불가능하므로
+		// 여러 메서드에서 하나의 리스너를 공유하려면 멤버 내부클래스 형태로 정의 해야한다!
+//		MyLocalWindowAdapter listener = new MyLocalWindowAdapter();		// 접근 불가!
+		MyMemberWindowAdapter listener = new MyMemberWindowAdapter();	// 접근 가능!
+		
+
+		
+	}
+	
+	public static void main(String[] args) {
+		new Ex3();
+	}
+
+	// 이벤트 처리 3단계. 내부클래스(Inner Class) 형태로 정의
+	// 멤버 내부클래스 형태로 정의
+	// => 인스턴스 멤버와 동일한 위치에 정의하므로 인스턴스 내부 클래스라고도 함
+	// => 인스턴스 내의 여러 메서드에서 공유 가능
+	class MyMemberWindowAdapter extends WindowAdapter{
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("windowClosing");;
+			System.exit(0);
+		}
+		
+	}
+}
+
+```
+
+- 연습문제
+```java
+package event_handling;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class Test3 {
+
+	public Test3() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트처리 연습-3");
+		f. setBounds(800, 400, 300, 300);
+		
+		// JButton 객체 생성 및 JFrame 객체에 부착
+		JButton btn = new JButton("버튼");
+		f.add(btn);
+		
+		// 이벤트 처리3. 내부 클래스 형태로 이벤트 처리
+		// 1. 리스너 구현체 객체 생성
+		MyMemberActionListener listener = new MyMemberActionListener();
+		// 2. JButton 객체의 addACtionListener() 메서드를 호출하여 구현체 객체 전달
+		btn.addActionListener(listener);
+		
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new Test3();
+	}
+
+	
+	// 멤버레벨에 JButton 컴포넌트에 대한
+	// 이벤트 처리 담당 리스너 : ActionListener 인터페이스
+	class MyMemberActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("버튼 클릭!");
+		}
+		
+		
+	}
+	
+	// 람다식 X
+//	class MyMemberActionListener e -> System.out.println("버튼 클릭!");
+	
+}
+
+
+```
+
+
+
+
+
+
+
