@@ -139,6 +139,10 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 
 ![2](https://user-images.githubusercontent.com/95197594/165093086-5342d94f-8dda-4fd0-8616-49f01e958e0e.png)
 
+- UPDATE절	: 값이 갱신될 테이블명시
+- SET절		: 갱신될 값을 작성하는 절
+- WHERE절	: 테이블에서 갱신될 행을 선택하는 조건. 옵션절
+
 
 ```
 - 실습용 emp2 테이블 생성 / 기존 employees테이블을 통으로 복사
@@ -264,11 +268,10 @@ EMPLOYEE_ID|SALARY|JOB_ID|
 
 ![3](https://user-images.githubusercontent.com/95197594/165093087-0a548b6d-584a-4bdb-b8a6-8e7e1e9795dc.png)
 
+DELETE 절	: 데이터를 삭제 할 테이블 명시. FROM 키워드는 기능이 없으며 생략가능하다(Oracle DB).
+WHERE 절	: 삭제 할 데이터를 선택하는 조건절. 옵션
+
 ```
-
-INSERT INTO departments (department_id, department_name)
-VALUES (290, 'shopping');
-
 
 DEPARTMENT_ID|DEPARTMENT_NAME     |MANAGER_ID|LOCATION_ID|
 -------------+--------------------+----------+-----------+
@@ -297,6 +300,8 @@ DEPARTMENT_ID|DEPARTMENT_NAME     |MANAGER_ID|LOCATION_ID|
 ```
 
 where 절 생략한 DELETE구문
+- WHERE절이 생략된 경우 테이블의 모든 행이 삭제 된다.
+
 ```
 DELETE FROM emp2;
 
@@ -308,6 +313,7 @@ EMPLOYEE_ID|FIRST_NAME|LAST_NAME|EMAIL|PHONE_NUMBER|HIRE_DATE|JOB_ID|SALARY|COMM
 ```
 
 ## 트랜잭션
+- 트랜잭션이 진행 중인 경우 작업의 내용은 데이터베이스에 저장되지 않는다.
 - 한번에 처리되어야 할 논리적인 작업단위
 - 여러 개의 DML구문이 모여서 트랜잭션을 구성할 수 있다.
 - 하나의 DDL, DCL구문이 트랜잭션을 구성한다.
@@ -340,6 +346,7 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 --------------------------------------------------------------------------------------------------------------------------
 
 
+- 200번대 사번 사원 데이터 삭제
 
 DELETE FROM sales_reps
 WHERE id > 200;
@@ -361,7 +368,7 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 --------------------------------------------------------------------------------------------------------------------------
 
 
-
+- 160번대 초과 사번의 사원 삭제
 DELETE FROM sales_reps
 WHERE id > 160;
 
@@ -377,8 +384,7 @@ ID |NAME      |SALARY|COMMISSION_PCT|
 
 --------------------------------------------------------------------------------------------------------------------------
 
-
-
+- 선택 savepoint 지점으로 롤백
 ROLLBACK TO SAVEPOINT after_del_200;
 
 SELECT * FROM sales_reps;
