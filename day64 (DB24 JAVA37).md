@@ -268,8 +268,8 @@ EMPLOYEE_ID|SALARY|JOB_ID|
 
 ![3](https://user-images.githubusercontent.com/95197594/165093087-0a548b6d-584a-4bdb-b8a6-8e7e1e9795dc.png)
 
-DELETE 절	: 데이터를 삭제 할 테이블 명시. FROM 키워드는 기능이 없으며 생략가능하다(Oracle DB).
-WHERE 절	: 삭제 할 데이터를 선택하는 조건절. 옵션
+- DELETE 절 : 데이터를 삭제 할 테이블 명시. FROM 키워드는 기능이 없으며 생략가능하다(Oracle DB).
+- WHERE 절 : 삭제 할 데이터를 선택하는 조건절. 옵션
 
 ```
 
