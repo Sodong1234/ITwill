@@ -182,3 +182,168 @@ SQL> SELECT * FROM my_employee;
 ---
 
 # [오후수업] JSP 57차
+
+> 조별프로젝트 팀원 발표 및 팀원간 회의로 간단한 주제 구상
+
+## AJAX(에이잭스)
+- Asyncronous Javascript And XML(비동기식 자바스크립트)
+- 웹페이지의 갱신 없이 화면 상의 요소를 다룰 수 있는 기술(구현 방식)
+
+```jsp
+
+--------------------------------------------test1.jsp--------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- AJAX 사용을 위해서는 jQuery 라이브러리 필수! -->
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	// document 객체에 대한 ready 이벤트
+	$(function() {
+		// btnOk 버튼 클릭 시 동작하는 이벤트에 익명 함수 실행
+		$("#btnOk").on("click", function() {
+			// 폼을 지정하여 serialize() 함수 호출 시 해당 폼의 데이터 직렬화(= 모두 내보내기)
+// 			let sendData = $("form").serialize();
+			
+			$.ajax({
+				// 속성명: "값" 형태로 지정
+				type: "GET", // 요청 방식
+				url: "test1_result.jsp", // 요청 URL
+				data: {
+					// 복수개의 파라미터 직접 전달 시
+// 					id: "admin",
+// 					passwd: "1234"
+					id: $("#id").val(),
+					passwd: $("#passwd").val()
+				},
+// 				data: sendData,	// $("form").serialize() 함수 사용 시 가져온 데이터 전달
+				dataType: "text", // 전송하는 데이터의 타입
+				success: function(msg) { // 요청 성공 시 수행할 작업 정의
+					// => 요청 성공 시 응답 페이지의 응답 내용이 익명 함수의 파라미터로 전달되며
+					// 	  해당 파라미터 내의 데이터를 사용하여 응답 페이지에 접근 가능
+					$("#resultArea").html(msg); // 응답 내용을 #resultArea 에 출력
+				}
+			});
+		});
+	});
+</script>
+
+</head>
+<body>
+	<h1>AJAX - test.jsp</h1>
+	<form>
+		<table border="1">
+			<tr>
+				<td>아이디</td><td><input type="text" name="id" id="id"></td>
+			</tr>
+			<tr>	
+				<td>패스워드</td><td><input type="password" name="passwd" id="passwd"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="button" value="확인" id="btnOk">				
+			</tr>
+		</table>	
+	</form>
+	<div id="resultArea"></div>
+</body>
+</html>
+
+--------------------------------------------test1_result.jsp--------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	${param.id } 님 반갑습니다. <br>
+	입력하신 패스워드는 ${param.passwd } 입니다.
+</body>
+</html>
+
+```
+
+```jsp
+--------------------------------------------test2.jsp--------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#btnOk").on("click", function() {
+			// 폼 파라미터를 test2_result.jsp 로 전송
+			let sendData = $("form").serialize();
+			
+			$.ajax({
+				type: "GET",
+				url: "test2_result.jsp",
+// 				data:  {
+// 					id: $("#id").val(),
+// 					passwd: $("#passwd").val()
+// 				},
+				data: sendData,
+				dataType: "text",
+				success: function(msg) {
+					$("#resultArea").html(msg);
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>AJAX - test2.jsp</h1>
+		<form>
+			<table border="1">
+				<tr>
+					<td>아이디</td><td><input type="text" name="id" id="id"></td>
+				</tr>
+				<tr>	
+					<td>패스워드</td><td><input type="password" name="passwd" id="passwd"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="button" value="확인" id="btnOk">				
+				</tr>
+			</table>	
+		</form>
+		<div id="resultArea"></div>
+</body>
+</html>
+
+--------------------------------------------test2_result.jsp--------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<c:if test="${param.id eq 'admin' }">
+		<h3>관리자님, 반갑습니다!</h3>
+	</c:if>
+	<c:if test="${param.id != 'admin' }">
+		<h3>${param.id }님, 반갑습니다!</h3>
+		
+	</c:if>
+</body>
+</html>
+
+```
