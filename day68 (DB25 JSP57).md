@@ -1,7 +1,10 @@
 # [오전수업] DB 25차
 > 24차 수업 복습 실시
 
+![캡처](https://user-images.githubusercontent.com/95197594/165881455-b2d2e709-3205-47ec-9fe0-7394a30e2792.PNG)
+
 ```
+
 SQL> INSERT INTO departments
   2  VALUES (&dept_id, '&dept_name', &mgr_id, &loc_id);
 
