@@ -493,3 +493,97 @@ public class Test2 {
 
 }
 ```
+
+---
+
+> - 안드로이드 스튜디오 설치
+> 	- 설치 시 Android Virtual Device 체크 해제
+> 	- 경로 설정 시 한글 포함 X!
+
+> - 안드로이드 스튜디오 설정
+> 	- 설치 후 실행 시 Do not import setting(초기값)
+> 	- 실행 시 뜨는 창에서 Don't send 클릭
+>		- New project -> Empty Activity 선택
+>		- Name 자유설정, Language를 Java로 설정
+>		- 로딩 끝나면 File -> Setting -> System Settings 확장 -> Update -> Check IDE updates for 체크 해제
+>		-	Android SDK -> SDK 11.0 (R) 체크 -> 우측 하단 Show Detail Packages -> 11.0(R) 탭으로 이동 -> Google APIs Intel x86 Atom System image 체크
+>	  - 위의 SDK Tools 클릭 -> Google Play services 체크 -> OK
+>	  - Keymap -> Windows 탭에서 Delete line을 Ctrl+D로 설정(희망사항)
+
+> - 가상 머신 설치
+> 	- 메인화면에서 우측 상단 No Devices -> Device Manager -> Create Device -> Pixel 3 (5.46") -> Oreo(8.0) 다운로드 -> x86 Images 탭 이동 후 Next -> Finish
+
+> - 가상 머신 설정
+> 아래에서 위로 드래그 -> Settings -> System -> Languges & input -> Language -> Add a language -> 한국어 선택
+> 설정 -> 디스플레이 -> 화면 자동 잠금 시간을 30분으로 
+
+---
+
+## 안드로이드
+- File -> New -> New Project에서 Name을 BasicApplication으로 생성
+
+```java
+-------------------------------------------------------MainActivity.java-------------------------------------------------------
+package com.example.basicapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void btnClick(View v) {
+        Toast.makeText(this, "Hello, World 클릭됨!", Toast.LENGTH_LONG).show();
+    }
+
+    public void btnClick2(View v) {
+//        Toast.makeText(this,"Hello, World!", Toast.LENGTH_SHORT);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.naver.com"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:010-1234-5678"));
+        startActivity(intent);
+    }
+}
+```
+```xml
+-------------------------------------------------------activity_main.xml-------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:onClick="btnClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:onClick="btnClick2"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="173dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+> 이 이후로 표기되어 있지 않은 java파일과 xml 파일은 MainActivity.java와 activity_main.xml 파일.
