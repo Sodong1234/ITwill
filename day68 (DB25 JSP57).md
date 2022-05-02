@@ -22,11 +22,15 @@ new   2: VALUES (310, 'Lunch', 100, 1700)
 
 
 > 연습문제를 통하여 치환변수, 스크립트파일 생성 및 실행, INSERT & UPDATE & DELETE 구문, commit, SAVEPOINT 및 ROLLBACK 연습 실시
-```
-SQL> @/home/oracle/labs_12c/sql1/lab_08_01.sql
 
+
+![1](https://user-images.githubusercontent.com/95197594/166170394-2eb0c56b-ac28-45c0-aeca-396f1ea1c28d.PNG)
+```
+1.
+SQL> @/home/oracle/labs_12c/sql1/lab_08_01.sql
 Table created.
 
+2.
 SQL> desc my_employee
  Name                                      Null?    Type
  ----------------------------------------- -------- ----------------------------
@@ -35,24 +39,35 @@ SQL> desc my_employee
  FIRST_NAME                                         VARCHAR2(25)
  USERID                                             VARCHAR2(8)
  SALARY                                             NUMBER(9,2)
+```
+---
 
+![2](https://user-images.githubusercontent.com/95197594/166170396-c0510b59-6284-4df2-a159-eff8004e4298.PNG)
+```
+3.
 SQL> INSERT INTO my_employee
   2  VALUES (1, 'Patel', 'Ralph', 'rpatel', 895);
-
 1 row created.
 
+4.
 SQL> INSERT INTO my_employee
   2  VALUES (2, 'Dancs', 'Betty', 'bdancs', 860);
-
 1 row created.
 
+5.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
 ---------- ------------------------- ------------------------- -------- ----------
          1 Patel                     Ralph                     rpatel          895
          2 Dancs                     Betty                     bdancs          860
+```
 
+---
+
+![3](https://user-images.githubusercontent.com/95197594/166170398-0f47c7d7-eaf0-44b0-b8e2-5ef04bb3febf.PNG)
+```
+6.
 SQL> INSERT INTO my_employee
   2  VALUES (&id, '&last_name', '&first_name', '&userid', &salary);
 Enter value for id: 3
@@ -62,10 +77,9 @@ Enter value for userid: bbiri
 Enter value for salary: 1100
 old   2: VALUES (&id, '&last_name', '&first_name', '&userid', &salary)
 new   2: VALUES (3, 'Biri', 'Ben', 'bbiri', 1100)
-
 1 row created.
 
-
+7.
 SQL> save /home/oracle/load_emp.sql
 Created file /home/oracle/load_emp.sql
 
@@ -77,9 +91,9 @@ Enter value for userid: cnewman
 Enter value for salary: 750
 old   2: VALUES (&id, '&last_name', '&first_name', '&userid', &salary)
 new   2: VALUES (4, 'Newman', 'Chad', 'cnewman', 750)
-
 1 row created.
 
+8.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
@@ -88,24 +102,29 @@ SQL> SELECT * FROM my_employee;
          2 Dancs                     Betty                     bdancs          860
          3 Biri                      Ben                       bbiri          1100
          4 Newman                    Chad                      cnewman         750
+```
 
+---
+
+![4](https://user-images.githubusercontent.com/95197594/166170399-dd34dd40-ab0b-462f-9646-039a079230b1.PNG)
+```
+9.
 SQL> COMMIT;
-
 Commit complete.
 
-
+10.
 SQL> UPDATE my_employee
   2  SET last_name = 'Drexler'
   3  WHERE id = 3;
-
 1 row updated.
 
+11.
 SQL> UPDATE my_employee
   2  SET salary = 1000
   3  WHERE salary < 900;
-
 3 rows updated.
 
+12.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
@@ -114,13 +133,18 @@ SQL> SELECT * FROM my_employee;
          2 Dancs                     Betty                     bdancs         1000
          3 Drexler                   Ben                       bbiri          1100
          4 Newman                    Chad                      cnewman        1000
+```
 
+---
 
+![5](https://user-images.githubusercontent.com/95197594/166170401-cb28a799-f81b-4c37-8b91-a63898bdeda7.PNG)
+```
+13.
 SQL> DELETE FROM my_employee
   2  WHERE id = 2;
-
 1 row deleted.
 
+14.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
@@ -129,10 +153,11 @@ SQL> SELECT * FROM my_employee;
          3 Drexler                   Ben                       bbiri          1100
          4 Newman                    Chad                      cnewman        1000
 
+15.
 SQL> commit;
-
 Commit complete.
 
+16.
 SQL> @/home/oracle/load_emp.sql
 Enter value for id: 5
 Enter value for last_name: Ropeburn
@@ -141,9 +166,14 @@ Enter value for userid: aropebur
 Enter value for salary: 1550
 old   2: VALUES (&id, '&last_name', '&first_name', '&userid', &salary)
 new   2: VALUES (5, 'Ropeburn', 'Audrey', 'aropebur', 1550)
-
 1 row created.
+```
 
+---
+
+![6](https://user-images.githubusercontent.com/95197594/166170402-ee2669ec-ff86-46e8-b59d-5a082d5606f1.PNG)
+```
+17.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
@@ -153,22 +183,28 @@ SQL> SELECT * FROM my_employee;
          4 Newman                    Chad                      cnewman        1000
          5 Ropeburn                  Audrey                    aropebur       1550
 
+18.
 SQL> SAVEPOINT a;
-
 Savepoint created.
 
+19.
 SQL> DELETE FROM my_employee;
-
 4 rows deleted.
 
+20.
 SQL> SELECT * FROM my_employee;
-
 no rows selected
+```
 
+---
+
+![7](https://user-images.githubusercontent.com/95197594/166170403-24c45c8c-6eac-41e9-880f-d5ab63cee26b.PNG)
+```
+21.
 SQL> ROLLBACK TO SAVEPOINT a;
-
 Rollback complete.
 
+22.
 SQL> SELECT * FROM my_employee;
 
         ID LAST_NAME                 FIRST_NAME                USERID       SALARY
@@ -177,6 +213,10 @@ SQL> SELECT * FROM my_employee;
          3 Drexler                   Ben                       bbiri          1100
          4 Newman                    Chad                      cnewman        1000
          5 Ropeburn                  Audrey                    aropebur       1550
+
+23.
+SQL> COMMIT;
+Commit complete.
 ```
 
 ---
