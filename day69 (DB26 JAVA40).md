@@ -30,6 +30,19 @@ USER_OBJECTS|Objects owned by the user|
 ```
 
 ## FOREIGN KEY
+![1](https://user-images.githubusercontent.com/95197594/166177495-ed3706f5-fb98-482a-bc46-8fa25d347332.PNG)
+
+``` 
+CREATE TABLE test_pk
+(id NUMBER PRIMARY KEY, 
+name VARCHAR2(30));
+
+CREATE TABLE test_fk
+(emp_id NUMBER REFERENCES test_pk(id),
+emp_name varchar2(30));
+```
+
+
 
 ---
 
