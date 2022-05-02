@@ -172,3 +172,324 @@ NOCACHE         : 값을 미리 생성하지 않음.
 ---
 
 # [오후수업] JAVA 40차
+
+이벤트 처리 4단계
+```java
+package event_handling;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
+
+public class Ex1 {
+
+	public Ex1() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트처리 - 4");
+		f.setBounds(600, 400, 300, 300);
+		
+		/*
+		 * < 이벤트 처리 5단계 >
+		 * 4단계. 익명 내부클래스(Anonymous Inner Class) 형태로 정의
+		 * - 리스너 인터페이스 또는 어댑터 클래스를 구현하는 핸들러를 별도로 정의하지 않고
+		 * 	 해당 리스너 또는 어댑터의 이름을 그대로 사용하여
+		 *   변수 선언 및 인스턴스 생성과 추상메서드 구현까지 한꺼번에 수행하는 방법
+		 * - 개발자가 별도의 핸들러 이름을 부여하지 않으므로
+		 *   이름이 없다는 뜻의 익명클래스라는 의미가 붙게됨
+		 * - 3단계 위치와 동일하며 클래스 정의 방법만 달라짐
+		 * 
+		 */
+		
+		// 로컬 내부 클래스 형태로 정의
+		// => 로컬변수와 동일한 범위에서만 접근 가능
+		WindowAdapter listener = new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println("로컬 windowClosing");
+				System.exit(0);
+			}
+			
+		};
+		
+		// 람다식 WindowAdapter가 Interface가 아니므로
+		// 람다식 적용 X
+//		WindowAdapter listener2 = (e) -> {
+//			System.out.println("로컬 windowClosing");
+//			System.exit(0);
+//		};
+		
+		f.addWindowListener(listener);
+		
+		f.setVisible(true);
+	}
+	
+	
+	public static void main(String[] args) {
+		new Ex1();
+	}
+
+	// 이벤트 처리 4단계. 익명 내부 클래스 (Anonymous Inner Class) 형태로 정의
+	// => WindowAdapter 또는 WindowListener 이름을 그대로 사용하여
+	//	  참조변수선언, 객체생성, 클래스바디 내의 추상메서드 정의까지 한꺼번에 수행
+	//
+	// 멤버 내부 클래스 형태로 정의
+	// => 인스턴스 멤버와 동일한 위치에 정의하므로 인스턴스 내부 클래스라고도 함
+	// => 인스턴스 내의 여러 메서드에서 공유 가능
+	WindowAdapter listener = new WindowAdapter() {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("멤버 windowClosing");
+			System.exit(0);
+		}
+		
+	};
+	
+	
+	// WindowListener 인터페이스를 익명 내부 클래스 형태로 정의할 경우
+	WindowListener listener2 = new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+	
+	
+	
+}
+
+
+```
+
+
+연습문제
+```java
+package event_handling;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class Test1 {
+	
+	public Test1() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		
+		JFrame f = new JFrame("이벤트 처리 연습 - 4");
+		f.setBounds(800, 400, 300, 300);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// JButton 객체 생성 및 JFrame 객체에 부착
+		JButton btn = new JButton();
+		f.add(btn);
+		
+		// 이벤트 처리4. 익명 내부 클래스 형태로 정의
+		// JButton 컴포넌트에 대한 이벤트 처리 담당 리스너 : ActionListener 인터페이스
+		ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("버튼 클릭!");
+			}
+		};
+		
+		// 람다식
+		ActionListener listener2 = e -> System.out.println("로컬(람다식) 버튼 클릭!");
+		
+		// 생성한 JButton 객체에 이벤트 연결
+		btn.addActionListener(listener2);
+		
+		f.setVisible(true);
+	}
+		
+	public static void main(String[] args) {
+		new Test1();
+	}
+	
+	// 이벤트 처리4. 익명 내부 클래스 형태로 정의
+	// JButton 컴포넌트에 대한 이벤트 처리 담당 리스너 : ActionListener 인터페이스
+	ActionListener listener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("멤버 버튼 클릭!");
+		}
+	};
+	
+	// 람다식
+	ActionListener listener2 = e -> System.out.println("멤버(람다식) 버튼 클릭!");
+}
+
+```
+
+이벤트 처리 5단계
+```java
+package event_handling;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+
+public class Ex2 {
+	
+	public Ex2() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트 처리 - 5");
+		f.setBounds(600, 400, 300, 300);
+		
+		/*
+		 * < 이벤트 처리 5단계 >
+		 * 5단계. 익명 내부클래스(Anonymous Inner Class)의 임시 객체 형태로 사용
+		 * - 기본적인 개념은 익명 내부클래스와 동일하나 이벤트 처리 대상이 하나뿐일 경우
+		 * 	 별도의 변수가 필요없으므로 변수 선언부를 제외하고
+		 * 	 리스너 연결을 위한 addXXXListener() 메서드 파라미터로
+		 * 	 익명 내부클래스를 구현하는 코드를 바로 기술하여 객체를 전달
+		 * 	 별도의 변수가 없으므로 두 개 이상의 컴포넌트에 리스너 연결이 불가능함
+		 * 	 => 즉, 1회용 리스너 객체가 됨
+		 * - 리스너 인스턴스 생성 및 추상클래스 구현과 함께 연결 작업까지 한꺼번에 수행
+		 * - 동일한 이벤트를 다른 대상에 적용해야할 경우 중복되는 코드가 발생함
+		 *   => 4단계 방법이 더 효율적
+		 *   
+		 */
+		f.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println("windowClosing");
+				System.exit(0);
+			}
+		});
+		
+		// 주의! 새로운 프레임 객체에 WindowListener를 연결해야 하는 경우
+		// 다시 리스너 구현 코드를 작성해야한다!
+
+//		f2.addWindowListener(new WindowAdapter() {
+//			// 추상메서드 구현...
+//		});
+		
+		// 만약, 4단계 사용 시 객체 재사용이 가능하므로 리스너 구현체 변수만 전달하면 됨
+//		f2.addWindowListener(listener);
+		
+		f.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		new Ex2();
+	}
+
+	WindowAdapter listener = new WindowAdapter() {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("windowClosing");
+			System.exit(0);
+		}
+		
+	};
+}
+```
+
+
+연습문제
+```java
+package event_handling;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class Test2 {
+
+	public Test2() {
+		showFrame();
+	}
+	
+	public void showFrame() {
+		JFrame f = new JFrame("이벤트처리 연습 - 5");
+		f.setBounds(600, 400, 300, 300);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JButton btn = new JButton("버튼");
+		f.add(btn);
+		
+		// 이벤트 처리5. 익명 내부클래스의 임시객체 형태로 이벤트 처리
+		// JButton 컴포넌트에 대한 이벤트 처리 담당 리스너 : ActionListener 인터페이스
+		// 1. JButton 객체의 addActionListener() 메서드를 호출하여 구현체 객체 전달
+		btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("버튼 클릭!");
+			}
+		});
+		
+		// 2. 람다식
+		btn.addActionListener(e -> System.out.println("람다식 버튼 클릭!"));
+	
+		
+		
+		f.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new Test2();
+	}
+
+}
+```
