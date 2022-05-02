@@ -29,6 +29,7 @@ USER_OBJECTS|Objects owned by the user|
 동의어. 기존 오브젝트에 반영구적인 별명을 부여
 ```
 
+## FOREIGN KEY
 
 ---
 
