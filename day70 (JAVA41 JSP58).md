@@ -6,7 +6,10 @@
 
 # [오후수업] JSP 58차
 
-> 기본 패키지에 JdbcUtil, MemberDAO, MemberDTO ajax 패키지에 JdbcUtil, MemberDAO, MemberDTO를 붙여넣기 실시
+> - JSP 30차에서 사용한 jsp11_board 패키지의 JdbcUtil, MemberDAO, MemberDTO 를 기본패키지에 복사하고, ajax 패키지에 다시 옮겨넣기 실시
+> - 개인프로젝트에서 사용한 check_id, check_id_pro, join.jsp 복사 실시
+
+
 ```jsp
 
 -----------------------------------test3.jsp-----------------------------------
