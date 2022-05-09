@@ -437,4 +437,70 @@ public class MainActivity extends AppCompatActivity {
 ---
 
 # [오후수업] JSP 61차
+> - http://finlife.fss.or.kr/ 에서 인증키 발급
+> - http://finlife.fss.or.kr/PageLink.do?link=openapi/detail&menuId=2000118 API 활용
+
+```jsp
+------------------------------------test9_json.jsp------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#btnOk").on("click", function() {
+			$.ajax({
+				type: "GET",
+				url: "json_data9.txt",
+				dataType: "json"
+			})
+			.done(function(data) {
+				$("#resultArea").html("<table border='1'><tr><th colspan='3'>은행정보</th></tr></table>");
+				$("#resultArea > table").append(
+						"<tr><th width='50'>금융회사명</th>" 
+						+ "<th width='500'>홈페이지주소</th>" 
+						+ "<th width='100'>콜센터전화번호</th></tr>");
+				
+				let result = data.result;
+				
+				let baseList = result.baseList;
+				
+				
+				for(let inf of baseList) {
+					
+					let kcn = baseList.kor_co_nm;
+					let url = baseList.homp_url;
+					let tel = baseList.cal_tel;
+					
+					$("#resultArea > table").append(
+							"<tr><td>" + kcn + "</td>" 
+							+ "<td>" + url + "</td>"
+							+ "<td>" + tel + "</td></tr>"
+					);
+				}
+			})
+			.fail(function() {
+				$("#resultArea").html("요청 실패");			
+			});
+		});
+	});
+		
+		
+
+</script>
+</head>
+<body>
+	<h1>test7_json.jsp - 은행정보</h1>
+	<input type="button" value="정보 조회" id="btnOk">
+	<br>
+	<div id="resultArea"></div>
+</body>
+</html>
+------------------------------------json_data9.txt------------------------------------
+* 위 주소에서 가져온 API를 txt 파일에 담음
+```
 
