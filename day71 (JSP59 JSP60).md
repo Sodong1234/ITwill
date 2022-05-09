@@ -502,6 +502,8 @@ String movieCd = request.getParameter("movieCd");
 > StudyJSP 프로젝트에 jsp14_java_mail 폴더 생성 후 mail_form.jsp 파일 생성
 > Java 메일 jar (mail-1.4.7.jar) Build path 실시
 > GoogleSMTPAuthenticator 클래스 생성
+> WEB-INF 폴더에 application-data.properties 
+> 개인정보 보호를 위해 패스워드는 xxxxxxxxxxxx로 입력함
 
 
 ```jsp
@@ -566,8 +568,10 @@ try {
 	properties.put("mail.smtp.port", "587"); // 메일 전송에 사용될 서비스 포트 설정(SMTP 포트)
 
 	// 메일 서버에 대한 인증 정보를 관리하는 사용자 정의 클래스(GoogleSMTPAuthenticator)의 인스턴스 생성
-	Authenticator authenticator = new GoogleSMTPAuthenticator(); // 업캐스팅
-
+// 	Authenticator authenticator = new GoogleSMTPAuthenticator(); // 업캐스팅
+	// 외부 파일로부터 아이디, 패스워드를 가져오기 위해 request 객체 전달 시
+	Authenticator authenticator = new GoogleSMTPAuthenticator(request); // 업캐스팅
+	
 	// 자바 메일의 기본 전송 단위를 javax.mail.Session 객체 단위로 관리
 	// => Session 클래스의 getDefaultInstance() 메서드를 호출하여 파라미터로 서버 정보, 인증 정보 전달
 //	    (주의! 변수명은 session 외의 다른 이름 사용 필수! => HttpSession 내장객체 변수명이 존재함)
@@ -610,8 +614,13 @@ try {
 
 ----------------------------GoogleSMTPAuthenticator.----------------------------
 package jsp14_java_mail;
+import java.io.FileReader;
+import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 // 메일 서버 인증을 위해 javax.mail.Authenticator 클래스를 상속받는 서브클래스 정의
 public class GoogleSMTPAuthenticator extends Authenticator {
@@ -620,27 +629,58 @@ public class GoogleSMTPAuthenticator extends Authenticator {
 
 	
 	// 기본 생성자 정의
-	public GoogleSMTPAuthenticator() {
-		// 인증에 사용할 아이디와 패스워드 정보를 갖는 PasswordAuthentication 객체 생성
-		// => 구글 2단계 인증을 사용하지 않는 경우 계정명, 로그인 패스워드 전달
-		// => 구글 2단계 인증을 사용하는 경우 별도의 부가 작업 필요
-		// 	  (Gmail 의 경우 앱 비밀번호를 별도로 발급받아 패스워드 부분에 입력)
-//		passwordAuthentication = new PasswordAuthentication("계정명", "비밀번호");
-		passwordAuthentication = new PasswordAuthentication("yys0507", "xxxxxxxxxxxxxxxx");
+//	public GoogleSMTPAuthenticator() throws Exception {
+//		// 인증에 사용할 아이디와 패스워드 정보를 갖는 PasswordAuthentication 객체 생성
+//		// => 구글 2단계 인증을 사용하지 않는 경우 계정명, 로그인 패스워드 전달
+//		// => 구글 2단계 인증을 사용하는 경우 별도의 부가 작업 필요
+//		// 	  (Gmail 의 경우 앱 비밀번호를 별도로 발급받아 패스워드 부분에 입력)
+////		passwordAuthentication = new PasswordAuthentication("계정명", "비밀번호");
+////		passwordAuthentication = new PasswordAuthentication("yys0507", "xxxxxxxxxxxxxxxx");
+//	}
+	
+	// request 객체를 파라미터로 전달받는 GoogleSMTPAuthenticator 생성자 정의 
+	public GoogleSMTPAuthenticator(HttpServletRequest request) throws Exception {
+		// 아이디, 패스워드를 하드코딩하지 않고 외부 파일로부터 읽어들여 사용할 경우
+		// => java.util.Properties 클래스 활용
+		// 1. Properties 객체 생성
+		Properties properties = new Properties();
+		
+		// 2. 아이디와 패스워드가 저장된 외부 파일(application-data.properties) 읽어오기
+		//	  => (단, 파일이 위치한 폴더는 가상의 경로이므로 실제 경로를 알아내야한다!)
+		// 2-1. WEB-INF 폴더의 실제 경로 알아내기
+		ServletContext context = request.getServletContext(); // 톰캣 객체 가져오기
+		String realPath = context.getRealPath("WEB-INF"); // 루트기준 WEB-INF 폴더의 실제 경로 알아내기
+		// D:\workspace\workspace_JSP\.metadata\.plugins\org.eclipse.wst.server.core\tmp3\wtpwebapps\StudyJSP\WEB-INF
+//		System.out.println(realPath); // 실제 프로젝트 업로드 된 서버에 따라 달라질 수 있음
+		// 2-2. Properties 객체의 load() 메서드를 호출하여 파일 읽어오기 (FileNotFoundException 처리 필요)
+		// => 파라미터로 FileReader 객체 생성하여 파일이 위치한 경로를 전달
+		properties.load(new FileReader(realPath + "/application-data.properties")); 
+		
+		// 3. 읽어들인 파일로부터 원하는 키를 사용하여 데이터 가져오기
+		// => Properties 객체의 getProperty() 메서드를 호출하여 키(속성명)를 파라미터로 전달
+		String id = properties.getProperty("id");
+		String passwd = properties.getProperty("passwd"); 
+//		System.out.println(id + ", " + passwd);
+		
+		// 4. PasswordAuthentication 객체 생성(파라미터로 읽어들인 정보 전달)
+		passwordAuthentication = new PasswordAuthentication(id, passwd);
+		
 	}
-
 
 	
 	// 인증 정보 객체를 외부로 리턴하는 getPasswordAuthentication() 메서드 오버라이딩
 	// => 주의! 변수명이 달라질 수 있으므로 Getter 메서드를 직접 정의하는 것은 좋지 않다!
 	@Override
 	protected PasswordAuthentication getPasswordAuthentication() {
-		// TODO Auto-generated method stub
 		return passwordAuthentication;
 	}
 	
 	
 }
 
+
+----------------------------application-data.properties----------------------------
+id=yys0507
+passwd=xxxxxxxxxxxxxxxx
 ```
 
