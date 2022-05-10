@@ -593,24 +593,52 @@ public class GenerateAuthenticationCode {
 	// => Random 클래스를 활용하여 배열 인덱스 범위의 난수 발생시킨 후
 	//	  해당 난수를 배열의 인덱스로 사용하여 문자 1개 추출 후 문자열로 결합
 	public GenerateAuthenticationCode() {
-		int codeLength = 60; // 생성할 난수 코드 길이 지정(60자리)
+		int codeLength = 50; // 생성할 난수 코드 길이 지정(60자리)
 		Random r = new Random();
 		StringBuffer buffer = new StringBuffer();
 		
 		// for문을 사용하여 코드 길이만큼 반복
-		// => 배열 인덱스(36글자이므로 0 ~ 35) 사이의 난수 1개 생성하여
+		// => 배열 인덱스(ex. 62글자일 경우 0 ~ 61) 사이의 난수 1개 생성하여
 		//	  해당 난수를 배열 인덱스로 사용하여 1글자 추출 후 버퍼에 추가
-		for(int i = 1; i <= 60; i++) {
-			
+		for(int i = 1; i <= codeLength; i++) {
+//			int rNum = r.nextInt(codeTable.length); // 테이블 인덱스 범위의 난수 생성
+			buffer.append(codeTable[r.nextInt(codeTable.length)]); // 난수를 인덱스로 사용하여 문자 1개 추출 후 버퍼에 추가(문자 결합)
 		}
 		
+		// 반복 종료 후 버퍼에 저장된 문자열을 String 타입 변수에 저장
+		authenticationCode = buffer.toString();
 		
+	}
+
+	
+	
+	// 생성된 인증코드를 리턴하는 getAuthenticationCode() 메서드 정의
+	public String getAuthenticationCode() {
+		return authenticationCode;
 	}
 	
 }
 
 
+
 --------------------------------------------------Ex2.java--------------------------------------------------
+package randomize;
+
+public class Ex2 {
+
+	public static void main(String[] args) {
+		for(int i = 0; i <= 10; i++) {
+		// 인증코드 생성을 위해 GenerateAuthenticationCode 인스턴스 생성
+		GenerateAuthenticationCode genCode = new GenerateAuthenticationCode();
+		// 생성된 인증코드를 변수에 저장 후 출력
+		String code = genCode.getAuthenticationCode();
+		System.out.println(code);
+		}
+		
+	}
+
+}
+
+
 ```
 
-> 추후 추가 
