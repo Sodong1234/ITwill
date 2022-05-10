@@ -344,3 +344,460 @@ public class MainActivity extends AppCompatActivity {
 ---
 
 # [오후수업] JSP 62차
+
+## 메일로 인증코드 보내기
+> jsp11_board의 파일들을 사용
+> 61차에서 수업했던 GenerateAuthenticationCode.java 파일을 jsp11_board 클래스에 복사함
+> study_jsp3 DB 수정 
+
+```
+1. ALTER TABLE member ADD COLUMN auth_status CHAR(1)
+2. UPDATE member SET auth_status='N';
+3. CREATE TABLE member_auth_info 
+(
+   id VARCHAR(16) PRIMARY KEY,
+   auth_code VARCHAR(50)
+);
+```
+
+```java
+---------------------------------------------login_pro.jsp---------------------------------------------
+<%@page import="jsp11_board.MemberDAO"%>
+<%@page import="jsp11_board.MemberDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// 아이디, 패스워드 파라미터 가져오기
+String id = request.getParameter("id");
+String passwd = request.getParameter("passwd");
+
+MemberDAO dao = new MemberDAO();
+
+// MemberDTO 객체에 id, passwd 저장 여부는 선택사항
+// 1. MemberDTO 객체 사용 시
+// MemberDTO member = new MemberDTO();
+// member.setId(id);
+// member.setPasswd(passwd);
+
+// boolean isLoginSuccess = dao.login(member);
+
+// 2. MemberDTO 객체 미사용 시
+boolean isLoginSuccess = dao.login(id, passwd);
+
+// 로그인 작업 수행 후 결과를 boolean 타입(isLoginSuccess) 으로 리턴받아 결과에 따른 판별 작업 수행
+// 만약, 로그인 성공 시(isLoginSuccess 가 true) 세션에 아이디("sId" 속성명)를 저장 후 메인페이지로 이동
+// 로그인 실패 시(isLoginSuccess 가 false) 자바스크립트를 통해 "로그인 실패" 출력 후 이전페이지로
+if(isLoginSuccess) {
+	// 로그인 성공 시 회원의 인증 여부를 조회
+	// 미인증 회원일 경우 인증 수행 메세지 출력하고 이전페이지로 돌아가기
+	// 아니면, main.jsp 페이지로 이동
+	boolean isAuthenticatedMember = dao.getAuthenticationStatus(id);
+	
+	if(isAuthenticatedMember) { // 인증된 회원일 경우
+	session.setAttribute("sId", id);
+	response.sendRedirect("../main.jsp");
+	} else { // 미인증 회원일 경우
+		%>
+		<script>
+			alert("회원 인증 필수!");
+			history.back();
+		</script>
+		<%
+	}
+	
+	
+	
+} else {
+	%>
+	<script>
+		alert("로그인 실패!");
+		history.back();
+	</script>
+	<%
+}
+%>
+
+
+---------------------------------------------MemberDAO.java---------------------------------------------
+package jsp11_board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class MemberDAO {
+
+	// 회원 가입을 수행하는 insert() 메서드 정의
+	// => 파라미터 : MemberDTO 객체(member), 리턴타입 : int(insertCount)
+	public int insert(MemberDTO member) {
+		int insertCount = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			// 1단계 & 2단계
+			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
+			con = JdbcUtil.getConnection();
+
+			// 3단계. SQL 구문 작성 및 전달
+			// => MemberDTO 객체에 저장된 아이디, 패스워드 이름, 이메일, 전화번호를 추가하고
+			// 가입일(date)의 경우 데이터베이스에서 제공되는 now() 함수 사용하여 자동 생성
+			String sql = "INSERT INTO member VALUES (?,?,?,?,?,now(),?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPasswd());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getEmail());
+			pstmt.setString(5, member.getPhone());
+			pstmt.setString(6, "N"); // 인증 여부 기본값("N") 설정
+
+			// 4단계. SQL 구문 실행 및 결과 처리
+			insertCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 발생! - insert()");
+		} finally {
+			// DB 자원 반환
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+
+		return insertCount;
+	}
+
+	// 로그인 작업 수행 후 결과를 boolean 타입으로 리턴하는 login() 메서드 정의
+	public boolean login(String id, String passwd) {
+		// 로그인 결과를 저장할 변수 isLoginSuccess 선언
+		boolean isLoginSuccess = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1단계 & 2단계
+			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
+			con = JdbcUtil.getConnection();
+
+			// 3단계. SQL 구문 작성 및 전달
+			// => member 테이블의 id 컬럼 조회(단, id 와 passwd 가 일치하는 레코드 조회)
+			String sql = "SELECT id FROM member WHERE id=? AND passwd=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, passwd);
+
+			// 4단계. SQL 구문 실행 및 결과 처리
+			rs = pstmt.executeQuery();
+			// 조회 결과가 존재할 경우(= rs.next() 가 true 일 경우)
+			// isLoginSuccess 변수값을 true 로 변경
+			if (rs.next()) {
+				isLoginSuccess = true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 - login()");
+		} finally {
+			// 자원 반환
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+
+		return isLoginSuccess;
+	}
+
+	// 회원의 인증 상태를 조회하여 리턴하는 getAuthenticationStatus() 메서드 정의
+	// => 파라미터 : 아이디(id)
+	public boolean getAuthenticationStatus(String id) {
+		boolean isAuthenticatedMember = false;
+
+		// member 테이블의 auth_status 컬럼 조회 후 "Y" 일 경우
+		// isAuthenticatedMember 값을 true 로 변경
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1단계 & 2단계
+			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
+			con = JdbcUtil.getConnection();
+
+			// 3단계. SQL 구문 작성 및 전달
+			// => member 테이블의 id 컬럼 조회(단, id 와 passwd 가 일치하는 레코드 조회)
+			String sql = "SELECT auth_status FROM member WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			// 4단계. SQL 구문 실행 및 결과 처리
+			rs = pstmt.executeQuery();
+			// 조회 결과가 존재할 경우(= rs.next() 가 true 일 경우)
+			// isLoginSuccess 변수값을 true 로 변경
+			if (rs.next()) {
+				if (rs.getString(1).equals("Y")) {
+					isAuthenticatedMember = true;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
+		} finally {
+			// 자원 반환
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+
+		return isAuthenticatedMember;
+	}
+
+	// 인증 코드 등록 작업을 수행하는 insertAuthInfo() 메서드 정의
+	// => 파라미터 : 아이디(id), 인증코드(code) 리턴값 없음
+	public void insertAuthInfo(String id, String code) {
+		// 전달받은 ID 에 대한 기존 인증코드가 존재하는지 조회
+
+		Connection con = null;
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+
+		try {
+			con = JdbcUtil.getConnection();
+
+			String sql = "SELECT auth_code FROM member_auth_info WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				// 1) 인증코드 존재 시 : UPDATE 구문을 사용하여 새 인증코드로 갱신
+				sql = "UPDATE member_auth_info SET auth_code=? WHERE id=?";
+				pstmt2 = con.prepareStatement(sql);
+				pstmt2.setString(1, code);
+				pstmt2.setString(2, id);
+				pstmt2.executeUpdate();
+			} else {
+				// 2) 인증코드 미 존재 시 : INSERT 구문을 사용하여 새 인증코드 등록
+				sql = "INSERT INTO member_auth_info VALUES(?,?)";
+				pstmt2 = con.prepareStatement(sql);
+				pstmt2.setString(1, id);
+				pstmt2.setString(2, code);
+				pstmt2.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
+		} finally {
+			// 자원 반환
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+
+	}
+
+	// 인증 작업을 수행하는 selectAuthInfo() 메서드 정의
+	public int selectAuthInfo(String id, String code) {
+		int result = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+
+		try {
+			con = JdbcUtil.getConnection();
+
+			// 1. 기존 인증코드 조회
+
+			String sql = "SELECT auth_status FROM member_auth_info WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				// 1) 인증코드 존재 시 : 인증코드 비교
+				if (code.equals(rs.getString("auth_code"))) { // 일치
+					result = 1;
+				}
+			} else {
+				// 2) 인증코드 미 존재 시 : 리턴값을 -1 로 설정
+				result = -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(con);
+		}
+		return result;
+	}
+}
+
+
+---------------------------------------------join_pro.jsp---------------------------------------------
+<%@page import="jsp11_board.MemberDAO"%>
+<%@page import="jsp11_board.MemberDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// POST 방식 한글 처리
+request.setCharacterEncoding("UTF-8");
+
+// 폼 파라미터 가져오기
+String id = request.getParameter("id");
+String passwd = request.getParameter("passwd");
+String name = request.getParameter("name");
+String email = request.getParameter("email");
+String phone = request.getParameter("phone");
+
+// 데이터를 MemberDTO 객체에 저장
+// MemberDTO member = new MemberDTO();
+// member.setId(id);
+// member.setPasswd(passwd);
+// member.setName(name);
+// member.setEmail(email);
+// member.setPhone(phone);
+
+// 만약, 파라미터 생성자를 정의했을 경우(생성자 파라미터에 저장할 데이터 전달)
+MemberDTO member = new MemberDTO(id, passwd, name, email, phone);
+
+// MemberDAO 클래스 객체 생성 후 insert() 메서드 호출
+// => 파라미터 : MemberDTO 객체(member), 리턴타입 : int(insertCount)
+MemberDAO dao = new MemberDAO();
+int insertCount = dao.insert(member);
+
+// insertCount 가 0보다 크면 main.jsp 페이지로 이동하고
+// 아니면, 자바스크립트를 통해 "회원 가입 실패!" 출력 후 이전페이지로 돌아가기
+if(insertCount > 0) {
+	// 절대경로로 지정할 경우
+	// request.getContextPath() 메서드(프로젝트명까지의 경로 리턴)를 활용하여 이동 경로 설정
+// 	response.sendRedirect(request.getContextPath()); // http://localhost:8080/StudyJSP/
+// 	response.sendRedirect(request.getContextPath() + "/jsp11_board/main.jsp");
+
+	// 상대경로로 지정할 경우
+// 	response.sendRedirect("../main.jsp");
+	
+	// ---------------------------------------------------------------------------------------------
+	// 회원 가입 성공 시 인증 메일 발송을 위한 send_authentication_code.jsp 페이지로 이동
+	// => 파라미터로 아이디(id)와 이메일주소(email) 전송
+	response.sendRedirect("./send_authentication_code.jsp?id=" + id + "&email=" + email);
+	
+} else {
+	%>
+	<script>
+		alert("회원 가입 실패!");
+		history.back();
+	</script>
+	<%
+}
+
+%>    
+
+
+
+---------------------------------------------send_authentication_code.jsp---------------------------------------------
+<%@page import="javax.mail.Transport"%>
+<%@page import="java.util.Date"%>
+<%@page import="javax.mail.internet.MimeMessage.RecipientType"%>
+<%@page import="javax.mail.internet.InternetAddress"%>
+<%@page import="javax.mail.Address"%>
+<%@page import="javax.mail.internet.MimeMessage"%>
+<%@page import="javax.mail.Message"%>
+<%@page import="javax.mail.Session"%>
+<%@page import="jsp14_java_mail.GoogleSMTPAuthenticator"%>
+<%@page import="javax.mail.Authenticator"%>
+<%@page import="java.util.Properties"%>
+<%@page import="jsp11_board.MemberDTO"%>
+<%@page import="jsp11_board.MemberDAO"%>
+<%@page import="jsp11_board.GenerateAuthenticationCode"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+// URL 을 통해 전달받은 아이디(id), 이메일 주소(email) 가져와서 변수에 저장
+String id = request.getParameter("id");
+// String email = request.getParameter("email");
+// out.println(email);
+
+// 50자리 인증코드를 생성하여 가입 시 입력한 메일 주소로 인증 코드 발송
+GenerateAuthenticationCode genCode = new GenerateAuthenticationCode();
+String code = genCode.getAuthenticationCode();
+
+request.setCharacterEncoding("UTF-8");
+
+String sender = "admin@itwillbs.co.kr";
+String receiver = request.getParameter("email");
+String title = "회원 가입 인증 메일입니다.";
+String content = "<h3>인증하려면 아래 링크를 클릭하세요.</h3>" 
+				+ "<a href='http://localhost:8080/StudyJSP/jsp11_board/member/member_authentication.jsp?id=" + id + "&code=" + code + "'>인증하기</a>";
+
+
+try {
+	Properties properties = System.getProperties();
+	properties.put("mail.smtp.starttls.enable", "true");
+	properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+	properties.put("mail.smtp.host", "smtp.gmail.com"); 
+	properties.put("mail.smtp.auth", "true"); 
+	properties.put("mail.smtp.port", "587"); 
+
+	Authenticator authenticator = new GoogleSMTPAuthenticator(request); 
+	
+	Session mailSession = Session.getDefaultInstance(properties, authenticator);
+
+	Message mailMessage = new MimeMessage(mailSession);
+
+	Address sender_address = new InternetAddress(sender, "아이티윌"); 
+	Address receiver_address = new InternetAddress(receiver);
+	mailMessage.setHeader("content-type", "text/html; charset=UTF-8");
+	mailMessage.setFrom(sender_address);
+	mailMessage.addRecipient(RecipientType.TO, receiver_address);
+	mailMessage.setSubject(title);
+	mailMessage.setContent(content, "text/html; charset=UTF-8");
+	mailMessage.setSentDate(new Date());
+
+	Transport.send(mailMessage);
+	out.println("<h3>메일이 정상적으로 전송되었습니다!</h3>");
+	
+	// ------------------------------------------------------------------------------------------
+	// 인증 코드를 member_auth_info 테이블에 추가하기 위해
+	// MemberDAO 객체의 insertAuthInfo() 메서드를 호출
+	// => 파라미터 : 아이디, 인증코드		리턴타입 : void
+	MemberDAO dao = new MemberDAO();
+	dao.insertAuthInfo(id, code);
+	// ------------------------------------------------------------------------------------------
+	response.sendRedirect("join_success.jsp");
+} catch(Exception e) {
+	e.printStackTrace();
+	out.println("<h3>SMTP 서버 설정 또는 서비스 문제 발생!</h3>");
+}
+
+
+%>
+
+
+---------------------------------------------join_success.jsp---------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>회원 가입을 축하합니다.</h1>
+	<h5>인증 메일을 확인하여 회원 인증을 수행하세요.</h5>
+	<input type="button" value="홈으로" onclick="location.href='../main.jsp'">
+	<input type="button" value="로그인" onclick="location.href='./login_form.jsp'">	
+	
+</body>
+</html>
+
+---------------------------------------------member_authentication.jsp---------------------------------------------
