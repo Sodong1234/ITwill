@@ -419,227 +419,41 @@ if(isLoginSuccess) {
 
 
 ---------------------------------------------MemberDAO.java---------------------------------------------
-package jsp11_board;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class MemberDAO {
-
-	// 회원 가입을 수행하는 insert() 메서드 정의
-	// => 파라미터 : MemberDTO 객체(member), 리턴타입 : int(insertCount)
-	public int insert(MemberDTO member) {
-		int insertCount = 0;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			// 1단계 & 2단계
-			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
-			con = JdbcUtil.getConnection();
-
-			// 3단계. SQL 구문 작성 및 전달
-			// => MemberDTO 객체에 저장된 아이디, 패스워드 이름, 이메일, 전화번호를 추가하고
-			// 가입일(date)의 경우 데이터베이스에서 제공되는 now() 함수 사용하여 자동 생성
-			String sql = "INSERT INTO member VALUES (?,?,?,?,?,now(),?)";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getId());
-			pstmt.setString(2, member.getPasswd());
-			pstmt.setString(3, member.getName());
-			pstmt.setString(4, member.getEmail());
-			pstmt.setString(5, member.getPhone());
-			pstmt.setString(6, "N"); // 인증 여부 기본값("N") 설정
-
-			// 4단계. SQL 구문 실행 및 결과 처리
-			insertCount = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQL 구문 오류 발생! - insert()");
-		} finally {
-			// DB 자원 반환
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(con);
-		}
-
-		return insertCount;
+	<%@page import="jsp11_board.MemberDAO"%>
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+	    pageEncoding="UTF-8"%>
+	<%
+	// URL 을 통해 전달받은 아이디, 인증코드 가져오기
+	String id = request.getParameter("id");
+	String code = request.getParameter("code");
+	
+	// MemberDAO 객체의 selectAuthInfo() 메서드를 호출하여 인증코드 확인
+	// => 파라미터 : 아이디, 인증코드		리턴타입 : int(result)
+	MemberDAO dao = new MemberDAO();
+	int result = dao.selectAuthInfo(id, code);
+	
+	// 리턴받은 결과값에 대한 판별
+	// -1 : 인증 실패(인증 정보가 존재하지 않음)
+	// 0 : 인증 실패(잘못된 인증코드)
+	// 1 : 인증 성공
+	String msg = "";
+	if(result == 0 ) {
+		msg = "인증 실패(잘못된 인증코드)";
+	} else if(result == -1) {
+		msg = "인증 실패(인증 정보가 존재하지 않음)";
+	} else {
+		msg = "인증 성공";
+		
+		// 인증 성공 시 MemberDAO 객체의 changeAuthStatus() 메서드를 호출하여
+		// memer 테이블의 auth_status 컬럼값을 "Y" 로 변경하고
+		// member_auth_info 테이블의 아이디와 인증코드 레코드 삭제하기
+		dao.changeAuthStatus(id);
 	}
-
-	// 로그인 작업 수행 후 결과를 boolean 타입으로 리턴하는 login() 메서드 정의
-	public boolean login(String id, String passwd) {
-		// 로그인 결과를 저장할 변수 isLoginSuccess 선언
-		boolean isLoginSuccess = false;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			// 1단계 & 2단계
-			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
-			con = JdbcUtil.getConnection();
-
-			// 3단계. SQL 구문 작성 및 전달
-			// => member 테이블의 id 컬럼 조회(단, id 와 passwd 가 일치하는 레코드 조회)
-			String sql = "SELECT id FROM member WHERE id=? AND passwd=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, passwd);
-
-			// 4단계. SQL 구문 실행 및 결과 처리
-			rs = pstmt.executeQuery();
-			// 조회 결과가 존재할 경우(= rs.next() 가 true 일 경우)
-			// isLoginSuccess 변수값을 true 로 변경
-			if (rs.next()) {
-				isLoginSuccess = true;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQL 구문 오류 - login()");
-		} finally {
-			// 자원 반환
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(con);
-		}
-
-		return isLoginSuccess;
-	}
-
-	// 회원의 인증 상태를 조회하여 리턴하는 getAuthenticationStatus() 메서드 정의
-	// => 파라미터 : 아이디(id)
-	public boolean getAuthenticationStatus(String id) {
-		boolean isAuthenticatedMember = false;
-
-		// member 테이블의 auth_status 컬럼 조회 후 "Y" 일 경우
-		// isAuthenticatedMember 값을 true 로 변경
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			// 1단계 & 2단계
-			// JdbcUtil 객체의 getConnection() 메서드를 호출하여 DB 연결 객체 가져오기
-			con = JdbcUtil.getConnection();
-
-			// 3단계. SQL 구문 작성 및 전달
-			// => member 테이블의 id 컬럼 조회(단, id 와 passwd 가 일치하는 레코드 조회)
-			String sql = "SELECT auth_status FROM member WHERE id=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-
-			// 4단계. SQL 구문 실행 및 결과 처리
-			rs = pstmt.executeQuery();
-			// 조회 결과가 존재할 경우(= rs.next() 가 true 일 경우)
-			// isLoginSuccess 변수값을 true 로 변경
-			if (rs.next()) {
-				if (rs.getString(1).equals("Y")) {
-					isAuthenticatedMember = true;
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
-		} finally {
-			// 자원 반환
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(con);
-		}
-
-		return isAuthenticatedMember;
-	}
-
-	// 인증 코드 등록 작업을 수행하는 insertAuthInfo() 메서드 정의
-	// => 파라미터 : 아이디(id), 인증코드(code) 리턴값 없음
-	public void insertAuthInfo(String id, String code) {
-		// 전달받은 ID 에 대한 기존 인증코드가 존재하는지 조회
-
-		Connection con = null;
-		PreparedStatement pstmt = null, pstmt2 = null;
-		ResultSet rs = null;
-
-		try {
-			con = JdbcUtil.getConnection();
-
-			String sql = "SELECT auth_code FROM member_auth_info WHERE id=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				// 1) 인증코드 존재 시 : UPDATE 구문을 사용하여 새 인증코드로 갱신
-				sql = "UPDATE member_auth_info SET auth_code=? WHERE id=?";
-				pstmt2 = con.prepareStatement(sql);
-				pstmt2.setString(1, code);
-				pstmt2.setString(2, id);
-				pstmt2.executeUpdate();
-			} else {
-				// 2) 인증코드 미 존재 시 : INSERT 구문을 사용하여 새 인증코드 등록
-				sql = "INSERT INTO member_auth_info VALUES(?,?)";
-				pstmt2 = con.prepareStatement(sql);
-				pstmt2.setString(1, id);
-				pstmt2.setString(2, code);
-				pstmt2.executeUpdate();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
-		} finally {
-			// 자원 반환
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(con);
-		}
-
-	}
-
-	// 인증 작업을 수행하는 selectAuthInfo() 메서드 정의
-	public int selectAuthInfo(String id, String code) {
-		int result = 0;
-
-		Connection con = null;
-		PreparedStatement pstmt = null, pstmt2 = null;
-		ResultSet rs = null;
-
-		try {
-			con = JdbcUtil.getConnection();
-
-			// 1. 기존 인증코드 조회
-
-			String sql = "SELECT auth_status FROM member_auth_info WHERE id=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				// 1) 인증코드 존재 시 : 인증코드 비교
-				if (code.equals(rs.getString("auth_code"))) { // 일치
-					result = 1;
-				}
-			} else {
-				// 2) 인증코드 미 존재 시 : 리턴값을 -1 로 설정
-				result = -1;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQL 구문 오류 - getAuthenticationStatus()");
-		} finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(con);
-		}
-		return result;
-	}
-}
+	%>
+		<script>
+			alert("<%=msg%>");
+			location.href = "../main.jsp";
+		</script>
 
 
 ---------------------------------------------join_pro.jsp---------------------------------------------
@@ -802,33 +616,40 @@ try {
 
 ---------------------------------------------member_authentication.jsp---------------------------------------------
 
-<%@page import="jsp11_board.MemberDAO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%
-// URL 을 통해 전달받은 아이디, 인증코드 가져오기
-String id = request.getParameter("id");
-String code = request.getParameter("code");
+	<%@page import="jsp11_board.MemberDAO"%>
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+	    pageEncoding="UTF-8"%>
+	<%
+	// URL 을 통해 전달받은 아이디, 인증코드 가져오기
+	String id = request.getParameter("id");
+	String code = request.getParameter("code");
+	
+	// MemberDAO 객체의 selectAuthInfo() 메서드를 호출하여 인증코드 확인
+	// => 파라미터 : 아이디, 인증코드		리턴타입 : int(result)
+	MemberDAO dao = new MemberDAO();
+	int result = dao.selectAuthInfo(id, code);
+	
+	// 리턴받은 결과값에 대한 판별
+	// -1 : 인증 실패(인증 정보가 존재하지 않음)
+	// 0 : 인증 실패(잘못된 인증코드)
+	// 1 : 인증 성공
+	String msg = "";
+	if(result == 0 ) {
+		msg = "인증 실패(잘못된 인증코드)";
+	} else if(result == -1) {
+		msg = "인증 실패(인증 정보가 존재하지 않음)";
+	} else {
+		msg = "인증 성공";
+		
+		// 인증 성공 시 MemberDAO 객체의 changeAuthStatus() 메서드를 호출하여
+		// memer 테이블의 auth_status 컬럼값을 "Y" 로 변경하고
+		// member_auth_info 테이블의 아이디와 인증코드 레코드 삭제하기
+		dao.changeAuthStatus(id);
+	}
+	%>
+		<script>
+			alert("<%=msg%>");
+			location.href = "../main.jsp";
+		</script>
 
-// MemberDAO 객체의 selectAuthInfo() 메서드를 호출하여 인증코드 확인
-// => 파라미터 : 아이디, 인증코드		리턴타입 : int(result)
-MemberDAO dao = new MemberDAO();
-int result = dao.selectAuthInfo(id, code);
-
-// 리턴받은 결과값에 대한 판별
-// -1 : 인증 실패(인증 정보가 존재하지 않음)
-// 0 : 인증 실패(잘못된 인증코드)
-// 1 : 인증 성공
-String msg = "";
-if(result == 0 ) {
-	msg = "인증 실패(잘못된 인증코드)";
-} else if(result == -1) {
-	msg = "인증 실패(인증 정보가 존재하지 않음)";
-} else {
-	msg = "인증 성공";
-}
-%>
-	<script>
-		alert("<%=msg%>");
-	</script>
 ```
