@@ -191,4 +191,13 @@ response.sendRedirect("cookieTest2.jsp");
 </body>
 </html>
 ```
+---
 
+> - 이후 Spring 4.4.12.0 버전 설치. 
+> - 실행 후 Help -> Marketplace에서 Spring Tools 3 Add-On for Spring Tools & Eclipse Enterprise Java and Web Developer Tools 설치
+> - 기본 설정
+>> - Preferences에서 worlspace - UTF8로 변경, Web browser - external 선택 후  Chrome,
+>> - Java - Complier에서 버전 1.8 변경, 인스톨드 JREs에서 삭제 후 jre 1.8로 설정
+>> - Server - Runtime Enviroments에서 톰캣 8.5 추가, Web - JSP Files 인코딩 UTF8로 변경
+
+> 추후 추가 예정
