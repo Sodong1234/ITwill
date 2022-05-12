@@ -199,7 +199,10 @@ response.sendRedirect("cookieTest2.jsp");
 >> - Java - Complier에서 버전 1.8 변경, 인스톨드 JREs에서 삭제 후 jre 1.8로 설정
 >> - Server - Runtime Enviroments에서 톰캣 8.5 추가, Web - JSP Files 인코딩 UTF8로 변경
 > - 실행 후 Help -> Marketplace에서 Eclipse Enterprise Java and Web Developer Tools & Spring Tools 3 Add-On for Spring Tools 설치
-> Spring Tools 3 Add-On for Spring Tools은 설치 시 에러 발생하면 OK 누르고 아래 사진과 같이 진행
+>> - Spring Tools 3 Add-On for Spring Tools은 설치 시 에러 발생하면 OK 누르고 아래 사진과 같이 진행
+>> ![제목 없음](https://user-images.githubusercontent.com/95197594/167972327-ba2b0ab3-ef07-42d1-a05a-a0b8512e3d99.jpg)
+>> - 오류 한 번 더 발생 시 제일 왼쪽 버튼 클릭 -> 체크하고 Trust selected 클릭 -> 다음 창에서 continue 클릭
+> - 설치 후 1시방향 Open Perspective 클릭 -> Spring 있는지 확인
 
 
 > 추후 추가 예정
