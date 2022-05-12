@@ -193,16 +193,19 @@ response.sendRedirect("cookieTest2.jsp");
 ```
 ---
 
-> - 이후 Spring 4.4.12.0 버전 설치. 
-> - 기본 설정
->> - Preferences에서 worlspace - UTF8로 변경, Web browser - external 선택 후  Chrome,
+# 이후 Spring 4.4.12.0 버전 설치 및 기본설정 실시
+>> - Preferences에서 General - Editors - Text Editor - Spelling에서 스펠링 체크 해제
+>> - worlspace - UTF8로 변경, Web browser - external 선택 후  Chrome,
 >> - Java - Complier에서 버전 1.8 변경, Installed JREs에서 삭제 후 jre 1.8로 설정
 >> - Server - Runtime Enviroments에서 톰캣 8.5 추가, Web - JSP Files 인코딩 UTF8로 변경
 > - 실행 후 Help -> Marketplace에서 Eclipse Enterprise Java and Web Developer Tools & Spring Tools 3 Add-On for Spring Tools 설치
 >> - Spring Tools 3 Add-On for Spring Tools은 설치 시 에러 발생하면 OK 누르고 아래 사진과 같이 진행
->> ![제목 없음](https://user-images.githubusercontent.com/95197594/167972327-ba2b0ab3-ef07-42d1-a05a-a0b8512e3d99.jpg)
->> - 오류 한 번 더 발생 시 제일 왼쪽 버튼 클릭 -> 체크하고 Trust selected 클릭 -> 다음 창에서 continue 클릭
-> - 설치 후 1시방향 Open Perspective 클릭 -> Spring 있는지 확인
+>> ![제목 없음](https://user-images.githubusercontent.com/95197594/167985116-55a798be-7e1e-4109-b763-1f72db997bf5.jpg)
+>> - 오류 한 번 더 발생 시 체크 항목 체크하고 Trust selected 클릭 -> 다음 창에서 continue 클릭
+> - 설치 후 1시방향 Open Perspective 클릭 -> Spring으로 교체
+> - Spring Legacy Project -> 맨 아래 Spring MVC Project 선택 -> Next -> com.itwillbs.test 입력 후 Finish
+> - 서버 추가 후 생성한 프로젝트 마우스 우클릭 -> Build Path -> Add Libraries -> Server Runtime -> 서버 선택 -> Finish
+> - 생성한 서버 더블클릭 -> 포트번호 8005 입력
+> - 프로젝트 마우스 오른쪽 -> Run As -> Run on Server -> 추후에 뜨는 메시지 창 Remind me later 클릭
 
 
-> 추후 추가 예정
