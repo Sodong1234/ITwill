@@ -296,3 +296,4 @@ public class MainActivity extends AppCompatActivity {
 ---
 
 # [오후수업] JAVA 46차
+> 테스트 실시.
