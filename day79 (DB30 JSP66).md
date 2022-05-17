@@ -304,6 +304,8 @@ ALTER TABLE emp2 DROP CONSTRAINT emp2_mgr_fk;
   1) 인수분해 - RSA
   2) 이산대수 - DSA
 
+
+### 단방향 암호화 
 ```java
  package cipher;
 
