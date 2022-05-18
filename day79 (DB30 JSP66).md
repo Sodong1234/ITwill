@@ -1,6 +1,6 @@
 # [오전수업] DB 30차
 ## 테이블 모델링
-아래의 내용을 예시로 DB 구조만들어보기.
+아래의 내용을 예시로 DB 구조 만들어보기.
 
 ![unnamed](https://user-images.githubusercontent.com/95197594/168720649-1331026b-3fb0-4ee5-909b-2ed55d2ac768.png)
 
@@ -390,8 +390,12 @@ class MyMessageDigest {
 //			System.out.println(Arrays.toString(digest));
 //			[-127, -36, -101, -37, 82, -48, 77, -62, 0, 54, -37, -40, 49, 62, -48, 85]
 			
-			// 암호화 된 byte[] 값을 16진수 FF 와 AND 연산을 통해 원래 값(양수값) 변환 후
+			// 암호화 된 byte[] 값을 16진수 FF 와 비트 단위 AND 연산을 통해 원래 값(양수값) 변환 후
 			// 다시 16진수 문자열로 변환하여 암호문 변수에 결합 => 모든 영문자를 대문자로 변환하여 표기
+			// => byte 타입 정수와 FF 를 AND 연산 하는 이유 : int 타입으로 데이터 변형없이 변환하기 위해서
+			//	  0xFF 는 10진수로 255 이며, 이는 int 타입으로 취급되는 정수이므로
+			//	  byte & int 연산 과정에서 byte -> int 로 변환되므로
+			//	  원본 byte 타입 정수를 int 타입으로 데이터 변형없이 변환하기 위해서.
 			for(byte b : digest) {
 				strHashedData += Integer.toHexString(b & 0xFF).toUpperCase();
 				// ex) 81DC9BDB52D04DC2036DBD8313ED055
