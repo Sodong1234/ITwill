@@ -212,7 +212,195 @@ SELECT * FROM emp;
 
 # [오후수업] JSP 67차
 
+## 복호화
+
 ```java
 -----------------------------------------ExRSAKeyGenerator.java-----------------------------------------
+package cipher;
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
+
+public class ExRSAKeyGenerator {
+
+	public static void main(String[] args) {
+		// RSAKeyGenerator 객체를 통해 공개키와 개인키를 생성한 후 리턴받아 출력
+		RSAKeyGenerator keyGenerator = new RSAKeyGenerator();
+		PublicKey publicKey = keyGenerator.getPublicKey();
+		PrivateKey privateKey = keyGenerator.getPrivateKey();
+
+		System.out.println(publicKey);
+		System.out.println(privateKey);
+
+
+	}
+
+}
+
+class RSAKeyGenerator {
+	private KeyPair keyPair;
+	
+	public RSAKeyGenerator() {
+		// RSA 알고리즘을 사용하여 공개키와 개인키 한 쌍(KeyPair) 생성
+		// KeyPairGenerator 클래스의 getInstance() 메서드를 호출하여 객체 얻어오기
+		// => 파라미터로 암호화 알고리즘명 전달("RSA" 전달)
+		try {
+			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+			
+			// 암호키의 길이를 설정하기 위한 작업
+			SecureRandom secureRandom = new SecureRandom();
+			// KeyPairGenerator 객체의 initialize() 메서드를 호출하여 코드길이와 난수 객체(SecureRandom) 전달
+//			keyPairGenerator.initialize(4096, secureRandom); // 4096 bit 코드 설정(기본값 2048 bit)
+			
+			// KeyPairGenerator 객체의 generateKeyPair() 또는 genKeyPair() 메서드를 호출하여 암호키(공개, 개인) 생성
+			keyPair = keyPairGenerator.generateKeyPair(); // 공개키와 개인키 생성됨
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			System.out.println("입력한 암호화 알고리즘이 존재하지 않습니다!");
+		}
+
+	}
+	
+	// 공개키와 개인키를 각각 리턴하는 Getter 정의
+	// => 공개키는 PublicKey 타입 리턴, 개인키는 PrivateKey 타입 리턴
+	public PublicKey getPublicKey() {
+		// 이미 생성되어 있는 KeyPair 객체의 getPublic() 메서드를 호출하여 공개키 리턴받기
+//		PublicKey publickey = keyPair.getPublic();
+		return keyPair.getPublic();
+	}
+	
+	public PrivateKey getPrivateKey() {
+		return keyPair.getPrivate();
+	}
+	
+	
+	
+}
 
 -----------------------------------------ExRSACipher.java-----------------------------------------
+
+package cipher;
+
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+public class ExRSACipher {
+
+	public static void main(String[] args) {
+		/*
+		 * RSA 알고리즘
+		 * - 공개키 방식의 암호화 알고리즘(공개키와 개인키를 사용하여 암호화 및 복호화 수행)
+		 * - 인수분해를 기반으로 암호 생성하는 방식
+		 * - Rivest, Shamir, Adleman 이라는 사람의 성을 한 글자씩 따서 RSA 라고 지음
+		 * --------------------------------------------------------------------
+		 * 
+		 */
+		// RSAKeyGenerator 객체를 통해 공개키와 개인키를 생성한 후 리턴받아 출력
+		RSAKeyGenerator keyGenerator = new RSAKeyGenerator();
+		PublicKey publicKey = keyGenerator.getPublicKey();
+		PrivateKey privateKey = keyGenerator.getPrivateKey();
+
+		System.out.println(publicKey);
+		System.out.println(privateKey);
+		
+		System.out.println("================================================");
+		
+
+		try {
+			RSACipher rsaCipher = new RSACipher("admin123", publicKey, privateKey);
+			String encryptedText = rsaCipher.encrypt();
+			System.out.println("암호화 결과 : " + encryptedText);
+//			System.out.println("암호화 된 문자열 길이 : " + encryptedText.length());
+			
+			
+			System.out.println("=================================================");
+			
+//			String decryptedText = rsaCipher.decrypte(encryptedText);
+			
+			String decryptedText = rsaCipher.decrypt(encryptedText);
+			System.out.println("복호화 결과 : " + decryptedText);
+			
+			
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
+				| BadPaddingException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+// 암호화를 수행할 RSACipher 클래스 정의
+class RSACipher {
+	Cipher cipher; // 암호화 및 복호화 작업을 수행할 javax.crypto.Cipher 타입 변수 선언
+	
+	// 정보를 저장할 변수 선언
+	private String strPlainText; // 평문을 저장할 멤버변수
+	private PublicKey publicKey; // 공개키 저장용
+	private PrivateKey privateKey; // 개인키 저장용
+	
+	// 파라미터 생성자를 정의하여 평문, 공개키, 개인키를 전달받아 초기화
+	public RSACipher(String strPlainText, PublicKey publicKey, PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException {
+		this.strPlainText = strPlainText;
+		this.publicKey = publicKey;
+		this.privateKey = privateKey;
+		
+		// Cipher 클래스의 getInstance() 메서드를 호출하여 Cipher 객체 얻어오기(암호화 알고리즘 선택)
+		this.cipher = Cipher.getInstance("RSA");
+		
+	}
+	
+	// 암호화 작업을 수행하는 encrypt() 메서드 정의
+	// => 파라미터 : 없음	 리턴타입 : String
+	public String encrypt() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		// Cipher 객체의 init() 메서드를 호출하여 암호화 작업 준비
+		// => 파라미터로 ENCRYPT_MODE 상수와 공개키 전달
+		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+		
+		// Cipher 객체의 doFinal() 메서들르 호출하여 암호화 작업 수행
+		// => 파라미터 : 평문에 대한 byte[] 타입 
+		byte[] encryptedBytes = cipher.doFinal(strPlainText.getBytes());
+		
+		String encryptedText = null;
+		// 암호화 된 byte[] 타입 데이터를 BigInteger 객체를 통해 정수 데이터로 변환한 후 다시 문자열로 변환하여 리턴
+		BigInteger bi = new BigInteger(encryptedBytes);
+		encryptedText = bi.toString();
+		
+//		System.out.println("암호화 결과 : " + encryptedText);
+//		System.out.println("암호화 된 문자열 길이 : " + encryptedText.length());
+		
+		return encryptedText; // 암호화 문자열 리턴
+	}
+	
+//	 복호화 작업을 수행하는 decrypt() 메서드 정의
+//	 => 파라미터 : 암호화 문자열, 리턴타입 : String
+	public String decrypt(String encryptedText) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		// 암호화 과정과 초기화 작업을 제외한 나머지 과정은 동일
+		// 초기화 과정에서 ENCRYPT_MODE 대신 DECRYPT_MODE, 공개키 대신 개인키 전달
+		cipher.init(Cipher.DECRYPT_MODE, privateKey); // 개인키를 사용하여 복호화 작업 준비
+		
+		byte[] decryptedBytes = cipher.doFinal(new BigInteger(encryptedText).toByteArray()); // 복호화
+		
+		// 복호화 된 데이터를 문자열로 변환
+		String decryptedText = null;
+		decryptedText = new String(decryptedBytes);
+		
+		return decryptedText;
+		
+	}
+	
+}
+
+```
