@@ -176,8 +176,37 @@ EMPLOYEE_ID|LAST_NAME|ANNSAL|HIRE_DATE|
 -----------+---------+------+---------+
 ```
 
+## INDEX
+- 테이블의 데이터를 조회 시 일부 검색 성능을 올려주는 오브젝트
+- 인덱스 생성 시 해시함수의 결과들로 인덱스를 생성하여 빠른 검색이 가능하도록 해준다.
 
 
+![unnamed (1)](https://user-images.githubusercontent.com/95197594/168953036-1ac8c384-c8f6-43ea-9569-8b277165e330.png)
+
+- 인덱스가 최적으로 효과를 발휘하려면,
+  - 데이터가 많을것
+  - 값의 갱신이 적을 것
+  - 검색조건으로 사용될 것
+
+- PK, UK 제약조건이 설정된 컬럼인 경우 자동으로 INDEX가 생성된다.
+
+
+## SYNONYM
+- 기존 오브젝트에 다른 이름을 부여하는 오브젝트
+- 간편한 이름을 오브젝트에 부여하는 경우
+- 사용하는 오브젝트를 바꾸고 싶을 때
+
+
+![unnamed (2)](https://user-images.githubusercontent.com/95197594/168953142-fa220dc3-4939-4e49-a997-e5917f45af65.png)
+- employees테이블을 가리키는 emp 시노님 생성
+```sql
+
+CREATE SYNONYM emp
+FOR employees;
+
+
+SELECT * FROM emp;
+```
 
 ---
 
