@@ -157,6 +157,8 @@ King       | 24000|E          |
 
 # [오후수업] JSP 69차
 
+
+
 ## Spring
 ```xml
 ----------------------------------------------servlet-context.xml----------------------------------------------
@@ -189,4 +191,81 @@ King       | 24000|E          |
 	
 	
 </beans:beans>
+```
+```java
+----------------------------------------------HomeController.java--------------------------------------------------
+package com.itwillbs.test;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class HomeController {
+
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "home"; // WEB-INF/vies/home.jsp 파일 포워딩
+//		return "a"; // WEB-INF/vies/a.jsp 파일 포워딩
+//		return "sub/test";
+	}
+	
+}
+
+
+
+```
+
+```java
+> TestController.java 파일 생성
+package com.itwillbs.test;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class TestController {
+	
+	// @RequestMapping 어노테이션을 지정한 메서드 정의
+	// 지정된 문자열과 일치하는 주소가 매핑될 경우 해당 메서드가 자동으로 호출됨
+	@RequestMapping("test")
+	public String test() { // "/test" 서블릿 주소 요청되면 자동으로 호출되는 메서드
+		// 포워딩 할 뷰페이지 파일명("xxx.jsp")을 파일이름만 return 문 뒤에 표기
+		return "test";
+		// => prefix 값으로 설정되어 있는 "/WEB-INF/views" 와
+		//	  suffix 값으로 설정되어 있는 ".jsp"를 앞 뒤로 결합하여 포워딩 할 위치를 생성함
+		// => 즉, /WEB-INF/views/ 디렉토리의 test.jsp 페이지로 포워딩(Dispatcher 방식)
+		
+	}
+
+}
+```
+
+```jsp
+---------------------------------------------------home.jsp--------------------------------------------------
+
 ```
