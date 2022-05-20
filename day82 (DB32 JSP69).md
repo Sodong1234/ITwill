@@ -158,8 +158,120 @@ King       | 24000|E          |
 # [오후수업] JSP 69차
 
 
-
 ## Spring
+[ 스프링 MVC 기본 동작 ]
+1. 웹서버로 요청이 들어오면 web.xml 의 서블릿 매핑 내용 확인 
+- (기본 서블릿 매핑 주소는 / 로 되어 있음)
+	- 일치할 경우 app-servlet 매핑 정보에 따라 "/WEB-INF/spring/appServlet/servlet-context.xml" 위치에서 정보 탐색
+
+2. servlet-context.xml 의 다음 내용을 통해 포워딩 할 정보 결합 문자열 탐색
+```xml
+   <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<beans:property name="prefix" value="/WEB-INF/views/" />
+	<beans:property name="suffix" value=".jsp" />
+   </beans:bean>
+```
+- @Controller 어노테이션이 사용된 클래스에서 뷰페이지(*.jsp) 로 이동할 때 페이지 이름 앞뒤에 붙을 문자열을 지정
+- 기본 설정값 : "/WEB-INF/views/" + 페이지명 + ".jsp" 형태로 결합됨
+
+3. @Controller 어노테이션이 사용된 컨트롤러 클래스가 실행되고 @RequestMapping 어노테이션에 지정된 value 속성값에 해당하는 패턴이 일치할 경우 아래쪽 메서드를 자동으로 호출하게 되며 (단, value 속성만 있을 경우 value 속성 표시 생략 가능) 해당 메서드에서 return "XXX" 형식으로 되어 있는 리턴문의 "XXX" 문자열과 servlet-context.xml 에서 지정한 prefix, suffix 문자열을 앞뒤로 결합하여 Dispatcher 방식으로 해당 파일로 포워딩
+- ex) return "home"; 일 경우 
+	- "/WEB-INF/views/" + "home" + ".jsp" 형태로 결합되어 "/WEB-INF/views/home.jsp" 위치로 포워딩하게 됨
+```   
+   < 추가사항 >
+   1) 속성 중에서 method 속성을 사용할 경우 HTTP method 타입(GET, POST 등)을 구분하게 됨
+      ex) @RequestMapping(value = "매핑주소", method = RequestMethod.메서드명)
+   2) @RequestMapping 어노테이션을 통해 자동 호출되는 메서드의 매개변수 선언 시 해당 서블릿 주소가 요청될 때 전달되는 파라미터가 있을 경우 파라미터명과 매개변수명이 일치하면 해당 파라미터의 데이터는 매개변수에 자동 저장됨  
+      @RequestMapping(value = "test3", method = RequestMethod.POST)
+      public String test3(String name, int age) { 
+		// name 과 age 파라미터가 POST 방식으로 전달되면
+		// 자동으로 String name, int age 변수에 저장됨
+      }
+```			
+
+================================================================
+
+[ 프로젝트 설정 관련 ]
+1. 프로젝트 생성
+2. web.xml 설정(서블릿 관련 설정)
+```xml
+<servlet>
+	<servlet-name>appServlet</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+```	
+- servlet-mapping 에서 루트(/) 요청을 받으면 appServlet 이름을 갖는  servlet 태그를 찾아 연결(매핑) 수행
+	- /WEB-INF/spring/appServlet/servlet-context.xml 파일에 지정된 파라미터를 사용 (prefix, suffix 속성)
+
+---
+
+```xml
+----------------------------------------------web.xml-------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- POSt 방식 한글 처리를 위한 필터 설정 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- POST 방식 한글 처리 필터와 서블릿 주소 패턴 매핑(모든 주소에 대해 UTF-8 필터링) -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+
+</web-app>
+
+```
+
+
+
+
+
 ```xml
 ----------------------------------------------servlet-context.xml----------------------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
@@ -237,15 +349,14 @@ public class HomeController {
 }
 
 
-
 ```
-
 ```java
 > TestController.java 파일 생성
 package com.itwillbs.test;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class TestController {
@@ -255,17 +366,129 @@ public class TestController {
 	@RequestMapping("test")
 	public String test() { // "/test" 서블릿 주소 요청되면 자동으로 호출되는 메서드
 		// 포워딩 할 뷰페이지 파일명("xxx.jsp")을 파일이름만 return 문 뒤에 표기
+		System.out.println("TestController");
 		return "test";
 		// => prefix 값으로 설정되어 있는 "/WEB-INF/views" 와
 		//	  suffix 값으로 설정되어 있는 ".jsp"를 앞 뒤로 결합하여 포워딩 할 위치를 생성함
 		// => 즉, /WEB-INF/views/ 디렉토리의 test.jsp 페이지로 포워딩(Dispatcher 방식)
 		
 	}
-
+	
+	// 클라이언트로부터 POST 방식의 요청으로 "test2" 서블릿 주소가 요청될 때 처리하는 메서드 정의
+	@RequestMapping(value = "test2", method = RequestMethod.POST)
+	public String test2() { // "/test2" 서블릿 주소 요청되면 자동으로 호출되는 메서드
+		// 주의! test2 서블릿 주소에 대한 test2() 메서드 호출은 반드시 POST 방식일 경우에만 가능
+		// => method 속성에 RequestMethod.POST 값이 설정되어 있기 때문에
+		
+		System.out.println("TestController - test2(POST)");
+		return "test2";
+		// => prefix 값으로 설정되어 있는 "/WEB-INF/views" 와
+		//	  suffix 값으로 설정되어 있는 ".jsp"를 앞 뒤로 결합하여 포워딩 할 위치를 생성함
+		// => 즉, /WEB-INF/views/ 디렉토리의 test2.jsp 페이지로 포워딩(Dispatcher 방식)
+		
+	}
+	
+	// 서블릿 주소가 같고 요청 메서드 방식이 다를 경우 각각 별도로 처리 가능함
+	@RequestMapping(value = "test2", method = RequestMethod.GET)
+	public String test2_2() { // "/test2" 서블릿 주소 요청되면 자동으로 호출되는 메서드
+		// 주의! test2 서블릿 주소에 대한 test2() 메서드 호출은 반드시 POST 방식일 경우에만 가능
+		// => method 속성에 RequestMethod.POST 값이 설정되어 있기 때문에
+		
+		System.out.println("TestController - test2(GET)");
+		return "test2";
+		// => prefix 값으로 설정되어 있는 "/WEB-INF/views" 와
+		//	  suffix 값으로 설정되어 있는 ".jsp"를 앞 뒤로 결합하여 포워딩 할 위치를 생성함
+		// => 즉, /WEB-INF/views/ 디렉토리의 test2.jsp 페이지로 포워딩(Dispatcher 방식)
+		
+	}
+	
+	@RequestMapping(value = "test3")
+	public String test3() { 
+		// 주의! test2 서블릿 주소에 대한 test2() 메서드 호출은 반드시 POST 방식일 경우에만 가능
+		// => method 속성에 RequestMethod.POST 값이 설정되어 있기 때문에
+		
+		System.out.println("TestController - test3(GET)");
+		
+		return "test3";
+	}
+	
+	// 주의! 클라이언트로부터 요청 파라미터가 전달될 경우
+	// 메서드 오버로딩을 통해 메서드가 구분되면 문법적 오류는 없으나
+	// 위의 동일한 매핑이 된 메서드와 동시에 사용할 경우
+	// 파라미터를 전달 과정에서 GET/POST 방식에 대한 구별이 불가능하므로 매핑 오류가 발생하게 됨
+//	@RequestMapping(value = "test3")
+//	public String test3(String name, int age) { // "/test3" 서블릿 주소 요청되면 자동으로 호출되는 메서드
+//		// 주의! test2 서블릿 주소에 대한 test2() 메서드 호출은 반드시 POST 방식일 경우에만 가능
+//		// => method 속성에 RequestMethod.POST 값이 설정되어 있기 때문에
+//		
+//		System.out.println("TestController - test3(GET)");
+//		System.out.println("이름 : " + name);
+//		System.out.println("나이 : " + age);
+//		
+//		return "test3";
+//	}
+	
+	// value 속성과 method 속성을 명시하여 오버롣잉 수행될 경우에는
+	// 동일한 요청 서블릿 주소라도 GEt/POST 방식을 통해 구별이 가능해진다
+	// => test3 서블릿 주소가 동일하더라도 POST 방식일 경우 현재 메서드가 처리 가능함
+	// => 이 때, 요청 파라머티로 name 과 age 라는 이름의 파라미터가 전달되면
+	//	  현재 메서드가 호출될 때 매개변수와 이름이 일치하는 파라미터는 자동으로 값이 저장됨
+	@RequestMapping(value = "test3", method = RequestMethod.POST)
+	public String test3(String name, int age) { // "/test3" 서블릿 주소 요청되면 자동으로 호출되는 메서드
+		// 주의! test2 서블릿 주소에 대한 test2() 메서드 호출은 반드시 POST 방식일 경우에만 가능
+		// => method 속성에 RequestMethod.POST 값이 설정되어 있기 때문에
+		
+		System.out.println("TestController - test3(GET)");
+		System.out.println("이름 : " + name);
+		System.out.println("나이 : " + age);
+		
+		return "test3";
+	}
 }
+
 ```
 
 ```jsp
 ---------------------------------------------------home.jsp--------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+<h1>
+	Hello world!  
+</h1>
+
+<P>  The time on the server is ${serverTime}. </P>
+<a href="test">test.jsp 로 이동</a>  <!-- GET 방식 요청 -->
+
+<form action="test" method="post"> <!-- POST 방식 요청 -->
+	<input type="submit" value="test.jsp 로 이동">
+</form>
+<hr>
+
+<a href="test2">test2.jsp 로 이동</a>  <!-- GET 방식 요청 -->
+
+<form action="test2" method="post"> <!-- POST 방식 요청 -->
+	<input type="submit" value="test2.jsp 로 이동">
+</form>
+
+<hr>
+
+<a href="test3">test3.jsp 로 이동</a>  <!-- GET 방식 요청 -->
+<!--  <a href="test3?name=hong&age=20">test3.jsp 로 이동</a> GET 방식 요청 -->
+
+<form action="test3" method="post"> <!-- POST 방식 요청 -->
+	<input type="text" name="name">
+	<input type="text" name="age">
+	<input type="submit" value="test3.jsp 로 이동">
+</form>
+
+</body>
+</html>
 
 ```
