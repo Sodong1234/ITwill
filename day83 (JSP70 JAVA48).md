@@ -286,7 +286,6 @@ public class TestVO {
 # [오후수업] JAVA 48차
 
 ## 중첩 리니어 레이아웃
-- 위젯의 배치 방향을 서로 다르게 지정해야하는 경우 하나의 리니어레이아웃에서 배치가 불가능하며 각각의 리니어 레이아웃을 따로 생성하여 배치 방향을 다르게 해야함
 
 ```xml
 -------------------------------------activity_main.xml-------------------------------------
@@ -437,3 +436,184 @@ public class TestVO {
 </LinearLayout>
 ```
 
+## 상대 레이아웃
+```xml
+-------------------------------------activity_main.xml-------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--
+    RelativeLayout(상대 레이아웃)
+    - 레이아웃 또는 위젯과의 상대적인 위치에 따라 배치하는 레이아웃
+    - 부모 레이아웃을 기준으로 위젯의 위치를 지정하거나
+      다른 위젯을 기준으로 위젯의 위치를 지정할 수 있다.
+      => 레이아웃 기준 기본 위치는
+         layout_alignParentTop="true", layout_alignParentleft="true"
+    -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위쪽"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아래"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="좌측"
+        android:textSize="20sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="우측"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+  <!--  <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중앙"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"/>-->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중앙"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"/>
+
+</RelativeLayout>
+-------------------------------------relation_of_widget.xml-------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+    다른 위젯과의 상대적인 위치 지정하는 방법
+    - 대상 위젯의 ID를 속성값으로 사용하여 상대적인 위치 설정
+    -->
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="기준위젯"
+        android:textSize="25sp"
+        android:backgroundTint="#000000"
+        android:layout_centerInParent="true"
+        android:id="@+id/baseBtn"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1번"
+        android:layout_alignTop="@id/baseBtn"
+        android:layout_toLeftOf="@id/baseBtn"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2번"
+        android:layout_toLeftOf="@id/baseBtn"
+        android:layout_alignBaseline="@id/baseBtn"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/baseBtn"
+        android:layout_alignBottom="@id/baseBtn"
+        android:text="3번"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4번"
+        android:layout_alignLeft="@id/baseBtn"
+        android:layout_above="@id/baseBtn"
+        android:textSize="20sp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5번"
+        android:layout_alignRight="@id/baseBtn"
+        android:layout_below="@id/baseBtn"
+        android:textSize="20sp"
+        android:id="@+id/baseBtn5"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6번"
+        android:layout_toRightOf="@id/baseBtn"
+        android:layout_above="@id/baseBtn"
+        android:textSize="20sp"/>
+
+    <!-- =================================================== -->
+    <!--
+    2개 이상의 위젯을 기준으로 삼을 경우 각각의 위젯 ID를 지정해야함
+    -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기준1"
+        android:textSize="20sp"
+        android:id="@+id/baseBtn1"
+        android:layout_below="@id/baseBtn5"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기준2"
+        android:textSize="20sp"
+        android:id="@+id/baseBtn2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7번"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/baseBtn1"
+        android:layout_above="@id/baseBtn2"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8번"
+        android:layout_below="@id/baseBtn1"
+        android:layout_alignLeft="@id/baseBtn2"
+        android:textSize="20sp"/>
+
+
+
+</RelativeLayout>
+
+```
