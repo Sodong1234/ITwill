@@ -289,7 +289,7 @@ public class TestVO {
 - 위젯의 배치 방향을 서로 다르게 지정해야하는 경우 하나의 리니어레이아웃에서 배치가 불가능하며 각각의 리니어 레이아웃을 따로 생성하여 배치 방향을 다르게 해야함
 
 ```xml
--------------------------------------------------------activity_main.xml-------------------------------------------------------
+-------------------------------------activity_main.xml-------------------------------------
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -380,7 +380,7 @@ public class TestVO {
 
 
 </LinearLayout>
--------------------------------------------------------duplication_linearlayout_test.xml-------------------------------------------------------
+--------------------------------------duplication_linearlayout_test.xml-------------------------------------
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
