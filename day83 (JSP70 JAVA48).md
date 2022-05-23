@@ -284,3 +284,156 @@ public class TestVO {
 ---
 
 # [오후수업] JAVA 48차
+
+## 중첩 리니어 레이아웃
+- 위젯의 배치 방향을 서로 다르게 지정해야하는 경우 하나의 리니어레이아웃에서 배치가 불가능하며 각각의 리니어 레이아웃을 따로 생성하여 배치 방향을 다르게 해야함
+
+```xml
+-------------------------------------------------------activity_main.xml-------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <!--
+    중첩 리니어 레이아웃
+    - 위젯의 배치 방향을 서로 다르게 지정해야하는 경우
+    하나의 리니어레이아웃에서 배치가 불가능하며
+    각각의 리니어 레이아웃을 따로 생성하여 배치 방향을 다르게 해야한다!
+    -->
+    <!--
+    1. 레이아웃 내의 버튼을 수직 방향 배치, 중앙에 배치
+    => 수직 배치 : orientation="vertical"
+    => 중앙 배치 : gravity="center"
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="#FFFF88">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버튼1"
+            android:textSize="30sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버튼2"
+            android:textSize="30sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="#FF88FF">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="버튼3"
+        android:textSize="30sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="버튼4"
+        android:textSize="30sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="#88FFFF"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버튼5"
+            android:textSize="30sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버튼6"
+            android:textSize="30sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+-------------------------------------------------------duplication_linearlayout_test.xml-------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FF0000">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#FFFF00">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#000000">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#0000FF">
+
+    </LinearLayout>
+</LinearLayout>
+```
+
