@@ -564,4 +564,25 @@ public class BoardFrontController {
 	
 </body>
 </html>
+
+-------------------------------list.jsp-------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>list.jsp - 글목록</h1>
+	<%-- JSTL 과 EL 을 사용하여 ArrayList(testList) 객체에 저장된 TestVO 객체의 데이터 출력 --%>
+	<%-- c:forEach items="전체 데이터 저장된 객체" var="1개 데이터를 저장할 객체 이름" --%>
+	<c:forEach items="${testList }" var="test">
+		<h3>제목 : ${test.subject } , 내용 : ${test.content }</h3>
+	</c:forEach>
+</body>
+</html>
+
 ```
