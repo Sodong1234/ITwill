@@ -471,7 +471,10 @@ public class MainActivity extends AppCompatActivity {
 	</filter-mapping>
 ```    
 
-> - com.itwillbs.test.controller 패키지 생성 & BoardFrontController.java 생성
+> - com.itwillbs.test.controller 패키지 생성 & BoardFrontController.java & MemberController.java 생성
+> - com.itwillbs.test.vo 패키지에 BoardVO.java & MemberVO.java생성
+> - com.itwillbs.test.dao 패키지에 BoardDAO.java & MemberDAO.java 생성
+> 
 
 ```java
 -------------------------------BoardFrontController.java-------------------------------
@@ -484,6 +487,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.itwillbs.test.dao.BoardDAO;
+import com.itwillbs.test.vo.BoardVO;
 import com.itwillbs.test.vo.TestVO;
 
 @Controller
@@ -509,15 +514,15 @@ public class BoardFrontController {
 	// => 별도의 파라미터 변수를 지정하는 대신 VO(DTO, Bean) 객체를 활용 가능
 	// 메서드 정의 시 해당 파라미터와 일치하는 멤버변수를 갖는 VO 클래스를 지정하면 자동 주입됨
 	// => 주의! 반드시 TestVO 클래스에 기본 생성자가 존재해야한다! 
-	@RequestMapping(value = "write.bo", method = RequestMethod.POST)
-	public String write(TestVO vo) { // subject, content 파라미터가 자동으로 객체에 저장됨
-		System.out.println(vo.getSubject());
-		System.out.println(vo.getContent());
-		// => 단, request 객체의 인코딩 타입이 UTF-8 타입이 아니므로 한글 등이 깨짐
-
-		// "list.bo" 서블릿 주소 요청
-		return "redirect:/list.bo";
-	}
+//	@RequestMapping(value = "write.bo", method = RequestMethod.POST)
+//	public String write(TestVO vo) { // subject, content 파라미터가 자동으로 객체에 저장됨
+//		System.out.println(vo.getSubject());
+//		System.out.println(vo.getContent());
+//		// => 단, request 객체의 인코딩 타입이 UTF-8 타입이 아니므로 한글 등이 깨짐
+//
+//		// "list.bo" 서블릿 주소 요청
+//		return "redirect:/list.bo";
+//	}
 	
 	@RequestMapping(value = "list.bo", method = RequestMethod.GET)
 	public String list(Model model) {
@@ -537,8 +542,223 @@ public class BoardFrontController {
 		return "list";
 	}
 	
+	// ======================================================================
+	// "write.bo" 서블릿 주소 요청(POST 방식)이 전달되면 
+	// 폼 파라미터 데이터를 BoardVO 객체에 자동 저장 후 출력
+	@RequestMapping(value = "write.bo", method = RequestMethod.POST)
+	public String writePost(BoardVO board) throws Exception {
+		// BoardDAO 인스턴스 생성 후 insert() 메서드를 호출하여 글등록 작업 수행
+		// => 파라미터 : BoardVO 객체	 리턴타입 : void
+		BoardDAO dao = new BoardDAO();
+		dao.insert(board);
+		
+		
+		return "redirect:/list.bo";
+	}
+	
+	
 }
 
+
+-------------------------------BoardDAO.java-------------------------------
+package com.itwillbs.test.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import com.itwillbs.test.vo.BoardVO;
+
+public class BoardDAO {
+
+	public void insert(BoardVO board) throws Exception {
+		String driver = "com.mysql.cj.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/study_jsp3";
+		String user = "root";
+		String password = "1234";
+		
+		// 1단계. 드라이버 로드
+		Class.forName(driver);
+		
+		// 2단계. DB 연결
+		Connection con = DriverManager.getConnection(url, user, password);
+		System.out.println("DB 연결 성공!");
+		
+		
+		// 3단계. SQL 구문 작성 및 전달
+		String sql = "INSERT INTO board VALUES (?,?,?,?)";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, board.getName());
+		pstmt.setString(2, board.getPass());
+		pstmt.setString(3, board.getSubject());
+		pstmt.setString(4, board.getContent());
+
+		// 4단계. SQL 구문 실행 및 결과 처리
+		pstmt.executeUpdate();
+		
+		// 자원 반환
+		pstmt.close();
+		con.close();
+		
+		
+	}
+}
+
+
+
+-------------------------------BoardVO.java-------------------------------
+package com.itwillbs.test.vo;
+
+public class BoardVO {
+	private String name;
+	private String pass;
+	private String subject;
+	private String content;
+	
+	// 기본생성자 자동 정의됨
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	
+}
+
+
+-------------------------------MemberController.java-------------------------------
+package com.itwillbs.test.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.itwillbs.test.dao.MemberDAO;
+import com.itwillbs.test.vo.MemberVO;
+
+@Controller
+public class MemberController {
+	
+	@RequestMapping(value = "login.me", method = RequestMethod.GET)
+	public String login() {
+		return "login_form"; 
+	}
+	
+	@RequestMapping(value = "login.me", method = RequestMethod.POST)
+	public String loginPost(MemberVO member) throws Exception {
+		System.out.println("아이디 : " + member.getId());
+		System.out.println("패스워드 : " + member.getPasswd());
+
+		// MemberDAO 객체의 login() 메서드를 호출하여 로그인 성공 여부 판별
+		// => 결과를 콘솔에 출력
+		MemberDAO dao = new MemberDAO();
+		
+		dao.login(member);
+		
+		return "redirect:/main";
+	}
+}
+
+
+
+-------------------------------MemberDAO.java-------------------------------
+package com.itwillbs.test.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.itwillbs.test.vo.MemberVO;
+
+public class MemberDAO {
+	public void login(MemberVO member) throws Exception {
+		String driver = "com.mysql.cj.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/study_jsp3";
+		String user = "root";
+		String password = "1234";
+
+		// 1단계. 드라이버 로드
+		Class.forName(driver);
+
+		// 2단계. DB 연결
+		Connection con = DriverManager.getConnection(url, user, password);
+		System.out.println("DB 연결 성공!");
+
+		// 3단계. SQL 구문 작성 및 전달
+		String sql = "SELECT * FROM member WHERE id=? AND pass=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, member.getId());
+		pstmt.setString(2, member.getPasswd());
+
+		// 4단계. SQL 구문 실행 및 결과 처리
+		ResultSet rs = pstmt.executeQuery();
+
+		if (rs.next()) {
+			System.out.println("로그인 성공");
+		} else {
+			System.out.println("로그인 실패");
+		}
+
+		// 자원 반환
+		rs.close();
+		pstmt.close();
+		con.close();
+	}
+}
+-------------------------------MemberVO.java-------------------------------
+package com.itwillbs.test.vo;
+
+public class MemberVO {
+	private String id;
+	private String passwd;
+	public MemberVO(String id, String passwd) {
+		this.id = id;
+		this.passwd = passwd;
+		
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPasswd() {
+		return passwd;
+	}
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+	
+	
+}
 
 ```
 
@@ -556,6 +776,8 @@ public class BoardFrontController {
 	<%@ include file="inc/top.jsp" %>
 	<h1>write_form.jsp - 글쓰기폼</h1>
 	<form action="write.bo" method="post">
+		이름 <input type="text" name="name"><br>
+		패스워드 <input type="text" name="pass"><br>
 		제목 <input type="text" name="subject"><br>
 		내용 <input type="text" name="content"><br>
 		<input type="submit" value="글쓰기">		
@@ -585,4 +807,23 @@ public class BoardFrontController {
 </body>
 </html>
 
+-------------------------------login_form.jsp-------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%@ include file="inc/top.jsp" %>
+	<h1>login_form.jsp - 로그인폼</h1>
+	<form action="login.me" method="post">
+		아이디 <input type="text" name="id"><br>
+		패스워드 <input type="text" name="passwd"><br>
+		<input type="submit" value="글쓰기">		
+	</form>
+</body>
+</html>
 ```
