@@ -451,3 +451,117 @@ public class MainActivity extends AppCompatActivity {
 ---
 
 # [오후수업] JSP 71차
+
+> - 저번 시간에 수업한 Test 프로젝트의 web.xml에서 다음 부븐을 복사 후 현재 진행중인 프로젝트의 web.xml에 붙여넣음.
+
+```
+<!-- POSt 방식 한글 처리를 위한 필터 설정 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- POST 방식 한글 처리 필터와 서블릿 주소 패턴 매핑(모든 주소에 대해 UTF-8 필터링) -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+```    
+
+> - com.itwillbs.test.controller 패키지 생성 & BoardFrontController.java 생성
+
+```java
+-------------------------------BoardFrontController.java-------------------------------
+package com.itwillbs.test.controller;
+
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.itwillbs.test.vo.TestVO;
+
+@Controller
+public class BoardFrontController {
+
+	@RequestMapping(value = "write.bo", method = RequestMethod.GET)
+	public String write() {
+		return "write_form";
+	}
+
+	// write_form.jsp 페이지에서 POST 방식 요청을 처리
+	// => 위의 write() 메서드와 요청 주소는 동일하나 요청 방식(메서드)이 다르게 매핑
+//	@RequestMapping(value = "write.bo", method = RequestMethod.POST)
+//	public String writePost(String subject, String content) {
+//		System.out.println(subject);
+//		System.out.println(content);
+//		// => 단, request 객체의 인코딩 타입이 UTF-8 타입이 아니므로 한글 등이 깨짐
+//
+//		return "";
+//	}
+
+	// write_form.jsp 페이지로부터 요청받은 폼 파라미터를 가져오기
+	// => 별도의 파라미터 변수를 지정하는 대신 VO(DTO, Bean) 객체를 활용 가능
+	// 메서드 정의 시 해당 파라미터와 일치하는 멤버변수를 갖는 VO 클래스를 지정하면 자동 주입됨
+	// => 주의! 반드시 TestVO 클래스에 기본 생성자가 존재해야한다! 
+	@RequestMapping(value = "write.bo", method = RequestMethod.POST)
+	public String write(TestVO vo) { // subject, content 파라미터가 자동으로 객체에 저장됨
+		System.out.println(vo.getSubject());
+		System.out.println(vo.getContent());
+		// => 단, request 객체의 인코딩 타입이 UTF-8 타입이 아니므로 한글 등이 깨짐
+
+		// "list.bo" 서블릿 주소 요청
+		return "redirect:/list.bo";
+	}
+	
+	@RequestMapping(value = "list.bo", method = RequestMethod.GET)
+	public String list(Model model) {
+		// 데이터베이스 글목록 조회 작업은 생략 - 조회되었다고 가정
+		// 1. 전체 글목록을 저장할 ArrayList 객체 생성
+		//	  => 1개 게시물 정보를 저장하는 TestVO 타입을 제네릭타입으로 지정
+		ArrayList<TestVO> testList = new ArrayList<TestVO>();
+		
+		// 2. 1개 게시물 정보를 저장하는 TestVO 객체 생성하여 데이터 저장
+		// => TestVO 객체를 다시 ArrayList 객체에 추가
+		testList.add(new TestVO("제목1", "내용1"));
+		testList.add(new TestVO("제목2", "내용2"));
+
+		// 3. 뷰페이지로 전달할 데이터를 Model 객체에 저장
+		model.addAttribute("testList", testList);
+		
+		return "list";
+	}
+	
+}
+
+
+```
+
+```jsp
+-------------------------------write_form.jsp-------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%@ include file="inc/top.jsp" %>
+	<h1>write_form.jsp - 글쓰기폼</h1>
+	<form action="write.bo" method="post">
+		제목 <input type="text" name="subject"><br>
+		내용 <input type="text" name="content"><br>
+		<input type="submit" value="글쓰기">		
+	</form>
+	
+	
+</body>
+</html>
+```
