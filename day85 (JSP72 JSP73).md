@@ -475,7 +475,23 @@ public class MemberDAOImpl implements MemberDAO {
 ---
 
 ## MyBatis
-
+[ Spring - MyBatis ]
+- SQL 매핑 프레임워크라고도 함
+- Spring 을 활용하여 JDBC 애플리케이션을 구현 시 코드의 복잡한 구조를 단순화하는데 활용하는 프레임워크
+	- 장점1) 자동 Connection 객체 close
+	- 장점2) 내부적으로 PreparedStatement 객체를 사용한 처리(자동)
+	- 장점3) 리턴 타입 지정을 통해 자동으로 객체 생성 및 ResultSet 객체에 대한 처리
+---
+[ MyBatis 를 활용한 데이터베이스 연동 애플리케이션 개발 과정 ]
+1. pom.xml 라이브러리 추가
+2. root-context.xml 설정
+3. servlet-context.xml 설정
+---
+< Mapper 정의 >
+- SQL 구문 작성 및 처리를 수행
+- 인터페이스와 어노테이션을 활용 또는 XML Mapper 활용 방식으로 나뉨
+  => 주로 사용하는 방식인 XML Mapper 활용 방식으로 수업
+---
 > - Window - Preference - XML - XML Catalog - Add 에서 Location 란에 http://mybatis.org/dtd/mybatis-3-mapper.dtd 입력 / Key 란에 -//mybatis.org//DTD Mapper 3.0//EN 입력
 > - Window - Preference - XML - XML Catalog - Add 에서 Location 란에 http://mybatis.org/dtd/mybatis-3-config.dtd 입력 / Key 란에 -//mybatis.org//DTD Config 3.0//EN 입력
 > - Spring_MVC_Board2 프로젝트 생성
