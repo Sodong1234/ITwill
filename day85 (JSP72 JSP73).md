@@ -646,7 +646,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 		<!-- Tomcat-DBCP 대용으로 사용 가능한 커넥션풀 -->
 		<!-- HikariCP 라이브러리 사용(Tomcat DBCP 에 비해 가볍고 빠르고 안정적인 라이브러리) -->
-		<!-- mvcrepository.com 대신 https://github.com/brettwooldrige/HikariCP 링크 
+		<!-- mvcrepository.com 대신 https://github.com/brettwooldridge/HikariCP 링크 
 			접속 -->
 		<!-- Java 8 버전에 적합한 4.0.3 버전 라이브러리 추가 -->
 		<dependency>
