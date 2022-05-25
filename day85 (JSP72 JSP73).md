@@ -630,13 +630,23 @@ public class MemberDAOImpl implements MemberDAO {
 
 		<!-- Tomcat-DBCP 대용으로 사용 가능한 커넥션풀 -->
 		<!-- HikariCP 라이브러리 사용(Tomcat DBCP 에 비해 가볍고 빠르고 안정적인 라이브러리) -->
-		<!-- mvcrepository.com 대신 https://github.com/brettwooldrige/HikariCP 링크 접속 -->
+		<!-- mvcrepository.com 대신 https://github.com/brettwooldrige/HikariCP 링크 
+			접속 -->
 		<!-- Java 8 버전에 적합한 4.0.3 버전 라이브러리 추가 -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 			<version>4.0.3</version>
 		</dependency>
+
+		<!-- JDBC 연동 등에 필요한 기능을 제공하는 spring-jdbc 라이브러리(기존 스프링 버전 연동) -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
 
 		<!-- MyBatis 활용에 필요한 라이브러리 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
@@ -698,14 +708,15 @@ public class MemberDAOImpl implements MemberDAO {
 				<version>1.2.1</version>
 				<configuration>
 					<mainClass>org.test.int1.Main</mainClass>
-					
+
 				</configuration>
-				
-				
+
+
 			</plugin>
 		</plugins>
 	</build>
 </project>
+
 
 ```
 
