@@ -484,7 +484,7 @@ public class MemberDAOImpl implements MemberDAO {
 >   - com.itwillbs.mvc_board.vo 에는 Spring_MVC_Board 프로젝트의 BoardVO.java / MemberVO.java / Pageinfo.java 파일 복사 후 붙여넣기 실시
 >   - com.itwillbs.mvc_board 에는 Spring_MVC_Board 프로젝트의 HomeController.java의 내용물과 같이 수정
 >   - com.itwillbs.mvc_board.controller 에는 Spring_MVC_Board 프로젝트의 MemberController.java를 복사 후 붙여넣기 실시
->   - com.itwillbs.mvc_board.mapper 에는 memberMapper.java / memberMapper.java 파일 생성
+>   - com.itwillbs.mvc_board.mapper 에는 boardMapper.java / memberMapper.java 파일 생성
 > - /src/main/resources 에 com.itwillbs.mvc_board.mapper 폴더 생성 후 
 >   - XML Files -> 제목에 MemberMapper.xml 입력 -> Next -> Create file using a DTD or XML Schema file 체크 후 Next -> Select XML Catalog entry 체크 후 위에서 생성한 mapper.dtd 선택 후 Finish
 > - src/main/resources의 META-INF 폴더에 mybatis-config.xml 파일 생성
