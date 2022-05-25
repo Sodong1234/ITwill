@@ -785,20 +785,82 @@ public class MemberDAOImpl implements MemberDAO {
 	<context:component-scan base-package="com.itwillbs.mvc_board.service" />
 ```
 
-```java
-* board 패키지
-```
+---
 
 ```java
-* vo 패키지
+* board 패키지
+-----------------------------------------HomeController.java-----------------------------------------
+package com.itwillbs.mvc_board;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class HomeController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home() {
+		return "index";
+	}
+	
+}
+
 ```
 
 ```java
 * controller 패키지
-```
+-----------------------------------------MemberController.java-----------------------------------------
+package com.itwillbs.mvc_board.controller;
 
-```java
-* service 패키지
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.itwillbs.mvc_board.vo.MemberVO;
+
+@Controller
+public class MemberController {
+	@RequestMapping(value = "/MemberJoinForm.me", method = RequestMethod.GET)
+	public String join() {
+		return "member/join_form";
+	}
+	
+	@RequestMapping(value = "/MemberLoginForm.me", method = RequestMethod.GET)
+	public String login() {
+		return "member/login_form";
+	}
+	
+	@RequestMapping(value = "/MemberJoinPro.me", method = RequestMethod.POST)
+	public String joinPost(@ModelAttribute MemberVO member) {
+//		System.out.println("이름 : " + member.getName());
+//		System.out.println("아이디 : " + member.getId());
+//		System.out.println("비밀번호 : " + member.getPasswd());
+//		System.out.println("이메일 : " + member.getEmail());
+//		System.out.println("성별 : " + member.getGender());
+		
+		// MemberServiceImple 객체 생성 및 joinMember() 메서드 호출
+//		MemberServiceImpl service = new MemberServiceImpl();
+//		service.joinMember(member);
+		
+		// 홈(index.jsp 페이지)으로 이동
+		return "";
+	}
+}
+
 ```
 
 ```java
@@ -821,13 +883,22 @@ public interface memberMapper {
 }
 
 -----------------------------------------boardMapper.java-----------------------------------------
-```
+package com.itwillbs.mvc_board.mapper;
 
-```jsp
+public interface boardMapper {
+
+}
+
 ```
 
 ```xml
 -----------------------------------------MemberMapper.xml-----------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper>
+  <cache-ref namespace=""/>
+</mapper>
+
 ```
 
   
