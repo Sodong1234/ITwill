@@ -477,7 +477,7 @@ public class MemberDAOImpl implements MemberDAO {
 ## MyBatis
 
 > - Window - Preference - XML - XML Catalog - Add 에서 Location 란에 http://mybatis.org/dtd/mybatis-3-mapper.dtd 입력 / Key 란에 -//mybatis.org//DTD Mapper 3.0//EN 입력
->   - Window - Preference - XML - XML Catalog - Add 에서 Location 란에 http://mybatis.org/dtd/mybatis-3-mapper.dtd 입력 / Key 란에 -//mybatis.org//DTD Config 3.0//EN 입력
+> - Window - Preference - XML - XML Catalog - Add 에서 Location 란에 http://mybatis.org/dtd/mybatis-3-config.dtd 입력 / Key 란에 -//mybatis.org//DTD Config 3.0//EN 입력
 > - Spring_MVC_Board2 프로젝트 생성
 > - Spring_MVC_Board의 board, member 폴더 & index.jsp 파일을 복사해 현재 프로젝트의 view 폴더에 붙여넣기
 > - com.itwillbs.mvc_board.dao /  com.itwillbs.mvc_board.svc / com.itwillbs.mvc_board.vo / com.itwillbs.mvc_board.contoller / com.itwillbs.mvc_board.mapper 패키지 생성 후
@@ -707,15 +707,6 @@ public class MemberDAOImpl implements MemberDAO {
 	</build>
 </project>
 
-```
-
-```xml
-<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.29</version>
-		</dependency>
 ```
 
 > - root-context.xml 수정
