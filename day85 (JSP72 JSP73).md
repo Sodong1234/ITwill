@@ -857,7 +857,6 @@ public class memberService {
 }
 ```
 
-```
 ```java
 * controller 패키지
 -----------------------------------------MemberController.java-----------------------------------------
