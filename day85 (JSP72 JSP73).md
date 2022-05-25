@@ -501,7 +501,8 @@ public class MemberDAOImpl implements MemberDAO {
 >   - com.itwillbs.mvc_board 에는 Spring_MVC_Board 프로젝트의 HomeController.java의 내용물과 같이 수정
 >   - com.itwillbs.mvc_board.controller 에는 Spring_MVC_Board 프로젝트의 MemberController.java를 복사 후 붙여넣기 실시
 >   - com.itwillbs.mvc_board.mapper 에는 boardMapper.java / memberMapper.java 파일 생성
-> - /src/main/resources 에 com.itwillbs.mvc_board.mapper 폴더 생성 후 
+>   - com.itwillbs.mvc_board.service 에는 memberService.java 파일 생성
+> - /src/main/resources 에 com.itwillbs.mvc_board.mapper 패키지 생성 후 
 >   - XML Files -> 제목에 MemberMapper.xml 입력 -> Next -> Create file using a DTD or XML Schema file 체크 후 Next -> Select XML Catalog entry 체크 후 위에서 생성한 mapper.dtd 선택 후 Finish
 > - src/main/resources의 META-INF 폴더에 mybatis-config.xml 파일 생성
 >   - XML Files -> 제목에 mybatis-config.xml 입력 -> Next -> Create file using a DTD or XML Schema file 체크 후 Next -> Select XML Catalog entry 체크 후 위에서 생성한 config.dtd 선택 후 Finish
@@ -816,7 +817,47 @@ public class HomeController {
 }
 
 ```
+```java
+* service 패키지
+-----------------------------------------memberService.java-----------------------------------------
+package com.itwillbs.mvc_board.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.itwillbs.mvc_board.mapper.memberMapper;
+import com.itwillbs.mvc_board.vo.MemberVO;
+
+// 서비스 클래스 용도의 클래스 표시를 위한 @Service 어노테이션 지정 => 객체 자동 주입 기능에 활용됨
+@Service
+public class memberService {
+	// SQL 구문 실행을 담당할 XXXMapper.xml 파일과 연동된 XXXMapper 객체 자동 주입 설정
+	// MemberMapper 객체 자동 주입을 위한 어노테이션 설정
+	@Autowired
+	private memberMapper mapper;
+	
+	// 1. 회원가입
+	public int joinMember(MemberVO member) {
+//		System.out.println("joinMember");
+		
+		// Mapper 객체의 메서드를 호출하여 SQL 구문 실행 요청(DAO 객체 없이 실행)
+		// => Mapper 객체의 메서드 실행 후 리턴되는 값을 직접 return 문에 사용하도록
+		//	  메서드 호출 코드 자체를 return 문 뒤에 바로 작성
+		//	  (리턴값이 없을 경우 메서드만 호출)
+		// => 단, 추가작업이 필요한 경우에는 메서드 호출과 리턴값 리턴을 분리
+		return mapper.insertMember(member);
+		
+	}
+	
+	
+//	public MemberVO loginMember(MemberVO member) {
+//		
+//		return memberResult;
+//	}
+}
+```
+
+```
 ```java
 * controller 패키지
 -----------------------------------------MemberController.java-----------------------------------------
@@ -824,16 +865,26 @@ package com.itwillbs.mvc_board.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.itwillbs.mvc_board.service.memberService;
 import com.itwillbs.mvc_board.vo.MemberVO;
 
 @Controller
 public class MemberController {
+	// Service 객체를 직접 생성하지 않고 자동 주입 기능을 위한 어노테이션 사용
+	// => @Inject(자바-플랫폼공용) 또는 @Autowired(스프링 전용) 어노테이션 사용 가능
+	// => 어노테이션 지정 후 자동 주입으로 객체를 생성 후 저장할 클래스 타입 변수 선언
+	@Autowired
+	private memberService service;
+	
+	
+	
 	@RequestMapping(value = "/MemberJoinForm.me", method = RequestMethod.GET)
 	public String join() {
 		return "member/join_form";
@@ -845,21 +896,38 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/MemberJoinPro.me", method = RequestMethod.POST)
-	public String joinPost(@ModelAttribute MemberVO member) {
-//		System.out.println("이름 : " + member.getName());
-//		System.out.println("아이디 : " + member.getId());
-//		System.out.println("비밀번호 : " + member.getPasswd());
-//		System.out.println("이메일 : " + member.getEmail());
-//		System.out.println("성별 : " + member.getGender());
+	public String joinPost(@ModelAttribute MemberVO member, Model model) {
+		System.out.println("이름 : " + member.getName());
+		System.out.println("아이디 : " + member.getId());
+		System.out.println("비밀번호 : " + member.getPasswd());
+		System.out.println("이메일 : " + member.getEmail());
+		System.out.println("성별 : " + member.getGender());
 		
 		// MemberServiceImple 객체 생성 및 joinMember() 메서드 호출
 //		MemberServiceImpl service = new MemberServiceImpl();
-//		service.joinMember(member);
+		// => @Autowired 어노테이션으로 객체 자동 주입되어 있으므로 객체 생성 없이 그대로 사용 가능
+		int insertCount = service.joinMember(member);
 		
-		// 홈(index.jsp 페이지)으로 이동
-		return "";
+		if(insertCount == 0) { // 가입 실패
+			System.out.println("가입 실패!");
+			model.addAttribute("msg", "로그인 실패!");
+			// Dispatcher 방식으로 member/fail_back.jsp 페이지로 포워딩
+			return "member/fail_back";
+		} else { // 가입 성공
+			System.out.println("가입 성공!");
+			
+			// 홈(index.jsp 페이지)으로 이동
+			return "redirect:/";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/MemberCheckId.me", method = RequestMethod.GET)
+	public String checkId() {
+		return "member/check_id";
 	}
 }
+
 
 ```
 
@@ -874,13 +942,14 @@ import com.itwillbs.mvc_board.vo.MemberVO;
 // => 정의된 추상메서드는 XML(MemberMapper.xml 파일) 에서 활용됨
 public interface memberMapper {
 	// 1. 회원 가입에 필요한 insertMember() 메서드 정의
-	// => 파리미터 : MemberVO(member)
-	public void insertMember(MemberVO member);
+	// => 파리미터 : MemberVO(member),	 리턴타입 : int
+	public int insertMember(MemberVO member);
 	
 	// 2. 로그인에 필요한 checkMember() 메서드 정의
 	// => 파라미터 : MemberVO(member),	 리턴타입 : MemberVO
 	public MemberVO checkMember(MemberVO member);
 }
+
 
 -----------------------------------------boardMapper.java-----------------------------------------
 package com.itwillbs.mvc_board.mapper;
@@ -895,9 +964,21 @@ public interface boardMapper {
 -----------------------------------------MemberMapper.xml-----------------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper>
-  <cache-ref namespace=""/>
+<!-- mapper 태그 내에 namespace 속성 지정 후 Mapper 인터페이스 위치 지정 -->
+<mapper namespace="com.itwillbs.mvc_board.mapper.MemberMapper">
+	<!-- 실행할 SQL 구문을 태그 형식으로 작성(CRUD 작업에 해당하는 태그가 제공됨 -->
+	<!-- 태그의 id 속성에 지정할 이름은 namespace 에서 지정한 인터페이스 내의 메서드명과 동일해야함 -->
+	<!-- 태그 사이에 실제 SQL 구문을 작성 -->
+	<!-- 만능문자 파라미터는 ? 대신 #{파라미터명} 형태로 지정(VO 객체의 변수명 활용) -->
+	
+	<!-- 1. 회원 가입 작업 수행을 위한 insert 태그 작성(id 는 MemberMapper 객체의 메서드명과 동일 -->
+	<insert id="insertMember">
+	INSERT INTO member
+	VALUES (null, #{name}, #{id}, #{passwd}, #{email}, #{gender}, now())
+	</insert>
+
 </mapper>
+
 
 ```
 
