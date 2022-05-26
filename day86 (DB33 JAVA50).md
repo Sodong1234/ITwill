@@ -207,3 +207,310 @@ AND worker.hire_date < manager.hire_date;
 ```
 ---
 # [오후수업] JAVA 50차
+
+## FrameLayout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onButtonClicked"
+        android:text="이미지 바꾸기"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv1"
+            android:src="@drawable/dog"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv2"
+            android:src="@drawable/cat"/>
+
+    </FrameLayout>
+
+</LinearLayout>
+```
+```java
+package com.example.and0526_framelayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    int imageIndex = 0; // 이미지의 인덱스를 저장하는 변수
+
+    ImageView iv1, iv2;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+       iv1 = findViewById(R.id.iv1);
+       iv2 = findViewById(R.id.iv2);
+
+
+    }
+    // 레이아웃 파일 내의 위젯 onClick 속성에 지정된 이름을 메서드 이름으로 사용하여 정의
+    // => 일반 메서드와 달리 파라미터로 View 타입 객체를 전달받도록 정의해야함
+    public void onButtonClicked(View view) { changeImage(); }
+
+    public void changeImage() {
+        // 현재 이미지에 따라 다른 이미지로 전환
+        // 현재 imageIndex 번호가 0(강아지) -> 1(고양이) 로 전환하고 고양이 사진 표시
+        //          ""     번호가 1(고양이 -> 0(강아지 로 전환하고 강아지 사진 표시
+        if(imageIndex == 0) {
+            // 강아지 사진을 숨기고, 고양이 사진을 표시하고, imageIndex 값을 1로 변경
+            iv1.setVisibility(View.VISIBLE);    // 고양이
+            iv2.setVisibility(View.INVISIBLE);    // 강아지
+            imageIndex = 1;
+        } else if(imageIndex == 1) {
+            // 고양이 사진을 숨기고, 강아지 사진을 표시하고, imageIndex 값을 0으로 변경
+            iv1.setVisibility(View.INVISIBLE);  // 고양이
+            iv2.setVisibility(View.VISIBLE);    // 강아지
+            imageIndex = 0;
+        }
+    }
+}
+```
+
+## ScrollView
+```xml
+----------------------------------------------------activity_mail.xml----------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+    <!--
+    스크롤뷰를 포함시키기 위해서는 ScrollView 또는 HorizontalScrollView를 사용하여
+    특정 뷰(위젯 등)를 감싸면 자동으로 스크롤 뷰가 장착됨
+    => ScrollView : 특정 뷰들에 대한 수직 스크롤을 지원하는 레이아웃
+    => HorizontalScrollView : 특정 뷰들에 대한 수평 스크롤을 지원하는 레이아웃
+    -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic1"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 3"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 4"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 5"/>
+    </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>
+
+----------------------------------------------------scrollview_test.xml----------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    
+    <!-- 버튼들이 가로로 정렬 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="메뉴 1"
+                android:textSize="30sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="메뉴 2"
+                android:textSize="30sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="메뉴 3"
+            android:textSize="30sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="메뉴 4"
+                android:textSize="30sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="메뉴 5"
+                android:textSize="30sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 텍스트뷰들이 세로 정렬 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="게시물 제목 1"
+                android:textSize="40sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="게시물 제목 2"
+                android:textSize="40sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="게시물 제목 3"
+                android:textSize="40sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="게시물 제목 4"
+                android:textSize="40sp"/>
+            <TextView
+               android:layout_width="match_parent"
+               android:layout_height="100dp"
+               android:text="게시물 제목 5"
+               android:textSize="40sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 영화 포스터들이 가로로 정렬 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+    
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic1"
+                android:scrollbars="none"/>
+    
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic2"/>
+    
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic4"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic6"/>
+    
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic8"/>
+    
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>
+```
+
