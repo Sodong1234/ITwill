@@ -168,7 +168,7 @@ EMPLOYEE_ID|LAST_NAME  |JOB_ID  |SALARY|
 ---
 
 # [오후수업] JSP 74차
-
+- java 패키지
 ```java
 ----------------------------------------MemberController.java---------------------------------------
 package com.itwillbs.mvc_board.controller;
@@ -403,6 +403,7 @@ public interface MemberMapper {
 
 ```
 
+- xml 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
@@ -448,7 +449,7 @@ public interface MemberMapper {
 
 ```
 
-
+- jsp 
 ```jsp
 ----------------------------------------login_form.jsp----------------------------------------
 <%@ page language="java" contentType="text/html; charset=UTF-8"
