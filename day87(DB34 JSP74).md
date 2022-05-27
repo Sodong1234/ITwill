@@ -404,156 +404,47 @@ public interface MemberMapper {
 ```
 
 ```xml
-package com.itwillbs.mvc_board.controller;
-
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.itwillbs.mvc_board.service.MemberService;
-import com.itwillbs.mvc_board.vo.MemberVO;
-
-@Controller
-public class MemberController {
-	// Service 객체를 직접 생성하지 않고 자동 주입 기능을 위한 어노테이션 사용
-	// => @Inject(자바-플랫폼공용) 또는 @Autowired(스프링 전용) 어노테이션 사용 가능
-	// => 어노테이션 지정 후 자동 주입으로 객체를 생성 후 저장할 클래스 타입 변수 선언
-	@Autowired
-	private MemberService service;
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- mapper 태그 내에 namespace 속성 지정 후 Mapper 인터페이스 위치 지정 -->
+<mapper namespace="com.itwillbs.mvc_board.mapper.MemberMapper">
+	<!-- 실행할 SQL 구문을 태그 형식으로 작성(CRUD 작업에 해당하는 태그가 제공됨) -->
+	<!-- 태그의 id 속성에 지정할 이름은 namespace 에서 지정한 인터페이스 내의 메서드명과 동일해야함 -->
+	<!-- 태그 사이에 실제 SQL 구문을 작성 -->
+	<!-- 만능문자 파라미터는 ? 대신 #{파라미터명} 형태로 지정(VO 객체의 변수명 활용) -->
 	
-	@RequestMapping(value = "/MemberJoinForm.me", method = RequestMethod.GET)
-	public String join() {
-		return "member/join_form";
-	}
+	<!-- 1. 회원 가입 작업 수행을 위한 insert 태그 작성(id 는 MemberMapper 객체의 메서드명과 동일) -->
+	<!-- 주의! 구문 내에 만능문자 사용 위치에 #{속성명} 지정 시 속성명은 VO 객체의 변수명과 동일 -->
+	<insert id="insertMember">
+		INSERT INTO member
+		VALUES (null, #{name}, #{id}, #{passwd}, #{email}, #{gender}, now())
+	</insert>
 	
-	@RequestMapping(value = "/MemberJoinPro.me", method = RequestMethod.POST)
-	public String joinPost(@ModelAttribute MemberVO member, Model model) {
-		// join_form.jsp 페이지에서 서블릿 요청 시 게시물 정보를 전달받아
-		// 파라미터에 지정된 memberVO 타입 객체를 자동으로 생성하고 자동으로 저장
-		// => 파라미터를 각각의 변수로 선언해도 되지만, VO 객체를 활용하면 훨씬 코드가 간결해짐
-		
-//		System.out.println("이름 : " + member.getName());
-//		System.out.println("아이디 : " + member.getId());
-//		System.out.println("비밀번호 : " + member.getPasswd());
-//		System.out.println("이메일 : " + member.getEmail());
-//		System.out.println("성별 : " + member.getGender());
-		
-		// MemberServiceImple 객체 생성 및 joinMember() 메서드 호출
-//		MemberServiceImpl service = new MemberServiceImpl();
-		// => @Autowired 어노테이션으로 객체 자동 주입되어 있으므로 객체 직접 생성 없이 사용 가능
-		int insertCount = service.joinMember(member);
-		
-		if(insertCount == 0) { // 가입 실패
-			System.out.println("가입 실패!");
-			model.addAttribute("msg", "가입 실패!");
-			// Dispatcher 방식으로 member/fail_back.jsp 페이지로 포워딩
-			return "member/fail_back";
-		} else { // 가입 성공
-			System.out.println("가입 성공!");
-			
-			// 홈(index.jsp 페이지)으로 이동
-			return "redirect:/";
-		}
-		
-	}
+	<!-- 2. 로그인 작업 수행을 위한 select 태그 작성
+	=> (MemberMapper 객체의 checkMember() 메서드명을 id 속성값으로 지정
+	=> 사용할 파라미터는 MemberVO 객체의 멤버변수명과 동일한 이름 지정
+	=> 단, SELECT 태그는 조회 결과를 저장할 객체의 타입을 resultType 속성을 통해 지정
+	   주로, VO 클래스명 지정(패키지명 포함)
+	   (조회된 레코드가 복수개일 경우 자동으로 List<MemberVO> 타입에 해당하는 객체 생성 후 저장)
+	-->
+	<select id="checkMember" resultType="com.itwillbs.mvc_board.vo.MemberVO">
+		SELECT * FROM member
+		WHERE id=#{id} AND passwd=#{passwd}
+	</select>
 	
-	@RequestMapping(value = "/MemberCheckId.me", method = RequestMethod.GET)
-	public String checkId() {
-		return "member/check_id";
-	}
+	<!-- 3. 회원 정보 조회 작업 수행을 위한 select 태그 작성 - selectMemberInfo -->
+	<select id="selectMemberInfo" resultType="com.itwillbs.mvc_board.vo.MemberVO">
+		SELECT * FROM member
+		WHERE id=#{id}
+	</select>
 	
-	
-	// 요청 서블릿 주소가 동일하더라도 메서드(요청 방식)가 다르면 구분 가능함
-	@RequestMapping(value = "/MemberLogin.me", method = RequestMethod.GET)
-	public String login() {
-		return "member/login_form";	
-	}
-	
-	@RequestMapping(value = "/MemberLogin.me", method = RequestMethod.POST)
-	public String loginPost(@ModelAttribute MemberVO member, Model model, HttpSession session) {
-		// login_form.jsp 페이지에서 서블릿 요청 시 폼파라미터 데이터(id, passwd)를 전달받아 
-		// 자동으로 저장하기 위해 String id, String passwd 또는 MemberVO member 타입 변수 선언 필요
-		
-		// MemberService 객체의 loginMember() 메서드 호출
-		// => 파라미터 : MemberVO 객체, 리턴타입 : MemberVO(memberResult)
-		MemberVO memberResult = service.loginMember(member);
-		
-		// SELECT 구문을 통해 조회 결과를 리턴받았을 때
-		// 리턴받은 객체(MemberVO)가 null 이면 로그인 실패, 아니면 성공
-		// => 로그인 실패 시 Model 객체에 "로그인 실패!" 메세지 저장 후 fail_back.jsp 로 포워딩
-		//	  아니면, 세션 객체에 id 값을 "sId" 라는 속성명으로 저장 후 메인페이지로 포워딩
-		if(memberResult == null) { // 로그인 실패
-			model.addAttribute("msg", "로그인 실패!");
-			return "member/fail_back";
-		} else { // 로그인 성공
-			session.setAttribute("sId", memberResult.getId());
-			return "redirect:/";
-		}
-		
-	}
-	
-	// 요청 서블릿 주소("MemberLogout.me" - GET) 일 때 로그아웃 작업을 처리할 logout() 메서드 정의
-	// => 메서드 파라미터로 세션 객체 전달받기
-	// => 세션 객체 초기화 후 메인페이지로 이동
-	@RequestMapping(value = "/MemberLogout.me", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		// 세션 초기화
-		session.invalidate();
-		return "redirect:/";
-	}
-	
-	// 요청 서블릿 주소("MemberInfo.me" - GET) 요청 처리할 getMemberInfo() 메서드 정의
-	// => 세션 아이디 값을 가져오기 위해 HttpSession 타입 파라미터 선언
-	@RequestMapping(value = "/MemberInfo.me", method = RequestMethod.GET)
-		public String getMemberInfo(HttpSession session, Model model) {
-		// 세션 아이디 가져와서 id 변수에 저장 후
-		// 세션 아이디가 없을 경우 fail_back.jsp 이동 "잘못된 접근입니다" 를 출력 후 이전페이지로 돌아가기
-		// 세션 아이디가 있을 경우 Service 객체의 getMemberInfo() 메서드 호출
-		// => 파라미터 : 아이디, 리턴타입 : MemberVO(member)
-		String id = (String)session.getAttribute("sId");
-		if(id == null) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "member/fail_back";
-		} else {
-			MemberVO member = service.getMemberInfo(id);
-			// 회원 정보 출력을 위해 필요한 데이터(MemberVO 객체)를 Model 객체에 저장 후 
-			// member 디렉토리의 member_info.jsp 페이지로 포워딩
-			System.out.println(member.getName());
-			model.addAttribute("member", member);
-			return "member/member_info";
-		}
-		
-	}
-	
-	@RequestMapping(value = "/AdminPage.me", method = RequestMethod.GET)
-	public String admin(HttpSession session, Model model) {
-		// 세션 아이디가 없거나 또는 세션 아이디가 "admin" 이 아닐 경우
-		// => fail_back.jsp 페이지를 통해 "잘못된 접근입니다!" 출력 후 이전페이지로 돌아가기
-		// 아니면, Service 객체의 getMemberList() 메서드를 통해 전체 회원 목록 조회 후
-		// 조회된 객체 저장한 뒤 member)list.jsp 페이지로 포워딩
-		String id = (String)session.getAttribute("sId");
-		if(id == null || !id.equals("admin")) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "member/fail_back";
-		} else {
-			// Service 객체의 getMemberList() 메서드를 호출하여 전체 회원 목록 조회
-			// => 파라미터 : 없음, 리턴타입 : List<MemberVO>(memberList)
-			List<MemberVO> memberList = service.getMemberList();
-			model.addAttribute("memberList", memberList);
-			return "member/member_list";
-		}
-		
-	
-	}
-}
+	<!-- 4. 전체 회원 목록 조회 작업 수행을 위한 select 태그 - selectMemberList -->
+	<!-- 전체 데이터에 대한 resultType 이 아닌 각각의 레코드에 대한 타입을 resultType 으로 설정 -->
+	<!-- (조회된 레코드가 복수개일 경우 자동으로 List<MemberVO> 타입에 해당하는 객체 생성 후 저장 -->
+	<select id="selectMemberList" resultType="com.itwillbs.mvc_board.vo.MemberVO">
+		SELECT * FROM member;
+	</select>
+</mapper>
 
 ```
 
