@@ -14,6 +14,14 @@
 ---------------------------------------------BoardService.java---------------------------------------------
 ```
 
+- mapper
+```java
+---------------------------------------------BoardMapper.java---------------------------------------------
+```
+```xml
+---------------------------------------------BoardMapper.xml---------------------------------------------
+```
+
 ```jsp
 ---------------------------------------------index.jsp---------------------------------------------
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -65,4 +73,92 @@ String sId = (String)session.getAttribute("sId");
 </html>
 
 
+---------------------------------------------qna_board_write.jsp---------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MVC 게시판</title>
+<style type="text/css">
+	#writeForm {
+		width: 500px;
+		height: 450px;
+		border: 1px solid red;
+		margin: auto;
+	}
+	
+	h1 {
+		text-align: center;
+	}
+	
+	table {
+		margin: auto;
+		width: 450px;
+	}
+	
+	.td_left {
+		width: 150px;
+		background: orange;
+		text-align: center;
+	}
+	
+	.td_right {
+		width: 300px;
+		background: skyblue;
+	}
+	
+	#commandCell {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<!-- 게시판 등록 -->
+	<section id="writeForm">
+		<h1>게시판 글 등록</h1>
+		<!-- 
+		form 데이터 중 파일 정보가 포함될 경우
+		<form> 태그 속성에 enctype="multipart/form-data" 명시 필수!
+		(생략 시 enctype="application/x-www-form-urlencoded" 속성이 기본값으로 설정됨)
+		-->
+		<form action="write" name="boardForm" method="post">
+			<table>
+				<tr>
+					<td class="td_left"><label for="board_name">글쓴이</label></td>
+					<td class="td_right"><input type="text" name="board_name" required="required" /></td>
+				</tr>
+				<tr>
+					<td class="td_left"><label for="board_pass">비밀번호</label></td>
+					<td class="td_right"><input type="password" name="board_pass" required="required" /></td>
+				</tr>
+				<tr>
+					<td class="td_left"><label for="board_subject">제목</label></td>
+					<td class="td_right"><input type="text" name="board_subject" required="required" /></td>
+				</tr>
+				<tr>
+					<td class="td_left"><label for="board_content">내용</label></td>
+					<td class="td_right">
+						<textarea id="board_content" name="board_content" cols="40" rows="15" required="required"></textarea>
+					</td>
+				</tr>
+			</table>
+			<section id="commandCell">
+				<input type="submit" value="등록">&nbsp;&nbsp;
+				<input type="reset" value="다시쓰기">&nbsp;&nbsp;
+				<input type="button" value="취소" onclick="history.back()">
+			</section>
+		</form>
+	</section>
+</body>
+</html>
+
 ```
+
+
+
+
+
+
+
