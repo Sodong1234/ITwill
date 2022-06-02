@@ -1029,3 +1029,289 @@ public interface BoardMapper {
 ---
 
 # [오후수업] JAVA 53차
+
+## Clock
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AnalogClock"
+        android:textSize="20sp"/>
+
+    <AnalogClock
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DigitalClock"
+        android:textSize="20sp"/>
+
+    <DigitalClock
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextClock"
+        android:textSize="20sp"/>
+
+    <TextClock
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chronometer"
+        android:textSize="20sp"/>
+
+    <Chronometer
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:format="측정 시간 %s"
+        android:id="@+id/chronometer"/>
+
+    <!-- 측정시작, 측정 종료 버튼 부착 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnStart"
+            android:text="측정시작"
+            android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnStop"
+            android:text="측정종료"
+            android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnContinue"
+            android:text="측정계속"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+```
+```java
+package com.example.and0602_adwidget_clock;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
+
+public class MainActivity extends AppCompatActivity {
+
+    Chronometer chronometer;
+    Button btnStart, btnStop, btnContinue;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        chronometer = findViewById(R.id.chronometer);
+        btnStart = findViewById(R.id.btnStart);
+        btnStop = findViewById(R.id.btnStop);
+        btnContinue = findViewById(R.id.btnContinue);
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 크로노미터는 위젯이 표시될 때 카운트가 시작되므로
+                // 타이머 기능을 사용하기 위해서는 타이머를 0으로 초기화 필요
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chronometer.stop();
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chronometer.start();
+            }
+        });
+
+
+
+    }
+}
+```
+
+## Calendar
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvYear"
+            android:text="0000년"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMonth"
+            android:text="00월"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvday"
+            android:text="00일"
+            android:textSize="30sp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnOk"
+        android:text="설정"
+        android:textSize="20sp"/>
+
+
+</LinearLayout>
+```
+```java
+package com.example.and0602_adwidget_calendar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity {
+
+    CalendarView calendarView;
+    TextView tvYear, tvMonth, tvDay;
+    Button btnOk;
+
+    int selectedYear, selectedMonth, selectedDay;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        calendarView = findViewById(R.id.calendarView);
+        tvYear = findViewById(R.id.tvYear);
+        tvMonth = findViewById(R.id.tvMonth);
+        tvDay = findViewById(R.id.tvday);
+        btnOk = findViewById(R.id.btnOk);
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int y, int m, int d) {
+
+                // TextView 위젯에 각각의 연, 월, 일 정보를 출력 (xxxx년 xx월 xx일)
+//                tvYear.setText(y + "년");
+//                tvMonth.setText((m + 1) + "월");
+//                tvDay.setText(d + "일");
+
+                selectedYear = y;
+                selectedMonth = m + 1;
+                selectedDay = d;
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                long date = calendarView.getDate();
+//                Date d = new Date(date);
+//
+//                // java.util.Calendar 클래스를 활용하여 Date -> Calendar 로 변환하여 사용
+//                Calendar cal = Calendar.getInstance();
+//                cal.setTime(d);
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+//
+//                tvYear.setText(year + "년");
+//                tvMonth.setText((month + 1) + "월");
+//                tvDay.setText(dayOfMonth + "일");
+
+                tvYear.setText(selectedYear + "년");
+                tvMonth.setText(selectedMonth + "월");
+                tvDay.setText(selectedDay + "일");
+
+
+            }
+        });
+
+
+    }
+}
+```
