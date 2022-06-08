@@ -319,33 +319,27 @@
 - Controller
 ```java
 ---------------------------------------------OpenBankingController.java---------------------------------------------
-<?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+package com.itwillbs.fintech.controller;
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+import javax.servlet.http.HttpServletRequest;
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
-	
-	<context:component-scan base-package="com.itwillbs.fintech" />
-	<context:component-scan base-package="com.itwillbs.controller" />
-	
-	
-</beans:beans>
+
+@Controller
+public class OpenBankingController {
+
+	// @RequestMapping(value = "/callback", method = RequestMethod.GET) 대신
+	// @GetMapping(value = "/callback") 사용 가능
+
+	@RequestMapping(value = "/callback", method = RequestMethod.GET)
+	public String responseOAuth(HttpServletRequest request) {
+		System.out.println("인증코드 : " + request.getParameter("code"));
+		return "";
+	}
+
+}
 
 ```
