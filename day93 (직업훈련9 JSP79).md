@@ -7,6 +7,7 @@
 
 
 ## FinTech
+> - 사전에 금융결제원 오픈API 사이트에서 Client ID, Client Secret, Callback URL 등록 실시
 > - 프로젝트 생성 후 (생성명 Fintech) Properties에서 Project Facts -> Java를 1.8 / Dynamic Web Module를 3.1로 변경
 > - home.jsp에 UTF-8 인코딩을 위해 <%@ page language="java" contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%> 추가
 > - web.xml에 한글 처리 필터 설정
@@ -294,8 +295,8 @@
 		<form method="get" action="https://testapi.openbanking.or.kr/oauth/2.0/authorize">
 			<%-- 필요 파라미터는 입력데이터 없이 hidden 속성으로 --%>
 			<input type="hidden" name="response_type" value="code">
-			<input type="hidden" name="client_id" value="0ded34b8-72a5-42d0-bb58-7af4dd683f41">
-			<input type="hidden" name="redirect_uri" value="http://localhost:8080/Fintech/callback">
+			<input type="hidden" name="client_id" value="xxxxxxxxxxxxxxxxxxxxxxx(보안상 미공개처리)">
+			<input type="hidden" name="redirect_uri" value="http://localhost:8080/fintech/callback">
 			<input type="hidden" name="scope" value="login inquiry transfer">
 			<input type="hidden" name="state" value="11111111111111111111111111111111">
 			<input type="hidden" name="auth_type" value="0">												
@@ -318,4 +319,33 @@
 - Controller
 ```java
 ---------------------------------------------OpenBankingController.java---------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.itwillbs.fintech" />
+	<context:component-scan base-package="com.itwillbs.controller" />
+	
+	
+</beans:beans>
+
 ```
