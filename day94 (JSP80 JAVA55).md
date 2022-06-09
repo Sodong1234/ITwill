@@ -304,3 +304,92 @@ public class OpenBankingApiClient {
 ---
 
 # [오후수업] JAVA 55차
+
+## AdWidget_DatePicker
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <!--
+    DatePicker : 날짜 설정이 가능한 위젯
+        - datePickerMode 속성 변경을 통해 날짜 설정 화면 모드를 변경 가능
+        1) datePickerMode = "calendar" : 달력 형태로 날짜를 선택하여 설정 (기본값)
+        2) datePickerMode = "spinner" : 달력과 함께 회전 가능한 다이얼 회전시켜 설정
+
+    -->
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:datePickerMode="calendar"
+        android:id="@+id/datePicker"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnOk"
+        android:textSize="20sp"
+        android:text="설정"/>
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:datePickerMode="spinner"/>
+
+</LinearLayout>
+```
+
+```java
+package com.example.and0609_adwidget_datepicker;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        DatePicker datePicker = findViewById(R.id.datePicker);
+
+        // OnDateChangedlistener는 API Level 26 (Oreo 8.0) 부터 동작함
+        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
+                String str = year + "년" + (month+1) + "월" + day + "일";
+                Toast.makeText(MainActivity.this, str, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 버튼 클릭 시 설정된 날짜 정보 가져와서 출력
+        Button btnOk = findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1; // 주의! 0 ~ 11월 값 사용하므로 +1 필수
+                int day = datePicker.getDayOfMonth();
+                String str = year + "년" + month + "월" + day + "일";
+                Toast.makeText(MainActivity.this, str , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+```
+
