@@ -305,8 +305,8 @@ public class MainActivity extends AppCompatActivity {
 
 # [오후수업] JSP 82차
 
-> Maven Repository에서 JSON.simply 1.1.1 / Gson 2.9.0 버전 라이브러리를 xml에 추가
-
+> Maven Repository에서 JSON.simply 1.1.1 / Gson 2.9.0 버전 라이브러리를 pom.xml에 추가
+> pom.xml springframework-version을 3.1.1.RELEASE에서 5.3.20으로 변경
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+		<org.springframework-version>5.3.20</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
