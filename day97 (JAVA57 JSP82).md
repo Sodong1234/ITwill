@@ -305,8 +305,10 @@ public class MainActivity extends AppCompatActivity {
 
 # [오후수업] JSP 82차
 
-> Maven Repository에서 JSON.simply 1.1.1 / Gson 2.9.0 버전 라이브러리를 pom.xml에 추가
-> pom.xml springframework-version을 3.1.1.RELEASE에서 5.3.20으로 변경
+> - Maven Repository에서 JSON.simply 1.1.1 / Gson 2.9.0 버전 라이브러리를 pom.xml에 추가
+> - pom.xml springframework-version을 3.1.1.RELEASE에서 5.3.20으로 변경
+> - vo 폴더에 UserInfoRequestVO.java & UserInfoResponseVO.java & AccountVO.java 파일 생성
+> - views 폴더에 account 폴더 생성, 그 안에 user_info.jsp 파일 생성
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -496,4 +498,407 @@ public class MainActivity extends AppCompatActivity {
 	</build>
 </project>
 
+```
+
+- vo
+```java
+----------------------------------------------UserInfoRequestVO.java----------------------------------------------
+package com.itwillbs.fintech.vo;
+
+public class UserInfoRequestVO {
+	private String access_token;
+	private String user_seq_no;
+	public String getAccess_token() {
+		return access_token;
+	}
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
+	public String getUser_seq_no() {
+		return user_seq_no;
+	}
+	public void setUser_seq_no(String user_seq_no) {
+		this.user_seq_no = user_seq_no;
+	}
+	
+}
+
+----------------------------------------------UserInfoResponseVO.java----------------------------------------------
+package com.itwillbs.fintech.vo;
+
+import java.util.List;
+
+// 2.2.1 사용자 정보조회 API 응답 데이터
+public class UserInfoResponseVO {
+	private String api_tran_id;
+	private String api_tran_dtm;
+	private String rsp_code;
+	private String rsp_message;
+	private String user_seq_no; // 고객마다 다른 고정값
+	private String user_ci; // 고객마다 다른 고정값
+	private String user_name;
+	private String user_info;
+	private String user_gender;
+	private String user_cell_no;
+	private String user_email;
+	private String res_cnt;
+	private List<AccountVO> res_list;
+	
+	
+	public String getApi_tran_id() {
+		return api_tran_id;
+	}
+	public void setApi_tran_id(String api_tran_id) {
+		this.api_tran_id = api_tran_id;
+	}
+	public String getApi_tran_dtm() {
+		return api_tran_dtm;
+	}
+	public void setApi_tran_dtm(String api_tran_dtm) {
+		this.api_tran_dtm = api_tran_dtm;
+	}
+	public String getRsp_code() {
+		return rsp_code;
+	}
+	public void setRsp_code(String rsp_code) {
+		this.rsp_code = rsp_code;
+	}
+	public String getRsp_message() {
+		return rsp_message;
+	}
+	public void setRsp_message(String rsp_message) {
+		this.rsp_message = rsp_message;
+	}
+	public String getUser_seq_no() {
+		return user_seq_no;
+	}
+	public void setUser_seq_no(String user_seq_no) {
+		this.user_seq_no = user_seq_no;
+	}
+	public String getUser_ci() {
+		return user_ci;
+	}
+	public void setUser_ci(String user_ci) {
+		this.user_ci = user_ci;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+	public String getUser_info() {
+		return user_info;
+	}
+	public void setUser_info(String user_info) {
+		this.user_info = user_info;
+	}
+	public String getUser_gender() {
+		return user_gender;
+	}
+	public void setUser_gender(String user_gender) {
+		this.user_gender = user_gender;
+	}
+	public String getUser_cell_no() {
+		return user_cell_no;
+	}
+	public void setUser_cell_no(String user_cell_no) {
+		this.user_cell_no = user_cell_no;
+	}
+	public String getUser_email() {
+		return user_email;
+	}
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
+	public String getRes_cnt() {
+		return res_cnt;
+	}
+	public void setRes_cnt(String res_cnt) {
+		this.res_cnt = res_cnt;
+	}
+	public List<AccountVO> getRes_list() {
+		return res_list;
+	}
+	public void setRes_list(List<AccountVO> res_list) {
+		this.res_list = res_list;
+	}
+	
+	
+}
+
+----------------------------------------------AccountVO.java----------------------------------------------
+package com.itwillbs.fintech.vo;
+
+// 2. 사용자/계좌 관리에서 사용되는 계좌 정보(배열로 전달된 데이터)
+public class AccountVO {
+	private String fintech_use_num;
+    private String account_alias;
+    private String bank_code_std;
+    private String bank_code_sub;
+    private String bank_name;
+    private String savings_bank_name;
+    private String account_num;
+    private String account_num_masked;
+    private String account_seq;
+    private String account_holder_name;
+    private String account_holder_type;
+    private String account_type;
+    private String inquiry_agree_yn;
+    private String inquiry_agree_dtime;
+    private String transfer_agree_yn;
+    private String transfer_agree_dtime;
+    private String account_state;
+    
+	public String getFintech_use_num() {
+		return fintech_use_num;
+	}
+	public void setFintech_use_num(String fintech_use_num) {
+		this.fintech_use_num = fintech_use_num;
+	}
+	public String getAccount_alias() {
+		return account_alias;
+	}
+	public void setAccount_alias(String account_alias) {
+		this.account_alias = account_alias;
+	}
+	public String getBank_code_std() {
+		return bank_code_std;
+	}
+	public void setBank_code_std(String bank_code_std) {
+		this.bank_code_std = bank_code_std;
+	}
+	public String getBank_code_sub() {
+		return bank_code_sub;
+	}
+	public void setBank_code_sub(String bank_code_sub) {
+		this.bank_code_sub = bank_code_sub;
+	}
+	public String getBank_name() {
+		return bank_name;
+	}
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
+	}
+	public String getSavings_bank_name() {
+		return savings_bank_name;
+	}
+	public void setSavings_bank_name(String savings_bank_name) {
+		this.savings_bank_name = savings_bank_name;
+	}
+	public String getAccount_num() {
+		return account_num;
+	}
+	public void setAccount_num(String account_num) {
+		this.account_num = account_num;
+	}
+	public String getAccount_num_masked() {
+		return account_num_masked;
+	}
+	public void setAccount_num_masked(String account_num_masked) {
+		this.account_num_masked = account_num_masked;
+	}
+	public String getAccount_seq() {
+		return account_seq;
+	}
+	public void setAccount_seq(String account_seq) {
+		this.account_seq = account_seq;
+	}
+	public String getAccount_holder_name() {
+		return account_holder_name;
+	}
+	public void setAccount_holder_name(String account_holder_name) {
+		this.account_holder_name = account_holder_name;
+	}
+	public String getAccount_holder_type() {
+		return account_holder_type;
+	}
+	public void setAccount_holder_type(String account_holder_type) {
+		this.account_holder_type = account_holder_type;
+	}
+	public String getAccount_type() {
+		return account_type;
+	}
+	public void setAccount_type(String account_type) {
+		this.account_type = account_type;
+	}
+	public String getInquiry_agree_yn() {
+		return inquiry_agree_yn;
+	}
+	public void setInquiry_agree_yn(String inquiry_agree_yn) {
+		this.inquiry_agree_yn = inquiry_agree_yn;
+	}
+	public String getInquiry_agree_dtime() {
+		return inquiry_agree_dtime;
+	}
+	public void setInquiry_agree_dtime(String inquiry_agree_dtime) {
+		this.inquiry_agree_dtime = inquiry_agree_dtime;
+	}
+	public String getTransfer_agree_yn() {
+		return transfer_agree_yn;
+	}
+	public void setTransfer_agree_yn(String transfer_agree_yn) {
+		this.transfer_agree_yn = transfer_agree_yn;
+	}
+	public String getTransfer_agree_dtime() {
+		return transfer_agree_dtime;
+	}
+	public void setTransfer_agree_dtime(String transfer_agree_dtime) {
+		this.transfer_agree_dtime = transfer_agree_dtime;
+	}
+	public String getAccount_state() {
+		return account_state;
+	}
+	public void setAccount_state(String account_state) {
+		this.account_state = account_state;
+	}
+    
+    
+}
+
+----------------------------------------------AccountSearchRequestVO.java----------------------------------------------
+package com.itwillbs.fintech.vo;
+
+public class AccountSearchRequestVO {
+    private String access_token;
+    private String user_seq_no;
+    private String include_cancel_yn;
+    private String sort_order;
+    private String model;
+	public String getAccess_token() {
+		return access_token;
+	}
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
+	public String getUser_seq_no() {
+		return user_seq_no;
+	}
+	public void setUser_seq_no(String user_seq_no) {
+		this.user_seq_no = user_seq_no;
+	}
+	public String getInclude_cancel_yn() {
+		return include_cancel_yn;
+	}
+	public void setInclude_cancel_yn(String include_cancel_yn) {
+		this.include_cancel_yn = include_cancel_yn;
+	}
+	public String getSort_order() {
+		return sort_order;
+	}
+	public void setSort_order(String sort_order) {
+		this.sort_order = sort_order;
+	}
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
+    
+    
+}
+
+
+----------------------------------------------AccountSearchResponseVO.java----------------------------------------------
+
+package com.itwillbs.fintech.vo;
+
+import java.util.List;
+
+public class AccountSearchResponseVO {
+	private String api_tran_id;
+	private String rsp_code;
+	private String rsp_message;
+	private String api_tran_dtm;
+	private String user_name;
+	private String res_cnt;
+	private List<AccountVO> res_list;
+	public String getApi_tran_id() {
+		return api_tran_id;
+	}
+	public void setApi_tran_id(String api_tran_id) {
+		this.api_tran_id = api_tran_id;
+	}
+	public String getRsp_code() {
+		return rsp_code;
+	}
+	public void setRsp_code(String rsp_code) {
+		this.rsp_code = rsp_code;
+	}
+	public String getRsp_message() {
+		return rsp_message;
+	}
+	public void setRsp_message(String rsp_message) {
+		this.rsp_message = rsp_message;
+	}
+	public String getApi_tran_dtm() {
+		return api_tran_dtm;
+	}
+	public void setApi_tran_dtm(String api_tran_dtm) {
+		this.api_tran_dtm = api_tran_dtm;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+	public String getRes_cnt() {
+		return res_cnt;
+	}
+	public void setRes_cnt(String res_cnt) {
+		this.res_cnt = res_cnt;
+	}
+	public List<AccountVO> getRes_list() {
+		return res_list;
+	}
+	public void setRes_list(List<AccountVO> res_list) {
+		this.res_list = res_list;
+	}
+	
+	
+}
+```
+
+- Controller
+```java
+----------------------------------------------OpenBankingController.java----------------------------------------------
+```
+
+- Service
+```java
+----------------------------------------------OpenBankingService.java----------------------------------------------
+----------------------------------------------OpenBankingSApiClient.java----------------------------------------------
+```
+
+
+
+
+```jsp
+----------------------------------------------bank_main.jsp----------------------------------------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>인증완료</h3>
+	<h3>엑세스 토큰 : ${responseToken.access_token }</h3>
+	<h3>사용자 번호 : ${responseToken.user_seq_no }</h3>
+	
+	
+	<form method="get" action="userInfo" enctype="multipart/form-data">
+			<%-- 필요 파라미터는 입력데이터 없이 hidden 속성으로 --%>
+			<input type="hidden" name="access_token" value="${responseToken.access_token }">
+			<input type="hidden" name="user_seq_no" value="${responseToken.user_seq_no }">
+			<input type="submit" value="사용자정보조회">
+		</form>
+</body>
+</html>
+
+----------------------------------------------user_info.jsp----------------------------------------------
 ```
